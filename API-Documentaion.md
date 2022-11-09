@@ -764,7 +764,7 @@ Creates a new channel
       "Channels": [
         {
           "id": 1,
-          "name": “channel name”,
+          "name": "channel name",
           "serverId": 1,
         }
       ]
@@ -812,5 +812,99 @@ Creates a new channel
       "message": "Channel couldn’t be found",
       "statusCode": 404
     }
+  ```
+
+### CHANNEL-MESSAGES
+
+### Get all messages by channel id
+* Request:
+  * Method: GET
+  * URL = ‘/api/channel/:channel_id/
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Response:
+    ```json
+    {
+      "Messages": [
+        {
+          "id": 1,
+          "user_id": 1,
+          "body": "Woohoo! This makes me feel like dancing!"
+        }
+      ]
+    }
+    ```
+
+* Error Response: Server with specified id could not be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Server couldn’t be found",
+      "statusCode": 404
+    }
+  ```
+
+### Delete message by id
+* Request:
+  * Method: DELETE
+  * URL = ‘api/channel/message/message_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Body:
+  ```json
+    {
+	    "message": "Message successfully Deleted"
+    }
+  ```
+* Error Response:
+  * Status Code: 404
+  * Body:
+  ```json
+    {
+      "message":"Error Message Not Deleted"
+    }
+
+### Post new message
+* Request:
+  * Method: POST
+  * URL = api/channel/:channel_id/message
+  * Body:
+  ```json
+    {
+	    "id": 1,
+	    "user_id": 1,
+	    "channel_id": 1,
+	    "body": "Woohoo! This makes me feel like dancing!",
+      "createdAt": "2021-11-19 20:39:36",
+      "updatedAt": "2021-11-20 20:00:00",
+    }
+  ```
+
+* Successful Response:
+  * Status Code: 200
+  * Body:
+  ```json
+    {
+      "id": 1,
+	    "userId": 1,
+	    "channelId": 1,
+	    "body": "Woohoo! This makes me feel like dancing!",
+	    "createdAt": "2021-11-19 20:39:36",
+      "updatedAt": "2021-11-20 20:00:00"
+    }
+  ```
+
+* Error Response:
+  * Status Code: 404
+  * Body:
+  ```json
+    {"message":"Error Message Not Created"}
   ```
 
