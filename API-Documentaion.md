@@ -908,3 +908,163 @@ Creates a new channel
     {"message":"Error Message Not Created"}
   ```
 
+## PRIVATE-MESSAGES
+
+## Get all messages by chat id
+
+* Require Auth: true
+* Request:
+  * Method: GET
+  * URL: /api/chat/:chat_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+  {
+    "ChatMessages": [
+      {
+        "id": 1,
+        "userId": 1,
+        "chatId": 1,
+        "body": "Message body"
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-19 20:39:36"
+      }
+    ]
+  }
+  ```
+
+* Error Response: Message couldn’t be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Message couldn’t be found",
+      "statusCode": 404
+    }
+  ```
+
+### Get all participants by chat id
+
+* Require Auth: true?
+* Request:
+  * Method: GET
+  * URL: /api/members/:chat_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "ChatMembers": [
+        {
+          "id": 1,
+          "userId": 1,
+          "chatId": 1,
+        }
+      ]
+    }
+  ```
+
+* Error Response: Chat couldn’t be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Chat couldn’t be found",
+      "statusCode": 404
+    }
+  ```
+
+### Delete message by message id
+
+* Require Auth: true
+  * Request:
+  * Method: DELETE
+  * URL: /api/chat_messages/:chat_message_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Successfully deleted",
+      "statusCode": 200
+    }
+  ```
+
+* Error Response: Message couldn’t be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Message couldn’t be found",
+      "statusCode": 404
+    }
+  ```
+
+### Create message
+
+* Require Auth: true
+* Request:
+  * Method: POST
+  * URL: /api/chat/:chat_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "id": 1,
+      "userId": 1,
+      "chatId": 1,
+      "body": "Message body",
+      "createdAt": "2021-11-19 20:39:36",
+      "updatedAt": "2021-11-19 20:39:36"
+    }
+  ```
+
+* Error Response: Body validation error
+  * Status Code: 400
+  * Headers:
+  * Content-Type: application/json
+  * Body:
+  ```json
+    {
+  	  "message": "Validation Error",
+  	  "statusCode": 400,
+  	  "errors": {
+    		"title": "Message body is required"
+  	  }
+     }
+  ```
+* Error Response: Couldn’t find chat by id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+  	  "message": "Chat couldn’t be found",
+  	  "statusCode": 404,
+    }
+  ```
