@@ -593,4 +593,224 @@ Deletes an existing server.
     }
     ```
 
+## CHANNELS
+
+### Get Details of Channel by Id
+
+Returns the details of a channel specified by their id.
+
+* Require Authentication: false
+* Request
+  * Method: GET
+  * URL: /api/channel/:channel_id
+  * Body: none
+
+* Successful Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "name": "channel name",
+      "server_id": 1
+    }
+    ```
+
+* Error response: Couldn't find a channel with the specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Channel couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
+### Create a channel
+Creates a new channel
+
+* Require Authentication: true
+* Request
+  * Method: POST
+  * URL: /api/servers/:server_id/channels
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "name": "Groovin' Dancefloor",
+      "imageUrl": "image url"
+    }
+    ```
+
+* Successful Response
+  * Status Code: 201
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "id": 1,
+      "name": "Groovin' Dancefloor",
+      "server_id": 1
+    }
+    ```
+
+* Error Response: Body validation error
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Channel name is required"
+      }
+    }
+    ```
+
+* Error Response: Server couldn't be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Server couldn't be found",
+      "statusCode": 404
+    }
+    ```
+
+### Update Channel Details by id
+* Require Auth: true
+* Request:
+  * Method: PUT
+  * URL: /api/channels/:channel_id
+  * Body:
+    ```json
+      {
+        "name": "Channel name",
+        "serverId": 1,
+     }
+    ```
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+      {
+        "id": 1,
+        "name": "Channel name",
+        "serverId": 1,
+      }
+    ```
+
+* Error Response: Couldn’t find channel with specified id
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+    ```json
+    {
+      "message": "Channel couldn’t be found",
+      "statusCode": 404
+    }
+    ```
+
+* Error Response: Body validation error
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Validation error",
+      "statusCode": 400,
+      "errors": {
+        "name": "Channel name is required",
+    		"server": "Server must be specified"
+  	  }
+    }
+  ```
+
+### Get all channels by server id
+* Require Auth: true
+* Request:
+  * Method: GET
+  * URL: /api/servers/:server_id/channels
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "Channels": [
+        {
+          "id": 1,
+          "name": “channel name”,
+          "serverId": 1,
+        }
+      ]
+    }
+  ```
+
+* Error Response: Server with specified id could not be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Server couldn’t be found",
+      "statusCode": 404
+    }
+  ```
+
+### Delete a Channel
+* Require Auth: true
+* Request:
+  * Method: DELETE
+  * URL: /api/channels/:channel_id
+  * Body: none
+
+* Successful Response:
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Successfully deleted",
+      "statusCode": 200
+    }
+  ```
+
+* Error Response: Channel with specified id could not be found
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+  ```json
+    {
+      "message": "Channel couldn’t be found",
+      "statusCode": 404
+    }
+  ```
 
