@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from flask_marshmallow import Marshmallow
+from .db import db
 
-db = SQLAlchemy()
 ma = Marshmallow()
 
 class Server(db.Model):
@@ -28,5 +28,5 @@ class ServerMember(db.Model):
     __tablename__ = "server_members"
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column("server_id", db.Integer, db.ForeignKey("server.id"))
-    user_id = db.Column("user_id", db.Integer, db.ForeignKey("user.id"))
+    server_id = db.Column("server_id", db.Integer, db.ForeignKey("servers.id"))
+    user_id = db.Column("user_id", db.Integer, db.ForeignKey("users.id"))
