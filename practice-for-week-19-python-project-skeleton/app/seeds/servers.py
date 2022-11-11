@@ -32,3 +32,33 @@ def undo_servers():
         db.session.execute("DELETE FROM servers")
 
     db.session.commit()
+
+def seed_channels():
+    dance_floor=Channel(
+        name="Dance-Floor",
+        server_id=1
+    )
+    bar=Channel(
+        name="The Bar",
+        server_id=1
+    )
+    booth=Channel(
+        name="DJ Booth",
+        server_id=2
+    )
+    racetrack=Channel(
+        name="The Piston Cup",
+        server_id=3
+    )
+
+    db.session.add(dance_floor)
+    db.session.add(bar)
+    db.session.add(booth)
+    db.session.add(racetrack)
+    db.session.commit()
+
+def undo_channels():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM channels")
