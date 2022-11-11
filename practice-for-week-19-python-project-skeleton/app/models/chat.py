@@ -1,6 +1,19 @@
 from .db import db
 
 
+# Join Table For Users & Chat Members (Many to Many)
+chat_members = db.Table(
+    "chat_members",
+    db.Column("chat_id",
+              db.Integer(),
+              db.ForeignKey('chats.id'),
+              primary_key=True),
+    db.Column("user_id",
+              db.Integer(),
+              db.ForeignKey('users.id'))
+)
+
+
 class Chat(db.Model):
     __tablename__ = 'chats'
 
@@ -21,20 +34,7 @@ class ChatMessage(db.Model):
         'users.id'), nullable=False)
     chatId = db.Column(db.Integer(), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    createdAt = db.Column(db.DateTime, nullable=False)
-    updatedAt = db.Column(db.DateTime)
+    createdAt = db.Column(db.DateTime(), nullable=False)
+    updatedAt = db.Column(db.DateTime())
     # many to one (many chatmessages to one user/author)
     author = db.relationship("User", back_populates="chat_messages")
-
-
-# Join Table For Users & Chat Members (Many to Many)
-chat_members = db.Table(
-    "chat_members",
-    db.Column("chat_id",
-              db.Integer(),
-              db.ForeignKey('chats.id'),
-              primary_key=True),
-    db.Column("user_id",
-              db.Integer(),
-              db.ForeignKey('users.id'))
-)
