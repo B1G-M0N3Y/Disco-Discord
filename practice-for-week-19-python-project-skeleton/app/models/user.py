@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from .chat import chat_members
 
 
 class User(db.Model, UserMixin):
@@ -13,6 +14,10 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    chat = db.relationship("Chat", secondary=chat_members,
+                           back_populates="chat_members")
+    chat_messages = db.relationship("ChatMessage", back_populates="author")
+    admin_chats = db.relationshi[("Chat")]
 
     @property
     def password(self):
