@@ -25,6 +25,9 @@ class Channel(db.Model):
     name = db.Column(db.String(30), nullable=False)
     server_id = db.Column(db.Integer, db.ForeignKey("servers.id"), nullable=False)
 
+    messages = db.relationship("ChannelMessages")
+    server = db.relationship("Server")
+
 class ServerMember(db.Model):
     __tablename__ = "server_members"
 

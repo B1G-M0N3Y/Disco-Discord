@@ -62,3 +62,45 @@ def undo_channels():
         db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM channels")
+    db.session.commit()
+
+def seed_server_members():
+    user1 = ServerMember(
+        server_id = 1,
+        user_id = 1
+    )
+    user2 = ServerMember(
+        server_id = 2,
+        user_id = 1
+    )
+    user3 = ServerMember(
+        server_id = 2,
+        user_id = 2
+    )
+    user4 = ServerMember(
+        server_id = 3,
+        user_id = 2
+    )
+    user5 = ServerMember(
+        server_id = 1,
+        user_id = 3
+    )
+    user6 = ServerMember(
+        server_id = 3,
+        user_id = 3
+    )
+
+    db.session.add(user1)
+    db.session.add(user2)
+    db.session.add(user3)
+    db.session.add(user4)
+    db.session.add(user5)
+    db.session.add(user6)
+    db.session.commit()
+
+def undo_server_members():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.server_members RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM server_members")
+    db.session.commit()
