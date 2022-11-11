@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     chat = db.relationship("Chat", secondary=chat_members,
                            back_populates="chat_members")
     chat_messages = db.relationship("ChatMessage", back_populates="author")
-    admin_chats = db.relationship("Chat")
+    # admin_chats = db.relationship("Chat")
 
     @property
     def password(self):

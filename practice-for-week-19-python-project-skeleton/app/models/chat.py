@@ -19,11 +19,10 @@ class Chat(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    adminId = db.Column(db.Integer(), db.ForeignKey(
-        'users.id'), nullable=False)
+    adminId = db.Column(db.Integer(), nullable=False)
     chat_members = db.relationship(
         "User", secondary=chat_members, back_populates="chat")
-    admin = db.relationship("User")
+    # admin = db.relationship("User", viewonly=True)
 
 
 class ChatMessage(db.Model):
