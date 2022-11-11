@@ -12,8 +12,8 @@ class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     image_url = db.Column(db.String(255))
-    admin_id = db.Column(db.Integer, nullable=False)
     private = db.Column(db.Boolean)
+    admin_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     channels = db.relationship("Channel")
     users = db.relationship("User", back_populates="servers")
