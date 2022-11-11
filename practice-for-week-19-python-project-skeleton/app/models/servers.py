@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from sqlalchemy.orm import validates
 from flask_marshmallow import Marshmallow
 from .db import db
@@ -30,3 +31,13 @@ class ServerMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column("server_id", db.Integer, db.ForeignKey("servers.id"))
     user_id = db.Column("user_id", db.Integer, db.ForeignKey("users.id"))
+
+class ChannelMessages(db.Model):
+    __tablename__ = "channel_messages"
+
+    id = db.Column(db.Integer, primary_key=True)
+    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    body = db.Column(db.String(2000), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
