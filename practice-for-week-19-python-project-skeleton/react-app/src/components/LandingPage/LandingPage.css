@@ -1,0 +1,90 @@
+@font-face {
+    font-family: Shrikhand;
+    src: url(Shrikhand-Regular.ttf)
+}
+
+.landing-page{
+    width: 100%;
+    background-color: rgb(36, 8, 48);
+    font-family: 'Shrikhand', cursive;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    text-shadow: rgb(89, 172, 197) 1px 1px,
+    rgb(89, 172, 197) 2px 2px,
+    rgb(89, 172, 197) 3px 3px,
+    rgb(89, 172, 197) 4px 4px,
+    rgb(89, 172, 197) 5px 5px,
+    rgb(89, 172, 197) 6px 6px,
+    rgb(89, 172, 197) 7px 7px,
+    rgb(89, 172, 197) 8px 8px,
+    rgb(89, 172, 197) 9px 9px,
+    rgb(89, 172, 197) 10px 10px,
+    rgb(89, 172, 197) 11px 11px,
+    rgb(89, 172, 197) 12px 12px,
+    rgb(89, 172, 197) 13px 13px,
+    rgb(89, 172, 197) 14px 14px,
+    rgb(89, 172, 197) 15px 15px,
+    rgb(89, 172, 197) 16px 16px,
+    rgb(89, 172, 197) 17px 17px,
+    rgb(89, 172, 197) 18px 18px,
+    rgb(89, 172, 197) 19px 19px,
+    rgb(89, 172, 197) 20px 20px,
+    rgb(89, 172, 197) 21px 21px,
+    rgb(89, 172, 197) 22px 22px,
+    rgb(89, 172, 197) 23px 23px,
+    rgb(89, 172, 197) 24px 24px,
+    rgb(89, 172, 197) 25px 25px,
+    rgb(89, 172, 197) 26px 26px,
+    rgb(89, 172, 197) 27px 27px,
+    rgb(89, 172, 197) 28px 28px,
+    rgb(89, 172, 197) 29px 29px,
+    rgb(89, 172, 197) 30px 30px,
+    rgb(89, 172, 197) 31px 31px,
+    rgb(89, 172, 197) 32px 32px;
+    box-shadow: rgb(89, 172, 197) 1px 1px,
+    rgb(89, 172, 197) 2px 2px,
+    rgb(89, 172, 197) 3px 3px,
+    rgb(89, 172, 197) 4px 4px,
+    rgb(89, 172, 197) 5px 5px,
+    rgb(89, 172, 197) 6px 6px,
+    rgb(89, 172, 197) 7px 7px,
+    rgb(89, 172, 197) 8px 8px,
+    rgb(89, 172, 197) 9px 9px,
+    rgb(89, 172, 197) 10px 10px,
+    rgb(89, 172, 197) 11px 11px,
+    rgb(89, 172, 197) 12px 12px,
+    rgb(89, 172, 197) 13px 13px,
+    rgb(89, 172, 197) 14px 14px,
+    rgb(89, 172, 197) 15px 15px,
+    rgb(89, 172, 197) 16px 16px,
+    rgb(89, 172, 197) 17px 17px,
+    rgb(89, 172, 197) 18px 18px,
+    rgb(89, 172, 197) 19px 19px,
+    rgb(89, 172, 197) 20px 20px,
+    rgb(89, 172, 197) 21px 21px,
+    rgb(89, 172, 197) 22px 22px,
+    rgb(89, 172, 197) 23px 23px,
+    rgb(89, 172, 197) 24px 24px,
+    rgb(89, 172, 197) 25px 25px,
+    rgb(89, 172, 197) 26px 26px,
+    rgb(89, 172, 197) 27px 27px,
+    rgb(89, 172, 197) 28px 28px,
+    rgb(89, 172, 197) 29px 29px,
+    rgb(89, 172, 197) 30px 30px,
+    rgb(89, 172, 197) 31px 31px,
+    rgb(89, 172, 197) 32px 32px;
+}
+
+.server-card{
+    display: flex;
+    flex-direction: column;
+    max-width: 11em;
+    /* background-color: grey; */
+    padding: 5px;
+    margin: 10px;
+    border-radius: 4px;
+}
