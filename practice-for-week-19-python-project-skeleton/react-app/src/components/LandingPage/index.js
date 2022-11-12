@@ -13,6 +13,10 @@ const LandingPage = () => {
                     <ServerCard />
                     <ServerCard />
                     <ServerCard />
+                    <ServerCard />
+                    <ServerCard />
+                    <ServerCard />
+                    <ServerCard />
                 </div>
             </div>
         </>
