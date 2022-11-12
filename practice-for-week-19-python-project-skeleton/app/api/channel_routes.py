@@ -70,3 +70,15 @@ def edit_channel_details(channel_id):
         return jsonify(channel_schema.dump(channel))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+@channel_routes.route('/<int:channel_id>', methods=["DELETE"])
+def delete_channel(channel_id):
+    """Edit a channel by id"""
+    channel = Channel.query.get(channel_id)
+    if channel:
+        db.session.delete(channel)
+        db.session.commit()
+        result = channel_schema.dump(channel)
+        return (jsonify(result))
+    else: 
+        return "Channel not found."     
+
