@@ -22,6 +22,8 @@ class User(db.Model, UserMixin):
     chat_messages = db.relationship("ChatMessage", back_populates="author")
     # admin_chats = db.relationship("Chat")
 
+    servers = db.relationship("Server", back_populates="users")
+
     @property
     def password(self):
         return self.hashed_password
