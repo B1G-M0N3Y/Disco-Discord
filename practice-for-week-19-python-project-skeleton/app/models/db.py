@@ -5,7 +5,7 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
-
+# Order matters: Initialize SQLAlchemy before Marshmallow
 db = SQLAlchemy()
 ma = Marshmallow()
 

@@ -1,15 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField
-from wtforms.validators import DataRequired
+from wtforms import SubmitField, TextAreaField, IntegerField
+from wtforms.validators import DataRequired, ValidationError
+from app.models.servers import ChannelMessages
 
 def message_exists(form, field):
     # Checking if message body exists
-    body = field.data
-    channel_message = ChannelMessages.query.filter(ChannelMessages.body == body).first()
-    chat_message = ChatMessages.query.filter(ChatMessages.body == body).first()
-    if not channel_message or chat_message:
+    body = form.data['body']
+    # channel_message = ChannelMessages.query.filter(ChannelMessages.body == body).first()
+    # chat_message = ChatMessages.query.filter(ChatMessages.body == body).first()
+    if not body:
         raise ValidationError('Message body must be provided.')
 
 class MessageForm(FlaskForm):
     body = TextAreaField("Body",validators=[DataRequired(), message_exists])
-    submit = SubmitField("Submit")
+    # body = TextAreaField("Body")
+    channel_id = IntegerField("Channel ID", validators=[DataRequired()])
+    user_id = IntegerField("User ID", validators=[DataRequired()])
+    # submit = SubmitField("Submit")
