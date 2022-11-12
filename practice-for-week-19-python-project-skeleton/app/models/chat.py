@@ -19,7 +19,7 @@ class Chat(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    adminId = db.Column(db.Integer(), nullable=False)
+    adminId = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     chat_members = db.relationship(
         "User", secondary=chat_members, back_populates="chat")
     # admin = db.relationship("User", viewonly=True)
@@ -31,7 +31,8 @@ class ChatMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     authorId = db.Column(db.Integer(), db.ForeignKey(
         'users.id'), nullable=False)
-    chatId = db.Column(db.Integer(), nullable=False)
+    chatId = db.Column(db.Integer(), db.ForeignKey(
+        'chats.id'), nullable=False)
     body = db.Column(db.Text, nullable=False)
     createdAt = db.Column(db.DateTime(), nullable=False)
     updatedAt = db.Column(db.DateTime())

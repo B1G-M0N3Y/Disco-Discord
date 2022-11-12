@@ -17,11 +17,10 @@ class User(db.Model, UserMixin):
     image_url = db.Column(db.String(255))
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    chat = db.relationship("Chat", secondary=chat_members,
-                           back_populates="chat_members")
+    
+    chat = db.relationship("Chat", secondary=chat_members, back_populates="chat_members")
     chat_messages = db.relationship("ChatMessage", back_populates="author")
-    # admin_chats = db.relationship("Chat")
-
+    admin_chats = db.relationship("Chat")
     servers = db.relationship("Server", back_populates="users")
 
     @property

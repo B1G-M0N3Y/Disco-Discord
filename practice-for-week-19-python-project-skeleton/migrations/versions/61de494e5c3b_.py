@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 179b663b5d47
+Revision ID: 61de494e5c3b
 Revises: 
-Create Date: 2022-11-11 20:09:53.423678
+Create Date: 2022-11-12 12:08:28.695931
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '179b663b5d47'
+revision = '61de494e5c3b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -55,9 +55,8 @@ def upgrade():
     )
     op.create_table('servers',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=30), nullable=False),
+    sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('image_url', sa.String(length=255), nullable=True),
-    sa.Column('private', sa.Boolean(), nullable=True),
     sa.Column('admin_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['admin_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -79,8 +78,8 @@ def upgrade():
     )
     op.create_table('channel_messages',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('channel_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('channel_id', sa.Integer(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('body', sa.String(length=2000), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
