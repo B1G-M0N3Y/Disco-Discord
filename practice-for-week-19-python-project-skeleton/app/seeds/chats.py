@@ -1,6 +1,25 @@
-from ..models.chat import ChatMessage, db
+from ..models.chat import Chat, ChatMessage, db
 from ..models import SCHEMA, environment
 from sqlalchemy import func
+
+
+def seed_chats():
+    chat1 = Chat(name='Chat 1', adminId=2)
+    chat2 = Chat(name='Chat 2', adminId=1)
+    chat3 = Chat(name='Chat 3', adminId=3)
+    chat4 = Chat(name='Chat 4', adminId=1)
+    chat5 = Chat(name='Chat 5', adminId=1)
+    chat6 = Chat(name='Chat 6', adminId=3)
+    chat7 = Chat(name='Chat 7', adminId=2)
+
+    db.session.add(chat1)
+    db.session.add(chat2)
+    db.session.add(chat3)
+    db.session.add(chat4)
+    db.session.add(chat5)
+    db.session.add(chat6)
+    db.session.add(chat7)
+    db.session.commit()
 
 
 def seed_chat_messages():
@@ -53,7 +72,16 @@ def seed_chat_messages():
 def undo_chat_messages():
     if environment == "production":
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.channel_messages RESTART IDENTITY CASCADE;")
+            f"TRUNCATE table {SCHEMA}.chat_messages RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM chat_messages")
+    db.session.commit()
+
+
+def undo_chats():
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.chats RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM chats")
     db.session.commit()

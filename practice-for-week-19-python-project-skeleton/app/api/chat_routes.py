@@ -55,13 +55,26 @@ def create_chat():
     return {'chats': [chat.todict() for chat in chats]}
 
 
+@ chat_routes.route('/<int:chat_id>', methods=["DELETE"])
+def delete_chat(chat_id):
+    """
+    Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
+    """
+    chat = ChatMessage.query.get(chat_id)
+    # TODO delete all associated chat messages
+    if chat:
+        db.session.delete(chat)
+        db.session.commit()
+        return 'Delete Success'
+    return 'Didnt Delete Shit'
+
+
 @ chat_routes.route('/<int:chat_id>')
 def get_chat_messages(chat_id):
     """
     Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
     """
     chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
-    print(chat_messages[0].createdAt, 'chatmessages**')
     return jsonify(chat_messages_schema.dumps(chat_messages))
 
 
