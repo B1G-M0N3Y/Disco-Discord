@@ -46,3 +46,21 @@ def get_public_servers():
     result = channels_schema.dump(public_servers)
     return (jsonify(result))    
 
+@server_routes.route('', methods=["POST"])
+def post_new_server():
+    """Create a new channel"""
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        new_server = Server(
+            name = data['name'], 
+            admin_id = data['admin_id'], 
+            private = data['private'],
+            image_url = data['image_url']
+        )
+        db.session.add(new_server)
+        db.session.commit()
+        result = server_schema.dump(new_server)
+        return (jsonify(result))
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
