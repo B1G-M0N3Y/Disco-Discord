@@ -6,7 +6,9 @@ from .servers import (
     seed_channels,
     undo_channels,
     seed_server_members,
-    undo_server_members
+    undo_server_members,
+    seed_channel_messages,
+    undo_channel_messages
     )
 from app.models.db import db, environment, SCHEMA
 
@@ -27,10 +29,12 @@ def seed():
         undo_servers()
         undo_channels()
         undo_server_members()
+        undo_channel_messages()
     seed_users()
     seed_servers()
     seed_channels()
     seed_server_members()
+    seed_channel_messages()
     # Add other seed functions here
 
 
@@ -41,4 +45,5 @@ def undo():
     undo_servers()
     undo_channels()
     undo_server_members()
+    undo_channel_messages()
     # Add other undo functions here

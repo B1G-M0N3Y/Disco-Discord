@@ -104,3 +104,50 @@ def undo_server_members():
     else:
         db.session.execute("DELETE FROM server_members")
     db.session.commit()
+
+def seed_channel_messages():
+    msg1 = ChannelMessages(
+        channel_id = 1,
+        user_id = 1,
+        body = "Let's boogie, everybody!"
+    )
+    msg2 = ChannelMessages(
+        channel_id = 2,
+        user_id = 1,
+        body = "I'll buy everyone a round!"
+    )
+    msg3 = ChannelMessages(
+        channel_id = 1,
+        user_id = 2,
+        body = "Shake yo booty!"
+    )
+    msg4 = ChannelMessages(
+        channel_id = 2,
+        user_id = 3,
+        body = "Orange juice, no pulp."
+    )
+    msg5 = ChannelMessages(
+        channel_id = 3,
+        user_id = 3,
+        body = "And here's Wonderwall!"
+    )
+    msg6 = ChannelMessages(
+        channel_id = 4,
+        user_id = 3,
+        body = "I am SPEED"
+    )
+
+    db.session.add(msg1)
+    db.session.add(msg2)
+    db.session.add(msg3)
+    db.session.add(msg4)
+    db.session.add(msg5)
+    db.session.add(msg6)
+    db.session.commit()
+
+def undo_channel_messages():
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.channel_messages RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM channel_messages")
+    db.session.commit()
