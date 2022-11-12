@@ -6,15 +6,38 @@ channel_routes = Blueprint('channels', __name__)
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
 def get_one_channel(channel_id): 
+    """Get channel by id"""
     one_channel = Channel.query.get(channel_id)
     return channel_schema.jsonify(one_channel)   
 
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
 def get_channel_messages(channel_id):
+    """Get all messages by channel id"""
     messages = ChannelMessages.query.filter(ChannelMessages.channel_id == channel_id).all()
     result = channel_messages_schema.dump(messages)
     return (jsonify(result))
 
+@channel_routes.route('/messages/<int:message_id>', methods=["DELETE"])
+def delete_channel_message(message_id):
+    """Delete message by id"""
+    message = ChannelMessages.query.get(message_id)
+
+    db.session.delete(message)
+    db.session.commit()
+
+    result = channel_message_schema.dump(message)
+    return (jsonify(result))
+
+@channel_routes.route('/<int:channel_id>', methods=["POST"])
+def post_channel_message(channel_id):
+    """Create a new channel message"""
+    message = ChannelMessages.query.get(channel_id)
+
+    db.session.delete(message)
+    db.sesssion.commit()
+
+    result = channel_message_schema.dump(message)
+    return (jsonify(result))
 
 # @bp.route('/<int:pokemon_id>', methods=['PUT'])
 # def update_one_pokemon(pokemon_id):
