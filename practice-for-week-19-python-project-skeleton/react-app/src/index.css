@@ -5,3 +5,8 @@
 html{
     background-color: #0D0D0D;
 }
+
+#root{
+    display: flex;
+    flex-direction: row;
+}
