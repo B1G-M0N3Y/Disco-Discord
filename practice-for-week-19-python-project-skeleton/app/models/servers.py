@@ -35,8 +35,8 @@ class ChannelMessages(db.Model):
     __tablename__ = "channel_messages"
 
     id = db.Column(db.Integer, primary_key=True)
-    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     body = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())

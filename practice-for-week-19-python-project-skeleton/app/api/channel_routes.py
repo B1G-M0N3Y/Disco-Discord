@@ -1,8 +1,18 @@
 from flask import Blueprint, render_template, jsonify, request, json
-# from .forms import MessageForm
+from ..forms import MessageForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
 
 channel_routes = Blueprint('channels', __name__)
+
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Simple function that turns the WTForms validation errors into a simple list
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field} : {error}')
+    return errorMessages
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
 def get_one_channel(channel_id): 
@@ -21,51 +31,28 @@ def get_channel_messages(channel_id):
 def delete_channel_message(message_id):
     """Delete message by id"""
     message = ChannelMessages.query.get(message_id)
-
     db.session.delete(message)
     db.session.commit()
-
     result = channel_message_schema.dump(message)
     return (jsonify(result))
 
+# need to authenticate the user to get user id, not rely on form data
 @channel_routes.route('/<int:channel_id>', methods=["POST"])
 def post_channel_message(channel_id):
     """Create a new channel message"""
-    message = ChannelMessages.query.get(channel_id)
+    form = MessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        data = form.data
+        new_message = ChannelMessages(
+            body = data['body'], 
+            channel_id = channel_id,
+            user_id = data['user_id']
+        )
+        db.session.add(new_message)
+        db.session.commit()
+        # response = ChannelMessages.query.order_by(ChannelMessages.id.desc()).first()
+        result = channel_message_schema.dump(new_message)
+        return (jsonify(result))
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-    db.session.delete(message)
-    db.sesssion.commit()
-
-    result = channel_message_schema.dump(message)
-    return (jsonify(result))
-
-# @bp.route('/<int:pokemon_id>', methods=['PUT'])
-# def update_one_pokemon(pokemon_id):
-#     form = PokemonForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-    
-#     if form.validate_on_submit(): 
-#         data = form.data
-
-#         poke = Pokemon.query.get(pokemon_id)
-
-#         number = data['number']
-#         attack = data['attack']
-#         defense = data['defense']
-#         image_url = data['image_url']
-#         name = data['name']
-#         type = data['type']
-#         moves = data['moves']
-        
-#         poke.number = number
-#         poke.attack = attack
-#         poke.defense = defense
-#         poke.image_url = image_url
-#         poke.name = name
-#         poke.type = type
-#         poke.moves = moves
-
-#         db.session.add(poke)
-#         db.session.commit()
-
-#         return jsonify(pokemon_schema.dump(poke))
