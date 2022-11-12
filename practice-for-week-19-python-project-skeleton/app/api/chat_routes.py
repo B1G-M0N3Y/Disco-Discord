@@ -12,11 +12,14 @@ def chats():
     """
     Query for all chats belonging to logged in user and returns them in a list of user dictionaries
     """
-    user = current_user
-    # chats = Chat.query.filter_by(user_id=user.id).all()
-    # print(chats)
-    return jsonify(['hello from back'])
-    return {'chats': [chat.todict() for chat in chats]}
+    current_user_id = 2
+    user = User.query.get(current_user_id)
+    print(user.chats)
+
+    # Accessing chat members (User) from Chat model
+    # print(chats[0].chat_members[0].id)
+
+    return jsonify(chats_schema.dump(user.chats))
 
 
 @chat_routes.route('/', methods=["POST"])
