@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    justify-content: flex-end;
+}
+
+.navbar > * {
+    margin: 5px;
+    color: white
+}

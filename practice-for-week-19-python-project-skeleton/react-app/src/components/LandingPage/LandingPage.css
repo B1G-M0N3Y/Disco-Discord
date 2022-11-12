@@ -53,6 +53,7 @@
 
 
 .server-card{
+    background-color: rgba(61, 61, 61, 0.589);
     display: flex;
     flex-direction: column;
     max-width: 11em;
@@ -60,14 +61,9 @@
     padding: 5px;
     margin: 10px;
     border-radius: 4px;
-    box-shadow:  0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 12px #0fa,
-    0 0 16px #0fa;
 }
 
 .server-pic{
-    margin-top: 18px;
     align-self: center;
     object-fit: cover;
     width: 200px;
@@ -76,4 +72,11 @@
 .server-name{
     font-family: "Nova Round", cursive;
     margin: 4px;
+}
+
+.server-card:hover {
+    box-shadow:  0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 12px #0fa,
+    0 0 16px #0fa;
 }
