@@ -4,7 +4,7 @@
     list-style-type: none;
     justify-content: flex-end;
     height: 100%;
-    background-color: rgba(61, 61, 61, 0.589);
+    background-color: #417CF2;
 }
 
 .navbar > * {

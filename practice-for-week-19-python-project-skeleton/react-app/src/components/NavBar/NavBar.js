@@ -10,7 +10,10 @@ const NavBar = () => {
 
   let userDisplay;
 
+  // Displays different options at the bottom of the navbar
+  // depending on if a user is logged in
   if (sessionUser) {
+    // if logged in, display user info
     userDisplay = (
       <>
         <div className="session-user-info">
@@ -21,6 +24,7 @@ const NavBar = () => {
       </>
     );
   } else {
+    // if not logged in, display additional buttons for login and sign up
     userDisplay = (
       <>
         <NavLink to="/login" exact={true} activeClassName="active">
