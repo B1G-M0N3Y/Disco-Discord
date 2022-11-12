@@ -14,10 +14,6 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-
-# This route returns:
-# TypeError: exceptions must derive from BaseException
-
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
     """Create a new channel"""

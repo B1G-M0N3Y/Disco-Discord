@@ -9,5 +9,8 @@ class ServerForm(FlaskForm):
     admin_id = IntegerField("Admin", validators=[DataRequired()])
 
 class ChannelForm(FlaskForm):
-    name = StringField("Name",validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired()])
     server_id = IntegerField("Server ID")
+
+class EditChannelForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])

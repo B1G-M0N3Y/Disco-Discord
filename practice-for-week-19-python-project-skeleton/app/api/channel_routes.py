@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request
-from ..forms import MessageForm
+from ..forms import MessageForm, EditChannelForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
 
 channel_routes = Blueprint('channels', __name__)
@@ -53,5 +53,20 @@ def post_channel_message(channel_id):
         db.session.commit()
         result = channel_message_schema.dump(new_message)
         return (jsonify(result))
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@channel_routes.route('/<int:channel_id>', methods=["PUT"])
+def edit_channel_details(channel_id):
+    """Edit a channel by id"""
+    form = EditChannelForm()
+    channel = Channel.query.get(channel_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if channel and form.validate_on_submit():
+        data = form.data
+        name = data['name']
+        channel.name = name
+        db.session.add(channel)
+        db.session.commit()
+        return jsonify(channel_schema.dump(channel))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
