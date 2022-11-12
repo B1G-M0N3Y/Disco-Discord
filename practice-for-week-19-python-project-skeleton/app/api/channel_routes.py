@@ -51,7 +51,6 @@ def post_channel_message(channel_id):
         )
         db.session.add(new_message)
         db.session.commit()
-        # response = ChannelMessages.query.order_by(ChannelMessages.id.desc()).first()
         result = channel_message_schema.dump(new_message)
         return (jsonify(result))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

@@ -11,7 +11,7 @@ class Server(db.Model):
     private = db.Column(db.Boolean)
     admin_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
-    channels = db.relationship("Channel")
+    channels = db.relationship("Channel", back_populates="server")
     users = db.relationship("User", back_populates="servers")
 
 class Channel(db.Model):
@@ -22,7 +22,15 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey("servers.id"), nullable=False)
 
     messages = db.relationship("ChannelMessages")
-    server = db.relationship("Server")
+    server = db.relationship("Server", back_populates="channels")
+
+    def to_dict(self):
+        return {
+            id: self.id,
+            name: self.name,
+            server_id: self.server_id
+        }
+
 
 class ServerMember(db.Model):
     __tablename__ = "server_members"
