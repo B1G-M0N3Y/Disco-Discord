@@ -1,8 +1,9 @@
 .navbar {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     list-style-type: none;
     justify-content: flex-end;
+    background-color: rgba(61, 61, 61, 0.589);
 }
 
 .navbar > * {
