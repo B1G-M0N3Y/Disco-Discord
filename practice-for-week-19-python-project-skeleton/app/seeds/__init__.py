@@ -9,7 +9,8 @@ from .servers import (
     undo_server_members,
     seed_channel_messages,
     undo_channel_messages
-    )
+)
+from .chats import seed_chat_messages, undo_chat_messages
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -35,6 +36,7 @@ def seed():
     seed_channels()
     seed_server_members()
     seed_channel_messages()
+    seed_chat_messages()
     # Add other seed functions here
 
 
@@ -46,4 +48,5 @@ def undo():
     undo_channels()
     undo_server_members()
     undo_channel_messages()
+    undo_chat_messages()
     # Add other undo functions here

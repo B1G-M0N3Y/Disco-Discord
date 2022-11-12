@@ -30,9 +30,9 @@ class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'
 
     id = db.Column(db.Integer, primary_key=True)
-    authorId = db.Column(db.Integer(), db.ForeignKey(
+    author_id = db.Column(db.Integer(), db.ForeignKey(
         'users.id'), nullable=False)
-    chatId = db.Column(db.Integer(), nullable=False)
+    chat_id = db.Column(db.Integer(), nullable=False)
     body = db.Column(db.Text, nullable=False)
     createdAt = db.Column(db.DateTime(), nullable=False)
     updatedAt = db.Column(db.DateTime())
@@ -45,5 +45,14 @@ class ChatSchema(ma.Schema):
         fields = ("id", "name", "adminId")
 
 
+class ChatMessageSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "author_id", "chat_id",
+                  "body", "createdAt", "updatedAt")
+
+
 chat_schema = ChatSchema()
 chats_schema = ChatSchema(many=True)
+
+chat_message_schema = ChatMessageSchema()
+chat_messages_schema = ChatMessageSchema(many=True)

@@ -1,8 +1,10 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import User, Chat, db
-from app.models.chat import chat_schema, chats_schema
+from app.models import User, Chat, db, ChatMessage
+from app.models.chat import chat_schema, chats_schema, chat_messages_schema, chat_message_schema
 from ..forms.chat_form import ChatForm
+from ..forms.message_form import ChatMessageForm
+from sqlalchemy import func
 
 chat_routes = Blueprint('chat', __name__)
 
@@ -15,10 +17,6 @@ def chats():
     current_user_id = 2
     user = User.query.get(current_user_id)
     print(user.chats)
-
-    # Accessing chat members (User) from Chat model
-    # print(chats[0].chat_members[0].id)
-
     return jsonify(chats_schema.dump(user.chats))
 
 
@@ -53,15 +51,38 @@ def create_chat():
         db.session.commit()
         success_response = Chat.query.order_by(Chat.id.desc()).first()
         return jsonify(chat_schema.dump(success_response))
-    print(form.errors)
     return jsonify(form.errors)
     return {'chats': [chat.todict() for chat in chats]}
 
 
-# @ chat_routes.route('/<int:id>')
-# def get_chat(id):
-#     """
-#     Query for a user by id and returns that user in a dictionary
-#     """
-#     user = User.query.get(id)
-#     return user.to_dict()
+@ chat_routes.route('/<int:chat_id>')
+def get_chat_messages(chat_id):
+    """
+    Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
+    """
+    chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
+    print(chat_messages[0].createdAt, 'chatmessages**')
+    return jsonify(chat_messages_schema.dumps(chat_messages))
+
+
+@ chat_routes.route('/<int:chat_id>', methods=['POST'])
+def post_chat_messages(chat_id):
+    """
+    Post a new chat message
+    """
+    chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
+    form = ChatMessageForm()
+    # TODO use current_user for id below
+    current_user_id = 2
+    data = form.data
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        new_message = ChatMessage(
+            author_id=current_user_id, chat_id=chat_id, body=data['body'], createdAt=func.now())
+        print(new_message)
+        db.session.add(new_message)
+        db.session.commit()
+        created_message = ChatMessage.query.order_by(
+            ChatMessage.id.desc()).first()
+        return jsonify(chat_message_schema.dumps(created_message))
+    return jsonify(form.errors)
