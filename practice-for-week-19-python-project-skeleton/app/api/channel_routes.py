@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, json
+from flask import Blueprint, render_template, jsonify, request
 from ..forms import MessageForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
 
@@ -16,7 +16,7 @@ def validation_errors_to_error_messages(validation_errors):
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
 def get_one_channel(channel_id): 
-    """Get channel by id"""
+    """Get channel details by id"""
     one_channel = Channel.query.get(channel_id)
     return channel_schema.jsonify(one_channel)   
 
