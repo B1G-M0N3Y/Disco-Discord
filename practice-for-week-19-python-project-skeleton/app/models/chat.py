@@ -1,4 +1,4 @@
-from .db import db
+from .db import db, ma
 
 
 # Join Table For Users & Chat Members (Many to Many)
@@ -21,7 +21,7 @@ class Chat(db.Model):
     name = db.Column(db.String(), nullable=False)
     adminId = db.Column(db.Integer(), nullable=False)
     chat_members = db.relationship(
-        "User", secondary=chat_members, back_populates="chat")
+        "User", secondary=chat_members, back_populates="chats")
     # admin = db.relationship("User", viewonly=True)
 
 
@@ -37,3 +37,12 @@ class ChatMessage(db.Model):
     updatedAt = db.Column(db.DateTime())
     # many to one (many chatmessages to one user/author)
     author = db.relationship("User", back_populates="chat_messages")
+
+
+class ChatSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "name", "adminId")
+
+
+chat_schema = ChatSchema()
+chats_schema = ChatSchema(many=True)
