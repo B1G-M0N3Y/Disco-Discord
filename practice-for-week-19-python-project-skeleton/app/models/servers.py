@@ -1,9 +1,12 @@
 from sqlalchemy import func
 from sqlalchemy.orm import validates
-from .db import db, ma
+from .db import db, ma, environment, SCHEMA
 
 class Server(db.Model):
     __tablename__ = "servers"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -15,10 +18,10 @@ class Server(db.Model):
 
     def to_dict(self):
         return {
-            id: self.id,
-            name: self.name,
-            admin_id: self.admin_id,
-            image_url: self.image_url    
+            'id': self.id,
+            'name': self.name,
+            'admin_id': self.admin_id,
+            'image_url': self.image_url    
         }
 
 class Channel(db.Model):

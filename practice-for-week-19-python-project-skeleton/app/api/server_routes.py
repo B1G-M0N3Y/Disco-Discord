@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request
-from ..forms import ChannelForm, ServerForm, EditServerForm
-from app.models.servers import db, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema
+from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
+from app.models.servers import db, ServerMember Channel, Server, channel_schema, channels_schema, server_schema, servers_schema
 
 server_routes = Blueprint('servers', __name__)
 
@@ -39,11 +39,20 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
+@server_routes.route('/', methods=["GET"])
+def get_all_servers():
+    """Get all servers"""
+    servers = Server.query.all()
+    # return {'servers': [server.to_dict() for server in servers]}
+
+    result = servers_schema.dump(servers)
+    return (jsonify(result))     
+
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
     public_servers = Server.query.filter(Server.private == False).all()
-    result = channels_schema.dump(public_servers)
+    result = servers_schema.dump(public_servers)
     return (jsonify(result))    
 
 @server_routes.route('', methods=["POST"])
@@ -93,3 +102,22 @@ def delete_server(server_id):
         return (jsonify(result))
     else: 
         return "Server not found.", 404
+
+# this route has bugs
+# @server_routes.route('<int:server_id>/members', methods=["POST"])
+# def post_server_member(server_id):
+#     """Add a member to a server"""
+#     form = AddServerMember()
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     server = Server.query.get(server_id)
+#     if form.validate_on_submit():
+#         data = form.data
+#         new_member = ServerMember(
+#             server_id = server_id,
+#             user_id = data['user_id']
+#         )
+#         db.session.add(new_member)
+#         db.session.commit()
+#         result = server_member_schema.dump(new_member)
+#         return (jsonify(result))
+#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
