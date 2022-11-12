@@ -56,7 +56,6 @@ def post_new_server():
         new_server = Server(
             name = data['name'], 
             admin_id = data['admin_id'], 
-            private = data['private'],
             image_url = data['image_url']
         )
         db.session.add(new_server)
@@ -66,28 +65,20 @@ def post_new_server():
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @server_routes.route('/<int:server_id>', methods=["PUT"])
-def edit_server(server_id):
+def edit_server_details(server_id):
     """Create a new channel"""
     form = EditServerForm()
     server = Server.query.get(server_id)
     form['csrf_token'].data = request.cookies['csrf_token']
     if server and form.validate_on_submit():
         data = form.data
-
-        name = data['name'], 
-        private = data['private'],
+        name = data['name']
         image_url = data['image_url']
-
         server.name = name
-
-        if private:
-            server.private = private
-        if image_url:     
-            server.image_url = image_url
-
+        server.image_url = image_url
         db.session.add(server)
         db.session.commit()
-        result = server_schema.dump(new_server)
+        result = server_schema.dump(server)
         return (jsonify(result))
     return "Server not found", 404
 
