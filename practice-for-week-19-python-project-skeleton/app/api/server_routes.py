@@ -39,3 +39,10 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
+@server_routes.route('/public', methods=["GET"])
+def get_public_servers():
+    """Get all public servers"""
+    public_servers = Server.query.filter(Server.private == False).all()
+    result = channels_schema.dump(public_servers)
+    return (jsonify(result))    
+
