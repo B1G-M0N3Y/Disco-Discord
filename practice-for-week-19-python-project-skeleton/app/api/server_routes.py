@@ -32,3 +32,10 @@ def post_new_channel(server_id):
         return (jsonify(result))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+@server_routes.route('/<int:server_id>/channels', methods=["GET"])
+def get_all_channels(server_id):
+    """Get all channels by server id"""
+    channels = Channel.query.filter(Channel.server_id == server_id).all()
+    result = channels_schema.dump(channels)
+    return (jsonify(result))
+
