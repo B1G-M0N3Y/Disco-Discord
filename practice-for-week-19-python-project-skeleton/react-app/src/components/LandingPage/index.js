@@ -1,6 +1,7 @@
 import ServerCard from "./ServerCard";
 import "./LandingPage.css";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.session.user);
@@ -9,16 +10,15 @@ const LandingPage = () => {
 
   return (
     <>
-        <div className="landing-page">
-          <div className="center-panel">
-            <h1>Welcome to the party!</h1>
-      {currentUser && (
-				<div>
+      <div className="landing-page">
+        <h1>Welcome to the party!</h1>
+        {currentUser && (
+          <div>
             <h3>Explore our open clubs:</h3>
             {/*displays a grid of available public servers */}
             <div className="server-card-container">
               {/* TODO: Write Loop For all public servers */}
-							<ServerCard />
+              <ServerCard />
               <ServerCard />
               <ServerCard />
               <ServerCard />
@@ -27,16 +27,20 @@ const LandingPage = () => {
               <ServerCard />
               <ServerCard />
             </div>
-				</div>
-      )}
-			</div>
-		</div>
-			{!currentUser &&
-			<div className="auth-container">
-				Login
-				Sign Up
-			</div>
-			}
+          </div>
+        )}
+
+        {!currentUser && (
+          <div className="auth-container">
+						<NavLink className="navlink landing-button" to="/login">
+            	Login
+						</NavLink>
+						<NavLink className="navlink landing-button" to="/sign-up">
+            	Sign Up
+						</NavLink>
+          </div>
+        )}
+      </div>
     </>
   );
 };

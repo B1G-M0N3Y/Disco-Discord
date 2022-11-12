@@ -86,5 +86,25 @@
 }
 
 .auth-container{
-    background-color: aliceblue;
+    background-color: rgb(64, 64, 65);
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 6px;
+}
+
+.landing-button{
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    font-family: 'Itim', cursive;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #417CF2;
+    border: none;
+    width: 64%;
+    border-radius: 6px;
 }
