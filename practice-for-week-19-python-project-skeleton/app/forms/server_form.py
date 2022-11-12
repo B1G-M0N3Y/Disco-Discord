@@ -14,3 +14,8 @@ class ChannelForm(FlaskForm):
 
 class EditChannelForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
+
+class EditServerForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    image_url = StringField("Image URL")
+    private = BooleanField("Private", default=True)
