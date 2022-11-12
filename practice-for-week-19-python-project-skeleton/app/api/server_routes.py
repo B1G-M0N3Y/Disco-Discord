@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request
-from ..forms import ChannelForm, ServerForm
+from ..forms import ChannelForm, ServerForm, EditServerForm
 from app.models.servers import db, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema
 
 server_routes = Blueprint('servers', __name__)
@@ -64,3 +64,41 @@ def post_new_server():
         result = server_schema.dump(new_server)
         return (jsonify(result))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@server_routes.route('/<int:server_id>', methods=["PUT"])
+def edit_server(server_id):
+    """Create a new channel"""
+    form = EditServerForm()
+    server = Server.query.get(server_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if server and form.validate_on_submit():
+        data = form.data
+
+        name = data['name'], 
+        private = data['private'],
+        image_url = data['image_url']
+
+        server.name = name
+
+        if private:
+            server.private = private
+        if image_url:     
+            server.image_url = image_url
+
+        db.session.add(server)
+        db.session.commit()
+        result = server_schema.dump(new_server)
+        return (jsonify(result))
+    return "Server not found", 404
+
+@server_routes.route('/<int:server_id>', methods=["DELETE"])
+def delete_server(server_id):
+    """Delete a server by id"""
+    server = Server.query.get(server_id)
+    if server:
+        db.session.delete(server)
+        db.session.commit()
+        result = channel_schema.dump(server)
+        return (jsonify(result))
+    else: 
+        return "Server not found.", 404
