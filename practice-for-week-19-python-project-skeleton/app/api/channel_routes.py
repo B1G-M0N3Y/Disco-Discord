@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, jsonify, request, json
-from ..forms import MessageForm
+from flask import Blueprint, render_template, jsonify, request
+from ..forms import MessageForm, EditChannelForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
 
 channel_routes = Blueprint('channels', __name__)
@@ -16,7 +16,7 @@ def validation_errors_to_error_messages(validation_errors):
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
 def get_one_channel(channel_id): 
-    """Get channel by id"""
+    """Get channel details by id"""
     one_channel = Channel.query.get(channel_id)
     return channel_schema.jsonify(one_channel)   
 
@@ -51,8 +51,34 @@ def post_channel_message(channel_id):
         )
         db.session.add(new_message)
         db.session.commit()
-        # response = ChannelMessages.query.order_by(ChannelMessages.id.desc()).first()
         result = channel_message_schema.dump(new_message)
         return (jsonify(result))
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@channel_routes.route('/<int:channel_id>', methods=["PUT"])
+def edit_channel_details(channel_id):
+    """Edit a channel by id"""
+    form = EditChannelForm()
+    channel = Channel.query.get(channel_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if channel and form.validate_on_submit():
+        data = form.data
+        name = data['name']
+        channel.name = name
+        db.session.add(channel)
+        db.session.commit()
+        return jsonify(channel_schema.dump(channel))
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@channel_routes.route('/<int:channel_id>', methods=["DELETE"])
+def delete_channel(channel_id):
+    """Edit a channel by id"""
+    channel = Channel.query.get(channel_id)
+    if channel:
+        db.session.delete(channel)
+        db.session.commit()
+        result = channel_schema.dump(channel)
+        return (jsonify(result))
+    else: 
+        return "Channel not found."     
 
