@@ -1,10 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from sqlalchemy.orm import validates
-from flask_marshmallow import Marshmallow
-from .db import db
-
-ma = Marshmallow()
+from .db import db, ma
 
 class Server(db.Model):
     __tablename__ = "servers"
@@ -45,6 +41,8 @@ class ChannelMessages(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
+    channel = db.relationship("Channel")
+
 class ServerSchema(ma.Schema):
     class Meta:
         fields = (
@@ -73,9 +71,10 @@ class ChannelMessagesSchema(ma.Schema):
         fields = (
             "id",
             "channel_id",
-            "user_id" ,
+            "user_id",
+            "body",
             "created_at" ,
-            "updated_at" )
+            "updated_at")
 
 server_schema = ServerSchema()
 servers_schema = ServerSchema(many=True)
