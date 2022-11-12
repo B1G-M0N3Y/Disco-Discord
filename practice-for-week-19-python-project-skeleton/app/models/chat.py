@@ -10,7 +10,8 @@ chat_members = db.Table(
               primary_key=True),
     db.Column("user_id",
               db.Integer(),
-              db.ForeignKey('users.id'))
+              db.ForeignKey('users.id'),
+              primary_key=True)
 )
 
 

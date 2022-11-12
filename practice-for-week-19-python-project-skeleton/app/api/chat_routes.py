@@ -34,14 +34,18 @@ def create_chat():
         new_chat = Chat(name=data['name'], adminId=1)
         chat_to_user = User.query.get(chat_to)
         new_chat.chat_members.append(chat_to_user)
-        chat_members_lst = data["chat_members_lst"]
-        print(data)
 
+        # TO DO GET CHAT MEMBERS IN LIST FORM
+        chat_members_lst_str = data["chat_members_lst"].split(",")
+        print(data)
+        chat_members_lst = [int(chat_member)
+                            for chat_member in chat_members_lst_str]
         # for chat_member in chat_members_lst:
-        #     new_chat_member = User.query.get(chat_member)
-        #     print(new_chat_member)
-        #     print('*******')
-        #     new_chat.chat_members.append(new_chat_member)
+        #     print(chat_member)
+        #     member = User.query.get(chat_member)
+        #     print(member)
+        #     new_chat.chat_members.append(member)
+
         db.session.add(new_chat)
         db.session.commit()
         success_response = Chat.query.order_by(Chat.id.desc()).first()
