@@ -4,10 +4,13 @@ const BasicChat = (url) => {
 
   useEffect(() => {
     const script = document.createElement('script');
+    const customScript = document.createElement('script')
 
     script.type = "text/javascript"
     script.src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
     script.async = true;
+
+    customScript.src = "{{ url_for('/scripts/)}}"
 
     document.body.appendChild(script);
 

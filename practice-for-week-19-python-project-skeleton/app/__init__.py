@@ -1,11 +1,11 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, request, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
 from flask import Flask, render_template
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, emit
 from .models import db, User
 from .models.db import ma
 from .api.user_routes import user_routes
@@ -40,10 +40,10 @@ ma.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+CORS(app,resources={r"/*":{"origins":"*"}})
 
 # Initialize Flask-SocketIO
-socketio = SocketIO(app)
+socketio = SocketIO(app,cors_allowed_origins="*")
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
@@ -96,12 +96,22 @@ def api_help():
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
 
-@socketio.on("message")
-def message(data):
+@socketio.on("connect")
+def connected():
+    print(request.sid, ": client has connected")
+    emit("connect", {"data": f"id: {request.sid} is connected"}, broadcast = True)
 
-    print(f"\n\ndata\n\n")
-    send(data)
+@socketio.on("disconnect")
+def connected():
+    print(request.sid, ": client has disconnected")
+    emit("disconnect", {"data": f"id: {request.sid} is disconnected"}, broadcast = True)
 
 
 if __name__ == '__init__':
     socketio.run(app)
+
+# THIS ROUTE IS ONLY HERE FOR TESTING PURPOSES
+# TODO: DELETE ROUTE BEFORE DEPLOYMENT
+@app.route("/api/chat", methods=["GET", "POST"])
+def chat():
+    pass
