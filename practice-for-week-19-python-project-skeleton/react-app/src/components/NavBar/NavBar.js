@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
@@ -6,22 +8,48 @@ import ChannelList from "../Channels/ChannelList";
 import "./NavBar.css";
 
 const NavBar = () => {
+  // const [showLogout, setShowLogout] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const [showLogout, setShowLogout] = useState(false);
 
-  let userDisplay;
+
+    const openLogout = () => {
+        if (showLogout) return;
+        setShowLogout(true);
+    };
+
+    useEffect(() => {
+        if (!showLogout) return;
+
+        const closeLogout = () => {
+            setShowLogout(false);
+        };
+
+        document.addEventListener('click', closeLogout);
+
+        return () => document.removeEventListener("click", closeLogout);
+    }, [showLogout]);
+
+
+    let userDisplay;
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
   if (sessionUser) {
     // if logged in, display user info
     userDisplay = (
-      <>
         <div className="session-user-info">
-          <img src={sessionUser.image_url}></img>
-          <p>{sessionUser.username}</p>
+          {showLogout? (
+            <LogoutButton />
+          ) : (
+            <>
+            {/* {console.log(showLogout)} */}
+              <img className="user-pic-nav" src={sessionUser.image_url}></img>
+              <p className="username-nav">{sessionUser.username}</p>
+              <i onClick={openLogout} class="fa-solid fa-right-from-bracket"></i>
+            </>
+          )}
         </div>
-        <LogoutButton />
-      </>
     );
   } else {
     // if not logged in, display additional buttons for login and sign up
@@ -39,32 +67,28 @@ const NavBar = () => {
 
   return (
     <nav>
-      <ul className="navbar">
+      <div className="navbar">
         <ChannelList />
-        <li>
-          {/* TODO: Insert logo here */}
-          <NavLink
-            className="navlink"
-            to="/home"
-            exact={true}
-            activeClassName="active"
-          >
-            LOGO HERE
-          </NavLink>
-        </li>
+        {/* TODO: Insert logo here */}
+        <NavLink
+          className="navlink"
+          to="/home"
+          exact={true}
+          activeClassName="active"
+        >
+          LOGO HERE
+        </NavLink>
 
-        <li>
-          <NavLink
-            className="navlink"
-            to="/users"
-            exact={true}
-            activeClassName="active"
-          >
-            Users
-          </NavLink>
-        </li>
+        <NavLink
+          className="navlink"
+          to="/users"
+          exact={true}
+          activeClassName="active"
+        >
+          Users
+        </NavLink>
         {userDisplay}
-      </ul>
+      </div>
     </nav>
   );
 };

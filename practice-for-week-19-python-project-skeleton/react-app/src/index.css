@@ -10,3 +10,8 @@ html{
     display: flex;
     flex-direction: row;
 }
+
+p{
+    font-family: 'Itim', cursive;
+}
+
