@@ -4,6 +4,8 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask import Flask, render_template
+from flask_socketio import SocketIO, send
 from .models import db, User
 from .models.db import ma
 from .api.user_routes import user_routes
@@ -40,6 +42,8 @@ Migrate(app, db)
 # Application Security
 CORS(app)
 
+# Initialize Flask-SocketIO
+socketio = SocketIO(app)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
@@ -71,8 +75,8 @@ def inject_csrf_token(response):
 @app.route('/<path:path>')
 def react_root(path):
     """
-    This route will direct to the public directory in our  
-    react builds in the production environment for favicon 
+    This route will direct to the public directory in our
+    react builds in the production environment for favicon
     or index.html requests
     """
     if path == 'favicon.ico':
@@ -87,7 +91,17 @@ def api_help():
     Returns all API routes and their doc strings
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ], 
-                    app.view_functions[rule.endpoint].__doc__ ] 
+    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
+                    app.view_functions[rule.endpoint].__doc__ ]
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
+
+@socketio.on("message")
+def message(data):
+
+    print(f"\n\ndata\n\n")
+    send(data)
+
+
+# if __name__ == '__init__':
+#     socketio.run(app)
