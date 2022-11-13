@@ -103,5 +103,5 @@ def message(data):
     send(data)
 
 
-# if __name__ == '__init__':
-#     socketio.run(app)
+if __name__ == '__init__':
+    socketio.run(app)
