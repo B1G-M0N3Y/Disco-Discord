@@ -13,7 +13,7 @@ function ServerMembers() {
   // get members
   useEffect(() => {
     dispatch(getServerMembers(serverId));
-  }, [dispatch]); 
+  }, [dispatch, serverId]); 
 
   const serverMembers = membersArr.map((member) => {
     return (
