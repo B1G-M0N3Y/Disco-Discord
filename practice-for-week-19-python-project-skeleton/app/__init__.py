@@ -71,8 +71,8 @@ def inject_csrf_token(response):
 @app.route('/<path:path>')
 def react_root(path):
     """
-    This route will direct to the public directory in our  
-    react builds in the production environment for favicon 
+    This route will direct to the public directory in our
+    react builds in the production environment for favicon
     or index.html requests
     """
     if path == 'favicon.ico':
@@ -87,7 +87,7 @@ def api_help():
     Returns all API routes and their doc strings
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ], 
-                    app.view_functions[rule.endpoint].__doc__ ] 
+    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
+                    app.view_functions[rule.endpoint].__doc__ ]
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list

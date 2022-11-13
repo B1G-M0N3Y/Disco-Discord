@@ -21,7 +21,7 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'admin_id': self.admin_id,
-            'image_url': self.image_url    
+            'image_url': self.image_url
         }
 
 class Channel(db.Model):
@@ -40,7 +40,6 @@ class Channel(db.Model):
             name: self.name,
             server_id: self.server_id
         }
-
 
 class ServerMember(db.Model):
     __tablename__ = "server_members"
@@ -73,8 +72,8 @@ class ServerSchema(ma.Schema):
 class ChannelSchema(ma.Schema):
     class Meta:
         fields = (
-            "id", 
-            "name", 
+            "id",
+            "name",
             "server_id")
 
 class ServerMemberSchema(ma.Schema):
@@ -105,4 +104,3 @@ server_members_schema = ServerMemberSchema(many=True)
 
 channel_message_schema = ChannelMessagesSchema()
 channel_messages_schema = ChannelMessagesSchema(many=True)
-
