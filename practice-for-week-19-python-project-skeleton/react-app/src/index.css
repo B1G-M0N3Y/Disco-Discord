@@ -1,17 +1,22 @@
-.navlink{
-    text-decoration: none;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-html{
-    background-color: #0D0D0D;
+.navlink {
+  text-decoration: none;
 }
 
-#root{
-    display: flex;
-    flex-direction: row;
+html {
+  background-color: #0d0d0d;
 }
 
-p{
-    font-family: 'Itim', cursive;
+#root {
+  display: flex;
+  flex-direction: row;
+  margin: 0 !important;
 }
 
+p {
+  font-family: "Itim", cursive;
+}

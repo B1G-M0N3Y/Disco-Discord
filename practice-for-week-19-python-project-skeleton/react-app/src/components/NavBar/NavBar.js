@@ -69,7 +69,7 @@ const NavBar = () => {
       <div className="navbar">
         {/* TODO: Insert logo here */}
         <div className="flex-row">
-          <div className="flex-column-start">
+          <div className="flex-column-start server-list">
             <NavLink
               className="navlink"
               to="/home"
