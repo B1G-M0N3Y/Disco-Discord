@@ -10,6 +10,7 @@ import ServerMembers from "./components/ServerMembers";
 import SidebarNav from "./components/SidebarNav";
 import User from "./components/User";
 import { authenticate } from "./store/session";
+import { getServers } from "./store/servers";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -18,6 +19,7 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
+      await dispatch(getServers());
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -29,6 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      <SidebarNav />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -47,7 +50,6 @@ function App() {
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <h1>My Home Page</h1>
-          <SidebarNav />
         </Route>
       </Switch>
     </BrowserRouter>
