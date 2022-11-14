@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, IntegerField
+from wtforms import SubmitField, TextAreaField, IntegerField, DateTimeField
 from wtforms.validators import DataRequired, ValidationError
 from app.models.servers import ChannelMessages
+from sqlalchemy import func
+
 
 def message_exists(form, field):
     # Checking if message body exists
@@ -11,9 +13,15 @@ def message_exists(form, field):
     if not body:
         raise ValidationError('Message body must be provided.')
 
+
 class MessageForm(FlaskForm):
-    body = TextAreaField("Body",validators=[DataRequired(), message_exists])
+    body = TextAreaField("Body", validators=[DataRequired(), message_exists])
     # body = TextAreaField("Body")
     channel_id = IntegerField("Channel ID", validators=[DataRequired()])
     user_id = IntegerField("User ID", validators=[DataRequired()])
     # submit = SubmitField("Submit")
+
+
+class ChatMessageForm(FlaskForm):
+    body = TextAreaField("Body", validators=[DataRequired(), message_exists])
+    # chat_id = IntegerField("Chat ID", validators=[DataRequired()])

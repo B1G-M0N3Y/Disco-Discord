@@ -10,6 +10,7 @@ import User from './components/User';
 import { authenticate } from './store/session';
 import BasicChat from './components/Chat/BasicChat';
 import { io } from "socket.io-client";
+import { getServers } from "./store/servers";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -19,8 +20,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       await dispatch(authenticate());
+      await dispatch(getServers());
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -61,20 +63,23 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Switch>
-        <Route path='/login' exact={true}>
+        <Route path="/login" exact={true}>
           <LoginForm />
         </Route>
-        <Route path='/sign-up' exact={true}>
+        <Route path="/sign-up" exact={true}>
           <SignUpForm />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
+        <ProtectedRoute path="/users" exact={true}>
+          <UsersList />
         </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
+        <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <Route path='/' exact={true} >
-          <h1>My Home Page</h1>
+        <ProtectedRoute path="/servers/:serverId/members" exact={true}>
+          <ServerMembers />
+        </ProtectedRoute>
+        <Route path="/" exact={true}>
+          <LandingPage />
         </Route>
         <Route path="/chat">
           {loaded && <BasicChat />}
