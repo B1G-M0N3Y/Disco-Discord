@@ -101,14 +101,20 @@ def connected():
     print(request.sid, ": client has connected")
     emit("connect", {"data": f"id: {request.sid} is connected"}, broadcast = True)
 
+@socketio.on('data')
+def handle_message(data):
+    """event listener when client types a message"""
+    print("data from the front end: ",str(data))
+    emit("data",{'data':data,'id':request.sid},broadcast=True)
+
 @socketio.on("disconnect")
 def connected():
     print(request.sid, ": client has disconnected")
     emit("disconnect", {"data": f"id: {request.sid} is disconnected"}, broadcast = True)
 
 
-if __name__ == '__init__':
-    socketio.run(app)
+if __name__ == '__main__':
+    socketio.run(app, debug=True, port=5000)
 
 # THIS ROUTE IS ONLY HERE FOR TESTING PURPOSES
 # TODO: DELETE ROUTE BEFORE DEPLOYMENT

@@ -1,38 +1,66 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const BasicChat = (url) => {
+const BasicChat = ({socket}) => {
+  const [newMessage, setNewMessage] = useState("");
+  const [allMessages, setAllMessages] = useState([]);
+
+  const handleSubmit = () => {
+    if (!newMessage) {
+      return;
+    }
+    socket.emit("data", newMessage);
+    setNewMessage("");
+  };
 
   useEffect(() => {
-    const script = document.createElement('script');
-    const customScript = document.createElement('script')
+    socket?.on("data", (data) => {
+      setAllMessages([...allMessages, data.data]);
+    });
+  },[]);
 
-    script.type = "text/javascript"
-    script.src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
-    script.async = true;
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   const customScript = document.createElement('script')
 
-    customScript.src = "{{ url_for('/scripts/)}}"
+  //   script.type = "text/javascript"
+  //   script.src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
+  //   script.async = true;
 
-    document.body.appendChild(script);
+  //   customScript.src = "{{ url_for('/scripts/)}}"
 
-    return()=>{
-      document.body.removeChild(script);
-    }
-  },[url]);
+  //   document.body.appendChild(script);
+
+  //   return()=>{
+  //     document.body.removeChild(script);
+  //   }
+  // },[url]);
 
   return (
     <>
-      <div className="message-section"></div>
-      <div className="input-area">
+      <div className="message-section">
+        {allMessages.map((message) => (
+          <div className="message">
+            {/* TODO: ADD USER IMAGE */}
+            {/* TODO: ADD DELETE BUTTON IF OWNER */}
+            {/* TODO: ADD DYNAMIC USERNAME */}
+            <p className="username-message">{message.user}</p>
+            <p className="message-body">{message.body}</p>
+          </div>
+        ))}
+      </div>
+      <form className="message-input" onSubmit={handleSubmit}>
         <input
           type="text"
           id="user_message"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type here..."
           autoComplete="off"
         />
-        <button type="button" className="button">
+        <button type="submit" className="button" onClick={handleSubmit}>
           SEND
         </button>
-      </div>
+      </form>
     </>
   );
 };

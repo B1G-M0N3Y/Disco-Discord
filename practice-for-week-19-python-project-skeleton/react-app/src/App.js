@@ -77,7 +77,7 @@ function App() {
           <h1>My Home Page</h1>
         </Route>
         <Route path="/chat">
-          <BasicChat />
+          <BasicChat socket={socketInstance}/>
         </Route>
       </Switch>
     </BrowserRouter>
