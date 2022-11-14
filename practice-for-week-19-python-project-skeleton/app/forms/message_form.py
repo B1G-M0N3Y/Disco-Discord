@@ -24,9 +24,4 @@ class MessageForm(FlaskForm):
 
 class ChatMessageForm(FlaskForm):
     body = TextAreaField("Body", validators=[DataRequired(), message_exists])
-    body = TextAreaField("Body")
     # chat_id = IntegerField("Chat ID", validators=[DataRequired()])
-    createdAt = DateTimeField(
-        "Created At", default=func.now())
-    updatedAt = DateTimeField()
-    # submit = SubmitField("Submit")

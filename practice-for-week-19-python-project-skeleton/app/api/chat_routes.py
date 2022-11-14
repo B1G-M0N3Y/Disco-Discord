@@ -62,7 +62,6 @@ def delete_chat(chat_id):
     Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
     """
     chat = Chat.query.get(chat_id)
-    # TODO delete all associated chat messages
     chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
     print(chat_messages, 'CHATMESSAGES***')
     if chat:
@@ -106,3 +105,39 @@ def post_chat_messages(chat_id):
             ChatMessage.id.desc()).first()
         return jsonify(chat_message_schema.dumps(created_message))
     return jsonify(form.errors)
+
+
+@chat_routes.route('/<int:chat_id>', methods=["PUT"])
+def edit_chat_details(chat_id):
+    """Edit Chat"""
+    form = ChatForm()
+    chat = Chat.query.get(chat_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if chat and form.validate_on_submit():
+        data = form.data
+        name = data['name']
+        chat.name = name
+        # TODO EDIT MEMBERS LIST
+        db.session.add(chat)
+        db.session.commit()
+        result = chat_schema.dump(chat)
+        return (jsonify(result))
+    return jsonify(form.errors, 'Edit Not Successful')
+
+
+@chat_routes.route('/message/<int:chat_message_id>', methods=["PUT"])
+def edit_chat_message(chat_message_id):
+    """Edit Chat Message"""
+    form = ChatMessageForm()
+    chat_message = ChatMessage.query.get(chat_message_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if chat_message and form.validate_on_submit():
+        data = form.data
+        chat_message.body = data['body']
+        chat_message.updatedAt = func.now()
+        # TODO EDIT MEMBERS LIST
+        db.session.add(chat_message)
+        db.session.commit()
+        result = chat_message_schema.dump(chat_message)
+        return (jsonify(result))
+    return jsonify(form.errors, 'Edit Not Successful')
