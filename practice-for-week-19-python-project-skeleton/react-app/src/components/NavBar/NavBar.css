@@ -10,6 +10,11 @@
   justify-content: flex-start;
 }
 
+.server-list {
+  background-color: #044bd9;
+  padding: 5px;
+}
+
 .flex-column-space-between {
   display: flex;
   flex-direction: column;
