@@ -1,10 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import './index.css';
-import App from './App';
-import configureStore from './store';
-import { getServerMembers, getServerChannels, getServers } from './store/servers';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import "./index.css";
+import App from "./App";
+import configureStore from "./store";
+import {
+  getServerMembers,
+  getServerChannels,
+  getServers,
+} from "./store/servers";
+import ServerProvider from "./context/ServerContext";
 
 const store = configureStore();
 
@@ -18,7 +23,9 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <Provider store={store}>
-      <App />
+      <ServerProvider>
+        <App />
+      </ServerProvider>
     </Provider>
   );
 }

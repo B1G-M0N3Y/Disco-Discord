@@ -13,7 +13,7 @@ const ChannelList = () => {
   // get serverId from url
   const { serverId } = useParams();
 
-  // get server and all server channels
+  // get all server channels
   useEffect(() => {
     dispatch(getServers());
     dispatch(getOneServer(serverId));
@@ -23,8 +23,7 @@ const ChannelList = () => {
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
   console.log("this is the current server in Channel List", currServer);
-
-  // get current channels
+  // get current channel state
   const channels = useSelector((state) => state.servers.channels);
   const channelsArr = Object.values(channels);
 

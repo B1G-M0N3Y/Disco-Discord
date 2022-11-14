@@ -62,6 +62,13 @@ def get_public_servers():
     result = servers_schema.dump(public_servers)
     return (jsonify(result))
 
+@server_routes.route('/<int:server_id>', methods=["GET"])
+def get_one_server(server_id):
+    """Get one server"""
+    one_server = Server.query.get(server_id)
+    result = server_schema.dump(one_server)
+    return (jsonify(result))
+
 @server_routes.route('', methods=["POST"])
 def post_new_server():
     """Create a new channel"""

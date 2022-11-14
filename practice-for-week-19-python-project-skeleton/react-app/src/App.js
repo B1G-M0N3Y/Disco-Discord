@@ -8,7 +8,7 @@ import NavBar from "./components/NavBar/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import ServerMembers from "./components/ServerMembers";
-import ChannelList from "./components/Channels/ChannelList";
+import SidebarNav from "./components/SidebarNav";
 import User from "./components/User";
 import { authenticate } from "./store/session";
 import { getServers } from "./store/servers";
@@ -45,10 +45,9 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId" exact={true}>
-          <ServerMembers />
-          {/* <ChannelList /> */}
-        </ProtectedRoute>
+        {/* <ProtectedRoute path="/servers/:serverId" exact={true}>
+          
+        </ProtectedRoute> */}
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>

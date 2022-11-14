@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getServerMembers, getServers } from "../../store/servers";
+import { getOneServer, getServers } from "../../store/servers";
+import { useSelectedServer } from "../../context/ServerContext";
 
 function SidebarNav() {
   const dispatch = useDispatch();
@@ -20,7 +21,6 @@ function SidebarNav() {
       const response = await fetch("/api/servers/members");
       const responseData = await response.json();
       setMembers(responseData);
-      // console.log(members, "all members");
     }
     fetchData();
   }, []);
@@ -43,15 +43,23 @@ function SidebarNav() {
     }
   }
 
+  // map over filtered severs to display them
   const userServers = filteredServers.map((server) => {
+    if (!server) return null;
     return (
-      <div>
+      <div
+        onClick={() => {
+          // update current server
+          dispatch(getOneServer(server.id));
+        }}
+      >
         <div>{server?.name}</div>
         <NavLink to={`/servers/${server?.id}`}>{server?.image_url}</NavLink>
       </div>
     );
   });
 
+  if (!filteredServers.length) return null;
   return <>{userServers}</>;
 }
 
