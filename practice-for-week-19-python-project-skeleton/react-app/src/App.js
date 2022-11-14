@@ -13,6 +13,7 @@ import User from "./components/User";
 import Chat from "./components/Chat";
 import { authenticate } from "./store/session";
 import { getServers } from "./store/servers";
+import ChatForm from "./components/Chat/ChatForm";
 
 function App() {
   const [loaded, setLoaded] = useState(false);

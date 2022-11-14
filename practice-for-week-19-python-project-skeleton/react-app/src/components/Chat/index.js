@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { getServerMembers } from "../../store/servers";
+import ChatForm from "./ChatForm";
 import "./chats.css";
+import IndividualChat from "./IndividualChat";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -26,18 +28,13 @@ function Chat() {
       <h1>Chats</h1>
       <ul className="chats">
         {chats ? (
-          chats.map((chat) => (
-            <li>
-              {chat.name}
-              {chat.chat_members.map((member) => (
-                <div>{member.username}</div>
-              ))}
-            </li>
-          ))
+          chats.map((chat, idx) => <IndividualChat chat={chat} />)
         ) : (
           <div>No Chats To Display</div>
         )}
       </ul>
+      <NavLink to="/chat/new">Start A New Chat</NavLink>
+      <ChatForm />
     </>
   );
 }

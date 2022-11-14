@@ -15,7 +15,6 @@ function SidebarNav() {
   const currentUser = useSelector((state) => state.session.user);
   const servers = useSelector((state) => state.servers.servers);
   const serversArr = Object.values(servers);
-  console.log(serversArr);
 
   const allServers = serversArr.map((server) => {
     return (
