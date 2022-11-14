@@ -1,9 +1,11 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, request, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 from .models import db, User
 from .models.db import ma
 from .api.user_routes import user_routes
@@ -13,6 +15,8 @@ from .api.channel_routes import channel_routes
 from .api.server_routes import server_routes
 from .seeds import seed_commands
 from .config import Config
+
+from .socket import socketio
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -39,9 +43,16 @@ db.init_app(app)
 ma.init_app(app)
 Migrate(app, db)
 
-# Application Security
-CORS(app)
+socketio.init_app(app)
 
+# Initialize Flask-SocketIO
+# Allow all origins to prevent interference with //feocalhost:
+# socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=True)
+# socketio.init_app(app)
+
+# Application Security
+# Allow all origins to prevent interference with //localhost:
+CORS(app)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
@@ -73,8 +84,8 @@ def inject_csrf_token(response):
 @app.route('/<path:path>')
 def react_root(path):
     """
-    This route will direct to the public directory in our  
-    react builds in the production environment for favicon 
+    This route will direct to the public directory in our
+    react builds in the production environment for favicon
     or index.html requests
     """
     if path == 'favicon.ico':
@@ -88,7 +99,17 @@ def api_help():
     Returns all API routes and their doc strings
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+
+    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
+                    app.view_functions[rule.endpoint].__doc__ ]
+                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+    return route_list
+
     route_list = {rule.rule: [[method for method in rule.methods if method in acceptable_methods],
                               app.view_functions[rule.endpoint].__doc__]
                   for rule in app.url_map.iter_rules() if rule.endpoint != 'static'}
     return route_list
+>>>>>>> dev
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True, port=5000)
