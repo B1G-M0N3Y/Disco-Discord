@@ -2,6 +2,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import validates
 from .db import db, ma, environment, SCHEMA
 
+
 class Server(db.Model):
     __tablename__ = "servers"
 
@@ -21,15 +22,17 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'admin_id': self.admin_id,
-            'image_url': self.image_url    
+            'image_url': self.image_url
         }
+
 
 class Channel(db.Model):
     __tablename__ = "channels"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey("servers.id"), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey(
+        "servers.id"), nullable=False)
 
     messages = db.relationship("ChannelMessages")
     server = db.relationship("Server", back_populates="channels")
@@ -49,6 +52,7 @@ class ServerMember(db.Model):
     server_id = db.Column("server_id", db.Integer, db.ForeignKey("servers.id"))
     user_id = db.Column("user_id", db.Integer, db.ForeignKey("users.id"))
 
+
 class ChannelMessages(db.Model):
     __tablename__ = "channel_messages"
 
@@ -56,10 +60,12 @@ class ChannelMessages(db.Model):
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     body = db.Column(db.String(2000), nullable=False)
-    created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     # channel = db.relationship("Channel")
+
 
 class ServerSchema(ma.Schema):
     class Meta:
@@ -67,15 +73,16 @@ class ServerSchema(ma.Schema):
             "id",
             "image_url",
             "name",
-            "admin_id"
-            )
+            "admin_id")
+
 
 class ChannelSchema(ma.Schema):
     class Meta:
         fields = (
-            "id", 
-            "name", 
+            "id",
+            "name",
             "server_id")
+
 
 class ServerMemberSchema(ma.Schema):
     class Meta:
@@ -84,6 +91,7 @@ class ServerMemberSchema(ma.Schema):
             "server_id",
             "user_id")
 
+
 class ChannelMessagesSchema(ma.Schema):
     class Meta:
         fields = (
@@ -91,8 +99,9 @@ class ChannelMessagesSchema(ma.Schema):
             "channel_id",
             "user_id",
             "body",
-            "created_at" ,
+            "created_at",
             "updated_at")
+
 
 server_schema = ServerSchema()
 servers_schema = ServerSchema(many=True)
@@ -105,4 +114,3 @@ server_members_schema = ServerMemberSchema(many=True)
 
 channel_message_schema = ChannelMessagesSchema()
 channel_messages_schema = ChannelMessagesSchema(many=True)
-
