@@ -48,6 +48,13 @@ def get_all_servers():
     result = servers_schema.dump(servers)
     return (jsonify(result))
 
+@server_routes.route('/members', methods=["GET"])
+def get_all_members():
+    """Get all servers"""
+    servers = ServerMember.query.all()
+    result = server_members_schema.dump(servers)
+    return (jsonify(result))
+
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""

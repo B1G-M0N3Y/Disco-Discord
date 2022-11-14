@@ -13,7 +13,6 @@ import User from "./components/User";
 import { authenticate } from "./store/session";
 import { getServers } from "./store/servers";
 
-
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -33,7 +32,6 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <SidebarNav />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />

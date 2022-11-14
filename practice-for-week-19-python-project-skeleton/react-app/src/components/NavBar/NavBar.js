@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 import ChannelList from "../Channels/ChannelList";
+import SidebarNav from "../SidebarNav";
 import "./NavBar.css";
 
 const NavBar = () => {
@@ -12,44 +13,42 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const [showLogout, setShowLogout] = useState(false);
 
+  const openLogout = () => {
+    if (showLogout) return;
+    setShowLogout(true);
+  };
 
-    const openLogout = () => {
-        if (showLogout) return;
-        setShowLogout(true);
+  useEffect(() => {
+    if (!showLogout) return;
+
+    const closeLogout = () => {
+      setShowLogout(false);
     };
 
-    useEffect(() => {
-        if (!showLogout) return;
+    document.addEventListener("click", closeLogout);
 
-        const closeLogout = () => {
-            setShowLogout(false);
-        };
+    return () => document.removeEventListener("click", closeLogout);
+  }, [showLogout]);
 
-        document.addEventListener('click', closeLogout);
-
-        return () => document.removeEventListener("click", closeLogout);
-    }, [showLogout]);
-
-
-    let userDisplay;
+  let userDisplay;
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
   if (sessionUser) {
     // if logged in, display user info
     userDisplay = (
-        <div className="session-user-info">
-          {showLogout? (
-            <LogoutButton />
-          ) : (
-            <>
+      <div className="session-user-info">
+        {showLogout ? (
+          <LogoutButton />
+        ) : (
+          <>
             {/* {console.log(showLogout)} */}
-              <img className="user-pic-nav" src={sessionUser.image_url}></img>
-              <p className="username-nav">{sessionUser.username}</p>
-              <i onClick={openLogout} class="fa-solid fa-right-from-bracket"></i>
-            </>
-          )}
-        </div>
+            <img className="user-pic-nav" src={sessionUser.image_url}></img>
+            <p className="username-nav">{sessionUser.username}</p>
+            <i onClick={openLogout} class="fa-solid fa-right-from-bracket"></i>
+          </>
+        )}
+      </div>
     );
   } else {
     // if not logged in, display additional buttons for login and sign up
@@ -68,26 +67,36 @@ const NavBar = () => {
   return (
     <nav>
       <div className="navbar">
-        <ChannelList />
         {/* TODO: Insert logo here */}
-        <NavLink
-          className="navlink"
-          to="/home"
-          exact={true}
-          activeClassName="active"
-        >
-          LOGO HERE
-        </NavLink>
-
-        <NavLink
-          className="navlink"
-          to="/users"
-          exact={true}
-          activeClassName="active"
-        >
-          Users
-        </NavLink>
-        {userDisplay}
+        <div className="flex-row">
+          <div className="flex-column-start">
+            <NavLink
+              className="navlink"
+              to="/home"
+              exact={true}
+              activeClassName="active"
+            >
+              LOGO HERE
+            </NavLink>
+            <SidebarNav />
+          </div>
+          <div className="flex-column-space-between">
+            <div className="flex-column-start">
+              <ChannelList />
+            </div>
+            <div className="flex-column-end">
+              <NavLink
+                className="navlink"
+                to="/users"
+                exact={true}
+                activeClassName="active"
+              >
+                Users
+              </NavLink>
+              {userDisplay}
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );
