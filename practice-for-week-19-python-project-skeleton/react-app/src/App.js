@@ -25,9 +25,6 @@ function App() {
     })();
   }, [dispatch]);
 
-  if (!loaded) {
-    return null;
-  }
 
   useEffect(() =>{
     if(sessionUser) {
@@ -44,7 +41,7 @@ function App() {
         console.log(data);
       })
 
-      setLoading(false);
+      setLoaded(false);
 
       socket.on("disconnect", (data) => {
         console.log(data);
@@ -55,6 +52,10 @@ function App() {
       }
     }
   },[sessionUser])
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <BrowserRouter>
