@@ -31,7 +31,7 @@
   flex-direction: column;
   list-style-type: none;
   /* justify-content: flex-end; */
-  height: 100%;
+  height: 100vh;
   background-color: #417cf2;
   border-right: #044bd9 solid 10px;
 }
