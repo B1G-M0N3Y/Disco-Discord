@@ -6,18 +6,45 @@ import { getServerMembers, getServers } from "../../store/servers";
 function SidebarNav() {
   const dispatch = useDispatch();
 
+  // getters and setters
+  const [members, setMembers] = useState([]);
+  const [servers, setServers] = useState([]);
+
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
   }, [dispatch]);
 
-  // get current user and servers state
-  const currentUser = useSelector((state) => state.session.user);
-  const servers = useSelector((state) => state.servers.servers);
-  const serversArr = Object.values(servers);
-  console.log(serversArr);
+  // get all members
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("/api/servers/members");
+      const responseData = await response.json();
+      setMembers(responseData);
+      // console.log(members, "all members");
+    }
+    fetchData();
+  }, []);
 
-  const allServers = serversArr.map((server) => {
+  // filter all servers to find only user's servers
+  const currentUser = useSelector((state) => state.session.user);
+  const allServers = useSelector((state) => state.servers.servers);
+  const serversArr = Object.values(allServers);
+  const filteredMembers = members.filter(
+    (item) => item.user_id === currentUser.id
+  );
+  const filteredServers = [];
+  for (let i = 0; i < filteredMembers.length; i++) {
+    let member = filteredMembers[i];
+    for (let j = 0; j < serversArr.length; j++) {
+      let server = serversArr[j];
+      if (server.id === member.server_id) {
+        filteredServers.push(server);
+      }
+    }
+  }
+
+  const userServers = filteredServers.map((server) => {
     return (
       <div>
         <div>{server?.name}</div>
@@ -26,7 +53,7 @@ function SidebarNav() {
     );
   });
 
-  return <>{allServers}</>;
+  return <>{userServers}</>;
 }
 
 export default SidebarNav;
