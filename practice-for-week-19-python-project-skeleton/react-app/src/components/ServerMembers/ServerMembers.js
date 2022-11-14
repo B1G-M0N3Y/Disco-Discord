@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { getServerMembers } from "../store/servers";
+import { getServerMembers } from "../../store/servers";
 
 function ServerMembers() {
   const { serverId } = useParams();
@@ -20,7 +20,7 @@ function ServerMembers() {
     dispatch(getServerMembers(serverId));
   }, [dispatch, serverId]); 
 
-  //
+  // fetch users
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("/api/users/");
@@ -29,19 +29,19 @@ function ServerMembers() {
     }
     fetchData();
   }, []);
-  
-  // find user from member's user_id
+    
+  // find one user
   const findUser = (id) => {
     const user = users.find((user) => user.id === id);
-    console.log(users)
-    return `${user?.username}`;
+    return user;
   };
 
   const serverMembers = membersArr.map((member) => {
     return (
-      <li key={member.user_id}>
-        <NavLink to={`/users/${member.user_id}`}>{findUser(member.user_id)}</NavLink>
-      </li>
+      <div key={member.user_id}>
+        <div>{findUser(member.user_id)?.image_url}</div>
+        <NavLink to={`/users/${member.user_id}`}>{findUser(member.user_id)?.username}</NavLink>
+      </div>
     );
   });
 
