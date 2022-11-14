@@ -1,4 +1,5 @@
 from ..models.chat import Chat, ChatMessage, db
+from ..models import User
 from ..models import SCHEMA, environment
 from sqlalchemy import func
 
@@ -30,6 +31,19 @@ def seed_chat_members():
     chat5 = Chat(name='Chat 5', adminId=1)
     chat6 = Chat(name='Chat 6', adminId=3)
     chat7 = Chat(name='Chat 7', adminId=2)
+
+    user1 = User.query.get(1)
+    user2 = User.query.get(2)
+    user3 = User.query.get(3)
+    print(user1, '--HERE--***')
+
+    chat1.chat_members.append(user1)
+    chat2.chat_members.append(user2)
+    chat3.chat_members.append(user3)
+    chat4.chat_members.append(user3)
+    chat5.chat_members.append(user2)
+    chat6.chat_members.append(user2)
+    chat7.chat_members.append(user1)
 
     db.session.add(chat1)
     db.session.add(chat2)

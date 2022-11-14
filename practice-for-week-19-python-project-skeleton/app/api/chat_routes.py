@@ -14,6 +14,7 @@ def chats():
     """
     Query for all chats belonging to logged in user and returns them in a list of user dictionaries
     """
+    # TODO UPDATE current_user_id
     current_user_id = 2
     user = User.query.get(current_user_id)
     print(user.chats)
@@ -36,11 +37,11 @@ def create_chat():
         chat_to_user = User.query.get(chat_to)
         new_chat.chat_members.append(chat_to_user)
 
-        # TO DO GET CHAT MEMBERS IN LIST FORM
-        chat_members_lst_str = data["chat_members_lst"].split(",")
-        print(data)
-        chat_members_lst = [int(chat_member)
-                            for chat_member in chat_members_lst_str]
+        # TODO GET CHAT MEMBERS IN LIST FORM
+        # chat_members_lst_str = data["chat_members_lst"].split(",")
+        # print(data)
+        # chat_members_lst = [int(chat_member)
+        #                     for chat_member in chat_members_lst_str]
         # for chat_member in chat_members_lst:
         #     print(chat_member)
         #     member = User.query.get(chat_member)
@@ -60,13 +61,19 @@ def delete_chat(chat_id):
     """
     Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
     """
-    chat = ChatMessage.query.get(chat_id)
+    chat = Chat.query.get(chat_id)
     # TODO delete all associated chat messages
+    chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
+    print(chat_messages, 'CHATMESSAGES***')
     if chat:
+        num_of_messages = 0
+        for chat_message in chat_messages:
+            db.session.delete(chat_message)
+            num_of_messages += 1
         db.session.delete(chat)
         db.session.commit()
-        return 'Delete Success'
-    return 'Didnt Delete Shit'
+        return 'Deleted Chat {}, which had {} messages'.format(chat_id, num_of_messages)
+    return 'Delete Not Successful'
 
 
 @ chat_routes.route('/<int:chat_id>')
