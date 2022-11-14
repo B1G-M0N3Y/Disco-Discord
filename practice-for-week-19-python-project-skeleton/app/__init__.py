@@ -15,6 +15,8 @@ from .api.server_routes import server_routes
 from .seeds import seed_commands
 from .config import Config
 
+from .socket import socketio
+
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
 # Setup login manager
@@ -39,11 +41,16 @@ db.init_app(app)
 ma.init_app(app)
 Migrate(app, db)
 
-# Application Security
-CORS(app,resources={r"/*":{"origins":"*"}})
+socketio.init_app(app)
 
 # Initialize Flask-SocketIO
-socketio = SocketIO(app,cors_allowed_origins="*")
+# Allow all origins to prevent interference with //feocalhost:
+# socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=True)
+# socketio.init_app(app)
+
+# Application Security
+# Allow all origins to prevent interference with //localhost:
+CORS(app)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
@@ -96,28 +103,30 @@ def api_help():
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
 
-@socketio.on("connect")
-def connected():
-    print(request.sid, ": client has connected")
-    emit("connect", {"data": f"id: {request.sid} is connected"}, broadcast = True)
+# connect event bucket
+# @socketio.on("connect")
+# def connected():
+#     print(request.sid, ": client has connected")
+#     emit("connect", {"data": f"id: {request.sid} is connected"}, broadcast = True)
 
-@socketio.on('data')
-def handle_message(data):
-    """event listener when client types a message"""
-    print("data from the front end: ",str(data))
-    emit("data",{'data':data,'id':request.sid},broadcast=True)
+# @socketio.on('data')
+# def handle_message(data):
+#     """event listener when client types a message"""
+#     print("data from the front end: ",str(data))
+#     emit("data",{'data':data,'id':request.sid},broadcast=True)
 
-@socketio.on("disconnect")
-def connected():
-    print(request.sid, ": client has disconnected")
-    emit("disconnect", {"data": f"id: {request.sid} is disconnected"}, broadcast = True)
+# # disconnect event bucket
+# @socketio.on("disconnect")
+# def connected():
+#     print(request.sid, ": client has disconnected")
+#     emit("disconnect", {"data": f"id: {request.sid} is disconnected"}, broadcast = True)
 
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True, port=5000)
 
 # THIS ROUTE IS ONLY HERE FOR TESTING PURPOSES
 # TODO: DELETE ROUTE BEFORE DEPLOYMENT
 @app.route("/api/chat", methods=["GET", "POST"])
 def chat():
     pass
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True, port=5000)

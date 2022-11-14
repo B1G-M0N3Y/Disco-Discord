@@ -30,6 +30,7 @@ marshmallow-sqlalchemy = "*"
 flask-socketio = "*"
 cors = "*"
 eventlet = "*"
+python-engineio = "*"
 
 [dev-packages]
 

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
-const BasicChat = ({socket}) => {
+let socket;
+
+const BasicChat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
 
@@ -12,11 +15,21 @@ const BasicChat = ({socket}) => {
     setNewMessage("");
   };
 
-  useEffect(() => {
-    socket?.on("data", (data) => {
-      setAllMessages([...allMessages, data.data]);
-    });
-  },[]);
+  useEffect(()=>{
+
+    socket = io();
+    return(() => {
+      socket.disconnect()
+     })
+  },[])
+
+  // useEffect(() => {
+  //   if(socket){
+  //     socket?.on("data", (data) => {
+  //       setAllMessages([...allMessages, data.data]);
+  //     });
+  //   }
+  // },[socket, allMessages]);
 
   // useEffect(() => {
   //   const script = document.createElement('script');

@@ -26,32 +26,32 @@ function App() {
   }, [dispatch]);
 
 
-  useEffect(() =>{
-    if(sessionUser) {
-      const socket = io("localhost:5000", {
-        transports : ["websocket"],
-        cors: {
-          authenticate
-        }
-      });
+  // useEffect(() =>{
+  //   if(sessionUser) {
+  //     const socket = io("localhost:5000", {
+  //       transports : ["websocket"],
+  //       cors: {
+  //         authenticate
+  //       }
+  //     });
 
-      setSocketInstance(socket);
+  //     setSocketInstance(socket);
 
-      socket.on("connect", (data)=> {
-        console.log(data);
-      })
+  //     socket.on("connect", (data)=> {
+  //       console.log(data);
+  //     })
 
-      setLoaded(false);
+  //     setLoaded(false);
 
-      socket.on("disconnect", (data) => {
-        console.log(data);
-      })
+  //     socket.on("disconnect", (data) => {
+  //       console.log(data);
+  //     })
 
-      return function cleanup() {
-        socket.disconnect();
-      }
-    }
-  },[sessionUser])
+  //     return function cleanup() {
+  //       socket.disconnect();
+  //     }
+  //   }
+  // },[sessionUser])
 
   if (!loaded) {
     return null;
@@ -77,7 +77,7 @@ function App() {
           <h1>My Home Page</h1>
         </Route>
         <Route path="/chat">
-          <BasicChat socket={socketInstance}/>
+          {loaded && <BasicChat />}
         </Route>
       </Switch>
     </BrowserRouter>
