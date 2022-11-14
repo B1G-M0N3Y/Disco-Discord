@@ -23,10 +23,17 @@ function Chat() {
 
   return (
     <>
-      <h1>TEST</h1>
+      <h1>Chats</h1>
       <ul className="chats">
         {chats ? (
-          chats.map((chat) => <li>{chat.name}</li>)
+          chats.map((chat) => (
+            <li>
+              {chat.name}
+              {chat.chat_members.map((member) => (
+                <div>{member.username}</div>
+              ))}
+            </li>
+          ))
         ) : (
           <div>No Chats To Display</div>
         )}

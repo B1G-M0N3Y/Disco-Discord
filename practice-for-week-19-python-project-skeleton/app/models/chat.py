@@ -26,6 +26,14 @@ class Chat(db.Model):
         "User", secondary=chat_members, back_populates="chats")
     # admin = db.relationship("User", viewonly=True)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'adminId': self.adminId,
+            'chat_members': self.chat_members
+        }
+
 
 class ChatMessage(db.Model):
     __tablename__ = 'chat_messages'

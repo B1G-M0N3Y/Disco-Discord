@@ -16,8 +16,29 @@ def chats():
     Query for all chats belonging to logged in user and returns them in a list of user dictionaries
     """
     user = User.query.get(current_user.id)
-    print(user.chats)
-    return jsonify(chats_schema.dump(user.chats))
+    chats = user.chats
+    chats_list = []
+    for chat in chats:
+        chat_members = chat.to_dict()["chat_members"]
+        chat_users = [chat_member.to_dict() for chat_member in chat_members]
+        print(chat_users, '**CHATUSERS')
+
+        chat_in_dict = chat.to_dict()
+        chat_in_dict["chat_members"] = chat_users
+        chats_list.append(chat_in_dict)
+        print(chat_in_dict, '**dict')
+        print(chat, '**chat**', chat.id)
+    return jsonify(chats_list)
+
+
+# @chat_routes.route('/')
+# def chats():
+#     """
+#     Query for all chats belonging to logged in user and returns them in a list of user dictionaries
+#     """
+#     user = User.query.get(current_user.id)
+#     print(user.chats)
+#     return jsonify(chats_schema.dump(user.chats))
 
 
 @chat_routes.route('/', methods=["POST"])
@@ -137,10 +158,8 @@ def edit_chat_message(chat_message_id):
 @ chat_routes.route('/<int:chat_id>/members')
 def get_chat_members(chat_id):
     """
-    Query for chat members
+    Query for chat members by chat id
     """
     chat = Chat.query.get(chat_id)
     response = [members.to_dict() for members in chat.chat_members]
-    print(response)
-
     return jsonify(response)
