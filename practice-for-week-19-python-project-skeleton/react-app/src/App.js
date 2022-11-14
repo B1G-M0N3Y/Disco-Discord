@@ -3,12 +3,16 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoginForm from "./components/auth/LoginForm";
 import SignUpForm from "./components/auth/SignUpForm";
-import NavBar from "./components/NavBar/NavBar";
+import LandingPage from "./components/LandingPage";
+import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
+import ServerMembers from "./components/ServerMembers";
+import SidebarNav from "./components/SidebarNav";
 import User from "./components/User";
 import { authenticate } from "./store/session";
-import LandingPage from "./components/LandingPage";
+import { getServers } from "./store/servers";
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -17,6 +21,7 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
+      await dispatch(getServers());
       setLoaded(true);
     })();
   }, [dispatch]);
@@ -28,6 +33,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      <SidebarNav />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -41,10 +47,12 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
+        <ProtectedRoute path="/servers/:serverId/members" exact={true}>
+          <ServerMembers />
+        </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-
       </Switch>
     </BrowserRouter>
   );

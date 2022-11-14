@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
-from app.models.servers import db, ServerMember, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema
+from app.models.servers import db, ServerMember, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
 
 server_routes = Blueprint('servers', __name__)
 
@@ -103,7 +103,20 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
-# this route has bugs
+@server_routes.route('<int:server_id>/members', methods=["GET"])
+def get_server_members(server_id):
+    """Get all server members"""
+    server = Server.query.get(server_id)
+    server_members = ServerMember.query.filter(ServerMember.server_id == server_id).all()
+    if not server:
+        return "Server does not exist.", 404
+    if server_members:
+        result = server_members_schema.dump(server_members)
+        return (jsonify(result))
+    else:
+        return "This server does not have any members yet.", 404
+
+# TODO - this route has bugs
 # @server_routes.route('<int:server_id>/members', methods=["POST"])
 # def post_server_member(server_id):
 #     """Add a member to a server"""
