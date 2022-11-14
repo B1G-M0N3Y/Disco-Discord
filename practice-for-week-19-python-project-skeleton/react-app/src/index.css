@@ -1,1 +1,17 @@
-/* TODO Add site wide styles */
+.navlink{
+    text-decoration: none;
+}
+
+html{
+    background-color: #0D0D0D;
+}
+
+#root{
+    display: flex;
+    flex-direction: row;
+}
+
+p{
+    font-family: 'Itim', cursive;
+}
+

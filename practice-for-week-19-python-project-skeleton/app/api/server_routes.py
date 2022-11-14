@@ -23,7 +23,7 @@ def post_new_channel(server_id):
     if server and form.validate_on_submit():
         data = form.data
         new_channel = Channel(
-            name = data['name'], 
+            name = data['name'],
             server_id = server_id
         )
         db.session.add(new_channel)
@@ -46,14 +46,14 @@ def get_all_servers():
     # return {'servers': [server.to_dict() for server in servers]}
 
     result = servers_schema.dump(servers)
-    return (jsonify(result))     
+    return (jsonify(result))
 
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
     public_servers = Server.query.filter(Server.private == False).all()
     result = servers_schema.dump(public_servers)
-    return (jsonify(result))    
+    return (jsonify(result))
 
 @server_routes.route('', methods=["POST"])
 def post_new_server():
@@ -63,8 +63,8 @@ def post_new_server():
     if form.validate_on_submit():
         data = form.data
         new_server = Server(
-            name = data['name'], 
-            admin_id = data['admin_id'], 
+            name = data['name'],
+            admin_id = data['admin_id'],
             image_url = data['image_url']
         )
         db.session.add(new_server)
@@ -100,7 +100,7 @@ def delete_server(server_id):
         db.session.commit()
         result = channel_schema.dump(server)
         return (jsonify(result))
-    else: 
+    else:
         return "Server not found.", 404
 
 @server_routes.route('<int:server_id>/members', methods=["GET"])
@@ -109,11 +109,11 @@ def get_server_members(server_id):
     server = Server.query.get(server_id)
     server_members = ServerMember.query.filter(ServerMember.server_id == server_id).all()
     if not server:
-        return "Server does not exist.", 404    
+        return "Server does not exist.", 404
     if server_members:
         result = server_members_schema.dump(server_members)
         return (jsonify(result))
-    else: 
+    else:
         return "This server does not have any members yet.", 404
 
 # TODO - this route has bugs
