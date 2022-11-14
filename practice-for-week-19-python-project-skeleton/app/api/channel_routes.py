@@ -72,7 +72,7 @@ def edit_channel_details(channel_id):
 
 @channel_routes.route('/<int:channel_id>', methods=["DELETE"])
 def delete_channel(channel_id):
-    """Edit a channel by id"""
+    """Delete a channel by id"""
     channel = Channel.query.get(channel_id)
     if channel:
         db.session.delete(channel)

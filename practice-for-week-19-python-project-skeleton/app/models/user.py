@@ -20,8 +20,7 @@ class User(db.Model, UserMixin):
     chats = db.relationship("Chat", secondary=chat_members,
                             back_populates="chat_members")
     chat_messages = db.relationship("ChatMessage", back_populates="author")
-    # admin_chats = db.relationship("Chat")
-
+    admin_chats = db.relationship("Chat")
     servers = db.relationship("Server", back_populates="users")
 
     @property

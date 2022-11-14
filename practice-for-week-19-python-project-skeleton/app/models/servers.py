@@ -1,19 +1,29 @@
 from sqlalchemy import func
 from sqlalchemy.orm import validates
-from .db import db, ma
+from .db import db, ma, environment, SCHEMA
 
 
 class Server(db.Model):
     __tablename__ = "servers"
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.String(255))
-    private = db.Column(db.Boolean, default=True)
     admin_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     channels = db.relationship("Channel", back_populates="server")
     users = db.relationship("User", back_populates="servers")
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'admin_id': self.admin_id,
+            'image_url': self.image_url
+        }
 
 
 class Channel(db.Model):
@@ -63,8 +73,7 @@ class ServerSchema(ma.Schema):
             "id",
             "image_url",
             "name",
-            "admin_id",
-            "private")
+            "admin_id")
 
 
 class ChannelSchema(ma.Schema):

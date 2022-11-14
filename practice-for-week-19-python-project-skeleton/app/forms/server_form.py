@@ -5,7 +5,6 @@ from wtforms.validators import DataRequired, ValidationError
 class ServerForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     image_url = StringField("Image URL")
-    private = BooleanField("Private")
     admin_id = IntegerField("Admin", validators=[DataRequired()])
 
 class ChannelForm(FlaskForm):
@@ -18,4 +17,7 @@ class EditChannelForm(FlaskForm):
 class EditServerForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     image_url = StringField("Image URL")
-    private = BooleanField("Private", default=True)
+
+class AddServerMember(FlaskForm):
+    server_id = IntegerField("Server ID", validators=[DataRequired()])
+    user_id = IntegerField("User ID", validators=[DataRequired()])

@@ -4,20 +4,17 @@ def seed_servers():
     odyssey = Server(
         name ="The Odyssey",
         image_url = "image.jpg",
-        admin_id = 1,
-        private=True,
+        admin_id = 1
     )
     dance_city = Server(
         name ="Dance City",
         image_url = "image.jpg",
-        admin_id = 2,
-        private=False,
+        admin_id = 2
     )
     cars = Server(
         name ="The Movie Cars",
         image_url = "image.jpg",
-        admin_id = 3,
-        private=True,
+        admin_id = 3
     )
 
     db.session.add(odyssey)
