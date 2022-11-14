@@ -10,10 +10,8 @@ class ChatMember(Field):
 class ChatForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     admin_id = IntegerField("Admin ID")
-    # chat_members = FieldList(IntegerField(
-    #     'Chat Members', validators=[DataRequired()]))
-    chat_members = IntegerField('Chat Members', validators=[DataRequired()])
-    chat_members_lst = StringField('Chat Members List')
+    chat_members_lst = StringField(
+        'Chat Members List', validators=[DataRequired()])
 
 
 class EditChatForm(FlaskForm):
