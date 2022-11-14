@@ -22,6 +22,25 @@ def seed_chats():
     db.session.commit()
 
 
+def seed_chat_members():
+    chat1 = Chat(name='Chat 1', adminId=2)
+    chat2 = Chat(name='Chat 2', adminId=1)
+    chat3 = Chat(name='Chat 3', adminId=3)
+    chat4 = Chat(name='Chat 4', adminId=1)
+    chat5 = Chat(name='Chat 5', adminId=1)
+    chat6 = Chat(name='Chat 6', adminId=3)
+    chat7 = Chat(name='Chat 7', adminId=2)
+
+    db.session.add(chat1)
+    db.session.add(chat2)
+    db.session.add(chat3)
+    db.session.add(chat4)
+    db.session.add(chat5)
+    db.session.add(chat6)
+    db.session.add(chat7)
+    db.session.commit()
+
+
 def seed_chat_messages():
     msg1 = ChatMessage(
         chat_id=1,
