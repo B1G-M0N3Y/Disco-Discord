@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 let socket;
@@ -6,22 +7,32 @@ let socket;
 const BasicChat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
+  const user = useSelector(state => state.session.user)
 
-  const handleSubmit = () => {
-    if (!newMessage) {
-      return;
-    }
-    socket.emit("data", newMessage);
-    setNewMessage("");
-  };
 
   useEffect(()=>{
 
     socket = io();
+
+    socket.on("chat", (chat)=>{
+      setAllMessages(messages => [...messages, chat])
+    })
+
     return(() => {
       socket.disconnect()
-     })
+    })
   },[])
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (!newMessage) {
+      return;
+    }
+    const payload = {user:user.username, body:newMessage}
+    socket.emit("chat", payload);
+    setNewMessage("");
+  };
 
   // useEffect(() => {
   //   if(socket){
@@ -64,7 +75,6 @@ const BasicChat = () => {
       <form className="message-input" onSubmit={handleSubmit}>
         <input
           type="text"
-          id="user_message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type here..."
