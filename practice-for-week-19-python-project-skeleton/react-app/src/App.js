@@ -10,6 +10,7 @@ import UsersList from "./components/UsersList";
 import ServerMembers from "./components/ServerMembers";
 import SidebarNav from "./components/SidebarNav";
 import User from "./components/User";
+import Chat from "./components/Chat";
 import { authenticate } from "./store/session";
 import { getServers } from "./store/servers";
 
@@ -47,6 +48,9 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/servers/:serverId/members" exact={true}>
           <ServerMembers />
+        </ProtectedRoute>
+        <ProtectedRoute path="/chat" exact={true}>
+          <Chat />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />

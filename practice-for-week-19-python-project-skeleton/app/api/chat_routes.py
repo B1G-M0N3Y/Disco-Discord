@@ -132,3 +132,15 @@ def edit_chat_message(chat_message_id):
         result = chat_message_schema.dump(chat_message)
         return (jsonify(result))
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+@ chat_routes.route('/<int:chat_id>/members')
+def get_chat_members(chat_id):
+    """
+    Query for chat members
+    """
+    chat = Chat.query.get(chat_id)
+    response = [members.to_dict() for members in chat.chat_members]
+    print(response)
+
+    return jsonify(response)
