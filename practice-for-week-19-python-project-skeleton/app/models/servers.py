@@ -1,17 +1,17 @@
 from sqlalchemy import func
 from sqlalchemy.orm import validates
-from .db import db, ma, environment
+from .db import db, ma, environment, SCHEMA, add_prefix_for_prod
 
 # Join Table For Users & Server Members (Many to Many)
 server_members = db.Table(
     "server_members",
     db.Column("server_id",
               db.Integer(),
-              db.ForeignKey('servers.id'),
+              db.ForeignKey(add_prefix_for_prod('servers.id')),
               primary_key=True),
     db.Column("user_id",
               db.Integer(),
-              db.ForeignKey('users.id'),
+              db.ForeignKey(add_prefix_for_prod('users.id')),
               primary_key=True)
 )
 
@@ -22,8 +22,7 @@ class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.String(255))
-    admin_id = db.Column(db.Integer(), db.ForeignKey(
-        'users.id'), nullable=False)
+    admin_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod), nullable=False)
 
     server_members = db.relationship(
         "User", secondary=server_members, back_populates="servers")    
@@ -44,8 +43,8 @@ class ChannelMessages(db.Model):
     __tablename__ = "channel_messages"
 
     id = db.Column(db.Integer, primary_key=True)
-    channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id")))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     body = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
@@ -70,8 +69,8 @@ class Channel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey(
-        "servers.id"), nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod(
+        "servers.id")), nullable=False)
 
     messages = db.relationship("ChannelMessages", backref="channel")
     # server = db.relationship("Server", back_populates="channels")

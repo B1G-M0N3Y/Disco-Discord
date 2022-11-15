@@ -127,14 +127,6 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
-# # No longer have ServerMembers class, get one server route handles this now
-# @server_routes.route('/members', methods=["GET"])
-# def get_all_members():
-#     """Get all members"""
-#     members = ServerMembers.query.all()
-#     result = server_members_schema.dump(members)
-#     return (jsonify(result))
-
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
 def post_current_user_add_public_server(server_id):
@@ -213,13 +205,11 @@ def delete_user_from_server(server_id, member_id):
     server_users = [server_member.to_dict() for server_member in server_members]
     print(server_users, "***SERVER_USERS***")
 
-
     if current_user.id == member_id or current_user.id == server_admin:
         for item in server_members: 
             user = item.to_dict()
             print(user, "THIS IS THE USER")
             print(user["id"], "ID")
-            # print(user.id, "ID")
             if user["id"] == member_id: 
                 server_members.remove(item)
                 print(server_members, "***AFTER DELETE: SERVER_MEMBERS***")
@@ -230,23 +220,8 @@ def delete_user_from_server(server_id, member_id):
                 db.session.commit()
                     
                 return {"message": ["Successfully Deleted."]}, 200
-            
-        # for user in server_users: 
-        #     if user.id == member_id: 
-        #         idx = server_users.index.(user)
-        #         del server_members[idx] 
-        #         print(server_members, "***AFTER DELETE: SERVER_MEMBERS***")
-
-        #         server.to_dict()["server_members"] = server_members
-
-        #         db.session.add(server)
-        #         db.session.commit()
-                
-        #         return {"message": ["Successfully Deleted."]}, 200
-
     return {"message": ["You don't have access to delete members to this server."]}, 403
-    
-            
+
 
 # We are not currently using "public"/"private" servers
 @server_routes.route('/public', methods=["GET"])
@@ -286,17 +261,4 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
-# No longer using the ServerMembers model class
-# @server_routes.route('<int:server_id>/members', methods=["GET"])
-# def get_server_members(server_id):
-#     """Get all server members"""
-#     server = Server.query.get(server_id)
-#     server_members = ServerMember.query.filter(ServerMember.server_id == server_id).all()
-#     if not server:
-#         return "Server does not exist.", 404
-#     if server_members:
-#         result = server_members_schema.dump(server_members)
-#         return (jsonify(result))
-#     else:
-#         return "This server does not have any members yet.", 404
 
