@@ -16,7 +16,6 @@ def validation_errors_to_error_messages(validation_errors):
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
 def get_one_channel(channel_id):
-def get_one_channel(channel_id):
     """Get channel details by id"""
     one_channel = Channel.query.get(channel_id)
     return channel_schema.jsonify(one_channel)
@@ -48,7 +47,6 @@ def post_channel_message(channel_id):
     if form.validate_on_submit():
         data = form.data
         new_message = ChannelMessages(
-            body = data['body'],
             body = data['body'],
             channel_id = channel_id,
             user_id = data['user_id']
@@ -83,8 +81,6 @@ def delete_channel(channel_id):
         db.session.commit()
         result = channel_schema.dump(channel)
         return (jsonify(result))
-    else:
-        return "Channel not found."
     else:
         return "Channel not found."
 
