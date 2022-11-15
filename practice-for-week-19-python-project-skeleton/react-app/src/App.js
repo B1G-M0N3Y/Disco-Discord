@@ -14,6 +14,7 @@ import { io } from "socket.io-client";
 import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
+// import ChannelList from "./components/Channels/ChannelList";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
