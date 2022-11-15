@@ -7,14 +7,13 @@ function ChatForm({ chat }) {
   const [text, setText] = useState();
 
   //TODO SET THIS UP AS CONTEXT & REMOVE HARDCODED
-  const chat_id = 2;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(text, "submitted");
     const body = JSON.stringify({ body: text });
     console.log(body, "body");
-    const response = await fetch(`/api/chat/${chat_id}`, {
+    const response = await fetch(`/api/chat/${chat?.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: body,
@@ -27,7 +26,7 @@ function ChatForm({ chat }) {
     <>
       <div className="message-history">
         {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
-        <ChatMessages chat_id={chat_id} />
+        <ChatMessages chat_id={chat?.id} />
       </div>
       <form onSubmit={handleSubmit}>
         <input

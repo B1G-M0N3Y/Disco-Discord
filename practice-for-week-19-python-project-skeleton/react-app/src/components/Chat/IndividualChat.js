@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 
-function IndividualChat({ chat }) {
+function IndividualChat({ chat, setChat }) {
   const dispatch = useDispatch();
 
   // getters and setters
@@ -21,7 +21,13 @@ function IndividualChat({ chat }) {
 
   return (
     <>
-      <li>
+      <li
+        id={chat.id}
+        onClick={() => {
+          setChat(chat);
+          console.log(chat);
+        }}
+      >
         {chat.name}
         {chat.chat_members.map((member) => (
           <div>{member.username}</div>

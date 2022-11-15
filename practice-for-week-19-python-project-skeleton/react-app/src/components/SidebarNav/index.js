@@ -35,7 +35,7 @@ function SidebarNav() {
   const allServers = useSelector((state) => state.servers.servers);
   const serversArr = Object.values(allServers);
   const filteredMembers = members.filter(
-    (item) => item.user_id === currentUser.id
+    (item) => item.user_id === currentUser?.id
   );
   const filteredServers = [];
   for (let i = 0; i < filteredMembers.length; i++) {

@@ -12,6 +12,7 @@ function Chat() {
 
   // getters and setters
   const [chats, setChats] = useState([]);
+  const [chat, setChat] = useState({ empty: true });
 
   // fetch chats
   useEffect(() => {
@@ -23,18 +24,23 @@ function Chat() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(chat, "chat in index");
+  }, [chat]);
+
   return (
     <>
       <h1>Chats</h1>
       <ul className="chats">
         {chats ? (
-          chats.map((chat, idx) => <IndividualChat chat={chat} />)
+          chats.map((chat, idx) => (
+            <IndividualChat chat={chat} setChat={setChat} />
+          ))
         ) : (
           <div>No Chats To Display</div>
         )}
       </ul>
-      <NavLink to="/chat/new">Start A New Chat</NavLink>
-      <ChatForm />
+      <ChatForm chat={chat} />
     </>
   );
 }
