@@ -6,8 +6,6 @@ import { NavLink } from "react-router-dom";
 const LandingPage = () => {
   const currentUser = useSelector((state) => state.session.user);
 
-  console.log(currentUser);
-
   return (
     <>
       <div className="landing-page">
@@ -32,12 +30,12 @@ const LandingPage = () => {
 
         {!currentUser && (
           <div className="auth-container">
-						<NavLink className="navlink landing-button" to="/login">
-            	Login
-						</NavLink>
-						<NavLink className="navlink landing-button" to="/sign-up">
-            	Sign Up
-						</NavLink>
+            <NavLink className="navlink landing-button" to="/login">
+              Login
+            </NavLink>
+            <NavLink className="navlink landing-button" to="/sign-up">
+              Sign Up
+            </NavLink>
           </div>
         )}
       </div>

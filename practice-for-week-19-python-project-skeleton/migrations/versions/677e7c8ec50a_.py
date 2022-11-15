@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: bb2ef105b56c
+Revision ID: 677e7c8ec50a
 Revises: 
-Create Date: 2022-11-12 19:58:08.834734
+Create Date: 2022-11-14 21:04:39.727773
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'bb2ef105b56c'
+revision = '677e7c8ec50a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -53,21 +53,20 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('chat_members',
-    sa.Column('chat_id', sa.Integer(), nullable=False),
+    sa.Column('chat_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['chat_id'], ['chats.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('chat_id')
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], )
     )
     op.create_table('chat_messages',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('authorId', sa.Integer(), nullable=False),
-    sa.Column('chatId', sa.Integer(), nullable=False),
+    sa.Column('author_id', sa.Integer(), nullable=False),
+    sa.Column('chat_id', sa.Integer(), nullable=False),
     sa.Column('body', sa.Text(), nullable=False),
     sa.Column('createdAt', sa.DateTime(), nullable=False),
     sa.Column('updatedAt', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['authorId'], ['users.id'], ),
-    sa.ForeignKeyConstraint(['chatId'], ['chats.id'], ),
+    sa.ForeignKeyConstraint(['author_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['chat_id'], ['chats.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('server_members',
