@@ -17,10 +17,8 @@ const ChannelList = () => {
   const currServer = useSelector((state) => state.servers.currentServer);
   console.log("this is the current server in ChannelList", currServer);
 
-  // get server and all server channels
   useEffect(() => {
     dispatch(getServers());
-    dispatch(getOneServer(serverId));
     dispatch(getOneServer(currServer.id));
     dispatch(getServerChannels(currServer.id));
   }, [dispatch, serverId, currServer.id]);
@@ -30,8 +28,6 @@ const ChannelList = () => {
   const channelsArr = Object.values(channels);
 
   const channelList = channelsArr.map((channel) => {
-    if (currServer === {}) {
-    }
     return (
       <div>
         <NavLink to={`/servers/${currServer.id}/channels/${channel?.id}`}>

@@ -10,6 +10,9 @@ function SidebarNav() {
   // getters and setters
   const [members, setMembers] = useState([]);
 
+  // server context
+  const { selectedServer, setSelectedServer } = useSelectedServer();
+
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
