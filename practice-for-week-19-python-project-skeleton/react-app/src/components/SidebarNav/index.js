@@ -9,7 +9,7 @@ function SidebarNav() {
 
   // getters and setters
   const [members, setMembers] = useState([]);
-  const { setSelectedServer } = useSelectedServer();
+  const { selectedServer, setSelectedServer } = useSelectedServer();
 
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
@@ -47,6 +47,11 @@ function SidebarNav() {
       }
     }
   }
+  // make a sidebar card
+  // pass server as a prop
+
+  // in sidebar card:
+  // useEffect -> get one server by server id, [server.id]
 
   // map over filtered severs to display them
   const userServers = filteredServers.map((server) => {
@@ -58,6 +63,7 @@ function SidebarNav() {
           // update current server
           dispatch(getOneServer(server.id));
           setSelectedServer(currServer);
+          console.log(selectedServer, "current server");
         }}
       >
         <div>{server?.name}</div>

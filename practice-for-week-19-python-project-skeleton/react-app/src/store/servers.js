@@ -85,7 +85,6 @@ const initialState = {
   channels: {},
   currentServer: {},
 };
-
 const serverReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
@@ -97,10 +96,12 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ADD_ONE:
       newState = { ...state };
-      return {
-        ...state,
-        currentServer: { ...action.server },
-      };
+      newState.currentServer = action.server;
+      return newState;
+    // return {
+    //   ...state,
+    //   currentServer: { ...action.server }
+    // };
     case GET_MEMBERS:
       newState = { ...state };
       newState.members = {};

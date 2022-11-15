@@ -4,7 +4,7 @@ import { NavLink, useParams } from "react-router-dom";
 // import ServerMembers from "../ServerMembers";
 import { useSelectedServer } from "../../context/ServerContext";
 
-import { getServerChannels } from "../../store/servers";
+import { getServerChannels, getOneServer } from "../../store/servers";
 
 const ChannelList = () => {
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const ChannelList = () => {
 
   useEffect(() => {
     dispatch(getServerChannels(currServer.id));
+    dispatch(getOneServer(serverId));
   }, [dispatch, serverId, currServer.id]);
 
   // get current channels
