@@ -4,10 +4,11 @@
     width: 100%;
     justify-content: flex-end;
     height:100vh;
+    scrollbar-width: thin;
 }
 
 .all-messages{
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .message{
@@ -49,4 +50,13 @@
 
 .message-button:hover{
     color: white;
+}
+
+.all-messages::-webkit-scrollbar-track{
+    background-color: #3c308c;
+}
+
+.all-messages::-webkit-scrollbar-thumb{
+    background-color: #1d1b59;
+    border-radius: 10px;
 }
