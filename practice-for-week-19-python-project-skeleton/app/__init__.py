@@ -1,17 +1,22 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, request, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 from .models import db, User
 from .models.db import ma
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
+from .api.chat_routes import chat_routes
 from .api.channel_routes import channel_routes
 from .api.server_routes import server_routes
 from .seeds import seed_commands
 from .config import Config
+
+from .socket import socketio
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -31,21 +36,31 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(chat_routes, url_prefix='/api/chat')
 app.register_blueprint(channel_routes, url_prefix='/api/channels')
 app.register_blueprint(server_routes, url_prefix='/api/servers')
 db.init_app(app)
 ma.init_app(app)
 Migrate(app, db)
 
-# Application Security
-CORS(app)
+socketio.init_app(app)
 
+# Initialize Flask-SocketIO
+# Allow all origins to prevent interference with //feocalhost:
+# socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=True)
+# socketio.init_app(app)
+
+# Application Security
+# Allow all origins to prevent interference with //localhost:
+CORS(app)
 
 # Since we are deploying with Docker and Flask,
 # we won't be using a buildpack when we deploy to Heroku.
 # Therefore, we need to make sure that in production any
 # request made over http is redirected to https.
 # Well.........
+
+
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -80,7 +95,6 @@ def react_root(path):
     return app.send_static_file('index.html')
 
 
-
 @app.route("/api/docs")
 def api_help():
     """
@@ -91,3 +105,8 @@ def api_help():
                     app.view_functions[rule.endpoint].__doc__ ]
                     for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
     return route_list
+
+
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True, port=5000)

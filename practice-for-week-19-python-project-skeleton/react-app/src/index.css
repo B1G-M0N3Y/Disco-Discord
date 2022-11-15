@@ -1,1 +1,22 @@
-/* TODO Add site wide styles */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.navlink {
+  text-decoration: none;
+}
+
+html {
+  background-color: #0d0d0d;
+}
+
+#root {
+  display: flex;
+  flex-direction: row;
+  margin: 0 !important;
+}
+
+p {
+  font-family: "Itim", cursive;
+}

@@ -50,11 +50,25 @@ def get_all_servers():
     result = servers_schema.dump(servers)
     return (jsonify(result))
 
+@server_routes.route('/members', methods=["GET"])
+def get_all_members():
+    """Get all servers"""
+    servers = ServerMember.query.all()
+    result = server_members_schema.dump(servers)
+    return (jsonify(result))
+
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
     public_servers = Server.query.filter(Server.private == False).all()
     result = servers_schema.dump(public_servers)
+    return (jsonify(result))
+
+@server_routes.route('/<int:server_id>', methods=["GET"])
+def get_one_server(server_id):
+    """Get one server"""
+    one_server = Server.query.get(server_id)
+    result = server_schema.dump(one_server)
     return (jsonify(result))
 
 @server_routes.route('', methods=["POST"])
@@ -189,3 +203,34 @@ def get_servers_by_current_user():
 # Channels | Completed in server_route
 # create a new channel
 # get all channels by server id
+@server_routes.route('<int:server_id>/members', methods=["GET"])
+def get_server_members(server_id):
+    """Get all server members"""
+    server = Server.query.get(server_id)
+    server_members = ServerMember.query.filter(ServerMember.server_id == server_id).all()
+    if not server:
+        return "Server does not exist.", 404
+    if server_members:
+        result = server_members_schema.dump(server_members)
+        return (jsonify(result))
+    else:
+        return "This server does not have any members yet.", 404
+
+# TODO - this route has bugs
+# @server_routes.route('<int:server_id>/members', methods=["POST"])
+# def post_server_member(server_id):
+#     """Add a member to a server"""
+#     form = AddServerMember()
+#     form['csrf_token'].data = request.cookies['csrf_token']
+#     server = Server.query.get(server_id)
+#     if form.validate_on_submit():
+#         data = form.data
+#         new_member = ServerMember(
+#             server_id = server_id,
+#             user_id = data['user_id']
+#         )
+#         db.session.add(new_member)
+#         db.session.commit()
+#         result = server_member_schema.dump(new_member)
+#         return (jsonify(result))
+#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
