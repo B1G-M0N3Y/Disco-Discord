@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import MessageForm, EditChannelForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
+from flask_login import login_required, current_user
 
 channel_routes = Blueprint('channels', __name__)
 
@@ -39,10 +40,13 @@ def delete_channel_message(message_id):
     Delete message by id
     """
     message = ChannelMessages.query.get(message_id)
+    if not message:
+        return {"message": ["Message couldn't be found."]}, 404
+
     db.session.delete(message)
     db.session.commit()
     result = channel_message_schema.dump(message)
-    return (jsonify(result))
+    return {"message": ["Message deleted."]}, 200
 
 # TODO double check form setup for this route
 @channel_routes.route('/<int:channel_id>', methods=["POST"])
@@ -58,7 +62,6 @@ def post_channel_message(channel_id):
         new_message = ChannelMessages(
             body = data['body'], 
             channel_id = channel_id,
-            # user_id = 1
             user_id = current_user.id
         )
         db.session.add(new_message)
@@ -94,7 +97,7 @@ def delete_channel(channel_id):
         db.session.delete(channel)
         db.session.commit()
         result = channel_schema.dump(channel)
-        return (jsonify(result))
+        return {"message": ["Channel deleted."]}, 200
     else: 
         return "Channel not found."     
 
