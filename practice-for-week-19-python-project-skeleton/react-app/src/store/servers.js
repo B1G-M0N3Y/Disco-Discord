@@ -11,6 +11,13 @@ const get = (servers) => {
   };
 };
 
+const getOne = (server) => {
+  return {
+    type: GET_ONE,
+    server
+  }
+}
+
 const getMembers = (members) => {
   return {
     type: GET_MEMBERS,
@@ -54,7 +61,7 @@ export const getOneServer = (serverId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}`);
   if (response.ok) {
     const data = await response.json();
-    dispatch(addOne(data));
+    dispatch(getOne(data));
   }
   return response;
 };
@@ -79,6 +86,22 @@ export const getServerChannels = (serverId) => async (dispatch) => {
   return response;
 };
 
+// post/create server
+export const addServer = (server) => async (dispatch) => {
+  const response = await fetch('/api/servers', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(server)
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(addOne(data.id))
+
+    return data
+  };
+};
+
 const initialState = {
   servers: {},
   members: {},
@@ -95,12 +118,14 @@ const serverReducer = (state = initialState, action) => {
         newState.servers[server.id] = server;
       });
       return newState;
-    case ADD_ONE:
+
+    case GET_ONE:
       newState = { ...state };
       return {
         ...state,
         currentServer: { ...action.server },
       };
+
     case GET_MEMBERS:
       newState = { ...state };
       newState.members = {};
@@ -108,15 +133,24 @@ const serverReducer = (state = initialState, action) => {
         newState.members[member.id] = member;
       });
       return newState;
+
     case GET_CHANNELS:
       newState = { ...state };
       newState.channels = {};
       action.channels.forEach((channel) => {
         newState.channels[channel.id] = channel;
       });
-      return newState;
-    default:
+
+    case ADD_ONE:
+      newState = { ...state };
+      return {
+        ...state,
+        currentServer: { ...action.server },
+      };
+
+      default:
       return state;
-  }
+  };
 };
+
 export default serverReducer;
