@@ -68,7 +68,7 @@ const ChannelMessagesPage = () => {
             {/* TODO: ADD USER IMAGE */}
             {/* TODO: ADD DELETE BUTTON IF OWNER */}
             {/* TODO: ADD DYNAMIC USERNAME */}
-            <p className="username-message">{message.user}</p>
+            <p className="username-message">{message.author.username}</p>
             <p className="message-body">{message.body}</p>
           </div>
         ))}
