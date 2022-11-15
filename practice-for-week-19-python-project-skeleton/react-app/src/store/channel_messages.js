@@ -1,13 +1,13 @@
-const GET_MEMBERS = "servers/GET_MESSAGES"
-const GET_CHANNELS = "servers/GET_CHANNELS"
-const ADD_ONE = "servers/ADD_ONE";
-const DELETE = "servers/DELETE";
+const GET_MESSAGES = "servers/GET_MESSAGES"
+// const GET_CHANNELS = "servers/GET_CHANNELS"
+// const ADD_ONE = "servers/ADD_ONE";
+// const DELETE = "servers/DELETE";
 
 
 const getMessages = (messages) => {
   return {
-    type: GET_MEMBERS,
-    members,
+    type: GET_MESSAGES,
+    messages,
   };
 };
 
@@ -34,9 +34,12 @@ const getMessages = (messages) => {
 
 // get all servers
 export const getChannelMessages = (channelId) => async (dispatch) => {
-  const response = await fetch("/api/channels/messages");
+  console.log("dispatching")
+  const response = await fetch(`/api/channels/${channelId}/messages`);
+  console.log(response)
   if (response.ok) {
     const data = await response.json();
+    console.log("da data", data)
     dispatch(getMessages(data));
   }
   return response;
@@ -64,13 +67,14 @@ export const getChannelMessages = (channelId) => async (dispatch) => {
 
 const initialState = { messages: {} };
 
-const serverReducer = (state = initialState, action) => {
+const channelMessageReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case GET_MEMBERS:
-      return {messages :{ ...action.messages.messages }}
+    case GET_MESSAGES:
+      console.log("action jackson",action.messages)
+      return {messages :{ ...action.messages }}
     default:
       return state;
   }
 };
-export default serverReducer;
+export default channelMessageReducer;
