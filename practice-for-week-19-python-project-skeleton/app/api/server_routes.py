@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
-from app.models.servers import db, ServerMember, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
+from app.models.servers import db, Server, Channel, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
 from flask_login import login_required, current_user
+from app.models import User
 
 server_routes = Blueprint('servers', __name__)
 
@@ -15,31 +16,6 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-# @ chat_routes.route('/<int:server_id>/channels', methods=["POST"])
-# def create_channel(server_id):
-#     """
-#     Create a new chat
-#     """
-#     form = ChannelForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     if form.validate_on_submit():
-#         data = form.data
-#         # chat_to = data['chat_members']
-#         new_server = Server(name=data['name'], admin_id=current_user.id)
-#         # chat_to_user = User.query.get(chat_to)
-#         # new_channel.chat_members.append(chat_to_user)
-
-#         chat_members = [int(chat_member)
-#                         for chat_member in data["chat_members_lst"].split(",")]
-#         for chat_member in chat_members:
-#             chat_user = User.query.get(chat_member)
-#             new_channel.chat_members.append(chat_user)
-#         db.session.add(new_channel)
-#         db.session.commit()
-#         success_response = Chat.query.order_by(Chat.id.desc()).first()
-#         return jsonify(chat_schema.dump(success_response))
-#     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
-
 @server_routes.route('', methods=["POST"])
 def create_server():
     """Create a new channel"""
@@ -50,7 +26,7 @@ def create_server():
         data = form.data
         new_server = Server(
             name = data['name'],
-            admin_id = admin_id=current_user.id,
+            admin_id = current_user.id,
             image_url = data['image_url']
         )
 
@@ -67,6 +43,34 @@ def create_server():
         return jsonify(server_schema.dump(success_response))
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+# @server_routes.route('/', methods=["GET"])
+# def get_all_servers():
+#     """Get all servers"""
+#     servers = Server.query.all()
+#     # return {'servers': [server.to_dict() for server in servers]}
+
+#     result = servers_schema.dump(servers)
+#     return (jsonify(result))
+
+@server_routes.route('/', methods=["GET"])
+def user_servers():
+    """
+    Query for all servers belonging to logged in user and returns them in a list of user dictionaries
+    """
+    # user = User.query.get(current_user.id)
+    user = User.query.get(1)
+    servers = user.servers
+    servers_list = []
+    for server in servers:
+        server_members = server.to_dict()["server_members"]
+        server_users = [server_member.to_dict() for server_member in server_members]
+        server_in_dict = server.to_dict()
+        server_in_dict["server_members"] = server_users
+        print(server_users, '**USERS**')
+        servers_list.append(server_in_dict)
+    return jsonify(servers_list)
+
 
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
@@ -91,15 +95,6 @@ def get_all_channels(server_id):
     """Get all channels by server id"""
     channels = Channel.query.filter(Channel.server_id == server_id).all()
     result = channels_schema.dump(channels)
-    return (jsonify(result))
-
-@server_routes.route('/', methods=["GET"])
-def get_all_servers():
-    """Get all servers"""
-    servers = Server.query.all()
-    # return {'servers': [server.to_dict() for server in servers]}
-
-    result = servers_schema.dump(servers)
     return (jsonify(result))
 
 @server_routes.route('/members', methods=["GET"])
@@ -166,21 +161,3 @@ def get_server_members(server_id):
     else:
         return "This server does not have any members yet.", 404
 
-# TODO - this route has bugs
-# @server_routes.route('<int:server_id>/members', methods=["POST"])
-# def post_server_member(server_id):
-#     """Add a member to a server"""
-#     form = AddServerMember()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     server = Server.query.get(server_id)
-#     if form.validate_on_submit():
-#         data = form.data
-#         new_member = ServerMember(
-#             server_id = server_id,
-#             user_id = data['user_id']
-#         )
-#         db.session.add(new_member)
-#         db.session.commit()
-#         result = server_member_schema.dump(new_member)
-#         return (jsonify(result))
-#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

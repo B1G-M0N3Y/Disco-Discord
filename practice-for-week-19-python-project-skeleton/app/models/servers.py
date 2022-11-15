@@ -35,7 +35,8 @@ class Server(db.Model):
             'id': self.id,
             'name': self.name,
             'admin_id': self.admin_id,
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            'server_members': self.server_members
         }
 
 class ChannelMessages(db.Model):
