@@ -48,7 +48,6 @@ def create_server():
 def get_all_servers():
     """Get all servers"""
     servers = Server.query.all()
-    # return {'servers': [server.to_dict() for server in servers]}
 
     result = servers_schema.dump(servers)
     return (jsonify(result))
@@ -128,13 +127,13 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
-# Get one server route handles this now
-@server_routes.route('/members', methods=["GET"])
-def get_all_members():
-    """Get all members"""
-    members = ServerMembers.query.all()
-    result = server_members_schema.dump(members)
-    return (jsonify(result))
+# # No longer have ServerMembers class, get one server route handles this now
+# @server_routes.route('/members', methods=["GET"])
+# def get_all_members():
+#     """Get all members"""
+#     members = ServerMembers.query.all()
+#     result = server_members_schema.dump(members)
+#     return (jsonify(result))
 
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
@@ -177,7 +176,7 @@ def post_current_user_add_public_server(server_id):
             return {"message": ["User is already a member!"]}, 401
 
     # successfully add user if you are either the server admin or the current user adding yourself to server (200)
-    if server.admin_id == 1 or current_user:
+    if server.admin_id == current_user.id or current_user:
         data = form.data
 
         id = data['user_id']    
@@ -194,6 +193,62 @@ def post_current_user_add_public_server(server_id):
         result = server_schema.dump(server)
         return (jsonify(result))
 
+@server_routes.route('/<int:server_id>/members/<int:member_id>', methods=["DELETE"])
+@login_required
+def delete_user_from_server(server_id, member_id):
+    "Delete User from Server (server_id) | Admin (server_admin) can delete user | Current user (current_user) can delete themselves"
+    server = Server.query.get(server_id)
+    member = User.query.get(member_id)
+    server_admin = server.admin_id
+    
+    if not server:
+        return {"message": ["Server couldn't be found."]}, 404
+    if not member:
+        return {"message": ["User couldn't be found."]}, 404
+
+    members = server.server_members
+    server_members = server.to_dict()["server_members"]
+    print(server_members, "***SERVER_MEMBERS***")
+
+    server_users = [server_member.to_dict() for server_member in server_members]
+    print(server_users, "***SERVER_USERS***")
+
+
+    if current_user.id == member_id or current_user.id == server_admin:
+        for item in server_members: 
+            user = item.to_dict()
+            print(user, "THIS IS THE USER")
+            print(user["id"], "ID")
+            # print(user.id, "ID")
+            if user["id"] == member_id: 
+                server_members.remove(item)
+                print(server_members, "***AFTER DELETE: SERVER_MEMBERS***")
+
+                server.to_dict()["server_members"] = server_members
+
+                db.session.add(server)
+                db.session.commit()
+                    
+                return {"message": ["Successfully Deleted."]}, 200
+            
+        # for user in server_users: 
+        #     if user.id == member_id: 
+        #         idx = server_users.index.(user)
+        #         del server_members[idx] 
+        #         print(server_members, "***AFTER DELETE: SERVER_MEMBERS***")
+
+        #         server.to_dict()["server_members"] = server_members
+
+        #         db.session.add(server)
+        #         db.session.commit()
+                
+        #         return {"message": ["Successfully Deleted."]}, 200
+
+    return {"message": ["You don't have access to delete members to this server."]}, 403
+    
+            
+
+# We are not currently using "public"/"private" servers
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
@@ -231,6 +286,7 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
+# No longer using the ServerMembers model class
 # @server_routes.route('<int:server_id>/members', methods=["GET"])
 # def get_server_members(server_id):
 #     """Get all server members"""
