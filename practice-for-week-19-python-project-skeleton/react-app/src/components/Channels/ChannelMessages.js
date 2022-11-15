@@ -55,24 +55,26 @@ const ChannelMessagesPage = () => {
       {/* CURRENT IMPLEMENTATION JUST BARE BONES FOR TESTING */}
       {/* AND SETTING UP THE CREATE THUNK */}
       <div className="message-section">
-        {Object.values(messageStore).map((message) => (
-          <div className="message">
-            {/* TODO: ADD USER IMAGE */}
-            {/* TODO: ADD DELETE BUTTON IF OWNER */}
-            {/* TODO: ADD DYNAMIC USERNAME */}
-            <p className="username-message">{message.author.username}</p>
-            <p className="message-body">{message.body}</p>
-          </div>
-        ))}
-        {allMessages?.map((message) => (
-          <div className="message">
-            {/* TODO: ADD USER IMAGE */}
-            {/* TODO: ADD DELETE BUTTON IF OWNER */}
-            {/* TODO: ADD DYNAMIC USERNAME */}
-            <p className="username-message">{message.user}</p>
-            <p className="message-body">{message.body}</p>
-          </div>
-        ))}
+        <div className="all-messages">
+          {Object.values(messageStore).map((message) => (
+            <div className="message">
+              {/* TODO: ADD USER IMAGE */}
+              {/* TODO: ADD DELETE BUTTON IF OWNER */}
+              {/* TODO: ADD DYNAMIC USERNAME */}
+              <p className="username-message">{message.author.username}</p>
+              <p className="message-body">{message.body}</p>
+            </div>
+          ))}
+          {allMessages?.map((message) => (
+            <div className="message">
+              {/* TODO: ADD USER IMAGE */}
+              {/* TODO: ADD DELETE BUTTON IF OWNER */}
+              {/* TODO: ADD DYNAMIC USERNAME */}
+              <p className="username-message">{message.user}</p>
+              <p className="message-body">{message.body}</p>
+            </div>
+          ))}
+        </div>
         <form className="message-input-form" onSubmit={handleSubmit}>
           <input
             className="message-input"
@@ -82,7 +84,11 @@ const ChannelMessagesPage = () => {
             placeholder="Type here..."
             autoComplete="off"
           />
-          <button type="submit" className="message-button" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="message-button"
+            onClick={handleSubmit}
+          >
             <i class="fa-solid fa-paper-plane"></i>
           </button>
         </form>

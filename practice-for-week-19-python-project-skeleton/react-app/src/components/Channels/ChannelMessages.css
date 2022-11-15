@@ -3,7 +3,22 @@
     flex-direction: column;
     width: 100%;
     justify-content: flex-end;
+    height:100vh;
 }
+
+.all-messages{
+    overflow: scroll;
+}
+
+.message{
+    color: white;
+    padding: 10px 50px 10px;
+}
+
+.message:hover{
+    background-color: rgba(128, 128, 128, 0.199);
+}
+
 
 .message-input-form{
     height: 85px;
