@@ -109,7 +109,6 @@ def api_help():
                               app.view_functions[rule.endpoint].__doc__]
                   for rule in app.url_map.iter_rules() if rule.endpoint != 'static'}
     return route_list
->>>>>>> dev
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, port=5000)
