@@ -10,7 +10,6 @@ function ChatMessages({ chat, chat_id }) {
   // fetch chats
   useEffect(() => {
     async function fetchData() {
-      console.log(messages, "messages");
       const response = await fetch(`/api/chat/${chat ? chat.id : chat_id}`);
       const responseData = await response.json();
       setMessages(responseData);

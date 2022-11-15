@@ -34,12 +34,10 @@ const addMessage = (message) => {
 
 // get all servers
 export const getChannelMessages = (channelId) => async (dispatch) => {
-  console.log("dispatching")
   const response = await fetch(`/api/channels/${channelId}/messages`);
-  console.log(response)
+
   if (response.ok) {
     const data = await response.json();
-    console.log("da data", data)
     dispatch(getMessages(data));
   }
   return response;
@@ -54,8 +52,6 @@ export const newChannelMessage = (channelId, msg) => async (dispatch) => {
     },
     body: JSON.stringify(msg)
   });
-
-  console.log("asdfasdf", response)
 
   if (response.ok) {
     const data = await response.json()
@@ -89,7 +85,6 @@ const channelMessageReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET_MESSAGES:
-      console.log("action jackson",action.messages)
       return {messages :{ ...action.messages }}
     case ADD_MESSAGE:
       return{...state, [action.message.id]: action.comment}

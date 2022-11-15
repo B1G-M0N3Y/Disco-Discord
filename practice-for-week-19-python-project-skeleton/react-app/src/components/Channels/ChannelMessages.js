@@ -21,11 +21,9 @@ const ChannelMessagesPage = () => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(channelId));
 
-    //   console.log("in use effect", allMessages)
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("use effecting");
 
     socket = io();
 
@@ -55,8 +53,6 @@ const ChannelMessagesPage = () => {
     setNewMessage("");
   };
 
-  console.log("fart", allMessages);
-
   return (
     <>
     {/* TODO: REFACTOR TO SINGLE MAP */}
@@ -72,7 +68,6 @@ const ChannelMessagesPage = () => {
             <p className="message-body">{message.body}</p>
           </div>
         ))}
-        {console.log("fart", allMessages)}
         {allMessages?.map((message) => (
           <div className="message">
             {/* TODO: ADD USER IMAGE */}

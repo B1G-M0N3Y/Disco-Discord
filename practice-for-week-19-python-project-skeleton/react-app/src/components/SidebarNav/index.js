@@ -13,8 +13,7 @@ function SidebarNav() {
 
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
-  console.log("this is the current server in SidebarNav", currServer);
-
+  
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
