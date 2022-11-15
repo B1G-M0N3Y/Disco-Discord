@@ -44,7 +44,6 @@ class Channel(db.Model):
             server_id: self.server_id
         }
 
-
 class ServerMember(db.Model):
     __tablename__ = "server_members"
 
