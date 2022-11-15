@@ -17,6 +17,7 @@ const ChannelList = () => {
   useEffect(() => {
     dispatch(getServers());
     dispatch(getOneServer(serverId));
+    dispatch(getServerChannels(serverId));
     dispatch(getServerChannels(currServer.id));
   }, [dispatch, serverId]);
 
@@ -29,10 +30,10 @@ const ChannelList = () => {
   const channelsArr = Object.values(channels);
 
   const channelList = channelsArr.map((channel) => {
-    // if (!currServer) return null;
+    if (currServer === {}) return null;
     return (
       <div>
-        <NavLink to={`/servers/${currServer?.id}/channels/${channel?.id}`}>
+        <NavLink to={`/servers/${currServer.id}/channels/${channel?.id}`}>
           {channel?.name}
         </NavLink>
       </div>
