@@ -9,9 +9,11 @@ function SidebarNav() {
 
   // getters and setters
   const [members, setMembers] = useState([]);
+  const { setSelectedServer } = useSelectedServer();
 
-  // server context
-  const { selectedServer, setSelectedServer } = useSelectedServer();
+  // get the current server
+  const currServer = useSelector((state) => state.servers.currentServer);
+  console.log("this is the current server in SidebarNav", currServer);
 
   // get all the servers
   useEffect(() => {
@@ -51,9 +53,11 @@ function SidebarNav() {
     if (!server) return null;
     return (
       <div
+        key={server.id}
         onClick={() => {
           // update current server
           dispatch(getOneServer(server.id));
+          setSelectedServer(currServer);
         }}
       >
         <div>{server?.name}</div>

@@ -96,6 +96,7 @@ const serverReducer = (state = initialState, action) => {
       });
       return newState;
     case ADD_ONE:
+      newState = { ...state };
       return {
         ...state,
         currentServer: { ...action.server },
