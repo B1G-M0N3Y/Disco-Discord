@@ -27,7 +27,7 @@ class Server(db.Model):
 
     server_members = db.relationship(
         "User", secondary=server_members, back_populates="servers")    
-    channels = db.relationship("Channel", back_populates="server")
+    channels = db.relationship("Channel", backref="server")
     # users = db.relationship("User", back_populates="servers")
 
     def to_dict(self):
@@ -36,7 +36,8 @@ class Server(db.Model):
             'name': self.name,
             'admin_id': self.admin_id,
             'image_url': self.image_url,
-            'server_members': self.server_members
+            'server_members': self.server_members, 
+            'channels': [channel.to_dict() for channel in self.channels],
         }
 
 class ChannelMessages(db.Model):
@@ -62,7 +63,8 @@ class ChannelMessages(db.Model):
             "user_id": self.user_id,
             "body": self.body, 
             "createdAt": self.createdAt, 
-            "updatedAt": self.updatedAt
+            "updatedAt": self.updatedAt, 
+            "message_author": self.message_author
         }
 
 class Channel(db.Model):
@@ -74,13 +76,14 @@ class Channel(db.Model):
         "servers.id"), nullable=False)
 
     # messages = db.relationship("ChannelMessages")
-    server = db.relationship("Server", back_populates="channels")
+    # server = db.relationship("Server", back_populates="channels")
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
-            "server_id": self.server_id
+            "server_id": self.server_id, 
+            "server": self.server
         }
 
 
