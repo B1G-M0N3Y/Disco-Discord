@@ -42,7 +42,6 @@ const NavBar = () => {
           <LogoutButton />
         ) : (
           <>
-            {/* {console.log(showLogout)} */}
             <img className="user-pic-nav" src={sessionUser.image_url}></img>
             <p className="username-nav">{sessionUser.username}</p>
             <i

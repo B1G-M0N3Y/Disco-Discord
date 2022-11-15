@@ -14,12 +14,11 @@ import { io } from "socket.io-client";
 import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
+import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 // import ChannelList from "./components/Channels/ChannelList";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
-  const [socketInstance, setSocketInstance] = useState("");
-  const sessionUser = useSelector((state) => state.session.user);
 
   const dispatch = useDispatch();
 
@@ -89,7 +88,12 @@ function App() {
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        <Route path="/chat">{loaded && <BasicChat />}</Route>
+        {/* <Route path="/chat">
+          {loaded && <BasicChat />}
+        </Route> */}
+        <Route path="/channels/:channelId">
+          <ChannelMessagesPage />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

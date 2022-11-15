@@ -24,9 +24,9 @@ function Chat() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(chat, "chat in index");
-  }, [chat]);
+  // useEffect(() => {
+  //   console.log(chat, "chat in index");
+  // }, [chat]);
 
   return (
     <>

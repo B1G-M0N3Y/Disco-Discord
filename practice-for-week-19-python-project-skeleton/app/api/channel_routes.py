@@ -19,12 +19,14 @@ def get_one_channel(channel_id):
     """Get channel details by id"""
     one_channel = Channel.query.get(channel_id)
     return channel_schema.jsonify(one_channel)
+    return channel_schema.jsonify(one_channel)
 
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
 def get_channel_messages(channel_id):
     """Get all messages by channel id"""
     messages = ChannelMessages.query.filter(ChannelMessages.channel_id == channel_id).all()
-    result = channel_messages_schema.dump(messages)
+    result = [message.to_dict() for message in messages]
+    # result = channel_messages_schema.dump(messages)
     return (jsonify(result))
 
 @channel_routes.route('/messages/<int:message_id>', methods=["DELETE"])

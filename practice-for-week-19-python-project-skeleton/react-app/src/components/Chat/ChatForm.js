@@ -10,16 +10,13 @@ function ChatForm({ chat }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(text, "submitted");
     const body = JSON.stringify({ body: text });
-    console.log(body, "body");
     const response = await fetch(`/api/chat/${chat?.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: body,
     });
     const responseData = await response.json();
-    console.log(responseData, "chatform response");
   };
 
   return (

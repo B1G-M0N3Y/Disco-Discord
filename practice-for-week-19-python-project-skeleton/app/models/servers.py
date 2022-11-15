@@ -64,6 +64,18 @@ class ChannelMessages(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     # channel = db.relationship("Channel")
+    author = db.relationship("User", back_populates="channel_messages")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "channel_id": self.channel_id,
+            "user_id": self.user_id,
+            "body": self.body,
+            "author": self.author.to_dict(),
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
 
 
 class ServerSchema(ma.Schema):

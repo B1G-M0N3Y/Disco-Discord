@@ -15,7 +15,6 @@ const ChannelList = () => {
 
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
-  console.log("this is the current server in ChannelList", currServer);
 
   useEffect(() => {
     dispatch(getServerChannels(currServer.id));
