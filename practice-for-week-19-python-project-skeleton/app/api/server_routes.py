@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
-from app.models.servers import db, server_members, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
+from app.models.servers import db, ServerMember, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
+from flask_login import login_required, current_user
 
 server_routes = Blueprint('servers', __name__)
 
@@ -14,33 +15,76 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-# @server_routes.route('/<int:server_id>/channels', methods=["POST"])
+# @ chat_routes.route('/<int:server_id>/channels', methods=["POST"])
 # def create_channel(server_id):
 #     """
-#     Create a new channel
+#     Create a new chat
 #     """
 #     form = ChannelForm()
-#     server = Server.query.get(server_id)
 #     form['csrf_token'].data = request.cookies['csrf_token']
-#     if server and form.validate_on_submit():
+#     if form.validate_on_submit():
 #         data = form.data
-#         chat_to = data['channel_members']
-#         new_channel = Channel(
-#             name = data['name'],
-#             server_id = server_id
-#         )
-#         channel_members = [int(channel_member)
-#                         for channel_member in data["channel_members_lst"].split(",")]
-#         for channel_member in channel_members:
-#             channel_user = User.query.get(channel_member)
-#             new_channel.channel_members.append(channel_user)        
+#         # chat_to = data['chat_members']
+#         new_server = Server(name=data['name'], admin_id=current_user.id)
+#         # chat_to_user = User.query.get(chat_to)
+#         # new_channel.chat_members.append(chat_to_user)
 
+#         chat_members = [int(chat_member)
+#                         for chat_member in data["chat_members_lst"].split(",")]
+#         for chat_member in chat_members:
+#             chat_user = User.query.get(chat_member)
+#             new_channel.chat_members.append(chat_user)
 #         db.session.add(new_channel)
 #         db.session.commit()
+#         success_response = Chat.query.order_by(Chat.id.desc()).first()
+#         return jsonify(chat_schema.dump(success_response))
+#     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
-#         result = Channel.query.order_by(Channel.id.desc()).first()
-#         return (jsonify(channel_schema.dump(result))
-    # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+@server_routes.route('', methods=["POST"])
+def create_server():
+    """Create a new channel"""
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        data = form.data
+        new_server = Server(
+            name = data['name'],
+            admin_id = admin_id=current_user.id,
+            image_url = data['image_url']
+        )
+
+        server_members = [int(server_member)
+                        for server_member in data["server_members_lst"].split(",")]
+        for server_member in server_members:
+            server_user = User.query.get(server_member)
+            new_server.server_members.append(server_user)
+
+        db.session.add(new_server)
+        db.session.commit()
+
+        success_response = Server.query.order_by(Server.id.desc()).first()
+        return jsonify(server_schema.dump(success_response))
+
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@server_routes.route('/<int:server_id>/channels', methods=["POST"])
+def post_new_channel(server_id):
+    """Create a new channel"""
+    form = ChannelForm()
+    server = Server.query.get(server_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if server and form.validate_on_submit():
+        data = form.data
+        new_channel = Channel(
+            name = data['name'],
+            server_id = server_id
+        )
+        db.session.add(new_channel)
+        db.session.commit()
+        result = channel_schema.dump(new_channel)
+        return (jsonify(result))
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @server_routes.route('/<int:server_id>/channels', methods=["GET"])
 def get_all_channels(server_id):
@@ -78,24 +122,6 @@ def get_one_server(server_id):
     one_server = Server.query.get(server_id)
     result = server_schema.dump(one_server)
     return (jsonify(result))
-
-@server_routes.route('', methods=["POST"])
-def post_new_server():
-    """Create a new channel"""
-    form = ServerForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        data = form.data
-        new_server = Server(
-            name = data['name'],
-            admin_id = data['admin_id'],
-            image_url = data['image_url']
-        )
-        db.session.add(new_server)
-        db.session.commit()
-        result = server_schema.dump(new_server)
-        return (jsonify(result))
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @server_routes.route('/<int:server_id>', methods=["PUT"])
 def edit_server_details(server_id):
