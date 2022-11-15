@@ -7,12 +7,15 @@ import NavBar from "./components/NavBar/NavBar";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import UsersList from "./components/UsersList";
 import User from "./components/User";
+import Chat from "./components/Chat";
 import { authenticate } from "./store/session";
 import BasicChat from "./components/Chat/BasicChat";
 import { io } from "socket.io-client";
 import { getServers } from "./store/servers";
+import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
+// import ChannelList from "./components/Channels/ChannelList";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -73,6 +76,10 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
+        </ProtectedRoute>
+
+        <ProtectedRoute path="/chat" exact={true}>
+          <Chat />
         </ProtectedRoute>
         <ProtectedRoute
           path="/servers/:serverId/members"
