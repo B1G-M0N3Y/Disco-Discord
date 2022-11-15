@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getChannelMessages } from "../../store/channel_messages";
+import './ChannelMessages.css'
 
 let socket;
 
@@ -11,14 +12,18 @@ const ChannelMessagesPage = () => {
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
-  // const messages = useSelector
+  const messageStore = useSelector((state) => state.channelMessages.messages);
   const { channelId } = useParams();
 
-  console.log(channelId)
+  useEffect(() => {
+    //   setAllMessages([...Object.values(messageStore)]);
+    dispatch(getChannelMessages(channelId));
+
+    //   console.log("in use effect", allMessages)
+  }, [dispatch]);
 
   useEffect(() => {
-    console.log("use effecting")
-    dispatch(getChannelMessages(channelId));
+    console.log("use effecting");
 
     socket = io();
 
@@ -29,7 +34,7 @@ const ChannelMessagesPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [dispatch,channelId]);
+  }, [channelId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,35 +47,22 @@ const ChannelMessagesPage = () => {
     setNewMessage("");
   };
 
-  // useEffect(() => {
-  //   if(socket){
-  //     socket?.on("data", (data) => {
-  //       setAllMessages([...allMessages, data.data]);
-  //     });
-  //   }
-  // },[socket, allMessages]);
-
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   const customScript = document.createElement('script')
-
-  //   script.type = "text/javascript"
-  //   script.src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
-  //   script.async = true;
-
-  //   customScript.src = "{{ url_for('/scripts/)}}"
-
-  //   document.body.appendChild(script);
-
-  //   return()=>{
-  //     document.body.removeChild(script);
-  //   }
-  // },[url]);
+  console.log("fart", allMessages);
 
   return (
     <>
       <div className="message-section">
-        {allMessages.map((message) => (
+        {Object.values(messageStore).map((message) => (
+          <div className="message">
+            {/* TODO: ADD USER IMAGE */}
+            {/* TODO: ADD DELETE BUTTON IF OWNER */}
+            {/* TODO: ADD DYNAMIC USERNAME */}
+            <p className="username-message">{message.user}</p>
+            <p className="message-body">{message.body}</p>
+          </div>
+        ))}
+        {console.log("fart", allMessages)}
+        {allMessages?.map((message) => (
           <div className="message">
             {/* TODO: ADD USER IMAGE */}
             {/* TODO: ADD DELETE BUTTON IF OWNER */}
