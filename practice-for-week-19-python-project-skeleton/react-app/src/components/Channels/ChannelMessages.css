@@ -12,8 +12,11 @@
 }
 
 .message{
+    display: flex;
+    align-items: center;
     color: white;
     padding: 10px 50px 10px;
+    height: fit-content;
 }
 
 .message:hover{
@@ -60,3 +63,27 @@
     background-color: #1d1b59;
     border-radius: 10px;
 }
+
+.message-text{
+    margin-left: 25px;
+    height: 100%;
+}
+
+.message-text p{
+    margin: 0;
+}
+
+.username-message{
+    font-size: 22px;
+}
+
+.author-message-image{
+    align-self: flex-start;
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+}
+
+/* .message-body{
+    height:22px;
+} */

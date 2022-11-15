@@ -58,20 +58,27 @@ const ChannelMessagesPage = () => {
         <div className="all-messages">
           {Object.values(messageStore).map((message) => (
             <div className="message">
-              {/* TODO: ADD USER IMAGE */}
               {/* TODO: ADD DELETE BUTTON IF OWNER */}
-              {/* TODO: ADD DYNAMIC USERNAME */}
-              <p className="username-message">{message.author.username}</p>
-              <p className="message-body">{message.body}</p>
+              <img
+                src={message.author.image_url}
+                className="author-message-image"
+              ></img>
+              <div className="message-text">
+                <p className="username-message">{message.author.username}</p>
+                <p className="message-body">{message.body}</p>
+              </div>
             </div>
           ))}
           {allMessages?.map((message) => (
             <div className="message">
-              {/* TODO: ADD USER IMAGE */}
               {/* TODO: ADD DELETE BUTTON IF OWNER */}
-              {/* TODO: ADD DYNAMIC USERNAME */}
-              <p className="username-message">{message.user}</p>
-              <p className="message-body">{message.body}</p>
+              <img
+                className="message-image"
+              ></img>
+              <div className="message-text">
+                <p className="username-message">{message.user}</p>
+                <p className="message-body">{message.body}</p>
+              </div>
             </div>
           ))}
         </div>
