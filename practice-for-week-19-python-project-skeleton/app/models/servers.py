@@ -19,10 +19,13 @@ server_members = db.Table(
 class Server(db.Model):
     __tablename__ = "servers"
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.String(255))
-    admin_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod), nullable=False)
+    admin_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
     server_members = db.relationship(
         "User", secondary=server_members, back_populates="servers")    
@@ -41,6 +44,9 @@ class Server(db.Model):
 
 class ChannelMessages(db.Model):
     __tablename__ = "channel_messages"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id")))
@@ -66,6 +72,9 @@ class ChannelMessages(db.Model):
 
 class Channel(db.Model):
     __tablename__ = "channels"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)

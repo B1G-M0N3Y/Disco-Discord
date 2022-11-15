@@ -20,15 +20,8 @@ def get_one_channel(channel_id):
     Get channel details by id and all associated messages
     """
     one_channel = Channel.query.get(channel_id)
-    messages = one_channel.messages
-
-    channel_messages = one_channel.to_dict()["messages"]
-    messages = [channel_message.to_dict() for channel_message in channel_messages]
-
     channel_in_dict = one_channel.to_dict()
-    channel_in_dict["messages"] = messages
-    
-    return channel_in_dict  
+    return jsonify(channel_in_dict)  
 
 # no longer need this route because messages get loaded with channels
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])

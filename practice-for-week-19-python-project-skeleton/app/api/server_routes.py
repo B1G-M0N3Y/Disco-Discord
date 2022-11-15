@@ -16,84 +16,7 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-@server_routes.route('', methods=["POST"])
-def create_server():
-    """Create a new channel"""
-    form = ServerForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        data = form.data
-        new_server = Server(
-            name = data['name'],
-            admin_id = current_user.id,
-            image_url = data['image_url']
-        )
-
-        server_members = [int(server_member)
-                        for server_member in data["server_members_lst"].split(",")]
-        for server_member in server_members:
-            server_user = User.query.get(server_member)
-            new_server.server_members.append(server_user)
-
-        db.session.add(new_server)
-        db.session.commit()
-
-        success_response = Server.query.order_by(Server.id.desc()).first()
-        return jsonify(server_schema.dump(success_response))
-
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-
-@server_routes.route('/all', methods=["GET"])
-def get_all_servers():
-    """Get all servers"""
-    servers = Server.query.all()
-
-    result = servers_schema.dump(servers)
-    return (jsonify(result))
-
-@server_routes.route('/', methods=["GET"])
-def user_servers():
-    """
-    Get all logged in user's servers, include members, channels, and messages
-    """
-    user = User.query.get(current_user.id)
-    if not user: 
-            return {"message": ["User couldn't be found."]}, 404
-    servers = user.servers
-    servers_list = []
-    for server in servers:
-        server_members = server.to_dict()["server_members"]
-        server_channels = server.to_dict()["channels"]
-        channels = [server_channel.to_dict() for server_channel in server_channels]
-        server_users = [server_member.to_dict() for server_member in server_members]
-        server_in_dict = server.to_dict()
-        server_in_dict["server_members"] = server_users
-        server_in_dict["channels"] = channels
-        print(server_users, '**USERS**')
-        print(channels, '**CHANNELS**')
-        servers_list.append(server_in_dict)
-    return jsonify(servers_list)
-
-@server_routes.route('/<int:server_id>', methods=["GET"])
-def get_one_server(server_id):
-    """Get one server, include channels"""
-
-    one_server = Server.query.get(server_id)
-    if not one_server: 
-            return {"message": ["Server couldn't be found."]}, 404
-    members = one_server.server_members
-    channels = one_server.channels
-
-    server_members = one_server.to_dict()["server_members"]
-    server_channels = one_server.to_dict()["channels"]
-    server_users = [server_member.to_dict() for server_member in server_members]
-    channels = [server_channel.to_dict() for server_channel in server_channels]
-    server_in_dict = one_server.to_dict()
-    server_in_dict["server_members"] = server_users
-    server_in_dict["channels"] = channels
-
-    return server_in_dict
 
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
@@ -126,6 +49,123 @@ def get_all_channels(server_id):
     channels = Channel.query.filter(Channel.server_id == server_id).all()
     result = channels_schema.dump(channels)
     return (jsonify(result))
+
+@server_routes.route('/all', methods=["GET"])
+def get_all_servers():
+    """Get all servers"""
+    servers = Server.query.all()
+
+    result = servers_schema.dump(servers)
+    return (jsonify(result))    
+
+# We are not currently using "public"/"private" servers
+@server_routes.route('/public', methods=["GET"])
+def get_public_servers():
+    """Get all public servers"""
+    public_servers = Server.query.filter(Server.private == False).all()
+    result = servers_schema.dump(public_servers)
+    return (jsonify(result))
+
+@server_routes.route('/<int:server_id>', methods=["GET"])
+def get_one_server(server_id):
+    """Get one server, include channels"""
+
+    one_server = Server.query.get(server_id)
+    if not one_server: 
+            return {"message": ["Server couldn't be found."]}, 404
+    members = one_server.server_members
+    channels = one_server.channels
+
+    server_members = one_server.to_dict()["server_members"]
+    server_channels = one_server.to_dict()["channels"]
+    server_users = [server_member.to_dict() for server_member in server_members]
+    channels = [server_channel.to_dict() for server_channel in server_channels]
+    server_in_dict = one_server.to_dict()
+    server_in_dict["server_members"] = server_users
+    server_in_dict["channels"] = channels
+
+    return server_in_dict    
+
+@server_routes.route('', methods=["POST"])
+def post_new_server():
+    """Create a new channel"""
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        data = form.data
+        new_server = Server(
+            name = data['name'],
+            admin_id = current_user.id,
+            image_url = data['image_url']
+        )
+
+        server_members = [int(server_member)
+                        for server_member in data["server_members_lst"].split(",")]
+        for server_member in server_members:
+            server_user = User.query.get(server_member)
+            new_server.server_members.append(server_user)
+
+        db.session.add(new_server)
+        db.session.commit()
+
+        success_response = Server.query.order_by(Server.id.desc()).first()
+        return jsonify(server_schema.dump(success_response))
+
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+@server_routes.route('/<int:server_id>', methods=["PUT"])
+def edit_server_details(server_id):
+    """Create a new channel"""
+    form = EditServerForm()
+    server = Server.query.get(server_id)
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if server and form.validate_on_submit():
+        data = form.data
+        name = data['name']
+        image_url = data['image_url']
+        server.name = name
+        server.image_url = image_url
+        db.session.add(server)
+        db.session.commit()
+        result = server_schema.dump(server)
+        return (jsonify(result))
+    return "Server not found", 404
+
+@server_routes.route('/<int:server_id>', methods=["DELETE"])
+def delete_server(server_id):
+    """Delete a server by id"""
+    server = Server.query.get(server_id)
+    if server:
+        db.session.delete(server)
+        db.session.commit()
+        result = channel_schema.dump(server)
+        return (jsonify(result))
+    else:
+        return "Server not found.", 404
+
+@server_routes.route('/', methods=["GET"])
+def user_servers():
+    """
+    Get all logged in user's servers, include members, channels, and messages
+    """
+    user = User.query.get(current_user.id)
+    if not user: 
+            return {"message": ["User couldn't be found."]}, 404
+    servers = user.servers
+    servers_list = []
+    for server in servers:
+        server_members = server.to_dict()["server_members"]
+        server_channels = server.to_dict()["channels"]
+        channels = [server_channel.to_dict() for server_channel in server_channels]
+        server_users = [server_member.to_dict() for server_member in server_members]
+        server_in_dict = server.to_dict()
+        server_in_dict["server_members"] = server_users
+        server_in_dict["channels"] = channels
+        print(server_users, '**USERS**')
+        print(channels, '**CHANNELS**')
+        servers_list.append(server_in_dict)
+    return jsonify(servers_list)
 
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
@@ -221,44 +261,5 @@ def delete_user_from_server(server_id, member_id):
                     
                 return {"message": ["Successfully Deleted."]}, 200
     return {"message": ["You don't have access to delete members to this server."]}, 403
-
-
-# We are not currently using "public"/"private" servers
-@server_routes.route('/public', methods=["GET"])
-def get_public_servers():
-    """Get all public servers"""
-    public_servers = Server.query.filter(Server.private == False).all()
-    result = servers_schema.dump(public_servers)
-    return (jsonify(result))
-
-@server_routes.route('/<int:server_id>', methods=["PUT"])
-def edit_server_details(server_id):
-    """Create a new channel"""
-    form = EditServerForm()
-    server = Server.query.get(server_id)
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if server and form.validate_on_submit():
-        data = form.data
-        name = data['name']
-        image_url = data['image_url']
-        server.name = name
-        server.image_url = image_url
-        db.session.add(server)
-        db.session.commit()
-        result = server_schema.dump(server)
-        return (jsonify(result))
-    return "Server not found", 404
-
-@server_routes.route('/<int:server_id>', methods=["DELETE"])
-def delete_server(server_id):
-    """Delete a server by id"""
-    server = Server.query.get(server_id)
-    if server:
-        db.session.delete(server)
-        db.session.commit()
-        result = channel_schema.dump(server)
-        return (jsonify(result))
-    else:
-        return "Server not found.", 404
 
 
