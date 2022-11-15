@@ -105,87 +105,36 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
-# this route has bugs
-# @server_routes.route('<int:server_id>/members', methods=["POST"])
-# def post_server_member(server_id):
-#     """Add a member to a server"""
-#     form = AddServerMember()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     server = Server.query.get(server_id)
-#     if form.validate_on_submit():
-#         data = form.data
-#         new_member = ServerMember(
-#             server_id = server_id,
-#             user_id = data['user_id']
-#         )
-#         db.session.add(new_member)
-#         db.session.commit()
-#         result = server_member_schema.dump(new_member)
-#         return (jsonify(result))
-#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-
-# KRIS' CODE BELOW (3x)
-
-# @server_routes.route("/<int:server_id>/members", methods=["POST"])
-# @login_required
-# def post_user_to_server(server_id):
-#     form = AddServerMember()
-#     server = Server.query.get(server_id)
-#     print("THIS IS FORM.DATA :", form.data)
-#     member = db.session.query(ServerMember).filter(ServerMember.user_id == form.data["user_id"]).filter(ServerMember.server_id == server_id).first()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     print("THIS IS MEMBER :", member)
-#     if not server:
-#         return {"message": ["Server couldn't be found."]}, 404
-#     if current_user.id == member.user_id and not current_user.id == server.admin_id:
-#         return {"message": ["User is already a member!"]}, 401
-#     if current_user.id == server.admin_id and member:
-#         return {"message": ["User is already a member!"]}, 401
-#     if server.admin_id == current_user.id or current_user:
-#         data = form.data
-#         new_member = ServerMember(
-#             user_id = data['user_id'],
-#             server_id = server_id
-#         )
-#         db.session.add(new_member)
-#         db.session.commit()
-#         result = server_member_schema.dump(new_member)
-#         return (jsonify(result))
-#     return {"message": ["You don't have access to add members to this server."]}, 404
-
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
 def post_current_user_add_public_server(server_id):
-    "Add User to server by user_id: Current User adds themselves to public server"
+    "Add User to server by user_id"
     form = AddServerMember()
     server = Server.query.get(server_id)
     server_members = ServerMember.query.filter_by(server_id = server_id).all()
     user_exists = User.query.filter(User.id == form.data["user_id"]).all()
-    print("USER EXISTING", user_exists)
-    # print("This is the ServerMember Array: ", server_members)
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if not server:
         return {"message": ["Server couldn't be found."]}, 404
-        # return {'errors': validation_errors_to_error_messages(form.errors)}, 404
-    # if current user tries to add user by id to server, but is not admin, throw 403 error
-    # if server:
-    #     if not server.admin_id == current_user.id:
-    #         return {'errors': validation_errors_to_error_messages(form.errors)}, 403
-    # if server id matches and the user_id == current_user.id throw 401 error ("User is already a member!")
-    # tests to see if current user is already a member in the selected server, can't be added twice
+
     for member in server_members:
         print("This is Member User Id:", member.user_id)
+        # if user doesn't exist (404)
         if not user_exists:
             return {"message": ["User couldn't be found."]}, 404
+        # if current user is NOT the admin for this server and current user is NOT the user attempting to be added (403)
         if not current_user.id == server.admin_id and not current_user.id == form.data["user_id"]:
             return {"message": ["You don't have access to add members to this server."]}, 403
+        # if current user ALREADY EXISTS, they can not add themselves again (401)
         if member.user_id == current_user.id and not current_user.id == server.admin_id:
             return {"message": ["User is already a member!"]}, 401
             # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+        # if current user is the server admin and userId inputed is already a member in server, they cannot add this new user (401)
         if current_user.id == server.admin_id and member.user_id == form.data["user_id"]:
             return {"message": ["User is already a member!"]}, 401
 
+    # successfully add user if you are either the server admin or the current user adding yourself to server (200)
     if server.admin_id == current_user.id or current_user:
         data = form.data
         new_member = ServerMember(
@@ -197,100 +146,38 @@ def post_current_user_add_public_server(server_id):
         result = server_member_schema.dump(new_member)
         return (jsonify(result))
 
-    # return {"message": ["You don't have access to add members to this server."]}, 403
-    # return {'errors': validation_errors_to_error_messages(form.errors)}, 403
-
-    # if server.admin_id == current_user.id and server:
-    #     data = form.data
-    #     new_member = ServerMember(
-    #         server_id = server_id,
-    #         user_id = data['user_id']
-    #     )
-    #     db.session.add(new_member)
-    #     db.session.commit()
-    #     result = server_member_schema.dump(new_member)
-    #     return (jsonify(result))
-    # else:
-    #     return {'errors': validation_errors_to_error_messages(form.errors)}, 403
-    # if server id does not match, throw 404 error ("server couldn't be found")
-
-# @server_routes.route('/<int:server_id>/members/add', methods=["POST"])
-# @login_required
-# def post_server_admin_adds_user(server_id):
-#     "Add User to server by user_id: Must be Server admin"
-#     form = AddServerMember()
-#     server = Server.query.get(server_id)
-#     form['csrf_token'].data = request.cookies['csrf_token']
-#     if server and server.admin_id == current_user.id:
-#         data = form.data
-#         new_member = ServerMember(
-#             server_id = server_id,
-#             user_id = data['user_id']
-#         )
-#         db.session.add(new_member)
-#         db.session.commit()
-#         result = server_member_schema.dump(new_member)
-#         return (jsonify(result))
-#     # if server id does not match, throw 403 error ("You don't have access to add members to this server")
-#     return {'errors': validation_errors_to_error_messages(form.errors)}, 403
-
 @server_routes.route('/<int:server_id>/members/<int:member_id>', methods=["DELETE"])
 @login_required
 def delete_user_from_server(server_id, member_id):
-    "Current User (current_user) deletes themselves from Server (server_id)"
+    "Delete User from Server (server_id) | Admin (server_admin) can delete user | Current user (current_user) can delete themselves"
     server = Server.query.get(server_id)
-    # server_members = ServerMember.query.filter_by(server_id = server_id).all()
     server_admin = server.admin_id
-    # print("this is the variable server: ", server)
     member = db.session.query(ServerMember).filter(ServerMember.user_id == member_id).filter(ServerMember.server_id == server_id).first()
-    # member = ServerMember.query.filter(ServerMember.user_id == member_id).filter(server_id == server_id)
-    # print("this is the member variable: ", member.to_dict())
+
     if not server:
         return {"message": ["Server couldn't be found."]}, 404
     if not member:
         return {"message": ["User couldn't be found."]}, 404
+
     if current_user.id == member_id or current_user.id == server_admin:
         db.session.delete(member)
         db.session.commit()
-        # result = server_member_schema.dump(member)
-        # return (jsonify(result))
         return {"message":["Successfully Deleted."]}, 200
-        # return (jsonify({"message": "Successfully Deleted.", "statusCode": 200}))
     return {"message": ["You don't have access to delete members to this server."]}, 403
-
-    # for member in server_members:
-    #     if server and member.user_id == member_id:
-    #         db.session.delete(member)
-    #         db.session.commit()
-    #         result = server_member_schema.dump(member)
-    #         return (jsonify(result))
-    #     return "You don't have access to delete members to this server."
-
-
-# @server_routes.route('/<int:server_id>/members/:member_id', methods=["DELETE"])
-# def server_admin_delete_user_from_server(server_id, member_id):
-#     "The Server Owner (admin_id) deletes User (user_id) from Server (server_id)"
-#     server = Server.query.get(server_id)
-#     if not server:
-#         return "Server couldn't be found."
-#     if server and Server.admin_id == current_user.id:
-#         db.session.delete(member_id)
-#         db.session.commit()
-#         result = server_member_schema.dump(member_id)
-#         return (jsonify(result))
-#     return "You don't have access to delete members to this server."
 
 @server_routes.route('/current', methods=["GET"])
 @login_required
 def get_servers_by_current_user():
     "Get Servers owner by current user"
-    # print("This is current user as an object: ", current_user)
-    # print("This is current user as an id: ", current_user.id)
     servers = Server.query.filter_by(admin_id = current_user.id).all()
     result = servers_schema.dump(servers)
     return (jsonify(result))
 
-# needs to be created
+# Servers | Completed
+# get all public servers
+# create new server
+# edit an existing server
+# delete server by id
 # add user by user_id (2x)
     # Add User to server by user_id: Current User adds themselves to public server
     # Add User to server by user_id: Must be Server admin
@@ -298,12 +185,6 @@ def get_servers_by_current_user():
     # Current User (current_user) deletes themselves from Server (server_id)
     # Add User to server by user_id: Must be Server admin
 # get servers by current user_id
-
-# Servers | Completed
-# get all public servers
-# create new server
-# edit an existing server
-# delete server by id
 
 # Channels | Completed in server_route
 # create a new channel
