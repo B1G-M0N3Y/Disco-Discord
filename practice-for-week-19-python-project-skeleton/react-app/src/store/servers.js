@@ -1,6 +1,6 @@
 const GET = "servers/GET";
-const GET_MEMBERS = "servers/GET_MEMBERS"
-const GET_CHANNELS = "servers/GET_CHANNELS"
+const GET_MEMBERS = "servers/GET_MEMBERS";
+const GET_CHANNELS = "servers/GET_CHANNELS";
 const ADD_ONE = "servers/ADD_ONE";
 const DELETE = "servers/DELETE";
 
@@ -23,7 +23,7 @@ const getChannels = (channels) => {
     type: GET_CHANNELS,
     channels,
   };
-}
+};
 
 const addOne = (server) => {
   return {
@@ -49,6 +49,16 @@ export const getServers = () => async (dispatch) => {
   return response;
 };
 
+// get one server
+export const getOneServer = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(addOne(data));
+  }
+  return response;
+};
+
 // get all server members by server id
 export const getServerMembers = (serverId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}/members`);
@@ -69,31 +79,42 @@ export const getServerChannels = (serverId) => async (dispatch) => {
   return response;
 };
 
-const initialState = { servers: {}, members: {}, channels: {} };
+const initialState = {
+  servers: {},
+  members: {},
+  channels: {},
+  currentServer: {},
+};
 
 const serverReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
     case GET:
-      newState = {...state};
+      newState = { ...state };
       action.servers.forEach((server) => {
         newState.servers[server.id] = server;
       });
-      return newState
+      return newState;
+    case ADD_ONE:
+      newState = { ...state };
+      return {
+        ...state,
+        currentServer: { ...action.server },
+      };
     case GET_MEMBERS:
-      newState = {...state};
-      newState.members = {}
+      newState = { ...state };
+      newState.members = {};
       action.members.forEach((member) => {
         newState.members[member.id] = member;
       });
-      return newState  
+      return newState;
     case GET_CHANNELS:
-      newState = {...state};
-      newState.channels = {}
+      newState = { ...state };
+      newState.channels = {};
       action.channels.forEach((channel) => {
-          newState.channels[channel.id] = channel;
-        });
-        return newState    
+        newState.channels[channel.id] = channel;
+      });
+      return newState;
     default:
       return state;
   }
