@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import LoginForm from './components/auth/LoginForm';
-import SignUpForm from './components/auth/SignUpForm';
-import NavBar from './components/NavBar';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
-import { authenticate } from './store/session';
-import BasicChat from './components/Chat/BasicChat';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import LoginForm from "./components/auth/LoginForm";
+import SignUpForm from "./components/auth/SignUpForm";
+import NavBar from "./components/NavBar/NavBar";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import UsersList from "./components/UsersList";
+import User from "./components/User";
+import { authenticate } from "./store/session";
+import BasicChat from "./components/Chat/BasicChat";
 import { io } from "socket.io-client";
 import { getServers } from "./store/servers";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -26,7 +27,6 @@ function App() {
       setLoaded(true);
     })();
   }, [dispatch]);
-
 
   // useEffect(() =>{
   //   if(sessionUser) {
@@ -75,15 +75,14 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId/members" exact={true}>
-          <ServerMembers />
-        </ProtectedRoute>
+        <ProtectedRoute
+          path="/servers/:serverId/members"
+          exact={true}
+        ></ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        <Route path="/chat">
-          {loaded && <BasicChat />}
-        </Route>
+        <Route path="/chat">{loaded && <BasicChat />}</Route>
       </Switch>
     </BrowserRouter>
   );
