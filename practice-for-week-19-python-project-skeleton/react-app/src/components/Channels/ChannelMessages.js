@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
-import { getChannelMessages } from "../../store/channel_messages";
+import { getChannelMessages, newChannelMessage } from "../../store/channel_messages";
 import './ChannelMessages.css'
 
 let socket;
@@ -14,6 +14,8 @@ const ChannelMessagesPage = () => {
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
   const { channelId } = useParams();
+
+
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
@@ -36,14 +38,20 @@ const ChannelMessagesPage = () => {
     };
   }, [channelId]);
 
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!newMessage) {
       return;
     }
-    const payload = { user: user.username, body: newMessage };
-    socket.emit("chat", payload);
+    const liveMsg = { user: user.username, body: newMessage };
+    const dbMsg = { user_id: user.id, channel_id:channelId, body: newMessage }
+
+
+    socket.emit("chat", liveMsg);
+    await dispatch(newChannelMessage(channelId, dbMsg))
     setNewMessage("");
   };
 
@@ -51,6 +59,9 @@ const ChannelMessagesPage = () => {
 
   return (
     <>
+    {/* TODO: REFACTOR TO SINGLE MAP */}
+    {/* CURRENT IMPLEMENTATION JUST BARE BONES FOR TESTING */}
+    {/* AND SETTING UP THE CREATE THUNK */}
       <div className="message-section">
         {Object.values(messageStore).map((message) => (
           <div className="message">

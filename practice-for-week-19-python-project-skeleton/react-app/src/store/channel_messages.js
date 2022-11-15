@@ -1,7 +1,7 @@
-const GET_MESSAGES = "servers/GET_MESSAGES"
-// const GET_CHANNELS = "servers/GET_CHANNELS"
-// const ADD_ONE = "servers/ADD_ONE";
-// const DELETE = "servers/DELETE";
+const GET_MESSAGES = "channel_messages/GET_MESSAGES"
+// const GET_CHANNELS = "channel_messages/GET_CHANNELS"
+const ADD_MESSAGE = "channel_messages/ADD_ONE";
+// const DELETE = "channel_messages/DELETE";
 
 
 const getMessages = (messages) => {
@@ -18,12 +18,12 @@ const getMessages = (messages) => {
 //   };
 // }
 
-// const addOne = (server) => {
-//   return {
-//     type: ADD_ONE,
-//     server,
-//   };
-// };
+const addMessage = (message) => {
+  return {
+    type: ADD_MESSAGE,
+    message,
+  };
+};
 
 // const remove = (serverId) => {
 //   return {
@@ -45,6 +45,24 @@ export const getChannelMessages = (channelId) => async (dispatch) => {
   return response;
 };
 
+// create new channel message
+export const newChannelMessage = (channelId, msg) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(msg)
+  });
+
+  console.log("asdfasdf", response)
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(addMessage(data))
+    return data
+  }
+}
 // // get all server members by server id
 // export const getServerMembers = (serverId) => async (dispatch) => {
 //   const response = await fetch(`/api/servers/${serverId}/members`);
@@ -73,6 +91,8 @@ const channelMessageReducer = (state = initialState, action) => {
     case GET_MESSAGES:
       console.log("action jackson",action.messages)
       return {messages :{ ...action.messages }}
+    case ADD_MESSAGE:
+      return{...state, [action.message.id]: action.comment}
     default:
       return state;
   }
