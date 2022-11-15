@@ -37,7 +37,7 @@ class Server(db.Model):
             'admin_id': self.admin_id,
             'image_url': self.image_url,
             'server_members': self.server_members, 
-            'channels': [channel.to_dict() for channel in self.channels],
+            'channels': self.channels
         }
 
 class ChannelMessages(db.Model):
@@ -47,8 +47,6 @@ class ChannelMessages(db.Model):
     channel_id = db.Column(db.Integer, db.ForeignKey("channels.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     body = db.Column(db.String(2000), nullable=False)
-    # createdAt = db.Column(db.DateTime(), nullable=False)
-    # updatedAt = db.Column(db.DateTime())
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
@@ -62,9 +60,9 @@ class ChannelMessages(db.Model):
             "channel_id": self.channel_id,
             "user_id": self.user_id,
             "body": self.body, 
-            "createdAt": self.createdAt, 
-            "updatedAt": self.updatedAt, 
-            "message_author": self.message_author
+            "created_at": self.created_at, 
+            "updated_at": self.updated_at, 
+            # "message_author": self.message_author.to_dict()
         }
 
 class Channel(db.Model):
@@ -75,7 +73,7 @@ class Channel(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey(
         "servers.id"), nullable=False)
 
-    # messages = db.relationship("ChannelMessages")
+    messages = db.relationship("ChannelMessages", backref="channel")
     # server = db.relationship("Server", back_populates="channels")
 
     def to_dict(self):
@@ -83,7 +81,7 @@ class Channel(db.Model):
             "id": self.id,
             "name": self.name,
             "server_id": self.server_id, 
-            "server": self.server
+            "messages": self.messages
         }
 
 

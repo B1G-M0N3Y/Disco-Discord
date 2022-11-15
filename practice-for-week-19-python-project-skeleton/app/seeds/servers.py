@@ -52,21 +52,25 @@ def seed_channels():
 
 
 def seed_server_members():
-    odyssey = Server(name='The Odyssey', admin_id=1)
-    dance_city = Server(name='Dance City', admin_id=2)
-    cars = Server(name='The Movie Cars', admin_id=3)
+    # odyssey = Server(name='The Odyssey', admin_id=1)
+    # dance_city = Server(name='Dance City', admin_id=2)
+    # cars = Server(name='The Movie Cars', admin_id=3)
+
+    server1 = Server.query.get(1)
+    server2 = Server.query.get(2)
+    server3 = Server.query.get(3)
     
     user1 = User.query.get(1)
     user2 = User.query.get(2)
     user3 = User.query.get(3)
 
-    odyssey.server_members.append(user1)
-    dance_city.server_members.append(user2)
-    cars.server_members.append(user3)
+    server1.server_members.append(user1)
+    server2.server_members.append(user2)
+    server3.server_members.append(user3)
     
-    db.session.add(odyssey)
-    db.session.add(dance_city)
-    db.session.add(cars)
+    db.session.add(server1)
+    db.session.add(server2)
+    db.session.add(server3)
     db.session.commit()
 
 # def seed_server_members():

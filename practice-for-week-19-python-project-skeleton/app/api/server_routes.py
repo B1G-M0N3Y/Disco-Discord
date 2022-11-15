@@ -16,85 +16,82 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-@server_routes.route('', methods=["POST"])
-def create_server():
-    """Create a new channel"""
-    form = ServerForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+# @server_routes.route('', methods=["POST"])
+# def create_server():
+#     """Create a new channel"""
+#     form = ServerForm()
+#     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if form.validate_on_submit():
-        data = form.data
-        new_server = Server(
-            name = data['name'],
-            admin_id = current_user.id,
-            image_url = data['image_url']
-        )
+#     if form.validate_on_submit():
+#         data = form.data
+#         new_server = Server(
+#             name = data['name'],
+#             admin_id = current_user.id,
+#             image_url = data['image_url']
+#         )
 
-        server_members = [int(server_member)
-                        for server_member in data["server_members_lst"].split(",")]
-        for server_member in server_members:
-            server_user = User.query.get(server_member)
-            new_server.server_members.append(server_user)
+#         server_members = [int(server_member)
+#                         for server_member in data["server_members_lst"].split(",")]
+#         for server_member in server_members:
+#             server_user = User.query.get(server_member)
+#             new_server.server_members.append(server_user)
 
-        db.session.add(new_server)
-        db.session.commit()
+#         db.session.add(new_server)
+#         db.session.commit()
 
-        success_response = Server.query.order_by(Server.id.desc()).first()
-        return jsonify(server_schema.dump(success_response))
+#         success_response = Server.query.order_by(Server.id.desc()).first()
+#         return jsonify(server_schema.dump(success_response))
 
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-@server_routes.route('/all', methods=["GET"])
-def get_all_servers():
-    """Get all servers"""
-    servers = Server.query.all()
-    # return {'servers': [server.to_dict() for server in servers]}
+# @server_routes.route('/all', methods=["GET"])
+# def get_all_servers():
+#     """Get all servers"""
+#     servers = Server.query.all()
+#     # return {'servers': [server.to_dict() for server in servers]}
 
-    result = servers_schema.dump(servers)
-    return (jsonify(result))
+#     result = servers_schema.dump(servers)
+#     return (jsonify(result))
 
-@server_routes.route('/', methods=["GET"])
-def user_servers():
-    """
-    Query for all servers belonging to logged in user and returns them in a list of user dictionaries
-    """
-    user = User.query.get(current_user.id)
-    # user = User.query.get(1)
-    servers = user.servers
-    servers_list = []
-    print(servers, "user.servers")
-    for server in servers:
-        server_members = server.to_dict()["server_members"]
-        server_channels = server.to_dict()["channels"]
-        channels = [server_channel.to_dict() for server_channel in server_channels]
-        server_users = [server_member.to_dict() for server_member in server_members]
-        server_in_dict = server.to_dict()
-        server_in_dict["server_members"] = server_users
-        server_in_dict["channels"] = channels
-        print(server_users, '**USERS**')
-        print(channels, '**CHANNELS**')
-        print(server_channels, '**SERVER_CHANNELS**')
-        print(server.to_dict(), '**SERVER_DICT**')
-        servers_list.append(server_in_dict)
-    return jsonify(servers_list)
+# @server_routes.route('/', methods=["GET"])
+# def user_servers():
+#     """
+#     Query for all servers belonging to logged in user and returns them in a list of user dictionaries
+#     """
+#     user = User.query.get(current_user.id)
+#     # user = User.query.get(1)
+#     servers = user.servers
+#     servers_list = []
+#     for server in servers:
+#         server_members = server.to_dict()["server_members"]
+#         server_channels = server.to_dict()["channels"]
+#         channels = [server_channel.to_dict() for server_channel in server_channels]
+#         server_users = [server_member.to_dict() for server_member in server_members]
+#         server_in_dict = server.to_dict()
+#         server_in_dict["server_members"] = server_users
+#         server_in_dict["channels"] = channels
+#         print(server_users, '**USERS**')
+#         print(channels, '**CHANNELS**')
+#         servers_list.append(server_in_dict)
+#     return jsonify(servers_list)
 
-@server_routes.route('/<int:server_id>', methods=["GET"])
-def get_one_server(server_id):
-    """Get one server"""
+# @server_routes.route('/<int:server_id>', methods=["GET"])
+# def get_one_server(server_id):
+#     """Get one server"""
 
-    one_server = Server.query.get(server_id)
-    members = one_server.server_members
-    channels = one_server.channels
+#     one_server = Server.query.get(server_id)
+#     members = one_server.server_members
+#     channels = one_server.channels
 
-    all_members = []
-    for member in members:
-        server_members = one_server.to_dict()["server_members"]
-        server_users = [server_member.to_dict() for server_member in server_members]
-        server_in_dict = one_server.to_dict()
-        server_in_dict["server_members"] = server_users
-        all_members.append(server_in_dict)
-    
-    return (jsonify(all_members))
+#     server_members = one_server.to_dict()["server_members"]
+#     server_channels = one_server.to_dict()["channels"]
+#     server_users = [server_member.to_dict() for server_member in server_members]
+#     channels = [server_channel.to_dict() for server_channel in server_channels]
+#     server_in_dict = one_server.to_dict()
+#     server_in_dict["server_members"] = server_users
+#     server_in_dict["channels"] = channels
+
+#     return server_in_dict
 
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
