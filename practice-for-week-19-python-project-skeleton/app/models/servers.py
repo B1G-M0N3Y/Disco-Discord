@@ -62,7 +62,7 @@ class ChannelMessages(db.Model):
             "body": self.body, 
             "created_at": self.created_at, 
             "updated_at": self.updated_at, 
-            # "message_author": self.message_author.to_dict()
+            "message_author": self.message_author.to_dict()
         }
 
 class Channel(db.Model):
@@ -81,7 +81,7 @@ class Channel(db.Model):
             "id": self.id,
             "name": self.name,
             "server_id": self.server_id, 
-            "messages": self.messages
+            "messages": [self.message.to_dict() for self.message in self.messages]
         }
 
 

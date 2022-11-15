@@ -16,82 +16,85 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
-# @server_routes.route('', methods=["POST"])
-# def create_server():
-#     """Create a new channel"""
-#     form = ServerForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
+@server_routes.route('', methods=["POST"])
+def create_server():
+    """Create a new channel"""
+    form = ServerForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
 
-#     if form.validate_on_submit():
-#         data = form.data
-#         new_server = Server(
-#             name = data['name'],
-#             admin_id = current_user.id,
-#             image_url = data['image_url']
-#         )
+    if form.validate_on_submit():
+        data = form.data
+        new_server = Server(
+            name = data['name'],
+            admin_id = current_user.id,
+            image_url = data['image_url']
+        )
 
-#         server_members = [int(server_member)
-#                         for server_member in data["server_members_lst"].split(",")]
-#         for server_member in server_members:
-#             server_user = User.query.get(server_member)
-#             new_server.server_members.append(server_user)
+        server_members = [int(server_member)
+                        for server_member in data["server_members_lst"].split(",")]
+        for server_member in server_members:
+            server_user = User.query.get(server_member)
+            new_server.server_members.append(server_user)
 
-#         db.session.add(new_server)
-#         db.session.commit()
+        db.session.add(new_server)
+        db.session.commit()
 
-#         success_response = Server.query.order_by(Server.id.desc()).first()
-#         return jsonify(server_schema.dump(success_response))
+        success_response = Server.query.order_by(Server.id.desc()).first()
+        return jsonify(server_schema.dump(success_response))
 
-#     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-# @server_routes.route('/all', methods=["GET"])
-# def get_all_servers():
-#     """Get all servers"""
-#     servers = Server.query.all()
-#     # return {'servers': [server.to_dict() for server in servers]}
+@server_routes.route('/all', methods=["GET"])
+def get_all_servers():
+    """Get all servers"""
+    servers = Server.query.all()
+    # return {'servers': [server.to_dict() for server in servers]}
 
-#     result = servers_schema.dump(servers)
-#     return (jsonify(result))
+    result = servers_schema.dump(servers)
+    return (jsonify(result))
 
-# @server_routes.route('/', methods=["GET"])
-# def user_servers():
-#     """
-#     Query for all servers belonging to logged in user and returns them in a list of user dictionaries
-#     """
-#     user = User.query.get(current_user.id)
-#     # user = User.query.get(1)
-#     servers = user.servers
-#     servers_list = []
-#     for server in servers:
-#         server_members = server.to_dict()["server_members"]
-#         server_channels = server.to_dict()["channels"]
-#         channels = [server_channel.to_dict() for server_channel in server_channels]
-#         server_users = [server_member.to_dict() for server_member in server_members]
-#         server_in_dict = server.to_dict()
-#         server_in_dict["server_members"] = server_users
-#         server_in_dict["channels"] = channels
-#         print(server_users, '**USERS**')
-#         print(channels, '**CHANNELS**')
-#         servers_list.append(server_in_dict)
-#     return jsonify(servers_list)
+@server_routes.route('/', methods=["GET"])
+def user_servers():
+    """
+    Get all logged in user's servers, include members, channels, and messages
+    """
+    user = User.query.get(current_user.id)
+    if not user: 
+            return {"message": ["User couldn't be found."]}, 404
+    servers = user.servers
+    servers_list = []
+    for server in servers:
+        server_members = server.to_dict()["server_members"]
+        server_channels = server.to_dict()["channels"]
+        channels = [server_channel.to_dict() for server_channel in server_channels]
+        server_users = [server_member.to_dict() for server_member in server_members]
+        server_in_dict = server.to_dict()
+        server_in_dict["server_members"] = server_users
+        server_in_dict["channels"] = channels
+        print(server_users, '**USERS**')
+        print(channels, '**CHANNELS**')
+        servers_list.append(server_in_dict)
+    return jsonify(servers_list)
 
-# @server_routes.route('/<int:server_id>', methods=["GET"])
-# def get_one_server(server_id):
-#     """Get one server"""
+@server_routes.route('/<int:server_id>', methods=["GET"])
+def get_one_server(server_id):
+    """Get one server, include channels"""
 
-#     one_server = Server.query.get(server_id)
-#     members = one_server.server_members
-#     channels = one_server.channels
+    one_server = Server.query.get(server_id)
+    if not one_server: 
+            return {"message": ["Server couldn't be found."]}, 404
+    members = one_server.server_members
+    channels = one_server.channels
 
-#     server_members = one_server.to_dict()["server_members"]
-#     server_channels = one_server.to_dict()["channels"]
-#     server_users = [server_member.to_dict() for server_member in server_members]
-#     channels = [server_channel.to_dict() for server_channel in server_channels]
-#     server_in_dict = one_server.to_dict()
-#     server_in_dict["server_members"] = server_users
-#     server_in_dict["channels"] = channels
+    server_members = one_server.to_dict()["server_members"]
+    server_channels = one_server.to_dict()["channels"]
+    server_users = [server_member.to_dict() for server_member in server_members]
+    channels = [server_channel.to_dict() for server_channel in server_channels]
+    server_in_dict = one_server.to_dict()
+    server_in_dict["server_members"] = server_users
+    server_in_dict["channels"] = channels
 
-#     return server_in_dict
+    return server_in_dict
 
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
@@ -117,6 +120,7 @@ def post_new_channel(server_id):
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+# Get user's servers route handles this now
 @server_routes.route('/<int:server_id>/channels', methods=["GET"])
 def get_all_channels(server_id):
     """Get all channels by server id"""
@@ -124,12 +128,71 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
-# @server_routes.route('/members', methods=["GET"])
-# def get_all_members():
-#     """Get all servers"""
-#     members = server_members.query.all()
-#     result = server_members_schema.dump(members)
-#     return (jsonify(result))
+# Get one server route handles this now
+@server_routes.route('/members', methods=["GET"])
+def get_all_members():
+    """Get all members"""
+    members = ServerMembers.query.all()
+    result = server_members_schema.dump(members)
+    return (jsonify(result))
+
+@server_routes.route('/<int:server_id>/members', methods=["POST"])
+@login_required
+def post_current_user_add_public_server(server_id):
+    "Add User to server by user_id"
+    form = AddServerMember()
+    server = Server.query.get(server_id)
+    # server_members = ServerMember.query.filter_by(server_id=server_id).all()
+    
+    members = server.server_members
+    server_members = server.to_dict()["server_members"]
+    print(server_members, "***SERVER_MEMBERS***")
+    server_users = [server_member.to_dict() for server_member in server_members]
+    print(server_users, "***SERVER_USERS***")
+    server_in_dict = server.to_dict()
+    print(server_in_dict, "***SERVER_IN_DICT***")
+    # server_in_dict["server_members"] = server_users
+
+    user_exists = User.query.filter(User.id == form.data["user_id"]).all()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if not server:
+        return {"message": ["Server couldn't be found."]}, 404
+
+    for member in server_users:
+        print(member, "MEMBER IN SERVER_USERS")
+        print("This is Member User Id:", member["id"])
+        # if user doesn't exist (404)
+        if not user_exists:
+            return {"message": ["User couldn't be found."]}, 404
+        # if current user is NOT the admin for this server and current user is NOT the user attempting to be added (403)
+        if not current_user.id == server.admin_id and not current_user.id == form.data["user_id"]:
+            return {"message": ["You don't have access to add members to this server."]}, 403
+        # if current user ALREADY EXISTS, they can not add themselves again (401)
+        if member["id"] == current_user.id and not current_user.id == server.admin_id:
+            return {"message": ["User is already a member!"]}, 401
+            # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+        # if current user is the server admin and userId inputed is already a member in server, they cannot add this new user (401)
+        if current_user.id == server.admin_id and member["id"] == form.data["user_id"]:
+            return {"message": ["User is already a member!"]}, 401
+
+    # successfully add user if you are either the server admin or the current user adding yourself to server (200)
+    if server.admin_id == 1 or current_user:
+        data = form.data
+
+        id = data['user_id']    
+        user_to_add = User.query.get(id)
+
+        server_members.append(user_to_add)
+        print(server_users, "***APPENDED USERS")
+        
+        server.to_dict()["server_members"] = server_members
+
+        db.session.add(server)
+        db.session.commit()
+
+        result = server_schema.dump(server)
+        return (jsonify(result))
 
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():

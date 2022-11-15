@@ -19,7 +19,6 @@ def get_one_channel(channel_id):
     """
     Get channel details by id and all associated messages
     """
-
     one_channel = Channel.query.get(channel_id)
     messages = one_channel.messages
 
@@ -31,7 +30,7 @@ def get_one_channel(channel_id):
     
     return channel_in_dict  
 
-no longer need this route because messages get loaded with channels
+# no longer need this route because messages get loaded with channels
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
 def get_channel_messages(channel_id):
     """
