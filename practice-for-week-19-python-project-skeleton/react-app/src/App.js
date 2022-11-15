@@ -43,7 +43,7 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        {/* <ProtectedRoute path="/servers/:serverId" exact={true}></ProtectedRoute> */}
+        <ProtectedRoute path="/servers/:serverId" exact={true}></ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
