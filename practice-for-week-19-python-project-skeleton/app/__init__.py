@@ -59,6 +59,8 @@ CORS(app)
 # Therefore, we need to make sure that in production any
 # request made over http is redirected to https.
 # Well.........
+
+
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -100,15 +102,16 @@ def api_help():
     """
     acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 
-    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
-                    app.view_functions[rule.endpoint].__doc__ ]
-                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+    route_list = {rule.rule: [[method for method in rule.methods if method in acceptable_methods],
+                              app.view_functions[rule.endpoint].__doc__]
+                  for rule in app.url_map.iter_rules() if rule.endpoint != 'static'}
     return route_list
 
     route_list = {rule.rule: [[method for method in rule.methods if method in acceptable_methods],
                               app.view_functions[rule.endpoint].__doc__]
                   for rule in app.url_map.iter_rules() if rule.endpoint != 'static'}
     return route_list
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, port=5000)
