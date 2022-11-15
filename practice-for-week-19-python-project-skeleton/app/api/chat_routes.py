@@ -23,6 +23,7 @@ def chats():
         chat_users = [chat_member.to_dict() for chat_member in chat_members]
         chat_in_dict = chat.to_dict()
         chat_in_dict["chat_members"] = chat_users
+        print(chat_users, '**USERS**')
         chats_list.append(chat_in_dict)
     return jsonify(chats_list)
 
