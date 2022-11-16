@@ -70,11 +70,16 @@ class ChannelMessages(db.Model):
             "message_author": self.message_author.to_dict()
         }
 
+<<<<<<< HEAD
 class Channel(db.Model):
     __tablename__ = "channels"
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
+=======
+class ServerMember(db.Model):
+    __tablename__ = "server_members"
+>>>>>>> dev
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
@@ -93,12 +98,28 @@ class Channel(db.Model):
         }
 
 
+<<<<<<< HEAD
 # class ServerMember(db.Model):
 #     __tablename__ = "server_members"
 
 #     id = db.Column(db.Integer, primary_key=True)
 #     server_id = db.Column("server_id", db.Integer, db.ForeignKey("servers.id"))
 #     user_id = db.Column("user_id", db.Integer, db.ForeignKey("users.id"))
+=======
+    # channel = db.relationship("Channel")
+    author = db.relationship("User", back_populates="channel_messages")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "channel_id": self.channel_id,
+            "user_id": self.user_id,
+            "body": self.body,
+            "author": self.author.to_dict(),
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+>>>>>>> dev
 
 
 class ServerSchema(ma.Schema):

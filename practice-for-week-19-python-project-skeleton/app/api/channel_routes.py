@@ -16,6 +16,7 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
+<<<<<<< HEAD
 def get_one_channel(channel_id): 
     """
     Get channel details by id and all associated messages
@@ -23,6 +24,13 @@ def get_one_channel(channel_id):
     one_channel = Channel.query.get(channel_id)
     channel_in_dict = one_channel.to_dict()
     return jsonify(channel_in_dict)  
+=======
+def get_one_channel(channel_id):
+    """Get channel details by id"""
+    one_channel = Channel.query.get(channel_id)
+    return channel_schema.jsonify(one_channel)
+    return channel_schema.jsonify(one_channel)
+>>>>>>> dev
 
 # no longer need this route because messages get loaded with channels
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
@@ -31,7 +39,8 @@ def get_channel_messages(channel_id):
     Get all messages by channel id
     """
     messages = ChannelMessages.query.filter(ChannelMessages.channel_id == channel_id).all()
-    result = channel_messages_schema.dump(messages)
+    result = [message.to_dict() for message in messages]
+    # result = channel_messages_schema.dump(messages)
     return (jsonify(result))
 
 @channel_routes.route('/messages/<int:message_id>', methods=["DELETE"])
@@ -60,7 +69,7 @@ def post_channel_message(channel_id):
     if form.validate_on_submit():
         data = form.data
         new_message = ChannelMessages(
-            body = data['body'], 
+            body = data['body'],
             channel_id = channel_id,
             user_id = current_user.id
         )
@@ -97,7 +106,23 @@ def delete_channel(channel_id):
         db.session.delete(channel)
         db.session.commit()
         result = channel_schema.dump(channel)
+<<<<<<< HEAD
         return {"message": ["Channel deleted."]}, 200
     else: 
         return "Channel not found."     
+=======
+        return (jsonify(result))
+    else:
+        return "Channel not found."
+>>>>>>> dev
 
+# Channel Completed
+# Get Details of Channel by Id
+# Create a channel (server_route)
+# Update Channel Details by id
+# Delete a Channel
+
+# Channel-Messages Completed
+# Get all messages by channel id
+# Delete message by id
+# Post new channel message

@@ -13,8 +13,7 @@ function SidebarNav() {
 
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
-  console.log("this is the current server in SidebarNav", currServer);
-
+  
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
@@ -35,7 +34,7 @@ function SidebarNav() {
   const allServers = useSelector((state) => state.servers.servers);
   const serversArr = Object.values(allServers);
   const filteredMembers = members.filter(
-    (item) => item.user_id === currentUser.id
+    (item) => item.user_id === currentUser?.id
   );
   const filteredServers = [];
   for (let i = 0; i < filteredMembers.length; i++) {
