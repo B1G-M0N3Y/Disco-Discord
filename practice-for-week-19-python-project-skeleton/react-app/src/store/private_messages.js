@@ -1,0 +1,95 @@
+const GET_MESSAGES = "private_messages/GET_MESSAGES"
+// const GET_CHANNELS = "channel_messages/GET_CHANNELS"
+const ADD_MESSAGE = "private_messages/ADD_ONE";
+// const DELETE = "channel_messages/DELETE";
+
+
+const getMessages = (messages) => {
+  return {
+    type: GET_MESSAGES,
+    messages,
+  };
+};
+
+// const getChannels = (channels) => {
+//   return {
+//     type: GET_CHANNELS,
+//     channels,
+//   };
+// }
+
+const addMessage = (message) => {
+  return {
+    type: ADD_MESSAGE,
+    message,
+  };
+};
+
+// const remove = (serverId) => {
+//   return {
+//     type: DELETE,
+//     serverId,
+//   };
+// };
+
+// get all servers
+export const getPrivateMessages = (channelId) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}/messages`);
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getMessages(data));
+  }
+  return response;
+};
+
+// create new channel message
+export const newPrivateMessage = (channelId, msg) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(msg)
+  });
+
+  if (response.ok) {
+    const data = await response.json()
+    dispatch(addMessage(data))
+    return data
+  }
+}
+// // get all server members by server id
+// export const getServerMembers = (serverId) => async (dispatch) => {
+//   const response = await fetch(`/api/servers/${serverId}/members`);
+//   if (response.ok) {
+//     const data = await response.json();
+//     dispatch(getMembers(data));
+//   }
+//   return response;
+// };
+
+// // get all server channels by server id
+// export const getServerChannels = (serverId) => async (dispatch) => {
+//   const response = await fetch(`/api/servers/${serverId}/channels`);
+//   if (response.ok) {
+//     const data = await response.json();
+//     dispatch(getChannels(data));
+//   }
+//   return response;
+// };
+
+const initialState = { messages: {} };
+
+const privateMessageReducer = (state = initialState, action) => {
+  let newState;
+  switch (action.type) {
+    case GET_MESSAGES:
+      return {messages :{ ...action.messages }}
+    case ADD_MESSAGE:
+      return{...state, [action.message.id]: action.comment}
+    default:
+      return state;
+  }
+};
+export default privateMessageReducer;

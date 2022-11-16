@@ -7,7 +7,7 @@ const PrivateMessages = () => {
 
     return(
     <div>
-        CHATS HERE
+       
     </div>
     )
 
