@@ -6,23 +6,12 @@ chat_members = db.Table(
     "chat_members",
     db.Column("chat_id",
               db.Integer(),
-<<<<<<< HEAD
               db.ForeignKey(add_prefix_for_prod('chats.id')),
               primary_key=True),
     db.Column("user_id",
               db.Integer(),
               db.ForeignKey(add_prefix_for_prod('users.id')),
               primary_key=True)
-=======
-              db.ForeignKey('chats.id'),
-              #   primary_key=True
-              ),
-    db.Column("user_id",
-              db.Integer(),
-              db.ForeignKey('users.id'),
-              #   primary_key=True
-              )
->>>>>>> dev
 )
 
 
@@ -57,16 +46,10 @@ class ChatMessage(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-<<<<<<< HEAD
-    author_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod(
-        'users.id')), nullable=False)
-    chat_id = db.Column(db.Integer(), nullable=False)
-=======
     author_id = db.Column(db.Integer(), db.ForeignKey(
         'users.id'), nullable=False)
     chat_id = db.Column(db.Integer(), db.ForeignKey(
         'chats.id'), nullable=False)
->>>>>>> dev
     body = db.Column(db.Text, nullable=False)
     createdAt = db.Column(db.DateTime(), nullable=False)
     updatedAt = db.Column(db.DateTime())

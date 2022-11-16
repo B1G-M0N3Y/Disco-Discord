@@ -25,8 +25,8 @@ def post_new_channel(server_id):
     form = ChannelForm()
     server = Server.query.get(server_id)
     form['csrf_token'].data = request.cookies['csrf_token']
-    # if server.admin_id != 1: 
-    if server.admin_id != current_user.id: 
+    # if server.admin_id != 1:
+    if server.admin_id != current_user.id:
         return {'errors': "authorization required"}, 403
     if server and form.validate_on_submit():
         data = form.data
@@ -57,7 +57,7 @@ def get_all_servers():
     servers = Server.query.all()
 
     result = servers_schema.dump(servers)
-    return (jsonify(result))    
+    return (jsonify(result))
 
 # We are not currently using "public"/"private" servers
 @server_routes.route('/public', methods=["GET"])
@@ -73,7 +73,7 @@ def get_one_server(server_id):
     """Get one server, include channels"""
 
     one_server = Server.query.get(server_id)
-    if not one_server: 
+    if not one_server:
             return {"message": ["Server couldn't be found."]}, 404
     members = one_server.server_members
     channels = one_server.channels
@@ -86,7 +86,7 @@ def get_one_server(server_id):
     server_in_dict["server_members"] = server_users
     server_in_dict["channels"] = channels
 
-    return server_in_dict    
+    return server_in_dict
 
 
 @server_routes.route('', methods=["POST"])
@@ -100,7 +100,7 @@ def post_new_server():
         new_server = Server(
             name = data['name'],
             admin_id = current_user.id,
-            image_url = data['image_url']
+            image_url = data['image_url'],
         )
 
         server_members = [int(server_member)
@@ -155,7 +155,7 @@ def user_servers():
     Get all logged in user's servers, include members, channels, and messages
     """
     user = User.query.get(current_user.id)
-    if not user: 
+    if not user:
             return {"message": ["User couldn't be found."]}, 404
     servers = user.servers
     servers_list = []
@@ -179,7 +179,7 @@ def post_current_user_add_public_server(server_id):
     form = AddServerMember()
     server = Server.query.get(server_id)
     # server_members = ServerMember.query.filter_by(server_id=server_id).all()
-    
+
     members = server.server_members
     server_members = server.to_dict()["server_members"]
     print(server_members, "***SERVER_MEMBERS***")
@@ -216,12 +216,12 @@ def post_current_user_add_public_server(server_id):
     if server.admin_id == current_user.id or current_user:
         data = form.data
 
-        id = data['user_id']    
+        id = data['user_id']
         user_to_add = User.query.get(id)
 
         server_members.append(user_to_add)
         print(server_users, "***APPENDED USERS")
-        
+
         server.to_dict()["server_members"] = server_members
 
         db.session.add(server)
@@ -237,7 +237,7 @@ def delete_user_from_server(server_id, member_id):
     server = Server.query.get(server_id)
     member = User.query.get(member_id)
     server_admin = server.admin_id
-    
+
     if not server:
         return {"message": ["Server couldn't be found."]}, 404
     if not member:
@@ -251,11 +251,11 @@ def delete_user_from_server(server_id, member_id):
     print(server_users, "***SERVER_USERS***")
 
     if current_user.id == member_id or current_user.id == server_admin:
-        for item in server_members: 
+        for item in server_members:
             user = item.to_dict()
             print(user, "THIS IS THE USER")
             print(user["id"], "ID")
-            if user["id"] == member_id: 
+            if user["id"] == member_id:
                 server_members.remove(item)
                 print(server_members, "***AFTER DELETE: SERVER_MEMBERS***")
 
@@ -263,8 +263,6 @@ def delete_user_from_server(server_id, member_id):
 
                 db.session.add(server)
                 db.session.commit()
-                    
+
                 return {"message": ["Successfully Deleted."]}, 200
     return {"message": ["You don't have access to delete members to this server."]}, 403
-
-
