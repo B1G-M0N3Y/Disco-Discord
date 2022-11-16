@@ -15,6 +15,7 @@ import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
+import SidebarNav from "./components/SidebarNav";
 // import ChannelList from "./components/Channels/ChannelList";
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
         ></ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
+          <SidebarNav />
         </Route>
         {/* <Route path="/chat">
           {loaded && <BasicChat />}
