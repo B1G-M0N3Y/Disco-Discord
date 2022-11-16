@@ -1,14 +1,8 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
-<<<<<<< HEAD
 from app.models.servers import db, Server, Channel, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
 from flask_login import login_required, current_user
 from app.models import User
-=======
-from app.models.servers import db, ServerMember, Channel, Server, channel_schema, channels_schema, server_schema, servers_schema, server_member_schema, server_members_schema
-from app.models.user import User
-from flask_login import current_user, login_required
->>>>>>> dev
 
 server_routes = Blueprint('servers', __name__)
 
@@ -24,10 +18,7 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
     """Create a new channel"""
@@ -52,11 +43,7 @@ def post_new_channel(server_id):
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
-<<<<<<< HEAD
 # Get user's servers route handles this now
-=======
-
->>>>>>> dev
 @server_routes.route('/<int:server_id>/channels', methods=["GET"])
 def get_all_channels(server_id):
     """Get all channels by server id"""
@@ -64,34 +51,15 @@ def get_all_channels(server_id):
     result = channels_schema.dump(channels)
     return (jsonify(result))
 
-<<<<<<< HEAD
 @server_routes.route('/all', methods=["GET"])
-=======
-
-@server_routes.route('/', methods=["GET"])
->>>>>>> dev
 def get_all_servers():
     """Get all servers"""
     servers = Server.query.all()
 
     result = servers_schema.dump(servers)
-<<<<<<< HEAD
     return (jsonify(result))    
 
 # We are not currently using "public"/"private" servers
-=======
-    return (jsonify(result))
-
-
-@server_routes.route('/members', methods=["GET"])
-def get_all_members():
-    """Get all servers"""
-    servers = ServerMember.query.all()
-    result = server_members_schema.dump(servers)
-    return (jsonify(result))
-
-
->>>>>>> dev
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
@@ -130,24 +98,20 @@ def post_new_server():
     if form.validate_on_submit():
         data = form.data
         new_server = Server(
-<<<<<<< HEAD
             name = data['name'],
             admin_id = current_user.id,
-            image_url = data['image_url'], 
-=======
-            name=data['name'],
-            admin_id=data['admin_id'],
-            image_url=data['image_url']
->>>>>>> dev
+            image_url = data['image_url']
         )
 
-        # members = new_server.server_members
-        server_user = User.query.get(current_user.id)
-        new_server.server_members.append(server_user)
+        server_members = [int(server_member)
+                        for server_member in data["server_members_lst"].split(",")]
+        for server_member in server_members:
+            server_user = User.query.get(server_member)
+            new_server.server_members.append(server_user)
 
         db.session.add(new_server)
         db.session.commit()
-        print(new_server.to_dict(), "***NEW SERVER***")  
+
         success_response = Server.query.order_by(Server.id.desc()).first()
         return jsonify(server_schema.dump(success_response))
 
@@ -185,7 +149,6 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
-<<<<<<< HEAD
 @server_routes.route('/', methods=["GET"])
 def user_servers():
     """
@@ -208,15 +171,12 @@ def user_servers():
         print(channels, '**CHANNELS**')
         servers_list.append(server_in_dict)
     return jsonify(servers_list)
-=======
->>>>>>> dev
 
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
 def post_current_user_add_public_server(server_id):
     "Add User to server by user_id"
     form = AddServerMember()
-<<<<<<< HEAD
     server = Server.query.get(server_id)
     # server_members = ServerMember.query.filter_by(server_id=server_id).all()
     
@@ -232,98 +192,6 @@ def post_current_user_add_public_server(server_id):
     user_exists = User.query.filter(User.id == form.data["user_id"]).all()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-=======
-    server = Server.query.get(server_id)
-    server_members = ServerMember.query.filter_by(server_id=server_id).all()
-    user_exists = User.query.filter(User.id == form.data["user_id"]).all()
-    form['csrf_token'].data = request.cookies['csrf_token']
-
-    if not server:
-        return {"message": ["Server couldn't be found."]}, 404
-
-    for member in server_members:
-        print("This is Member User Id:", member.user_id)
-        # if user doesn't exist (404)
-        if not user_exists:
-            return {"message": ["User couldn't be found."]}, 404
-        # if current user is NOT the admin for this server and current user is NOT the user attempting to be added (403)
-        if not current_user.id == server.admin_id and not current_user.id == form.data["user_id"]:
-            return {"message": ["You don't have access to add members to this server."]}, 403
-        # if current user ALREADY EXISTS, they can not add themselves again (401)
-        if member.user_id == current_user.id and not current_user.id == server.admin_id:
-            return {"message": ["User is already a member!"]}, 401
-            # return {'errors': validation_errors_to_error_messages(form.errors)}, 401
-        # if current user is the server admin and userId inputed is already a member in server, they cannot add this new user (401)
-        if current_user.id == server.admin_id and member.user_id == form.data["user_id"]:
-            return {"message": ["User is already a member!"]}, 401
-
-    # successfully add user if you are either the server admin or the current user adding yourself to server (200)
-    if server.admin_id == current_user.id or current_user:
-        data = form.data
-        new_member = ServerMember(
-            user_id=data['user_id'],
-            server_id=server_id
-        )
-        db.session.add(new_member)
-        db.session.commit()
-        result = server_member_schema.dump(new_member)
-        return (jsonify(result))
-
-
-@server_routes.route('/<int:server_id>/members/<int:member_id>', methods=["DELETE"])
-@login_required
-def delete_user_from_server(server_id, member_id):
-    "Delete User from Server (server_id) | Admin (server_admin) can delete user | Current user (current_user) can delete themselves"
-    server = Server.query.get(server_id)
-    server_admin = server.admin_id
-    member = db.session.query(ServerMember).filter(
-        ServerMember.user_id == member_id).filter(ServerMember.server_id == server_id).first()
-
-    if not server:
-        return {"message": ["Server couldn't be found."]}, 404
-    if not member:
-        return {"message": ["User couldn't be found."]}, 404
-
-    if current_user.id == member_id or current_user.id == server_admin:
-        db.session.delete(member)
-        db.session.commit()
-        return {"message": ["Successfully Deleted."]}, 200
-    return {"message": ["You don't have access to delete members to this server."]}, 403
-
-
-@server_routes.route('/current', methods=["GET"])
-@login_required
-def get_servers_by_current_user():
-    "Get Servers owner by current user"
-    servers = Server.query.filter_by(admin_id=current_user.id).all()
-    result = servers_schema.dump(servers)
-    return (jsonify(result))
-
-# Servers | Completed
-# get all public servers
-# create new server
-# edit an existing server
-# delete server by id
-# add user by user_id (2x)
-    # Add User to server by user_id: Current User adds themselves to public server
-    # Add User to server by user_id: Must be Server admin
-# delete user from server by user_id (2x)
-    # Current User (current_user) deletes themselves from Server (server_id)
-    # Add User to server by user_id: Must be Server admin
-# get servers by current user_id
-
-# Channels | Completed in server_route
-# create a new channel
-# get all channels by server id
-
-
-@server_routes.route('<int:server_id>/members', methods=["GET"])
-def get_server_members(server_id):
-    """Get all server members"""
-    server = Server.query.get(server_id)
-    server_members = ServerMember.query.filter(
-        ServerMember.server_id == server_id).all()
->>>>>>> dev
     if not server:
         return {"message": ["Server couldn't be found."]}, 404
 
