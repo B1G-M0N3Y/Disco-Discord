@@ -60,11 +60,11 @@ const ChannelMessagesPage = () => {
             <div className="message">
               {/* TODO: ADD DELETE BUTTON IF OWNER */}
               <img
-                src={message.author.image_url}
+                src={message.message_author.image_url}
                 className="author-message-image"
               ></img>
               <div className="message-text">
-                <p className="username-message">{message.author.username}</p>
+                <p className="username-message">{message.message_author.username}</p>
                 <p className="message-body">{message.body}</p>
               </div>
             </div>
