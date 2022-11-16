@@ -27,17 +27,6 @@ const NavBar = ({ servers }) => {
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { setSelectedChannels } = useSelectedChannels();
 
-  const serversArray = Object.values(currServers);
-  const firstServer = serversArray[0];
-  const firstChannels = firstServer?.channels;
-  const selChannels = thisServer?.channels;
-
-  // console.log(serversArray, "SERVERS ARRAY");
-  // console.log(firstServer, "FIRST SERVER");
-  // console.log(firstChannels, "FIRST CHANNELS");
-  // console.log(thisServer, "THIS SERVER");
-  // console.log(selChannels, "SELECTED CHANNELS");
-
   const openLogout = () => {
     if (showLogout) return;
     setShowLogout(true);
@@ -92,6 +81,23 @@ const NavBar = ({ servers }) => {
   useEffect(() => {
     window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
   }, [selectedServer]);
+
+  const serversArray = Object.values(currServers);
+  const firstServer = serversArray[0];
+  let firstChannels;
+  let selChannels;
+  if (firstServer) {
+    firstChannels = firstServer.channels;
+  }
+  if (thisServer) {
+    selChannels = thisServer.channels;
+  }
+
+  // console.log(serversArray, "SERVERS ARRAY");
+  // console.log(firstServer, "FIRST SERVER");
+  // console.log(firstChannels, "FIRST CHANNELS");
+  // console.log(thisServer, "THIS SERVER");
+  // console.log(selChannels, "SELECTED CHANNELS");
 
   let userDisplay;
   let serverDisplay;
@@ -150,7 +156,7 @@ const NavBar = ({ servers }) => {
     }
     // if the user has servers and a server is not selected:
     if (serversArray && window.localStorage.getItem("SERVER") === "null") {
-      channelDisplay = firstChannels.map((channel) => {
+      channelDisplay = firstChannels?.map((channel) => {
         return (
           <div key={channel.id}>
             <NavLink to={`/servers/${firstServer.id}/channels/${channel?.id}`}>
