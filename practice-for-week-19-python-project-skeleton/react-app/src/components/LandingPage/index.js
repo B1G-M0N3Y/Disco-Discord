@@ -43,7 +43,7 @@ const LandingPage = () => {
             <NavLink className="navlink landing-button" to="/sign-up">
               Sign Up
             </NavLink>
-            <button className="landing-button" onClick={() => loginDemoUser()}>
+            <button className="demo-login landing-button" onClick={() => loginDemoUser()}>
               Demo User
             </button>
           </div>
