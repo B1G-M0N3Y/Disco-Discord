@@ -14,6 +14,8 @@ chat_members = db.Table(
               primary_key=True)
 )
 
+if environment == "production":
+    chat_members.schema = SCHEMA
 
 class Chat(db.Model):
     __tablename__ = 'chats'

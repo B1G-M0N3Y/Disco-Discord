@@ -15,6 +15,8 @@ server_members = db.Table(
               primary_key=True)
 )
 
+if environment == "production":
+    server_members.schema = SCHEMA
 
 class Server(db.Model):
     __tablename__ = "servers"
