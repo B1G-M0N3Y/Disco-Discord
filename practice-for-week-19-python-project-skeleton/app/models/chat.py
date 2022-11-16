@@ -47,9 +47,9 @@ class ChatMessage(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer(), db.ForeignKey(
-        'users.id'), nullable=False)
+        add_prefix_for_prod('users.id')), nullable=False)
     chat_id = db.Column(db.Integer(), db.ForeignKey(
-        'chats.id'), nullable=False)
+        add_prefix_for_prod('chats.id')), nullable=False)
     body = db.Column(db.Text, nullable=False)
     createdAt = db.Column(db.DateTime(), nullable=False)
     updatedAt = db.Column(db.DateTime())
