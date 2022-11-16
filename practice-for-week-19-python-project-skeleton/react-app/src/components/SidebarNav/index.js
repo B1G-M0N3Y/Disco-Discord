@@ -3,63 +3,71 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getOneServer, getServers } from "../../store/servers";
 import { useSelectedServer } from "../../context/ServerContext";
-import { useSelectedChannels } from "../../context/ChannelContext";
 
-function SidebarNav({ servers }) {
+function SidebarNav() {
   const dispatch = useDispatch();
 
   // getters and setters
-  const [myServer, setMyServer] = useState([]);
-  const { selectedServer, setSelectedServer } = useSelectedServer();
-  const { selectedChannels, setSelectedChannels } = useSelectedServer();
-  const currServers = useSelector((state) => state.servers.servers);
+  const [members, setMembers] = useState([]);
+  const { setSelectedServer } = useSelectedServer();
 
+  // get the current server
+  const currServer = useSelector((state) => state.servers.currentServer);
+
+  // get all the servers
   useEffect(() => {
     dispatch(getServers());
-    if (myServer) {
-      dispatch(getOneServer(myServer.id));
-      setSelectedServer(myServer);
-      // console.log("selectedServer channels", selectedServer.channels);
-    }
-  }, [dispatch, myServer]);
+  }, [dispatch]);
 
+  // get all members
   useEffect(() => {
-    const data = window.localStorage.getItem(
-      "SERVER",
-      JSON.stringify(myServer)
-    );
-    if (data) {
-      setMyServer(JSON.parse(data));
+    async function fetchData() {
+      const response = await fetch("/api/servers/members");
+      const responseData = await response.json();
+      setMembers(responseData);
     }
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    window.localStorage.setItem("SERVER", JSON.stringify(myServer));
-  }, [myServer]);
-
-  const serversArr = Object.values(currServers);
-  console.log("all servers", servers);
+  // filter all servers to find only user's servers
+  // const currentUser = useSelector((state) => state.session.user);
+  const allServers = useSelector((state) => state.servers.servers);
+  console.log("all servers", allServers);
+  const serversArr = Object.values(allServers);
+  // const filteredMembers = members.filter(
+  //   (item) => item.user_id === currentUser?.id
+  // );
+  // const filteredServers = [];
+  // for (let i = 0; i < filteredMembers.length; i++) {
+  //   let member = filteredMembers[i];
+  //   for (let j = 0; j < serversArr.length; j++) {
+  //     let server = serversArr[j];
+  //     if (server.id === member.server_id) {
+  //       filteredServers.push(server);
+  //     }
+  //   }
+  // }
 
   // map over filtered severs to display them
-  const myServers = serversArr.map((server) => {
+  const userServers = serversArr.map((server) => {
     if (!server) return null;
     return (
       <div
         key={server.id}
         onClick={() => {
           // update current server
-          setMyServer(server);
-          console.log(myServer, "current server in SidebarNav, after onClick");
+          dispatch(getOneServer(server.id));
+          setSelectedServer(currServer);
         }}
       >
         <div>{server?.name}</div>
-        <NavLink to={`/servers/${server.id}`}>{server.image_url}</NavLink>
+        <NavLink to={`/servers/${server?.id}`}>{server?.image_url}</NavLink>
       </div>
     );
   });
 
   if (!serversArr.length) return null;
-  return <>{myServers}</>;
+  return <>{userServers}</>;
 }
 
 export default SidebarNav;
