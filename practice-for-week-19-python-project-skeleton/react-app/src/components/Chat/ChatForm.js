@@ -27,6 +27,10 @@ function ChatForm({ chat }) {
     socket.on("privatechat", (data) => {
       console.log(data, "INCOMING MESSAGE****");
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [chat]);
 
   const handleSubmit = async (e) => {

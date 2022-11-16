@@ -23,8 +23,8 @@ function ChatMessages({ chat, chat_id }) {
       <ul>
         {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
         {messages && messages.length > 0 ? (
-          messages.map((message) => (
-            <li className="chat-message">
+          messages.map((message, idx) => (
+            <li className="chat-message" key={idx}>
               <div>
                 <img
                   src={message?.author.username}
