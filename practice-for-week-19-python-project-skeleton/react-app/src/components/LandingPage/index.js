@@ -1,10 +1,17 @@
 import ServerCard from "./ServerCard";
 import "./LandingPage.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { login } from "../../store/session";
 
 const LandingPage = () => {
+  const dispatch = useDispatch()
   const currentUser = useSelector((state) => state.session.user);
+
+  // Logs in a default demo user
+  const loginDemoUser = async() =>{
+    await dispatch(login('demo@aa.io', 'password'))
+  }
 
   return (
     <>
@@ -36,6 +43,9 @@ const LandingPage = () => {
             <NavLink className="navlink landing-button" to="/sign-up">
               Sign Up
             </NavLink>
+            <button className="landing-button" onClick={() => loginDemoUser()}>
+              Demo User
+            </button>
           </div>
         )}
       </div>
