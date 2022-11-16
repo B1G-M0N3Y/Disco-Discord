@@ -14,7 +14,6 @@ function IndividualChat({ chat, setChat }) {
       const response = await fetch("/api/chat/");
       const responseData = await response.json();
       setChats(responseData);
-      console.log(chats, "chats***");
     }
     fetchData();
   }, []);
