@@ -41,7 +41,7 @@ const remove = (serverId) => {
 
 // get all servers
 export const getServers = () => async (dispatch) => {
-  const response = await fetch("/api/servers");
+  const response = await fetch("/api/servers/all");
   if (response.ok) {
     const data = await response.json();
     dispatch(get(data));

@@ -28,7 +28,7 @@ class Server(db.Model):
     admin_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
 
     server_members = db.relationship(
-        "User", secondary=server_members, back_populates="servers")    
+        "User", secondary=server_members, back_populates="servers")
     channels = db.relationship("Channel", backref="server")
     # users = db.relationship("User", back_populates="servers")
 
@@ -38,7 +38,7 @@ class Server(db.Model):
             'name': self.name,
             'admin_id': self.admin_id,
             'image_url': self.image_url,
-            'server_members': self.server_members, 
+            'server_members': self.server_members,
             'channels': self.channels
         }
 
@@ -64,22 +64,17 @@ class ChannelMessages(db.Model):
             "id": self.id,
             "channel_id": self.channel_id,
             "user_id": self.user_id,
-            "body": self.body, 
-            "created_at": self.created_at, 
-            "updated_at": self.updated_at, 
+            "body": self.body,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at,
             "message_author": self.message_author.to_dict()
         }
 
-<<<<<<< HEAD
 class Channel(db.Model):
     __tablename__ = "channels"
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
-=======
-class ServerMember(db.Model):
-    __tablename__ = "server_members"
->>>>>>> dev
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
@@ -93,33 +88,17 @@ class ServerMember(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "server_id": self.server_id, 
+            "server_id": self.server_id,
             "messages": [self.message.to_dict() for self.message in self.messages]
         }
 
 
-<<<<<<< HEAD
 # class ServerMember(db.Model):
 #     __tablename__ = "server_members"
 
 #     id = db.Column(db.Integer, primary_key=True)
 #     server_id = db.Column("server_id", db.Integer, db.ForeignKey("servers.id"))
 #     user_id = db.Column("user_id", db.Integer, db.ForeignKey("users.id"))
-=======
-    # channel = db.relationship("Channel")
-    author = db.relationship("User", back_populates="channel_messages")
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "channel_id": self.channel_id,
-            "user_id": self.user_id,
-            "body": self.body,
-            "author": self.author.to_dict(),
-            "created_at": self.created_at,
-            "updated_at": self.updated_at
-        }
->>>>>>> dev
 
 
 class ServerSchema(ma.Schema):
