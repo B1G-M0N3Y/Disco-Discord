@@ -15,19 +15,22 @@ import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
-import SidebarNav from "./components/SidebarNav";
+// import SidebarNav from "./components/SidebarNav";
 // import ChannelList from "./components/Channels/ChannelList";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [servers, setServers] = useState([]);
 
   const dispatch = useDispatch();
+  const currServers = useSelector((state) => state.servers.servers);
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getServers());
       setLoaded(true);
+      setServers(currServers);
     })();
   }, [dispatch]);
 
@@ -64,7 +67,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar servers={servers} />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -88,7 +91,7 @@ function App() {
         ></ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
-          <SidebarNav />
+          {/* <SidebarNav /> */}
         </Route>
         {/* <Route path="/chat">
           {loaded && <BasicChat />}
