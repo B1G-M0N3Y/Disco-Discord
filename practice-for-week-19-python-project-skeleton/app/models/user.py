@@ -21,16 +21,12 @@ class User(db.Model, UserMixin):
     chats = db.relationship("Chat", secondary=chat_members,
                             back_populates="chat_members")
     servers = db.relationship("Server", secondary=server_members,
-                            back_populates="server_members")                            
+                            back_populates="server_members")
     chat_messages = db.relationship("ChatMessage", back_populates="author")
     server_messages = db.relationship("ChannelMessages", back_populates="message_author")
     admin_chats = db.relationship("Chat")
-<<<<<<< HEAD
-
-=======
     servers = db.relationship("Server", back_populates="users")
     channel_messages = db.relationship("ChannelMessages", back_populates="author")
->>>>>>> dev
 
     @property
     def password(self):

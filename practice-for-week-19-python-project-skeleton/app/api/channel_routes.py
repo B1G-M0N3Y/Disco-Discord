@@ -16,21 +16,13 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
-<<<<<<< HEAD
-def get_one_channel(channel_id): 
+def get_one_channel(channel_id):
     """
     Get channel details by id and all associated messages
     """
     one_channel = Channel.query.get(channel_id)
     channel_in_dict = one_channel.to_dict()
-    return jsonify(channel_in_dict)  
-=======
-def get_one_channel(channel_id):
-    """Get channel details by id"""
-    one_channel = Channel.query.get(channel_id)
-    return channel_schema.jsonify(one_channel)
-    return channel_schema.jsonify(one_channel)
->>>>>>> dev
+    return jsonify(channel_in_dict)
 
 # no longer need this route because messages get loaded with channels
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
@@ -106,15 +98,9 @@ def delete_channel(channel_id):
         db.session.delete(channel)
         db.session.commit()
         result = channel_schema.dump(channel)
-<<<<<<< HEAD
         return {"message": ["Channel deleted."]}, 200
-    else: 
-        return "Channel not found."     
-=======
-        return (jsonify(result))
     else:
         return "Channel not found."
->>>>>>> dev
 
 # Channel Completed
 # Get Details of Channel by Id
