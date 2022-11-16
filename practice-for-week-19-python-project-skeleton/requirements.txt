@@ -12,6 +12,7 @@ flask-cors==3.0.8
 flask-login==0.5.0
 flask-migrate==3.0.1
 flask-sqlalchemy==2.5.1
+flask-socketio==5.3.1
 flask-wtf==0.15.1
 flask==2.0.1
 greenlet==1.1.0
