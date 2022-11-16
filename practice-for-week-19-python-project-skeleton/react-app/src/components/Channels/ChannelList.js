@@ -1,41 +1,52 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-// import ServerMembers from "../ServerMembers";
 import { useSelectedServer } from "../../context/ServerContext";
+import { getOneServer, getServers } from "../../store/servers";
+import { getChannels } from "../../store/channels";
 
-import { getServerChannels, getOneServer } from "../../store/servers";
-
-const ChannelList = () => {
+const ChannelList = ({ channelArr }) => {
   const dispatch = useDispatch();
 
   // get serverId from url
   const { serverId } = useParams();
   const { selectedServer } = useSelectedServer();
-
-  // get the current server
-  const currServer = useSelector((state) => state.servers.currentServer);
+  const [channels, setChannels] = useState(channelArr);
 
   useEffect(() => {
-    dispatch(getServerChannels(currServer.id));
-    dispatch(getOneServer(serverId));
-  }, [dispatch, serverId, currServer.id]);
+    dispatch(getServers());
+    if (selectedServer?.id) {
+      dispatch(getOneServer(serverId));
+      console.log("MY SERVER", selectedServer);
+      dispatch(getChannels(selectedServer.channels));
+      setChannels(selectedServer.channels);
+    }
+  }, [dispatch, selectedServer, serverId]);
 
-  // get current channels
-  const channels = useSelector((state) => state.servers.channels);
-  const channelsArr = Object.values(channels);
+  useEffect(() => {
+    const data = window.localStorage.getItem(
+      "CHANNELS",
+      JSON.stringify(channels)
+    );
+    if (data && data !== "undefined") {
+      setChannels(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("CHANNELS", JSON.stringify(channels));
+  }, [channels]);
 
   // map through channel list to display channels
-  const channelList = channelsArr.map((channel) => {
+  const channelList = channels?.map((channel) => {
     return (
       <div key={channel.id}>
         <NavLink to={`/servers/${selectedServer.id}/channels/${channel?.id}`}>
-          {channel?.name}
+          {channel.name}
         </NavLink>
       </div>
     );
   });
-
   return <>{channelList}</>;
 };
 

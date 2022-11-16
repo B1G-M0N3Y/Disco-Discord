@@ -20,14 +20,17 @@ import SidebarNav from "./components/SidebarNav";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [servers, setServers] = useState([]);
 
   const dispatch = useDispatch();
+  const currServers = useSelector((state) => state.servers.servers);
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getServers());
       setLoaded(true);
+      setServers(currServers);
     })();
   }, [dispatch]);
 
@@ -64,7 +67,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar servers={servers} />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />

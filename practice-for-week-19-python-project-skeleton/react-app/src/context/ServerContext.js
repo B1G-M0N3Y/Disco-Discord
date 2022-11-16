@@ -4,7 +4,7 @@ export const ServerContext = createContext();
 export const useSelectedServer = () => useContext(ServerContext);
 
 export default function ServerProvider(props) {
-  const [selectedServer, setSelectedServer] = useState([]);
+  const [selectedServer, setSelectedServer] = useState();
 
   return (
     <ServerContext.Provider
