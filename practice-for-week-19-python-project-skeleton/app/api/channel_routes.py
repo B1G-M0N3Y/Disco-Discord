@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import MessageForm, EditChannelForm
 from app.models.servers import db, Channel, ChannelMessages, channel_schema, channels_schema, channel_message_schema,channel_messages_schema
+from flask_login import login_required, current_user
 
 channel_routes = Blueprint('channels', __name__)
 
@@ -15,39 +16,54 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 @channel_routes.route('/<int:channel_id>', methods=["GET"])
-def get_one_channel(channel_id): 
-    """Get channel details by id"""
+def get_one_channel(channel_id):
+    """
+    Get channel details by id and all associated messages
+    """
     one_channel = Channel.query.get(channel_id)
-    return channel_schema.jsonify(one_channel)   
+    channel_in_dict = one_channel.to_dict()
+    return jsonify(channel_in_dict)
 
+# no longer need this route because messages get loaded with channels
 @channel_routes.route('/<int:channel_id>/messages', methods=["GET"])
 def get_channel_messages(channel_id):
-    """Get all messages by channel id"""
+    """
+    Get all messages by channel id
+    """
     messages = ChannelMessages.query.filter(ChannelMessages.channel_id == channel_id).all()
-    result = channel_messages_schema.dump(messages)
+    result = [message.to_dict() for message in messages]
+    # result = channel_messages_schema.dump(messages)
     return (jsonify(result))
 
 @channel_routes.route('/messages/<int:message_id>', methods=["DELETE"])
 def delete_channel_message(message_id):
-    """Delete message by id"""
+    """
+    Delete message by id
+    """
     message = ChannelMessages.query.get(message_id)
+    if not message:
+        return {"message": ["Message couldn't be found."]}, 404
+
     db.session.delete(message)
     db.session.commit()
     result = channel_message_schema.dump(message)
-    return (jsonify(result))
+    return {"message": ["Message deleted."]}, 200
 
-# need to authenticate the user to get user id, not rely on form data
+# TODO double check form setup for this route
 @channel_routes.route('/<int:channel_id>', methods=["POST"])
 def post_channel_message(channel_id):
-    """Create a new channel message"""
+    """
+    Create a new channel message
+    """
+    channel_messages = ChannelMessages.query.filter_by(channel_id=channel_id).all()
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
         new_message = ChannelMessages(
-            body = data['body'], 
+            body = data['body'],
             channel_id = channel_id,
-            user_id = data['user_id']
+            user_id = current_user.id
         )
         db.session.add(new_message)
         db.session.commit()
@@ -57,7 +73,9 @@ def post_channel_message(channel_id):
 
 @channel_routes.route('/<int:channel_id>', methods=["PUT"])
 def edit_channel_details(channel_id):
-    """Edit a channel by id"""
+    """
+    Edit a channel by id
+    """
     form = EditChannelForm()
     channel = Channel.query.get(channel_id)
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -72,13 +90,25 @@ def edit_channel_details(channel_id):
 
 @channel_routes.route('/<int:channel_id>', methods=["DELETE"])
 def delete_channel(channel_id):
-    """Delete a channel by id"""
+    """
+    Delete a channel by id
+    """
     channel = Channel.query.get(channel_id)
     if channel:
         db.session.delete(channel)
         db.session.commit()
         result = channel_schema.dump(channel)
-        return (jsonify(result))
-    else: 
-        return "Channel not found."     
+        return {"message": ["Channel deleted."]}, 200
+    else:
+        return "Channel not found."
 
+# Channel Completed
+# Get Details of Channel by Id
+# Create a channel (server_route)
+# Update Channel Details by id
+# Delete a Channel
+
+# Channel-Messages Completed
+# Get all messages by channel id
+# Delete message by id
+# Post new channel message

@@ -42,10 +42,12 @@ const NavBar = () => {
           <LogoutButton />
         ) : (
           <>
-            {/* {console.log(showLogout)} */}
             <img className="user-pic-nav" src={sessionUser.image_url}></img>
             <p className="username-nav">{sessionUser.username}</p>
-            <i onClick={openLogout} class="fa-solid fa-right-from-bracket"></i>
+            <i
+              onClick={openLogout}
+              className="fa-solid fa-right-from-bracket"
+            ></i>
           </>
         )}
       </div>

@@ -16,11 +16,19 @@ def chats():
     Query for all chats belonging to logged in user and returns them in a list of user dictionaries
     """
     user = User.query.get(current_user.id)
-    print(user.chats)
-    return jsonify(chats_schema.dump(user.chats))
+    chats = user.chats
+    chats_list = []
+    for chat in chats:
+        chat_members = chat.to_dict()["chat_members"]
+        chat_users = [chat_member.to_dict() for chat_member in chat_members]
+        chat_in_dict = chat.to_dict()
+        chat_in_dict["chat_members"] = chat_users
+        print(chat_users, '**USERS**')
+        chats_list.append(chat_in_dict)
+    return jsonify(chats_list)
 
 
-@chat_routes.route('/', methods=["POST"])
+@ chat_routes.route('/', methods=["POST"])
 def create_chat():
     """
     Create a new chat
@@ -29,7 +37,7 @@ def create_chat():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         data = form.data
-        chat_to = data['chat_members']
+        # chat_to = data['chat_members']
         new_chat = Chat(name=data['name'], adminId=current_user.id)
         # chat_to_user = User.query.get(chat_to)
         # new_chat.chat_members.append(chat_to_user)
@@ -70,7 +78,9 @@ def get_chat_messages(chat_id):
     Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
     """
     chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
-    return jsonify(chat_messages_schema.dumps(chat_messages))
+    chat_message_list = [chat_message.to_dict()
+                         for chat_message in chat_messages]
+    return jsonify(chat_message_list)
 
 
 @ chat_routes.route('/<int:chat_id>', methods=['POST'])
@@ -81,11 +91,11 @@ def post_chat_messages(chat_id):
     chat_messages = ChatMessage.query.filter_by(chat_id=chat_id).all()
     form = ChatMessageForm()
     data = form.data
+    print(data, 'FORMDATA****')
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_message = ChatMessage(
             author_id=current_user.id, chat_id=chat_id, body=data['body'], createdAt=func.now())
-        print(new_message)
         db.session.add(new_message)
         db.session.commit()
         created_message = ChatMessage.query.order_by(
@@ -94,7 +104,7 @@ def post_chat_messages(chat_id):
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
-@chat_routes.route('/<int:chat_id>', methods=["PUT"])
+@ chat_routes.route('/<int:chat_id>', methods=["PUT"])
 def edit_chat_details(chat_id):
     """Edit Chat Name & Chat Members"""
     form = ChatForm()
@@ -117,7 +127,7 @@ def edit_chat_details(chat_id):
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
-@chat_routes.route('/message/<int:chat_message_id>', methods=["PUT"])
+@ chat_routes.route('/message/<int:chat_message_id>', methods=["PUT"])
 def edit_chat_message(chat_message_id):
     """Edit Chat Message"""
     form = ChatMessageForm()
@@ -132,3 +142,13 @@ def edit_chat_message(chat_message_id):
         result = chat_message_schema.dump(chat_message)
         return (jsonify(result))
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
+
+
+@ chat_routes.route('/<int:chat_id>/members')
+def get_chat_members(chat_id):
+    """
+    Query for chat members by chat id
+    """
+    chat = Chat.query.get(chat_id)
+    response = [members.to_dict() for members in chat.chat_members]
+    return jsonify(response)
