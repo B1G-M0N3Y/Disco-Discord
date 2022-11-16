@@ -244,39 +244,42 @@ user's information.
 
 Posts new User to server_members
 
-* Require Authentication: True
-* Request
-  * Method: POST
-  * URL: /api/servers/:server_id/members
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: True
+- Request
+
+  - Method: POST
+  - URL: /api/servers/:server_id/members
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
-        "user_id": 1
+      "user_id": 1
     }
     ```
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
-        "id": 1,
-        "user_id": 1,
-        "server_id": 1
+      "id": 1,
+      "user_id": 1,
+      "server_id": 1
     }
     ```
 
-* Error response: Couldn't find an User with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find an User with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -285,11 +288,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: User is already member
-  * Status Code: 401
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: User is already member
+
+  - Status Code: 401
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -298,11 +302,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: Couldn't find an Server with specified Id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find an Server with specified Id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -311,11 +316,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: Current user is not server owner
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Current user is not server owner
+
+  - Status Code: 403
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -324,20 +330,21 @@ Posts new User to server_members
     }
     ```
 
-
 ### Remove a User from a Server by Id
 
-* Require Authentication: True
-* Request
-  * Method: DELETE
-  * URL: /api/servers/:server_id/members/:member_id
-  * Body: none
+- Require Authentication: True
+- Request
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: DELETE
+  - URL: /api/servers/:server_id/members/:member_id
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -346,11 +353,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: Couldn't find an User with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find an User with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -359,11 +367,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: Couldn't find an Server with specified Id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find an Server with specified Id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -372,11 +381,12 @@ Posts new User to server_members
     }
     ```
 
-* Error response: Current user is not server owner
-  * Status Code: 403
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Current user is not server owner
+
+  - Status Code: 403
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -386,19 +396,22 @@ Posts new User to server_members
     ```
 
 ### Get Servers by Current User
+
 Returns all the servers created by the specified artist.
 
-* Require Authentication: True
-* Request
-  * Method: GET
-  * URL: /api/servers/current
-  * Body: none
+- Require Authentication: True
+- Request
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: /api/servers/current
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -414,19 +427,22 @@ Returns all the servers created by the specified artist.
     ```
 
 ### Get all Public Servers
+
 Returns all of the public serves
 
-* Require Authentication: False
-* Request
-  * Method: GET
-  * URL: /api/servers/public
-  * Body: none
+- Require Authentication: False
+- Request
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: /api/servers/public
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -440,16 +456,19 @@ Returns all of the public serves
       ]
     }
     ```
+
 ### Create a Server
+
 Creates a new server
 
-* Require Authentication: true
-* Request
-  * Method: POST
-  * URL: /api/servers
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - URL: /api/servers
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -458,11 +477,12 @@ Creates a new server
     }
     ```
 
-* Successful Response
-  * Status Code: 201
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -475,11 +495,12 @@ Creates a new server
     }
     ```
 
-* Error Response: Body validation error
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Body validation error
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -492,16 +513,18 @@ Creates a new server
     ```
 
 ### Edit a Server
+
 Updates and returns an existing server.
 
-* Require Authentication: true
-* Require proper authorization: server must belong to the current user
-* Request
-  * Method: PUT
-  * URL: /api/servers/:server_id
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: true
+- Require proper authorization: server must belong to the current user
+- Request
+
+  - Method: PUT
+  - URL: /api/servers/:server_id
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -510,11 +533,12 @@ Updates and returns an existing server.
     }
     ```
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -527,11 +551,12 @@ Updates and returns an existing server.
     }
     ```
 
-* Error Response: Body validation error
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Body validation error
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -543,11 +568,12 @@ Updates and returns an existing server.
     }
     ```
 
-* Error response: Couldn't find a Server with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find a Server with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -560,18 +586,20 @@ Updates and returns an existing server.
 
 Deletes an existing server.
 
-* Require Authentication: true
-* Require proper authorization: Server must belong to the current user
-* Request
-  * Method: DELETE
-  * URL: /api/servers/:server_id
-  * Body: none
+- Require Authentication: true
+- Require proper authorization: Server must belong to the current user
+- Request
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: DELETE
+  - URL: /api/servers/:server_id
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -580,11 +608,12 @@ Deletes an existing server.
     }
     ```
 
-* Error response: Couldn't find a Server with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find a Server with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -599,17 +628,19 @@ Deletes an existing server.
 
 Returns the details of a channel specified by their id.
 
-* Require Authentication: false
-* Request
-  * Method: GET
-  * URL: /api/channel/:channel_id
-  * Body: none
+- Require Authentication: false
+- Request
 
-* Successful Response
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: /api/channels/:channel_id
+  - Body: none
+
+- Successful Response
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -619,11 +650,12 @@ Returns the details of a channel specified by their id.
     }
     ```
 
-* Error response: Couldn't find a channel with the specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error response: Couldn't find a channel with the specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -633,28 +665,31 @@ Returns the details of a channel specified by their id.
     ```
 
 ### Create a channel
+
 Creates a new channel
 
-* Require Authentication: true
-* Request
-  * Method: POST
-  * URL: /api/servers/:server_id/channels
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Authentication: true
+- Request
+
+  - Method: POST
+  - URL: /api/servers/:server_id/channels
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
       "name": "Groovin' Dancefloor",
-      "imageUrl": "image url"
+      "server_id": 1
     }
     ```
 
-* Successful Response
-  * Status Code: 201
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -664,11 +699,12 @@ Creates a new channel
     }
     ```
 
-* Error Response: Body validation error
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Body validation error
+
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -680,11 +716,12 @@ Creates a new channel
     }
     ```
 
-* Error Response: Server couldn't be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Server couldn't be found
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
 
     ```json
     {
@@ -694,36 +731,40 @@ Creates a new channel
     ```
 
 ### Update Channel Details by id
-* Require Auth: true
-* Request:
-  * Method: PUT
-  * URL: /api/channels/:channel_id
-  * Body:
+
+- Require Auth: true
+- Request:
+
+  - Method: PUT
+  - URL: /api/channels/:channel_id
+  - Body:
     ```json
-      {
-        "name": "Channel name",
-        "serverId": 1,
-     }
+    {
+      "name": "Channel name",
+      "serverId": 1
+    }
     ```
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
     ```json
-      {
-        "id": 1,
-        "name": "Channel name",
-        "serverId": 1,
-      }
+    {
+      "id": 1,
+      "name": "Channel name",
+      "serverId": 1
+    }
     ```
 
-* Error Response: Couldn’t find channel with specified id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Couldn’t find channel with specified id
+
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
     ```json
     {
       "message": "Channel couldn’t be found",
@@ -731,100 +772,111 @@ Creates a new channel
     }
     ```
 
-* Error Response: Body validation error
-  * Status Code: 400
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Body validation error
+  - Status Code: 400
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Validation error",
-      "statusCode": 400,
-      "errors": {
-        "name": "Channel name is required",
-    		"server": "Server must be specified"
-  	  }
+  {
+    "message": "Validation error",
+    "statusCode": 400,
+    "errors": {
+      "name": "Channel name is required",
+      "server": "Server must be specified"
     }
+  }
   ```
 
 ### Get all channels by server id
-* Require Auth: true
-* Request:
-  * Method: GET
-  * URL: /api/servers/:server_id/channels
-  * Body: none
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Auth: true
+- Request:
+
+  - Method: GET
+  - URL: /api/servers/:server_id/channels
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
-    {
-      "Channels": [
-        {
-          "id": 1,
-          "name": "channel name",
-          "serverId": 1,
-        }
-      ]
-    }
+  {
+    "Channels": [
+      {
+        "id": 1,
+        "name": "channel name",
+        "serverId": 1
+      }
+    ]
+  }
   ```
 
-* Error Response: Server with specified id could not be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Server with specified id could not be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Server couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Server couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### Delete a Channel
-* Require Auth: true
-* Request:
-  * Method: DELETE
-  * URL: /api/channels/:channel_id
-  * Body: none
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Require Auth: true
+- Request:
+
+  - Method: DELETE
+  - URL: /api/channels/:channel_id
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
-    {
-      "message": "Successfully deleted",
-      "statusCode": 200
-    }
+  {
+    "message": "Successfully deleted",
+    "statusCode": 200
+  }
   ```
 
-* Error Response: Channel with specified id could not be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Channel with specified id could not be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Channel couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Channel couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### CHANNEL-MESSAGES
 
 ### Get all messages by channel id
-* Request:
-  * Method: GET
-  * URL = ‘/api/channel/:channel_id/
-  * Body: none
 
-* Successful Response:
-  * Status Code: 200
-  * Response:
+- Request:
+
+  - Method: GET
+  - URL = /api/channels/:channel_id/messages
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Response:
     ```json
     {
       "Messages": [
@@ -837,92 +889,103 @@ Creates a new channel
     }
     ```
 
-* Error Response: Server with specified id could not be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Server with specified id could not be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Server couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Server couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### Delete message by id
-* Request:
-  * Method: DELETE
-  * URL = ‘api/channel/message/message_id
-  * Body: none
 
-* Successful Response:
-  * Status Code: 200
-  * Body:
+- Request:
+
+  - Method: DELETE
+  - URL = api/channels/messages/message_id
+  - Body: none
+
+- Successful Response:
+  - Status Code: 200
+  - Body:
   ```json
-    {
-	    "message": "Message successfully Deleted"
-    }
+  {
+    "message": "Message successfully Deleted"
+  }
   ```
-* Error Response:
-  * Status Code: 404
-  * Body:
+- Error Response:
+  - Status Code: 404
+  - Body:
   ```json
-    {
-      "message":"Error Message Not Deleted"
-    }
+  {
+    "message": "Error Message Not Deleted"
+  }
+  ```
 
 ### Post new message
-* Request:
-  * Method: POST
-  * URL = api/channel/:channel_id/message
-  * Body:
+
+- Request:
+
+  - Method: POST
+  - URL = api/channels/:channel_id/messages
+  - Body:
+
   ```json
-    {
-	    "id": 1,
-	    "user_id": 1,
-	    "channel_id": 1,
-	    "body": "Woohoo! This makes me feel like dancing!",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 20:00:00",
-    }
+  {
+    "id": 1,
+    "user_id": 1,
+    "channel_id": 1,
+    "body": "Woohoo! This makes me feel like dancing!",
+    "createdAt": "2021-11-19 20:39:36",
+    "updatedAt": "2021-11-20 20:00:00"
+  }
   ```
 
-* Successful Response:
-  * Status Code: 200
-  * Body:
+- Successful Response:
+
+  - Status Code: 200
+  - Body:
+
   ```json
-    {
-      "id": 1,
-	    "userId": 1,
-	    "channelId": 1,
-	    "body": "Woohoo! This makes me feel like dancing!",
-	    "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 20:00:00"
-    }
+  {
+    "id": 1,
+    "userId": 1,
+    "channelId": 1,
+    "body": "Woohoo! This makes me feel like dancing!",
+    "createdAt": "2021-11-19 20:39:36",
+    "updatedAt": "2021-11-20 20:00:00"
+  }
   ```
 
-* Error Response:
-  * Status Code: 404
-  * Body:
+- Error Response:
+  - Status Code: 404
+  - Body:
   ```json
-    {"message":"Error Message Not Created"}
+  { "message": "Error Message Not Created" }
   ```
 
 ## PRIVATE-MESSAGES
 
 ## Get all messages by chat id
 
-* Require Auth: true
-* Request:
-  * Method: GET
-  * URL: /api/chat/:chat_id
-  * Body: none
+- Require Auth: true
+- Request:
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: /api/chat/:chat_id
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
   {
     "ChatMessages": [
@@ -938,133 +1001,142 @@ Creates a new channel
   }
   ```
 
-* Error Response: Message couldn’t be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Message couldn’t be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Message couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Message couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### Get all participants by chat id
 
-* Require Auth: true?
-* Request:
-  * Method: GET
-  * URL: /api/members/:chat_id
-  * Body: none
+- Require Auth: true?
+- Request:
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: GET
+  - URL: /api/members/:chat_id
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
-    {
-      "ChatMembers": [
-        {
-          "id": 1,
-          "userId": 1,
-          "chatId": 1,
-        }
-      ]
-    }
+  {
+    "ChatMembers": [
+      {
+        "id": 1,
+        "userId": 1,
+        "chatId": 1
+      }
+    ]
+  }
   ```
 
-* Error Response: Chat couldn’t be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Chat couldn’t be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Chat couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Chat couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### Delete message by message id
 
-* Require Auth: true
-  * Request:
-  * Method: DELETE
-  * URL: /api/chat_messages/:chat_message_id
-  * Body: none
+- Require Auth: true
 
-* Successful Response:
-  * Status Code: 200
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Request:
+  - Method: DELETE
+  - URL: /api/chat_messages/:chat_message_id
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 200
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
-    {
-      "message": "Successfully deleted",
-      "statusCode": 200
-    }
+  {
+    "message": "Successfully deleted",
+    "statusCode": 200
+  }
   ```
 
-* Error Response: Message couldn’t be found
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+- Error Response: Message couldn’t be found
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
   ```json
-    {
-      "message": "Message couldn’t be found",
-      "statusCode": 404
-    }
+  {
+    "message": "Message couldn’t be found",
+    "statusCode": 404
+  }
   ```
 
 ### Create message
 
-* Require Auth: true
-* Request:
-  * Method: POST
-  * URL: /api/chat/:chat_id
-  * Body: none
+- Require Auth: true
+- Request:
 
-* Successful Response:
-  * Status Code: 201
-  * Headers:
-    * Content-Type: application/json
-  * Body:
+  - Method: POST
+  - URL: /api/chat/:chat_id
+  - Body: none
+
+- Successful Response:
+
+  - Status Code: 201
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+
   ```json
-    {
-      "id": 1,
-      "userId": 1,
-      "chatId": 1,
-      "body": "Message body",
-      "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36"
-    }
+  {
+    "id": 1,
+    "userId": 1,
+    "chatId": 1,
+    "body": "Message body",
+    "createdAt": "2021-11-19 20:39:36",
+    "updatedAt": "2021-11-19 20:39:36"
+  }
   ```
 
-* Error Response: Body validation error
-  * Status Code: 400
-  * Headers:
-  * Content-Type: application/json
-  * Body:
+- Error Response: Body validation error
+  - Status Code: 400
+  - Headers:
+  - Content-Type: application/json
+  - Body:
   ```json
-    {
-  	  "message": "Validation Error",
-  	  "statusCode": 400,
-  	  "errors": {
-    		"title": "Message body is required"
-  	  }
-     }
-  ```
-* Error Response: Couldn’t find chat by id
-  * Status Code: 404
-  * Headers:
-    * Content-Type: application/json
-  * Body:
-  ```json
-    {
-  	  "message": "Chat couldn’t be found",
-  	  "statusCode": 404,
+  {
+    "message": "Validation Error",
+    "statusCode": 400,
+    "errors": {
+      "title": "Message body is required"
     }
+  }
+  ```
+- Error Response: Couldn’t find chat by id
+  - Status Code: 404
+  - Headers:
+    - Content-Type: application/json
+  - Body:
+  ```json
+  {
+    "message": "Chat couldn’t be found",
+    "statusCode": 404
+  }
   ```
