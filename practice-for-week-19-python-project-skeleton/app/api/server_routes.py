@@ -97,18 +97,16 @@ def post_new_server():
         new_server = Server(
             name = data['name'],
             admin_id = current_user.id,
-            image_url = data['image_url']
+            image_url = data['image_url'], 
         )
 
-        server_members = [int(server_member)
-                        for server_member in data["server_members_lst"].split(",")]
-        for server_member in server_members:
-            server_user = User.query.get(server_member)
-            new_server.server_members.append(server_user)
+        # members = new_server.server_members
+        server_user = User.query.get(current_user.id)
+        new_server.server_members.append(server_user)
 
         db.session.add(new_server)
         db.session.commit()
-
+        print(new_server.to_dict(), "***NEW SERVER***")  
         success_response = Server.query.order_by(Server.id.desc()).first()
         return jsonify(server_schema.dump(success_response))
 
