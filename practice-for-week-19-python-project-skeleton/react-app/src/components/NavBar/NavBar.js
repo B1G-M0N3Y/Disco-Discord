@@ -13,6 +13,7 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 
 import "./NavBar.css";
 import LandingPage from "../LandingPage";
+import PrivateMessages from "../PrivateMessages";
 
 const NavBar = ({ servers }) => {
   const dispatch = useDispatch();
@@ -202,7 +203,7 @@ const NavBar = ({ servers }) => {
               <div className="flex-column-start">{channelDisplay}</div>
             )}
             {!showChannels && sessionUser && (
-              <div className="flex-column-start">CHATS HERE</div>
+              <PrivateMessages />
             )}
             {!showChannels && !sessionUser && (
               <div className="flex-column-start">
