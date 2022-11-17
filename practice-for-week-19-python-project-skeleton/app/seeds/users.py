@@ -16,14 +16,14 @@ def seed_users():
         password='password',
         first_name='Marnie',
         last_name='User',
-        image_url='image_url')
+        image_url='https://i.gyazo.com/7b76c00f918ad31422b7d904912fe749.png')
     bobbie = User(
         username='bobbie',
         email='bobbie@aa.io',
         password='password',
         first_name='Bob',
         last_name='User',
-        image_url='image_url')
+        image_url='https://i1.sndcdn.com/avatars-fmUjIuJXtnxsyFei-rniA7g-t500x500.jpg')
 
     db.session.add(demo)
     db.session.add(marnie)

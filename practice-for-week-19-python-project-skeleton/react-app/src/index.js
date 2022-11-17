@@ -8,6 +8,7 @@ import { getServerMembers, getServers } from "./store/servers";
 import { ModalProvider } from "./context/Modal"
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
+import ChatProvider from "./context/ChatContext";
 
 const store = configureStore();
 
@@ -21,9 +22,11 @@ function Root() {
   return (
     <Provider store={store}>
       <ModalProvider>
-        <ServerProvider>
-          <ChannelsProvider>
+      <ServerProvider>
+        <ChannelsProvider>
+          <ChatProvider>
             <App />
+          </ChatProvider>
           </ChannelsProvider>
         </ServerProvider>
       </ModalProvider>

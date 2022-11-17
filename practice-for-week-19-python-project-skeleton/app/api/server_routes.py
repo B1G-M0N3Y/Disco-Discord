@@ -98,9 +98,9 @@ def post_new_server():
     if form.validate_on_submit():
         data = form.data
         new_server = Server(
-            name = data['name'],
-            admin_id = current_user.id,
-            image_url = data['image_url'],
+            name=data['name'],
+            admin_id=current_user.id,
+            image_url=data['image_url'],
         )
 
         # server_members = [int(server_member)
