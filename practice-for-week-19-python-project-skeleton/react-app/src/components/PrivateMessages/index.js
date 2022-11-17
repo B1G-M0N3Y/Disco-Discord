@@ -1,31 +1,30 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useSelectedChannels } from "../../context/ChannelContext"
-import { getPrivateChats } from "../../store/private_messages"
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSelectedChannels } from "../../context/ChannelContext";
+import { getPrivateChats } from "../../store/private_messages";
 
 const PrivateMessages = () => {
-    const dispatch = useDispatch()
-    // const [chats, setChats] = useState([])
-    const chats = useSelector((state) => {
-        return state.privateMessages.chats
-    })
+  const dispatch = useDispatch();
+  // const [chats, setChats] = useState([])
+  const chats = useSelector((state) => {
+    return state.privateMessages.chats;
+  });
 
-    const selectChat = () =>{
-        
-    }
+  const selectChat = () => {};
 
-    useEffect(() => {
-        dispatch(getPrivateChats())
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(getPrivateChats());
+  }, [dispatch]);
 
-    return(
+  return (
     <div>
-        {Object.values(chats).map(chat => (
-            <p onClick={selectChat(chat.id)}>{chat.name}</p>
-        ))}
+      {Object.values(chats).map((chat) => (
+        <p onClick={selectChat(chat.id)} className="private-chat-nav">
+          {chat.name}
+        </p>
+      ))}
     </div>
-    )
+  );
+};
 
-}
-
-export default PrivateMessages
+export default PrivateMessages;

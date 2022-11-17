@@ -73,3 +73,17 @@
   width: 82%;
   border-radius: 6px;
 }
+
+.private-chat-nav{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-left: 5px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  width: 100%;
+}
+
+.private-chat-nav:hover{
+  background-color: #50505033;
+
+}
