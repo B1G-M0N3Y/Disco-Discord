@@ -8,8 +8,8 @@ from flask_login import current_user
 # configure cors_allowed_origins
 if os.environ.get('FLASK_ENV') == 'production':
     origins = [
-        'http://actual-app-url.herokuapp.com',
-        'https://actual-app-url.herokuapp.com'
+        'http://disco-ord.onrender.com',
+        'https://disco-ord.onrender.com'
     ]
 else:
     origins = "*"

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request
 from ..forms import ChannelForm, ServerForm, EditServerForm, AddServerMember
-from app.models.servers import db, Server, Channel, channel_schema, channels_schema, server_schema, servers_schema, server_members_schema
+from app.models.servers import db, Server, Channel, channel_schema, channels_schema, server_schema, servers_schema
 from flask_login import login_required, current_user
 from app.models import User
 
@@ -149,7 +149,7 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
-@server_routes.route('/', methods=["GET"])
+@server_routes.route('', methods=["GET"])
 def user_servers():
     """
     Get all logged in user's servers, include members, channels, and messages
