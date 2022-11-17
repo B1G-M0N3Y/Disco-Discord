@@ -5,13 +5,15 @@ import serverReducer from "./servers";
 import channelReducer from "./channels";
 import channelMessageReducer from "./channel_messages";
 import privateMessageReducer from "./private_messages";
+import chatReducer from "./chat";
 
 const rootReducer = combineReducers({
   session,
   servers: serverReducer,
   channels: channelReducer,
   channelMessages: channelMessageReducer,
-  privateMessages: privateMessageReducer
+  privateMessages: privateMessageReducer,
+  chats: chatReducer,
 });
 
 let enhancer;

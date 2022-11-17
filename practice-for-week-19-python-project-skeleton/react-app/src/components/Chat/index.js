@@ -5,35 +5,30 @@ import { NavLink } from "react-router-dom";
 import { getServerMembers } from "../../store/servers";
 import ChatForm from "./ChatForm";
 import "./chats.css";
+import { getChat } from "../../store/chat";
 import IndividualChat from "./IndividualChat";
 
 function Chat() {
   const dispatch = useDispatch();
 
   // getters and setters
-  const [chats, setChats] = useState([]);
-  const [chat, setChat] = useState({ empty: true });
+  const chats = useSelector((state) => state.chats);
+  const [chat, setChat] = useState(Object.values(chats)[0]);
 
   // fetch chats
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("/api/chat/");
-      const responseData = await response.json();
-      setChats(responseData);
-    }
-    fetchData();
-  }, []);
 
-  // useEffect(() => {
-  //   console.log(chat, "chat in index");
-  // }, [chat]);
+  useEffect(() => {
+    //   TODO SETUP THIS REDUX
+    dispatch(getChat());
+    setChat(Object.values(chats)[0]);
+  }, [dispatch]);
 
   return (
     <>
       <h1>Chats</h1>
       <ul className="chats">
         {chats ? (
-          chats.map((chat, idx) => (
+          Object.values(chats)?.map((chat, idx) => (
             <IndividualChat chat={chat} setChat={setChat} />
           ))
         ) : (
