@@ -13,7 +13,7 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 
 import "./NavBar.css";
 import LandingPage from "../LandingPage";
-// import PrivateMessages from "../PrivateMessages";
+import CreateServerFormModal from "../Servers/CreateServerFormModal";
 import Chat from "../Chat";
 
 const NavBar = ({ servers }) => {
@@ -197,8 +197,16 @@ const NavBar = ({ servers }) => {
             >
               PRIVATE CHATS
             </NavLink>
-            {sessionUser && <>{serverDisplay}</>}
+            {sessionUser &&
+              <>
+                {serverDisplay}
+                <div className="create-server-button">
+                    <CreateServerFormModal />
+                </div>
+              </>}
           </div>
+
+
           <div className="flex-column-space-between">
             {showChannels && (
               <div className="flex-column-start">{channelDisplay}</div>
