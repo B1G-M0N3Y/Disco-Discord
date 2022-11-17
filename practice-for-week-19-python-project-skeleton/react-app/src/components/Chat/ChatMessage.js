@@ -9,14 +9,13 @@ function ChatMessages({ chat, chat_id }) {
 
   return (
     <>
-      <ul>
         {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
         {messages && messages.length > 0 ? (
           messages.map((message, idx) => (
             <div className="message" key={idx}>
               <img
                 className="message-image"
-                src={message?.author.username}
+                src={message?.author.imageUrl}
                 alt={`${message?.author.username} chat pic`}
               ></img>
               <div className="message-text">
@@ -29,7 +28,6 @@ function ChatMessages({ chat, chat_id }) {
         ) : (
           <div>No Messages Found</div>
         )}
-      </ul>
     </>
   );
 }

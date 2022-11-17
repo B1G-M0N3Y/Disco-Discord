@@ -9,7 +9,7 @@ function IndividualChat({ chat, setChat }) {
   // getters and setters
   const [chats, setChats] = useState([]);
 
-  const { setSelectedChat } = useSelectedChat()
+  const { setSelectedChat } = useSelectedChat();
 
   // fetch chats
   useEffect(() => {
@@ -23,17 +23,21 @@ function IndividualChat({ chat, setChat }) {
 
   return (
     <>
-      <li
+      <div
         id={chat.id}
+        className="chat-nav"
         onClick={() => {
-          console.log(chat.id)
-          setSelectedChat(chat.id)}}
+          console.log(chat.id);
+          setSelectedChat(chat.id);
+        }}
       >
-        {chat.name}
-        {chat.chat_members?.map((member) => (
-          <div>{member.username}</div>
-        ))}
-      </li>
+        <p className="chat-nav-label">{chat.name}</p>
+        <div className="chat-nav-members">
+          {chat.chat_members?.map((member) => (
+            <p className="chat-nav-member"> {member.username} </p>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

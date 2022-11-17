@@ -74,13 +74,29 @@
   border-radius: 6px;
 }
 
-.private-chat-nav{
+.chat-nav{
   margin-top: 0px;
   margin-bottom: 0px;
   width: 100%;
+  padding: 5px;
 }
 
-.private-chat-nav:hover{
+.chat-nav:hover{
   background-color: #50505033;
+}
 
+.chat-nav-members{
+  display: flex;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.chat-nav-label{
+  font-size: 18px;
+  margin: 0;
+}
+
+.chat-nav-member{
+  margin: 0;
 }
