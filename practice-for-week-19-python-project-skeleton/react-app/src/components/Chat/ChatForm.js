@@ -7,7 +7,7 @@ import { useSelectedChat } from "../../context/ChatContext";
 
 let socket;
 
-function ChatForm({ chat }) {
+function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
@@ -45,11 +45,11 @@ function ChatForm({ chat }) {
     return () => {
       socket.disconnect();
     };
-  }, [chat]);
+  }, [selectedChat, dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = { body: text, chat_id: chat.id };
+    const message = { body: text, chat_id: selectedChat };
     console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
     console.log(response, "fetch response");

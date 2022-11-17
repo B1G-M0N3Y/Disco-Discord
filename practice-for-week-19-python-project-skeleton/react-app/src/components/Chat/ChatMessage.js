@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-function ChatMessages({ chat, chat_id }) {
+function ChatMessages({ chat_id }) {
   console.log(chat_id, typeof chat_id, "chat id");
   const messages = useSelector(
     (state) => chat_id && state.chats[chat_id]["chat_messages"]
   );
+
+  console.log('da messages', messages)
 
   return (
     <>
