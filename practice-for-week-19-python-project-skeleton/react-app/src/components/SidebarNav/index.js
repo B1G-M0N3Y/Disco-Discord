@@ -72,9 +72,6 @@ function SidebarNav() {
   if (!serversArr.length) return null;
   return <>
           {userServers}
-          <div id="create-server-button">
-             <CreateServerFormModal />
-          </div>
           </>;
 
 {/* <CreateServerFormModal /> */}

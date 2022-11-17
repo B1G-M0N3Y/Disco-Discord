@@ -13,6 +13,7 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 
 import "./NavBar.css";
 import LandingPage from "../LandingPage";
+import CreateServerFormModal from "../Servers/CreateServerFormModal";
 
 const NavBar = ({ servers }) => {
   const dispatch = useDispatch();
@@ -196,7 +197,12 @@ const NavBar = ({ servers }) => {
               LOGO HERE
             </NavLink>
             {sessionUser && <>{serverDisplay}</>}
+            <div className="create-server-button">
+                <CreateServerFormModal />
+            </div>
           </div>
+
+
           <div className="flex-column-space-between">
             {showChannels && (
               <div className="flex-column-start">{channelDisplay}</div>
