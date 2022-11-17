@@ -103,11 +103,11 @@ def post_new_server():
             image_url = data['image_url'],
         )
 
-        server_members = [int(server_member)
-                        for server_member in data["server_members_lst"].split(",")]
-        for server_member in server_members:
-            server_user = User.query.get(server_member)
-            new_server.server_members.append(server_user)
+        # server_members = [int(server_member)
+        #                 for server_member in data["server_members_lst"].split(",")]
+        # for server_member in server_members:
+        #     server_user = User.query.get(server_member)
+        #     new_server.server_members.append(server_user)
 
         db.session.add(new_server)
         db.session.commit()

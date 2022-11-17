@@ -1,5 +1,6 @@
 const GET = "servers/GET";
 const ALL = "servers/ALL";
+const GET_ONE = "servers/GET_ONE"
 const GET_MEMBERS = "servers/GET_MEMBERS";
 const ADD_ONE = "servers/ADD_ONE";
 const DELETE = "servers/DELETE";
@@ -17,6 +18,13 @@ const all = (servers) => {
     servers,
   };
 };
+
+const getOne = (server) => {
+  return {
+    type: GET_ONE,
+    server
+  }
+}
 
 const getMembers = (members) => {
   return {
@@ -64,7 +72,7 @@ export const getOneServer = (serverId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}`);
   if (response.ok) {
     const data = await response.json();
-    dispatch(addOne(data));
+    dispatch(getOne(data));
   }
   return response;
 };
@@ -77,6 +85,27 @@ export const getServerMembers = (serverId) => async (dispatch) => {
     dispatch(getMembers(data));
   }
   return response;
+};
+
+// post/create server
+export const addServer = (server) => async (dispatch) => {
+  console.log("Add Server THUNK: ")
+  const response = await fetch('/api/servers', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(server)
+  });
+
+  console.log("RESPONSE: ", response)
+
+  if (response.ok) {
+    const data = await response.json();
+    console.log("This is DATA: ", data)
+
+    dispatch(addOne(data))
+
+    return data
+  };
 };
 
 const initialState = {
@@ -104,8 +133,9 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ADD_ONE:
       return {
-        ...state,
         currentServer: { ...action.server },
+        servers: { ...state.servers, [action.server.id]: {...action.server} },
+        allServers: { ...state.allServers }
       };
     // case GET_MEMBERS:
     //   newState = { ...state };
@@ -116,6 +146,7 @@ const serverReducer = (state = initialState, action) => {
     //   return newState;
     default:
       return state;
-  }
+  };
 };
+
 export default serverReducer;

@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App";
 import configureStore from "./store";
 import { getServerMembers, getServers } from "./store/servers";
+import { ModalProvider } from "./context/Modal"
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
 
@@ -19,11 +20,13 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <Provider store={store}>
-      <ServerProvider>
-        <ChannelsProvider>
-          <App />
-        </ChannelsProvider>
-      </ServerProvider>
+      <ModalProvider>
+        <ServerProvider>
+          <ChannelsProvider>
+            <App />
+          </ChannelsProvider>
+        </ServerProvider>
+      </ModalProvider>
     </Provider>
   );
 }
