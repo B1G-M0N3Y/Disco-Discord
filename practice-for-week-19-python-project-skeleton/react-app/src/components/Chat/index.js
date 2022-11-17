@@ -26,8 +26,8 @@ function Chat() {
 
   return (
     <>
-      <h1>Chats</h1>
       <div>
+      <h1>Chats</h1>
         {chats ? (
           Object.values(chats)?.map((chat, idx) => (
             <IndividualChat chat={chat}/>

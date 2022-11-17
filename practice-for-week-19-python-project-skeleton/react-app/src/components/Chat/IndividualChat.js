@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 import { useSelectedChat } from "../../context/ChatContext";
 
-const DEFAULT_IMAGE_URL = "https://ledstagelightmfg.com/wp-content/uploads/2020/09/40inch-disco-ball.jpg"
+const DEFAULT_IMAGE_URL =
+  "https://ledstagelightmfg.com/wp-content/uploads/2020/09/40inch-disco-ball.jpg";
 
 function IndividualChat({ chat, setChat }) {
   const dispatch = useDispatch();
@@ -24,9 +25,11 @@ function IndividualChat({ chat, setChat }) {
   if (chat.chat_members?.length > 2) {
     chatSelector = (
       <>
-        <img className= "user-pic-nav" src={DEFAULT_IMAGE_URL}></img>
-        <p className="chat-nav-label">{chat.name}</p>
-        <p className="chat-nav-members">{chat.chat_members.length} members</p>
+        <img className="user-pic-nav" src={DEFAULT_IMAGE_URL}></img>
+        <div className="chat-label-container">
+          <p className="chat-nav-label">{chat.name}</p>
+          <p className="chat-nav-members">{chat.chat_members.length} members</p>
+        </div>
       </>
     );
   } else {
@@ -36,8 +39,12 @@ function IndividualChat({ chat, setChat }) {
     console.log(otherUser);
     chatSelector = (
       <>
-        <img className= "user-pic-nav" src={otherUser?.image_url} alt={otherUser?.username}></img>
-        <p className="chat-nav-label">{otherUser?.username}</p>
+        <img
+          className="user-pic-nav"
+          src={otherUser?.image_url}
+          alt={otherUser?.username}
+        ></img>
+        <p className="chat-nav-username">{otherUser?.username}</p>
       </>
     );
   }

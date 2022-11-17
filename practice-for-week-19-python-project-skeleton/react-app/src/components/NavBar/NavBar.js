@@ -221,14 +221,14 @@ const NavBar = ({ servers }) => {
             )}
 
             <div className="flex-column-end">
-              <NavLink
+              {/* <NavLink
                 className="navlink"
                 to="/users"
                 exact={true}
                 activeClassName="active"
               >
                 Users
-              </NavLink>
+              </NavLink> */}
               {userDisplay}
             </div>
           </div>
