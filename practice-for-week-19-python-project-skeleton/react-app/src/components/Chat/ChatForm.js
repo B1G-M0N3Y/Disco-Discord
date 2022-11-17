@@ -48,8 +48,8 @@ function ChatForm({ chat }) {
     e.preventDefault();
     const message = { body: text, chat_id: chat.id };
     const response = await dispatch(newChatMessage(message));
-    dispatch(getChat());
     socket.emit("newmessage", response);
+    setText("");
   };
 
   return (
