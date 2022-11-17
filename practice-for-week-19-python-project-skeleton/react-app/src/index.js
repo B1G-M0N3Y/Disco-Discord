@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import configureStore from "./store";
-import { getServerMembers, getServers } from "./store/servers";
+import { getServers } from "./store/servers";
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
 
@@ -13,7 +13,6 @@ const store = configureStore();
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.getServers = getServers;
-  window.getServerMembers = getServerMembers;
 }
 
 function Root() {

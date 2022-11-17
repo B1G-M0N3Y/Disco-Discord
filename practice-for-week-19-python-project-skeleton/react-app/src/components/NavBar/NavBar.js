@@ -1,31 +1,37 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
-// import ChannelList from "../Channels/ChannelList";
+import ChannelList from "../Channels/ChannelList";
 // import SidebarNav from "../SidebarNav";
 import { getServers, getOneServer } from "../../store/servers";
-import { getChannels } from "../../store/channels";
+// import { getChannels } from "../../store/channels";
 import { useSelectedServer } from "../../context/ServerContext";
 import { useSelectedChannels } from "../../context/ChannelContext";
 
 import "./NavBar.css";
-import LandingPage from "../LandingPage";
 
-const NavBar = ({ servers }) => {
+const NavBar = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [showLogout, setShowLogout] = useState(false);
-  const [showChannels, setShowChannels] = useState(false);
+  const [showChannels, setShowChannels] = useState(true);
 
   const sessionUser = useSelector((state) => state.session.user);
   const currServers = useSelector((state) => state.servers.servers);
   const thisServer = useSelector((state) => state.servers.currentServer);
-  // const currChannels = useSelector((state) => state.channels.channels);
-
+  const currChannels = useSelector(
+    (state) => state.servers.currentServer["channels"]
+  );
   const { selectedServer, setSelectedServer } = useSelectedServer();
-  const { setSelectedChannels } = useSelectedChannels();
+  const { selectedChannels, setSelectedChannels } = useSelectedChannels();
+
+  console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
+  console.log(selectedServer, "SELECTED SERVER CONTEXT");
+  console.log(typeof currChannels, "currChannels, typof on line 32");
+  console.log(currChannels, "currChannels");
 
   const openLogout = () => {
     if (showLogout) return;
@@ -52,18 +58,17 @@ const NavBar = ({ servers }) => {
     } else {
       setShowChannels(false);
     }
-  }, [sessionUser]);
+  }, [dispatch, sessionUser]);
 
   // if selected server changes, update store
   useEffect(() => {
     if (selectedServer?.id) {
       setSelectedChannels(selectedServer.channels);
-      dispatch(getChannels(selectedServer.channels));
       if (selectedServer !== []) {
         dispatch(getOneServer(selectedServer.id));
       }
     }
-  }, [selectedServer]);
+  }, [dispatch, selectedServer]);
 
   // save the selected server in local storage
   // (cleared on logout and login)
@@ -79,7 +84,9 @@ const NavBar = ({ servers }) => {
 
   // on click, server context changes and gets stored in local storage
   useEffect(() => {
-    window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
+    if (selectedServer?.id !== null || selectedServer?.id !== undefined) {
+      window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
+    }
   }, [selectedServer]);
 
   const serversArray = Object.values(currServers);
@@ -93,15 +100,10 @@ const NavBar = ({ servers }) => {
     selChannels = thisServer.channels;
   }
 
-  // console.log(serversArray, "SERVERS ARRAY");
-  // console.log(firstServer, "FIRST SERVER");
-  // console.log(firstChannels, "FIRST CHANNELS");
-  // console.log(thisServer, "THIS SERVER");
-  // console.log(selChannels, "SELECTED CHANNELS");
-
   let userDisplay;
   let serverDisplay;
   let channelDisplay;
+  let channelList;
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
@@ -113,7 +115,11 @@ const NavBar = ({ servers }) => {
           <LogoutButton />
         ) : (
           <>
-            <img className="user-pic-nav" src={sessionUser.image_url}></img>
+            <img
+              alt={sessionUser.id}
+              className="user-pic-nav"
+              src={sessionUser.image_url}
+            ></img>
             <p className="username-nav">{sessionUser.username}</p>
             <i
               onClick={openLogout}
@@ -124,48 +130,80 @@ const NavBar = ({ servers }) => {
       </div>
     );
 
-    // display the user's servers
     if (Object.values(currServers).length) {
       serverDisplay = Object.values(currServers).map((server) => {
+        console.log(JSON.parse(localStorage.getItem("SERVER")).id);
+        console.log(server.id);
+
+        if (JSON.parse(localStorage.getItem("SERVER")).id === server.id) {
+          channelList = server["channels"]?.map((channel) => {
+            return (
+              <div key={channel.id}>
+                <NavLink to={`/servers/${server.id}/channels/${channel?.id}`}>
+                  {channel?.name}
+                </NavLink>
+              </div>
+            );
+          });
+        }
         return (
           <div
             key={server.id}
             onClick={() => {
               // on click, set the selectedServer context
+              setSelectedChannels(currChannels);
               setSelectedServer(server);
               setShowChannels(true);
+              dispatch(getOneServer(server.id));
             }}
           >
-            <div>{server?.name}</div>
-            <NavLink to={`/servers/${server.id}`}>{server.image_url}</NavLink>
+            <div
+              onClick={() => {
+                history.push(`/servers/${server.id}`);
+              }}
+            >
+              {server.name}
+              <img
+                alt={server.id}
+                className="server-pic-nav"
+                src={
+                  "https://cdn3.vectorstock.com/i/1000x1000/35/52/placeholder-rgb-color-icon-vector-32173552.jpg"
+                }
+                // src={server.image_url}
+              ></img>
+            </div>
+            {/* <ChannelList server={server} /> */}
           </div>
         );
       });
     }
-    // once a server is selected
-    if (thisServer !== {}) {
-      channelDisplay = selChannels?.map((channel) => {
-        return (
-          <div key={channel.id}>
-            <NavLink to={`/servers/${firstServer.id}/channels/${channel?.id}`}>
-              {channel.name}
-            </NavLink>
-          </div>
-        );
-      });
-    }
-    // if the user has servers and a server is not selected:
-    if (serversArray && window.localStorage.getItem("SERVER") === "null") {
-      channelDisplay = firstChannels?.map((channel) => {
-        return (
-          <div key={channel.id}>
-            <NavLink to={`/servers/${firstServer.id}/channels/${channel?.id}`}>
-              {channel.name}
-            </NavLink>
-          </div>
-        );
-      });
-    }
+    // // once a server is selected
+    // if (thisServer !== {}) {
+    //   channelDisplay = currChannels?.map((channel) => {
+    //     return (
+    //       <>
+    //         <div key={channel.id}>
+    //           <NavLink to={`/servers/${thisServer.id}/channels/${channel?.id}`}>
+    //             {channel.name}
+    //           </NavLink>
+    //         </div>
+    //       </>
+    //     );
+    //   });
+    // }
+
+    // // if the user has servers and a server is not selected:
+    // if (serversArray && window.localStorage.getItem("SERVER") === "null") {
+    //   channelDisplay = firstChannels?.map((channel) => {
+    //     return (
+    //       <div key={channel.id}>
+    //         <NavLink to={`/servers/${firstServer.id}/channels/${channel?.id}`}>
+    //           {channel.name}
+    //         </NavLink>
+    //       </div>
+    //     );
+    //   });
+    // }
   } else {
     // if not logged in, display additional buttons for login and sign up
     userDisplay = (
@@ -188,7 +226,7 @@ const NavBar = ({ servers }) => {
           <div className="flex-column-start server-list">
             <NavLink
               className="navlink"
-              to="/home"
+              to="/"
               exact={true}
               activeClassName="active"
               onClick={() => setShowChannels(false)}
@@ -197,9 +235,23 @@ const NavBar = ({ servers }) => {
             </NavLink>
             {sessionUser && <>{serverDisplay}</>}
           </div>
-          <div className="flex-column-space-between">
+          <div className="flex-column-space-between channels-chats">
             {showChannels && (
-              <div className="flex-column-start">{channelDisplay}</div>
+              <div className="flex-column-start">
+                <div
+                  onClick={() => {
+                    dispatch(getServers());
+                    setSelectedServer(thisServer);
+                    history.push(`/servers/${thisServer.id}/update`);
+                  }}
+                >
+                  {selectedServer?.name
+                    ? selectedServer?.name
+                    : firstServer?.name}
+                </div>
+                <div>{channelDisplay}</div>
+                <div>{channelList}</div>
+              </div>
             )}
             {!showChannels && sessionUser && (
               <div className="flex-column-start">CHATS HERE</div>
