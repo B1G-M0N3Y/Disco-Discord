@@ -40,12 +40,12 @@ const addOne = (server) => {
   };
 };
 
-// const remove = (serverId) => {
-//   return {
-//     type: DELETE,
-//     serverId,
-//   };
-// };
+const deleteServerAction = (serverId) => {
+  return {
+    type: DELETE,
+    serverId,
+  };
+};
 
 // get user servers
 export const getServers = () => async (dispatch) => {
@@ -89,7 +89,6 @@ export const getServerMembers = (serverId) => async (dispatch) => {
 
 // post/create server
 export const addServer = (server) => async (dispatch) => {
-  console.log("Add Server THUNK: ")
   const response = await fetch('/api/servers', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -105,6 +104,20 @@ export const addServer = (server) => async (dispatch) => {
     dispatch(addOne(data))
 
     return data
+  };
+};
+
+// delete server
+export const deleteServerThunk = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(deleteServerAction(serverId))
+    return data;
   };
 };
 
@@ -125,18 +138,26 @@ const serverReducer = (state = initialState, action) => {
         newState.servers[server.id] = server;
       });
       return newState;
+
     case ALL:
       newState = { ...state };
       action.allServers.forEach((server) => {
         newState.allServers[server.id] = server;
       });
       return newState;
+
     case ADD_ONE:
       return {
         currentServer: { ...action.server },
         servers: { ...state.servers, [action.server.id]: {...action.server} },
         allServers: { ...state.allServers }
       };
+
+    case DELETE:
+      newState = { ...state };
+      delete newState[action.serverId]
+
+      return newState;
     // case GET_MEMBERS:
     //   newState = { ...state };
     //   newState.members = {};
