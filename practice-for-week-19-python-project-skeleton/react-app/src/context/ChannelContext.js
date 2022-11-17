@@ -4,7 +4,7 @@ export const ChannelsContext = createContext();
 export const useSelectedChannels = () => useContext(ChannelsContext);
 
 export default function ChannelsProvider(props) {
-  const [selectedChannels, setSelectedChannels] = useState([]);
+  const [selectedChannels, setSelectedChannels] = useState();
 
   return (
     <ChannelsContext.Provider

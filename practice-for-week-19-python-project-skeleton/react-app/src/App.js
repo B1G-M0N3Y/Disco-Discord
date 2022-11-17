@@ -20,14 +20,17 @@ import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateS
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [servers, setServers] = useState([]);
 
   const dispatch = useDispatch();
+  const currServers = useSelector((state) => state.servers.servers);
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
       await dispatch(getServers());
       setLoaded(true);
+      setServers(currServers);
     })();
   }, [dispatch]);
 
@@ -64,7 +67,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar servers={servers} />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -88,6 +91,7 @@ function App() {
         ></ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
+          {/* <SidebarNav /> */}
         </Route>
         {/* <Route path="/chat">
           {loaded && <BasicChat />}

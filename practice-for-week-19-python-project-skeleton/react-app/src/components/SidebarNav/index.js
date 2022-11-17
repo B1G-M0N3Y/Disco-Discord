@@ -15,6 +15,7 @@ function SidebarNav() {
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
 
+
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
@@ -31,25 +32,26 @@ function SidebarNav() {
   }, []);
 
   // filter all servers to find only user's servers
-  const currentUser = useSelector((state) => state.session.user);
+  // const currentUser = useSelector((state) => state.session.user);
   const allServers = useSelector((state) => state.servers.servers);
+  console.log("all servers", allServers);
   const serversArr = Object.values(allServers);
-  const filteredMembers = members.filter(
-    (item) => item.user_id === currentUser?.id
-  );
-  const filteredServers = [];
-  for (let i = 0; i < filteredMembers.length; i++) {
-    let member = filteredMembers[i];
-    for (let j = 0; j < serversArr.length; j++) {
-      let server = serversArr[j];
-      if (server.id === member.server_id) {
-        filteredServers.push(server);
-      }
-    }
-  }
+  // const filteredMembers = members.filter(
+  //   (item) => item.user_id === currentUser?.id
+  // );
+  // const filteredServers = [];
+  // for (let i = 0; i < filteredMembers.length; i++) {
+  //   let member = filteredMembers[i];
+  //   for (let j = 0; j < serversArr.length; j++) {
+  //     let server = serversArr[j];
+  //     if (server.id === member.server_id) {
+  //       filteredServers.push(server);
+  //     }
+  //   }
+  // }
 
   // map over filtered severs to display them
-  const userServers = filteredServers.map((server) => {
+  const userServers = serversArr.map((server) => {
     if (!server) return null;
     return (
       <div
@@ -67,6 +69,8 @@ function SidebarNav() {
     );
   });
 
+  if (!serversArr.length) return null;
+  return <>{userServers}</>;
 
   if (!filteredServers.length) return null;
   return <>
