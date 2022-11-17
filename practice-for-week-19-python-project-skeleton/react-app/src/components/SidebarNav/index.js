@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { getOneServer, getServers } from "../../store/servers";
 import { useSelectedServer } from "../../context/ServerContext";
+import CreateServerFormModal from "../Servers/CreateServerFormModal"
 
 function SidebarNav() {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ function SidebarNav() {
 
   // get the current server
   const currServer = useSelector((state) => state.servers.currentServer);
-  
+
   // get all the servers
   useEffect(() => {
     dispatch(getServers());
@@ -62,11 +63,21 @@ function SidebarNav() {
         <div>{server?.name}</div>
         <NavLink to={`/servers/${server?.id}`}>{server?.image_url}</NavLink>
       </div>
+
     );
   });
 
+
   if (!filteredServers.length) return null;
-  return <>{userServers}</>;
+  return <>
+          {userServers}
+          <div id="create-server-button">
+            <CreateServerFormModal />
+          </div>
+          </>;
+
+
 }
+
 
 export default SidebarNav;

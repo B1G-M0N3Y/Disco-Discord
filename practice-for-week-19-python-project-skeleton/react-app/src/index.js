@@ -10,6 +10,7 @@ import {
   getServers,
 } from "./store/servers";
 import ServerProvider from "./context/ServerContext";
+import { ModalProvider } from "./context/Modal"
 
 const store = configureStore();
 
@@ -24,7 +25,9 @@ function Root() {
   return (
     <Provider store={store}>
       <ServerProvider>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
       </ServerProvider>
     </Provider>
   );

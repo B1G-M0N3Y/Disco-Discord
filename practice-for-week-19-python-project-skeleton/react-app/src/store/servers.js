@@ -1,4 +1,5 @@
 const GET = "servers/GET";
+const GET_ONE = "servers/GET_ONE"
 const GET_MEMBERS = "servers/GET_MEMBERS";
 const GET_CHANNELS = "servers/GET_CHANNELS";
 const ADD_ONE = "servers/ADD_ONE";

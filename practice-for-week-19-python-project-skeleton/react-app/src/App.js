@@ -15,6 +15,7 @@ import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
+import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 // import ChannelList from "./components/Channels/ChannelList";
 
 function App() {

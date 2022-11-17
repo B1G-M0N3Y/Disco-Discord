@@ -30,6 +30,7 @@ const CreateServerForm = ({setShowModal}) => {
             errors.push("Please log in to create a new server");
         }
 
+        setValidationErrors(errors)
     }, [serverName, imageURL, adminId])
 
     const handleSubmit = async (e) => {
@@ -45,6 +46,51 @@ const CreateServerForm = ({setShowModal}) => {
         let newServer = await dispatch(addServer(createServerInputs));
         setShowModal(false)
         return history.push(`/servers/${newServer.id}`);
+    };
 
-    }
-}
+    return (
+        <form
+        className='create-server-form'
+        onSubmit={handleSubmit}>
+
+        <div className="errors-create-server-form">
+            {validationErrors.length > 0 && (
+                <ul className="create-spot-errors">
+                    {validationErrors.map(e => (
+                        <li key={e}>{e}</li>
+                        ))}
+                </ul>
+            )}
+        </div>
+
+        <label id="title-create-new-server">CREATE NEW SERVER</label>
+            <label id="title-create-server-input">Name of New Server</label>
+                <input id="form-input-create-server"
+                type="text"
+                name="name"
+                value={serverName}
+                onChange={e => setServerName(e.target.value)}
+                />
+
+            <label id="title-create-server-input">Server Profile Image - URL</label>
+                <input id="form-input-create-server"
+                type="url"
+                name="imageURL"
+                value={imageURL}
+                onChange={e => setImageURL(e.target.value)}
+                />
+
+            <label id="title-create-server-input">Server Owner - UserId</label>
+                <input id="form-input-create-server"
+                type="text"
+                name="adminId"
+                value={adminId}
+                onChange={e => setAdminId(e.target.value)}
+                />
+
+            <button className="button-create-server" type="submit">Create New Server</button>
+    </form>
+    )
+};
+
+export default CreateServerForm;
