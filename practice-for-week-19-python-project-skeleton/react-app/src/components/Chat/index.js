@@ -22,9 +22,6 @@ function Chat() {
     dispatch(getChat());
     setChat(Object.values(chats)[0]);
   }, [dispatch]);
-  // useEffect(() => {
-  //   console.log(chat, "chat in index");
-  // }, [chat]);
 
   return (
     <>

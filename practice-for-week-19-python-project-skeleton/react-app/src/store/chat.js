@@ -17,7 +17,7 @@ const getChatMessages = (chats) => {
 //   };
 // }
 
-const addChatMessage = (chat_message) => {
+export const addChatMessage = (chat_message) => {
   console.log(chat_message, typeof chat_message, "addCHATMESSAGE");
   return {
     type: ADD_CHAT_MESSAGE,
@@ -38,10 +38,9 @@ export const getChat = (chats) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log("getChat data:", data);
     dispatch(getChatMessages(data));
   }
-  console.log(response, "getchat response");
+
   return response;
 };
 
@@ -60,7 +59,7 @@ export const newChatMessage = (message) => async (dispatch) => {
     dispatch(addChatMessage(data));
     return data;
   } else {
-    alert(response);
+    alert("Error Occurred during Send Message");
     console.log(response);
   }
 };

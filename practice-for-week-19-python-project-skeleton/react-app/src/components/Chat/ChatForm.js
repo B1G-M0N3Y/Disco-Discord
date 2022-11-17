@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
-import { getChat, newChatMessage } from "../../store/chat";
+import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
 import { io } from "socket.io-client";
 
 let socket;
@@ -29,7 +29,8 @@ function ChatForm({ chat }) {
     });
 
     socket.on("newmessage", (data) => {
-      console.log(data, "INCOMING MESSAGE****");
+      console.log(data, typeof data, "INCOMING MESSAGE****");
+      dispatch(addChatMessage(data));
       //TODO SEND DATA TO REDUX AT APPEND TO CHATS->CHAT-> CHAT_MESSAGES
     });
 
@@ -47,7 +48,9 @@ function ChatForm({ chat }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = { body: text, chat_id: chat.id };
+    console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
+    console.log(response, "fetch response");
     socket.emit("newmessage", response);
     setText("");
   };
