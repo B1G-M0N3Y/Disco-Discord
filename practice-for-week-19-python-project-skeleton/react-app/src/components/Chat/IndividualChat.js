@@ -13,9 +13,10 @@ function IndividualChat({ chat, setChat }) {
   const [chats, setChats] = useState([]);
   const user = useSelector((state) => state.session.user);
 
-  const { setSelectedChat } = useSelectedChat();
+  const { selectedChat ,setSelectedChat } = useSelectedChat();
 
   let chatSelector;
+
 
   // If there are more members than 2 in a chat, it is a group
   // chat. If the currently selected chat is a group chat, render
@@ -35,15 +36,15 @@ function IndividualChat({ chat, setChat }) {
   } else {
     const otherUser = chat.chat_members?.filter(
       (member) => member.email !== user.email
-    )[0];
-    console.log(otherUser);
-    chatSelector = (
+      )[0];
+      console.log(otherUser);
+      chatSelector = (
       <>
         <img
           className="user-pic-nav"
           src={otherUser?.image_url}
           alt={otherUser?.username}
-        ></img>
+          ></img>
         <p className="chat-nav-username">{otherUser?.username}</p>
       </>
     );
@@ -65,8 +66,7 @@ function IndividualChat({ chat, setChat }) {
         id={chat.id}
         className="chat-nav"
         onClick={() => {
-          console.log(chat.id);
-          setSelectedChat(chat.id);
+          setSelectedChat(chat.id)
         }}
       >
         {chatSelector}
