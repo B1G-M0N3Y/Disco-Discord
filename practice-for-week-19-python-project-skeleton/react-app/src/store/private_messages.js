@@ -1,13 +1,13 @@
-const GET_MESSAGES = "private_messages/GET_MESSAGES"
+const GET_CHATS = "private_messages/GET_CHATS"
 // const GET_CHANNELS = "channel_messages/GET_CHANNELS"
 const ADD_MESSAGE = "private_messages/ADD_ONE";
 // const DELETE = "channel_messages/DELETE";
 
 
-const getMessages = (messages) => {
+const getChats = (chats) => {
   return {
-    type: GET_MESSAGES,
-    messages,
+    type: GET_CHATS,
+    chats,
   };
 };
 
@@ -33,19 +33,19 @@ const addMessage = (message) => {
 // };
 
 // get all servers
-export const getPrivateMessages = (channelId) => async (dispatch) => {
-  const response = await fetch(`/api/channels/${channelId}/messages`);
+export const getPrivateChats = () => async (dispatch) => {
+  const response = await fetch(`/api/chat/`);
 
   if (response.ok) {
     const data = await response.json();
-    dispatch(getMessages(data));
+    dispatch(getChats(data));
   }
   return response;
 };
 
 // create new channel message
-export const newPrivateMessage = (channelId, msg) => async (dispatch) => {
-  const response = await fetch(`/api/channels/${channelId}`, {
+export const newPrivateMessage = (chatId, msg) => async (dispatch) => {
+  const response = await fetch(`/api/chat/${chatId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -79,13 +79,13 @@ export const newPrivateMessage = (channelId, msg) => async (dispatch) => {
 //   return response;
 // };
 
-const initialState = { messages: {} };
+const initialState = { chats: {} };
 
 const privateMessageReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case GET_MESSAGES:
-      return {messages :{ ...action.messages }}
+    case GET_CHATS:
+      return {chats :{ ...action.chats }}
     case ADD_MESSAGE:
       return{...state, [action.message.id]: action.comment}
     default:
