@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 function ChatMessages({ chat, chat_id }) {
   console.log(chat_id, typeof chat_id, "chat id");
   const messages = useSelector(
-    (state) => state.chats[chat_id]["chat_messages"]
+    (state) => chat_id && state.chats[chat_id]["chat_messages"]
   );
 
   return (

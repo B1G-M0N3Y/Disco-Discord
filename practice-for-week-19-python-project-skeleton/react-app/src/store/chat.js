@@ -78,12 +78,9 @@ const chatReducer = (state = initialState, action) => {
       return newState;
     case ADD_CHAT_MESSAGE:
       newState = { ...state };
-      console.log(newState, "before");
       newState[action.chat_message.chat_id]["chat_messages"].push(
         action.chat_message
       );
-      console.log(newState, "after");
-
       return newState;
     default:
       return state;
