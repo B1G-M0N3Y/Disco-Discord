@@ -34,18 +34,23 @@ const CreateServerForm = ({setShowModal}) => {
     }, [serverName, imageURL, adminId])
 
     const handleSubmit = async (e) => {
+        console.log("TESTING")
         e.preventDefault();
 
-        if (validationErrors.length > 0) return
-            const createServerInputs = {
-                serverName,
-                imageURL,
-                adminId
+        let createServerInputs;
+
+        if (validationErrors.length > 0)
+            createServerInputs = {
+                name: serverName,
+                image_url: imageURL,
+                admin_id: adminId
             };
+
+        console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs)
 
         const newServer = await dispatch(addServer(createServerInputs));
         setShowModal(false)
-        return history.push(`/servers/${newServer.id}`);
+        return history.push(`/servers/${newServer?.id}`);
     };
 
     return (

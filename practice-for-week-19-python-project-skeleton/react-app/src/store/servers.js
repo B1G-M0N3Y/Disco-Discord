@@ -89,14 +89,19 @@ export const getServerMembers = (serverId) => async (dispatch) => {
 
 // post/create server
 export const addServer = (server) => async (dispatch) => {
+  console.log("Add Server THUNK: ")
   const response = await fetch('/api/servers', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(server)
   });
 
+  console.log("RESPONSE: ", response)
+
   if (response.ok) {
     const data = await response.json();
+    console.log("This is DATA: ", data)
+
     dispatch(addOne(data.id))
 
     return data
@@ -128,8 +133,9 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ADD_ONE:
       return {
-        ...state,
         currentServer: { ...action.server },
+        servers: { ...state.servers, [action.server.id]: {...action.server} },
+        allServers: { ...state.allServers }
       };
     // case GET_MEMBERS:
     //   newState = { ...state };
