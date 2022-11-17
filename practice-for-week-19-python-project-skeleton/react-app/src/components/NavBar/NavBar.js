@@ -196,10 +196,13 @@ const NavBar = ({ servers }) => {
             >
               LOGO HERE
             </NavLink>
-            {sessionUser && <>{serverDisplay}</>}
-            <div className="create-server-button">
-                <CreateServerFormModal />
-            </div>
+            {sessionUser &&
+              <>
+                {serverDisplay}
+                <div className="create-server-button">
+                    <CreateServerFormModal />
+                </div>
+              </>}
           </div>
 
 

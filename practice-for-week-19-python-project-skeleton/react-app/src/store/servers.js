@@ -102,7 +102,7 @@ export const addServer = (server) => async (dispatch) => {
     const data = await response.json();
     console.log("This is DATA: ", data)
 
-    dispatch(addOne(data.id))
+    dispatch(addOne(data))
 
     return data
   };
