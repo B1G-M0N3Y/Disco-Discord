@@ -37,7 +37,8 @@ class Chat(db.Model):
             'name': self.name,
             'adminId': self.adminId,
             'chat_members': self.chat_members,
-            'chat_messages': [messages.to_dict() for messages in self.chat_messages]
+            'chat_messages': [messages.to_dict() for messages in self.chat_messages],
+            'last_message_sent': str(self.last_message_sent)
         }
 
     def to_dict_json(self):

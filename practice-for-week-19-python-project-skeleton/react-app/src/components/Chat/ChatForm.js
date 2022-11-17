@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
+import { getChat, newChatMessage } from "../../store/chat";
 import { io } from "socket.io-client";
 
 let socket;
@@ -9,14 +10,17 @@ function ChatForm({ chat }) {
   const dispatch = useDispatch();
   const [text, setText] = useState();
 
-  //TODO SET THIS UP AS CONTEXT & REMOVE HARDCODED
+  useEffect(() => {
+    //   TODO SETUP THIS REDUX
+    dispatch(getChat());
+  }, [dispatch]);
 
   useEffect(() => {
     socket = io();
 
     socket.on("connect", () => {
       console.log("***CONNECTED TO WEB SOCKET");
-      socket.emit("join", { chat_id: chat.id });
+      // socket.emit("join", { chat_id: chat.id });
     });
 
     socket.on("join", (data) => {
@@ -24,8 +28,15 @@ function ChatForm({ chat }) {
       console.log(data);
     });
 
-    socket.on("privatechat", (data) => {
+    socket.on("newmessage", (data) => {
       console.log(data, "INCOMING MESSAGE****");
+      //TODO SEND DATA TO REDUX AT APPEND TO CHATS->CHAT-> CHAT_MESSAGES
+    });
+
+    socket.on("initialize", (data) => {
+      console.log("initialized data", data);
+      // TODO SEND DATA TO REDUX optional
+      //THIS IS BEING HANDLED BY REDUX THUNK
     });
 
     return () => {
@@ -35,14 +46,10 @@ function ChatForm({ chat }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const body = JSON.stringify({ body: text, chat_id: chat.id });
-    const response = await fetch(`/api/chat/${chat?.id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: body,
-    });
-    const responseData = await response.json();
-    socket.emit("privatechat", body);
+    const message = { body: text, chat_id: chat.id };
+    const response = await dispatch(newChatMessage(message));
+    dispatch(getChat());
+    socket.emit("newmessage", response);
   };
 
   return (

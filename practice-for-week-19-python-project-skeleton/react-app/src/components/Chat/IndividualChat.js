@@ -28,7 +28,7 @@ function IndividualChat({ chat, setChat }) {
         }}
       >
         {chat.name}
-        {chat.chat_members.map((member) => (
+        {chat.chat_members?.map((member) => (
           <div>{member.username}</div>
         ))}
       </li>
