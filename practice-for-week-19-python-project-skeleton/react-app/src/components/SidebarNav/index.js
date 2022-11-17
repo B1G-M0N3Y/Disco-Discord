@@ -70,15 +70,19 @@ function SidebarNav() {
   });
 
   if (!serversArr.length) return null;
-  return <>{userServers}</>;
-
-  if (!filteredServers.length) return null;
   return <>
           {userServers}
           <div id="create-server-button">
-            <CreateServerFormModal />
+             <CreateServerFormModal />
           </div>
           </>;
+
+{/* <CreateServerFormModal /> */}
+
+  // if (!filteredServers.length) return null;
+  // return <>
+  //         {userServers}
+  //         </>;
 
 
 }

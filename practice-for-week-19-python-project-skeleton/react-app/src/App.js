@@ -81,7 +81,9 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-
+        <ProtectedRoute path="/servers/" exact={true}>
+          <CreateServerForm />
+        </ProtectedRoute>
         <ProtectedRoute path="/chat" exact={true}>
           <Chat />
         </ProtectedRoute>

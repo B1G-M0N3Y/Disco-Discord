@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { addServer } from "../../../store/servers";
 import "./CreateServerFormModal.css";
 
@@ -43,7 +43,7 @@ const CreateServerForm = ({setShowModal}) => {
                 adminId
             };
 
-        let newServer = await dispatch(addServer(createServerInputs));
+        const newServer = await dispatch(addServer(createServerInputs));
         setShowModal(false)
         return history.push(`/servers/${newServer.id}`);
     };
