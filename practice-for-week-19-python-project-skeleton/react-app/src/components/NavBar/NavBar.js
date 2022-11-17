@@ -72,22 +72,22 @@ const NavBar = () => {
   }, [dispatch, selectedServer]);
 
   // (cleared on logout and login)
-  useEffect(() => {
-    const data = window.localStorage.getItem(
-      "SERVER",
-      JSON.stringify(selectedServer)
-    );
-    if (data) {
-      setSelectedServer(JSON.parse(data));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const data = window.localStorage.getItem(
+  //     "SERVER",
+  //     JSON.stringify(selectedServer)
+  //   );
+  //   if (data) {
+  //     setSelectedServer(JSON.parse(data));
+  //   }
+  // }, []);
 
-  // on click, server context changes and gets stored in local storage
-  useEffect(() => {
-    if (selectedServer?.id !== null || selectedServer?.id !== undefined) {
-      window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
-    }
-  }, [selectedServer]);
+  // // on click, server context changes and gets stored in local storage
+  // useEffect(() => {
+  //   if (selectedServer?.id !== null || selectedServer?.id !== undefined) {
+  //     window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
+  //   }
+  // }, [selectedServer]);
 
   const serversArray = Object.values(currServers);
   const firstServer = serversArray[0];
@@ -171,8 +171,8 @@ const NavBar = () => {
                   <div
                     onClick={() => {
                       dispatch(getServers());
-                      setSelectedServer(currServers[selectedServer.id]);
-                      history.push(`/servers/${thisServer.id}/update`);
+                      setSelectedServer(currServers[selectedServer?.id]);
+                      history.push(`/servers/${thisServer?.id}/update`);
                     }}
                   >
                     {currServers[currServerId]?.name}

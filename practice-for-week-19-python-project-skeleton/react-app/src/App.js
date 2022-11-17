@@ -65,9 +65,6 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      {/* <ProtectedRoute path="/servers/:serverId" exact={true}>
-        
-      </ProtectedRoute> */}
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -84,9 +81,11 @@ function App() {
         <ProtectedRoute path="/chat" exact={true}>
           <Chat />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId/update" exact={true}>
+        <ProtectedRoute path="/servers" exact={true}>
           <UpdateServer />
         </ProtectedRoute>
+        {/* <ProtectedRoute path="/servers/:serverId/update" exact={true}>
+        </ProtectedRoute> */}
         <Route path="/" exact={true}>
           <LandingPage />
           {/* <SidebarNav /> */}

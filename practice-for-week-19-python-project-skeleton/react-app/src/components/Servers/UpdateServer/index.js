@@ -32,7 +32,7 @@ const UpdateServer = () => {
     return () => {
       dispatch(getOneServer(serverId));
       setSelectedServer(currServer);
-      window.localStorage.setItem("SERVER", JSON.stringify(currServer));
+      // window.localStorage.setItem("SERVER", JSON.stringify(currServer));
     };
   }, [dispatch, servers]);
 
