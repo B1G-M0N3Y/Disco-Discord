@@ -7,6 +7,7 @@ import configureStore from "./store";
 import { getServerMembers, getServers } from "./store/servers";
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
+import ChatProvider from "./context/ChatContext";
 
 const store = configureStore();
 
@@ -21,7 +22,9 @@ function Root() {
     <Provider store={store}>
       <ServerProvider>
         <ChannelsProvider>
-          <App />
+          <ChatProvider>
+            <App />
+          </ChatProvider>
         </ChannelsProvider>
       </ServerProvider>
     </Provider>

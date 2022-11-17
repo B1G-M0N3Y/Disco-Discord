@@ -14,6 +14,7 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 import "./NavBar.css";
 import LandingPage from "../LandingPage";
 import PrivateMessages from "../PrivateMessages";
+import Chat from "../Chat";
 
 const NavBar = ({ servers }) => {
   const dispatch = useDispatch();
@@ -148,7 +149,7 @@ const NavBar = ({ servers }) => {
       channelDisplay = selChannels?.map((channel) => {
         return (
           <div key={channel.id}>
-            <NavLink to={`/servers/${firstServer.id}/channels/${channel?.id}`}>
+            <NavLink to={`/servers/${firstServer?.id}/channels/${channel?.id}`}>
               {channel.name}
             </NavLink>
           </div>
@@ -189,12 +190,12 @@ const NavBar = ({ servers }) => {
           <div className="flex-column-start server-list">
             <NavLink
               className="navlink"
-              to="/home"
+              to="/chat"
               exact={true}
               activeClassName="active"
               onClick={() => setShowChannels(false)}
             >
-              LOGO HERE
+              PRIVATE CHATS
             </NavLink>
             {sessionUser && <>{serverDisplay}</>}
           </div>
@@ -203,7 +204,7 @@ const NavBar = ({ servers }) => {
               <div className="flex-column-start">{channelDisplay}</div>
             )}
             {!showChannels && sessionUser && (
-              <PrivateMessages />
+              <Chat />
             )}
             {!showChannels && !sessionUser && (
               <div className="flex-column-start">
