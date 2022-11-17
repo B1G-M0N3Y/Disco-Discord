@@ -23,6 +23,7 @@ const UpdateServer = () => {
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
+  console.log(serverId, "serverID in form");
   // get servers
   useEffect(() => {
     dispatch(getOneServer(serverId));
@@ -49,8 +50,8 @@ const UpdateServer = () => {
     setValidationErrors(errors);
     if (!name) errors.push("Server name is required.");
     if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
-    if (user.id !== thisServer?.admin_id)
-      errors.push("Only the admin can update this server.");
+    // TODO if (user.id !== thisServer?.admin_id)
+    //   errors.push("Only the admin can update this server.");
     setValidationErrors(errors);
   }, [name, imageUrl]);
 
