@@ -13,7 +13,7 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 
 import "./NavBar.css";
 import LandingPage from "../LandingPage";
-import PrivateMessages from "../PrivateMessages";
+// import PrivateMessages from "../PrivateMessages";
 import Chat from "../Chat";
 
 const NavBar = ({ servers }) => {

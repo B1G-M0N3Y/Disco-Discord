@@ -10,8 +10,7 @@ let socket;
 function ChatForm({ chat }) {
   const dispatch = useDispatch();
   const [text, setText] = useState();
-  const {selectedChat} = useSelectedChat()
-
+  const { selectedChat } = useSelectedChat();
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
@@ -59,21 +58,22 @@ function ChatForm({ chat }) {
   };
 
   return (
-    <>
       <div className="message-history">
-        {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
-        <ChatMessages chat_id={selectedChat} />
-      </div>
-      {/* <form onSubmit={handleSubmit}>
+        <div className="message-section">
+          {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
+
+          <ChatMessages className="message-section" chat_id={selectedChat} />
+        </div>
+        {/* <form onSubmit={handleSubmit}>
         <input
-          name="type-here"
+        name="type-here"
           onChange={(e) => {
             setText(e.target.value);
           }}
-        ></input>
-        <input type="submit" value=">"></input>
-      </form> */}
-      <form className="message-input-form" onSubmit={handleSubmit}>
+          ></input>
+          <input type="submit" value=">"></input>
+        </form> */}
+        <form className="message-input-form" onSubmit={handleSubmit}>
           <input
             className="message-input"
             type="text"
@@ -90,7 +90,7 @@ function ChatForm({ chat }) {
             <i class="fa-solid fa-paper-plane"></i>
           </button>
         </form>
-    </>
+      </div>
   );
 }
 
