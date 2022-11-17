@@ -30,6 +30,10 @@ const ChannelMessagesPage = () => {
       setAllMessages((messages) => [...messages, chat]);
     });
 
+    socket.on("connect", () => {
+      console.log("**CONNECTED");
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -64,7 +68,9 @@ const ChannelMessagesPage = () => {
                 className="author-message-image"
               ></img>
               <div className="message-text">
-                <p className="username-message">{message.message_author.username}</p>
+                <p className="username-message">
+                  {message.message_author.username}
+                </p>
                 <p className="message-body">{message.body}</p>
               </div>
             </div>
@@ -72,9 +78,7 @@ const ChannelMessagesPage = () => {
           {allMessages?.map((message) => (
             <div className="message">
               {/* TODO: ADD DELETE BUTTON IF OWNER */}
-              <img
-                className="message-image"
-              ></img>
+              <img className="message-image"></img>
               <div className="message-text">
                 <p className="username-message">{message.user}</p>
                 <p className="message-body">{message.body}</p>
