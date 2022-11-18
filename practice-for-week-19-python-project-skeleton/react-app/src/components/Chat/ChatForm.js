@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
 import { io } from "socket.io-client";
@@ -11,8 +11,6 @@ function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
-
-  const [test, setTest] = useState(false);
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
@@ -51,6 +49,7 @@ function ChatForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (text.length === 0) return;
     const message = { body: text, chat_id: selectedChat };
     console.log(message, "message");
     const response = await dispatch(newChatMessage(message));

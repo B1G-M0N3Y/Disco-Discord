@@ -53,15 +53,13 @@ export const newChatMessage = (message) => async (dispatch) => {
     },
     body: JSON.stringify(message),
   });
-  console.log(response, "response");
+
   if (response.ok) {
     const data = await response.json();
-    console.log(data, "data in newChatMEssages");
     dispatch(addChatMessage(data));
     return data;
   } else {
     alert("Error Occurred during Send Message");
-    console.log(response);
   }
 };
 
@@ -78,12 +76,7 @@ const chatReducer = (state = initialState, action) => {
       }
       return newState;
     case ADD_CHAT_MESSAGE:
-      console.log(state, "state**");
       newState = { ...state };
-      const chatArray = state[action.chat_message.chat_id]["chat_messages"];
-      console.log(chatArray, "chat array");
-      console.log(newState === state, "equal?");
-      console.log(newState, "newState");
       newState[action.chat_message.chat_id]["chat_messages"].push(
         action.chat_message
       );

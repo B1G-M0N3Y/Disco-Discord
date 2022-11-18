@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
-import { getOneServer, getServers, updateServer } from "../../../store/servers";
+import { useHistory } from "react-router-dom";
+import { updateServer } from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
 import DeleteServer from "../DeleteServer";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   // get song id from url
-  // let { serverId } = useParams();
-  // serverId = parseInt(serverId);
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
   const currServer = useSelector((state) => state.servers.currentServer);
@@ -54,9 +51,6 @@ const UpdateServer = ({ server }) => {
     //   errors.push("Only the admin can update this server.");
     setValidationErrors(errors);
   }, [name, imageUrl]);
-
-  // set user albums for form select
-  // const updateChannel = (e) => setChannelSelect(e.target.value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
