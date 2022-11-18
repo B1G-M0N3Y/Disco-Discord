@@ -46,7 +46,6 @@ function ChatForm() {
       socket.disconnect();
     };
   }, [selectedChat, dispatch]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.length === 0) return;
