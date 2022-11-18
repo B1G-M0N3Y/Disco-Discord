@@ -8,7 +8,7 @@ body {
 }
 
 html {
-  background-color: #3C308C;
+  background-color: #3c308c;
 }
 
 #root {
@@ -19,4 +19,8 @@ html {
 
 p {
   font-family: "Itim", cursive;
+}
+
+button {
+  cursor: pointer;
 }

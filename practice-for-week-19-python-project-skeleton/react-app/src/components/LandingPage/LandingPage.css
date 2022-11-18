@@ -110,3 +110,8 @@
     width: 64%;
     border-radius: 6px;
 }
+
+.demo-login{
+    background-color: #ffffff00;
+    border: #ffffff 1px solid;
+}

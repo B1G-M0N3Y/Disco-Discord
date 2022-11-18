@@ -17,6 +17,7 @@ chat_members = db.Table(
 if environment == "production":
     chat_members.schema = SCHEMA
 
+
 class Chat(db.Model):
     __tablename__ = 'chats'
 
@@ -27,6 +28,7 @@ class Chat(db.Model):
     name = db.Column(db.String(), nullable=False)
     adminId = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod(
         'users.id')), nullable=False)
+    last_message_sent = db.Column(db.DateTime)
     chat_members = db.relationship(
         "User", secondary=chat_members, back_populates="chats")
     # admin = db.relationship("User", viewonly=True)
@@ -37,7 +39,20 @@ class Chat(db.Model):
             'id': self.id,
             'name': self.name,
             'adminId': self.adminId,
-            'chat_members': self.chat_members
+            'chat_members': self.chat_members,
+            'chat_messages': [messages.to_dict() for messages in self.chat_messages],
+            'last_message_sent': str(self.last_message_sent)
+        }
+
+    def to_dict_json(self):
+        unsorted_messages = [messages.to_dict()
+                             for messages in self.chat_messages]
+        return {
+            'id': self.id,
+            'name': self.name,
+            'adminId': self.adminId,
+            'chat_messages': sorted(unsorted_messages, key=lambda message: message["createdAt"]),
+            'chat_members': [member.to_dict() for member in self.chat_members]
         }
 
 
@@ -64,8 +79,8 @@ class ChatMessage(db.Model):
             'author_id': self.author_id,
             'chat_id': self.chat_id,
             'body': self.body,
-            'createdAt': self.createdAt,
-            'updatedAt': self.updatedAt,
+            'createdAt': str(self.createdAt),
+            'updatedAt': str(self.updatedAt),
             'author': self.author.to_dict()
         }
 

@@ -1,33 +1,33 @@
-const GET = "servers/GET";
-const GET_MEMBERS = "servers/GET_MEMBERS";
-const GET_CHANNELS = "servers/GET_CHANNELS";
-const ADD_ONE = "servers/ADD_ONE";
+const GET_CURRENT = "servers/GET_CURRENT";
+const ALL = "servers/ALL";
+const ADD_UPDATE = "servers/ADD_UPDATE";
+const GET_ONE = "servers/GET_ONE";
 const DELETE = "servers/DELETE";
 
 const get = (servers) => {
   return {
-    type: GET,
+    type: GET_CURRENT,
     servers,
   };
 };
 
-const getMembers = (members) => {
+const all = (servers) => {
   return {
-    type: GET_MEMBERS,
-    members,
+    type: ALL,
+    servers,
   };
 };
 
-const getChannels = (channels) => {
+const addOrUpdate = (server) => {
   return {
-    type: GET_CHANNELS,
-    channels,
+    type: ADD_UPDATE,
+    server,
   };
 };
 
-const addOne = (server) => {
+const getOne = (server) => {
   return {
-    type: ADD_ONE,
+    type: GET_ONE,
     server,
   };
 };
@@ -39,7 +39,7 @@ const remove = (serverId) => {
   };
 };
 
-// get all servers
+// get user servers
 export const getServers = () => async (dispatch) => {
   const response = await fetch("/api/servers");
   if (response.ok) {
@@ -49,71 +49,122 @@ export const getServers = () => async (dispatch) => {
   return response;
 };
 
+// get all servers
+export const getAllServers = () => async (dispatch) => {
+  const response = await fetch("/api/servers/all");
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(all(data));
+  }
+  return response;
+};
+
 // get one server
 export const getOneServer = (serverId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}`);
   if (response.ok) {
     const data = await response.json();
-    dispatch(addOne(data));
+    dispatch(getOne(data));
   }
   return response;
 };
 
-// get all server members by server id
-export const getServerMembers = (serverId) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${serverId}/members`);
+// create a server
+export const createServer = (payload) => async (dispatch) => {
+  const response = await fetch(`/api/servers`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
   if (response.ok) {
     const data = await response.json();
-    dispatch(getMembers(data));
+    dispatch(addOrUpdate(data));
+    return response;
   }
-  return response;
 };
 
-// get all server channels by server id
-export const getServerChannels = (serverId) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${serverId}/channels`);
+// update server
+export const updateServer = (serverBody, serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(serverBody),
+  });
+  console.log("SERVER BODY", serverBody, serverId);
   if (response.ok) {
+    console.log("the response is ok");
     const data = await response.json();
-    dispatch(getChannels(data));
+    console.log(data, "dispatched DATA IN updateServer");
+    dispatch(addOrUpdate(data));
+    return response;
   }
-  return response;
+};
+
+// delete server
+export const deleteServerThunk = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(remove(serverId));
+  }
 };
 
 const initialState = {
   servers: {},
-  members: {},
-  channels: {},
+  allServers: {},
   currentServer: {},
 };
 
 const serverReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
-    case GET:
+    case GET_CURRENT:
       newState = { ...state };
+      newState.servers = {};
       action.servers.forEach((server) => {
         newState.servers[server.id] = server;
       });
       return newState;
-    case ADD_ONE:
+    case ALL:
       newState = { ...state };
+      action.allServers.forEach((server) => {
+        newState.allServers[server.id] = server;
+      });
+      return newState;
+    case ADD_UPDATE:
+      if (!state.servers[action.server.id]) {
+        console.log("IF***");
+        newState = { ...state };
+        console.log(newState, "New State in add/update");
+        newState.servers[action.server.id] = action.server;
+        console.log(newState, "New State after add/update");
+        return newState;
+      } else {
+        console.log("ELSE****");
+        newState = { ...state };
+
+        console.log(action.server, "action");
+
+        console.log(newState.currentServer, "before");
+        newState.currentServer = action.server;
+        console.log(newState.currentServer, "after");
+        newState.servers[action.server.id] = action.server;
+        return newState;
+      }
+    case GET_ONE:
       return {
         ...state,
         currentServer: { ...action.server },
       };
-    case GET_MEMBERS:
+
+    case DELETE:
       newState = { ...state };
-      newState.members = {};
-      action.members.forEach((member) => {
-        newState.members[member.id] = member;
-      });
-      return newState;
-    case GET_CHANNELS:
-      newState = { ...state };
-      newState.channels = {};
-      action.channels.forEach((channel) => {
-        newState.channels[channel.id] = channel;
-      });
+      delete newState.servers[action.serverId];
+      delete newState.currentServer[0];
+
       return newState;
     default:
       return state;

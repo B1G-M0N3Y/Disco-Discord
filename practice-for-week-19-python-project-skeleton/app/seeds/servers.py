@@ -5,19 +5,19 @@ from sqlalchemy import func
 
 def seed_servers():
     odyssey = Server(
-        name ="The Odyssey",
-        image_url = "image.jpg",
-        admin_id = 1
+        name="The Odyssey",
+        image_url="image.jpg",
+        admin_id=1
     )
     dance_city = Server(
-        name ="Dance City",
-        image_url = "image.jpg",
-        admin_id = 2
+        name="Dance City",
+        image_url="image.jpg",
+        admin_id=2
     )
     cars = Server(
-        name ="The Movie Cars",
-        image_url = "image.jpg",
-        admin_id = 3
+        name="The Movie Cars",
+        image_url="image.jpg",
+        admin_id=3
     )
 
     db.session.add(odyssey)
@@ -27,19 +27,19 @@ def seed_servers():
 
 
 def seed_channels():
-    dance_floor=Channel(
+    dance_floor = Channel(
         name="Dance-Floor",
         server_id=1
     )
-    bar=Channel(
+    bar = Channel(
         name="The Bar",
         server_id=1
     )
-    booth=Channel(
+    booth = Channel(
         name="DJ Booth",
         server_id=2
     )
-    racetrack=Channel(
+    racetrack = Channel(
         name="The Piston Cup",
         server_id=3
     )
@@ -59,15 +59,20 @@ def seed_server_members():
     server1 = Server.query.get(1)
     server2 = Server.query.get(2)
     server3 = Server.query.get(3)
-    
+
     user1 = User.query.get(1)
     user2 = User.query.get(2)
     user3 = User.query.get(3)
 
     server1.server_members.append(user1)
+    server1.server_members.append(user2)
+    server1.server_members.append(user3)
+    server2.server_members.append(user1)
     server2.server_members.append(user2)
+    server2.server_members.append(user3)
+    server3.server_members.append(user1)
     server3.server_members.append(user3)
-    
+
     db.session.add(server1)
     db.session.add(server2)
     db.session.add(server3)
@@ -107,36 +112,37 @@ def seed_server_members():
 #     db.session.add(user6)
 #     db.session.commit()
 
+
 def seed_channel_messages():
     msg1 = ChannelMessages(
-        channel_id = 1,
-        user_id = 1,
-        body = "Let's boogie, everybody!"
+        channel_id=1,
+        user_id=1,
+        body="Let's boogie, everybody!"
     )
     msg2 = ChannelMessages(
-        channel_id = 2,
-        user_id = 1,
-        body = "I'll buy everyone a round!"
+        channel_id=2,
+        user_id=1,
+        body="I'll buy everyone a round!"
     )
     msg3 = ChannelMessages(
-        channel_id = 1,
-        user_id = 2,
-        body = "Shake yo booty!"
+        channel_id=1,
+        user_id=2,
+        body="Shake yo booty!"
     )
     msg4 = ChannelMessages(
-        channel_id = 2,
-        user_id = 3,
-        body = "Orange juice, no pulp."
+        channel_id=2,
+        user_id=3,
+        body="Orange juice, no pulp."
     )
     msg5 = ChannelMessages(
-        channel_id = 3,
-        user_id = 3,
-        body = "And here's Wonderwall!"
+        channel_id=3,
+        user_id=3,
+        body="And here's Wonderwall!"
     )
     msg6 = ChannelMessages(
-        channel_id = 4,
-        user_id = 3,
-        body = "I am SPEED"
+        channel_id=4,
+        user_id=3,
+        body="I am SPEED"
     )
 
     db.session.add(msg1)
@@ -150,7 +156,8 @@ def seed_channel_messages():
 
 def undo_servers():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM servers")
 
@@ -159,7 +166,8 @@ def undo_servers():
 
 def undo_channels():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM channels")
     db.session.commit()
@@ -167,14 +175,17 @@ def undo_channels():
 
 def undo_server_members():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.server_members RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.server_members RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM server_members")
     db.session.commit()
 
+
 def undo_channel_messages():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.channel_messages RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.channel_messages RESTART IDENTITY CASCADE;")
     else:
         db.session.execute("DELETE FROM channel_messages")
     db.session.commit()

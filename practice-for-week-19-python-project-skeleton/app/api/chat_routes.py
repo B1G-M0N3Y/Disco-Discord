@@ -25,6 +25,7 @@ def chats():
         chat_in_dict["chat_members"] = chat_users
         print(chat_users, '**USERS**')
         chats_list.append(chat_in_dict)
+    print(user.chats, "***CHATS LIST****")
     return jsonify(chats_list)
 
 
@@ -50,7 +51,7 @@ def create_chat():
         db.session.add(new_chat)
         db.session.commit()
         success_response = Chat.query.order_by(Chat.id.desc()).first()
-        return jsonify(chat_schema.dump(success_response))
+        return jsonify(success_response.to_dict_json())
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
@@ -100,7 +101,7 @@ def post_chat_messages(chat_id):
         db.session.commit()
         created_message = ChatMessage.query.order_by(
             ChatMessage.id.desc()).first()
-        return jsonify(chat_message_schema.dumps(created_message))
+        return created_message.to_dict()
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 

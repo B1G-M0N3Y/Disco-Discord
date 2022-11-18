@@ -1,20 +1,21 @@
 import React, { useState } from "react"
 import { Modal } from "../../../context/Modal"
-import CreateServerForm from "./CreateServerForm"
+import CreateChannelForm from "./CreateChannelForm";
 
-const CreateServerFormModal = () => {
+const CreateChannelFormModal = () => {
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <button className="create-server-button-in-modal" onClick={() => setShowModal(true)}>Create New Server</button>
+            <i onClick={() => setShowModal(true)} class="fa-solid fa-plus"></i>
+            
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <CreateServerForm setShowModal={setShowModal}/>
+                    <CreateChannelForm setShowModal={setShowModal}/>
                 </Modal>
             )}
         </>
     );
 }
 
-export default CreateServerFormModal;
+export default CreateChannelFormModal;
