@@ -189,7 +189,11 @@ const NavBar = () => {
               >
                 LOGO HERE
               </NavLink>
-              {sessionUser && <>{serverDisplay}</>}
+              {sessionUser &&
+              <>
+                {serverDisplay}
+                <CreateServerFormModal />
+              </>}
             </div>
             <div className="flex-column-space-between channels-chats">
               {showChannels && (
