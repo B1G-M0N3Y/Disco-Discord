@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
+import { getServers } from "../../store/servers";
 import {
   getChannelMessages,
   newChannelMessage,
@@ -13,6 +14,7 @@ let socket;
 
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
@@ -22,6 +24,14 @@ const ChannelMessagesPage = () => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(selectedChannel.id));
   }, [dispatch, selectedChannel]);
+
+  // when leaving the page...
+  useEffect(() => {
+    return () => {
+      dispatch(getChannelMessages(selectedChannel.id));
+      dispatch(getServers());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     socket = io();
@@ -54,7 +64,9 @@ const ChannelMessagesPage = () => {
 
     socket.emit("chat", liveMsg);
     await dispatch(newChannelMessage(selectedChannel.id, dbMsg));
+    dispatch(getChannelMessages(selectedChannel.id));
     setNewMessage("");
+    return history.push("/servers");
   };
 
   return (
