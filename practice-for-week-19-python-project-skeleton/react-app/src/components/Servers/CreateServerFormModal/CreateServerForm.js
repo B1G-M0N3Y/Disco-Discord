@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createServer } from "../../../store/servers";
+import { createServer, getServers } from "../../../store/servers";
 import "./CreateServerFormModal.css";
 
 const CreateServerForm = ({setShowModal}) => {
@@ -12,6 +12,8 @@ const CreateServerForm = ({setShowModal}) => {
     const [serverName, setServerName] = useState('');
     const [imageURL, setImageURL] = useState('');
     const [adminId, setAdminId] = useState(currentUser.id);
+    const serversArr = useSelector((state) => state.session.servers)
+    console.log(serversArr);
 
     const [validationErrors, setValidationErrors] = useState('');
 
@@ -33,6 +35,10 @@ const CreateServerForm = ({setShowModal}) => {
         setValidationErrors(errors)
     }, [serverName, imageURL, adminId])
 
+    useEffect(() => {
+        return () => {dispatch(getServers())}
+    }, [])
+
     const handleSubmit = async (e) => {
         console.log("TESTING")
         e.preventDefault();
@@ -48,9 +54,11 @@ const CreateServerForm = ({setShowModal}) => {
 
         console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs)
 
-        const newServer = await dispatch(createServer(createServerInputs));
+        dispatch(createServer(createServerInputs));
+        // dispatch(getServers());
         setShowModal(false)
-        return history.push(`/servers/${newServer?.id}`);
+        return history.push(`/servers`);
+        // return history.push(`/servers/${newServer?.id}`);
     };
 
     return (

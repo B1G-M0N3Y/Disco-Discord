@@ -1,3 +1,23 @@
+:root {
+    --clr-neon: hsl(317 100% 54%);
+    --cl-bg: hsl(323 21% 16%)
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: var(--clr-bg);
+    font-family: "Balsamiq Sans", cursive;
+    color: var(--clr-neon)
+}
+
 .landing-page{
     width: 100%;
     font-family: 'Shrikhand', cursive;
