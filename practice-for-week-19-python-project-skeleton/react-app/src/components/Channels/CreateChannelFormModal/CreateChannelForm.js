@@ -43,6 +43,7 @@ const CreateChannelForm = ({ setShowModal }) => {
     console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
 
     const newChannel = await dispatch(createChannel(newChannelInput, selectedServer.id));
+    // Forcing re-render
     await dispatch(getServers())
     setShowModal(false);
     return history.push(`/servers`);

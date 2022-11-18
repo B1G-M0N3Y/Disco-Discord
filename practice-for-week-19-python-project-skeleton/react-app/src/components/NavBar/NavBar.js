@@ -213,7 +213,7 @@ const NavBar = () => {
                   >
                     {currServers[currServerId]?.name}
                   </div>
-                  <CreateChannelFormModal />
+                  {selectedServer && <CreateChannelFormModal />}
                   {/* <div>{channelDisplay}</div> */}
                   <div>{channelList}</div>
                 </div>
