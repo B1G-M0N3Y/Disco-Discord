@@ -39,6 +39,13 @@ const deleteServerAction = (serverId) => {
   };
 };
 
+const remove = (serverId) => {
+  return {
+    type: DELETE,
+    serverId,
+  };
+};
+
 // get user servers
 export const getServers = () => async (dispatch) => {
   const response = await fetch("/api/servers");
@@ -103,28 +110,28 @@ export const updateServer = (serverBody, serverId) => async (dispatch) => {
 };
 
 // delete server
+// export const deleteServerThunk = (serverId) => async (dispatch) => {
+//   const response = await fetch(`/api/servers/${serverId}`, {
+//     method: "DELETE",
+//     headers: { "Content-Type": "application/json" },
+//   });
+
+//   if (response.ok) {
+//     const data = await response.json();
+//     dispatch(deleteServerAction(serverId));
+//     return data;
+//   }
+// };
+
+// remove member from a server
 export const deleteServerThunk = (serverId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}`, {
     method: "DELETE",
-    headers: { "Content-Type": "application/json" },
   });
-
   if (response.ok) {
-    const data = await response.json();
-    dispatch(deleteServerAction(serverId));
-    return data;
+    dispatch(remove(serverId));
   }
 };
-
-// // remove member from a server
-// export const removeServerMember = (serverId) => async (dispatch) => {
-//   const response = await fetch(`/api/servers/${serverId}`, {
-//     method: "DELETE",
-//   });
-//   if (response.ok) {
-//     dispatch(remove(serverId));
-//   }
-// };
 
 const initialState = {
   servers: {},
@@ -182,7 +189,8 @@ const serverReducer = (state = initialState, action) => {
     //   return newState;
     case DELETE:
       newState = { ...state };
-      delete newState[action.serverId];
+      delete newState.servers[action.serverId];
+      delete newState.currentServer[0];
 
       return newState;
     default:
