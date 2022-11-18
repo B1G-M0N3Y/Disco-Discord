@@ -4,6 +4,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
+  deleteChannelMessage,
   getChannelMessages,
   newChannelMessage,
 } from "../../store/channel_messages";
@@ -92,6 +93,16 @@ const ChannelMessagesPage = () => {
                   </p>
                   <p className="message-body">{message.body}</p>
                 </div>
+                {message?.user_id === user?.id && (
+                  <i
+                    className="fa-regular fa-trash-can"
+                    onClick={async () => {
+                      await dispatch(deleteChannelMessage(message?.id));
+                      dispatch(getChannelMessages(selectedChannel.id));
+                      return history.push(`/servers`);
+                    }}
+                  ></i>
+                )}
               </div>
             ))}
             {allMessages?.map((message) => (
@@ -102,6 +113,16 @@ const ChannelMessagesPage = () => {
                   <p className="username-message">{message.user}</p>
                   <p className="message-body">{message.body}</p>
                 </div>
+                {message?.user_id === user?.id && (
+                  <i
+                    className="fa-regular fa-trash-can"
+                    onClick={async () => {
+                      await dispatch(deleteChannelMessage(message?.id));
+                      dispatch(getChannelMessages(selectedChannel.id));
+                      return history.push(`/servers`);
+                    }}
+                  ></i>
+                )}
               </div>
             ))}
           </div>
