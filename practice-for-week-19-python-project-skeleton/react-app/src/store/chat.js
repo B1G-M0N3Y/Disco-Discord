@@ -21,7 +21,7 @@ export const addChatMessage = (chat_message) => {
   console.log(chat_message, typeof chat_message, "addCHATMESSAGE");
   return {
     type: ADD_CHAT_MESSAGE,
-    chat_message: chat_message,
+    chat_message: { ...chat_message },
   };
 };
 
@@ -56,6 +56,7 @@ export const newChatMessage = (message) => async (dispatch) => {
   console.log(response, "response");
   if (response.ok) {
     const data = await response.json();
+    console.log(data, "data in newChatMEssages");
     dispatch(addChatMessage(data));
     return data;
   } else {
@@ -67,16 +68,22 @@ export const newChatMessage = (message) => async (dispatch) => {
 const initialState = { chats: {} };
 
 const chatReducer = (state = initialState, action) => {
-  let newState = {};
+  let newState;
   switch (action.type) {
     case GET_CHAT_MESSAGES:
+      newState = {};
       const arr = [...action.chats];
       for (let i = 0; i < arr.length; i++) {
         newState[arr[i]["id"]] = arr[i];
       }
       return newState;
     case ADD_CHAT_MESSAGE:
+      console.log(state, "state**");
       newState = { ...state };
+      const chatArray = state[action.chat_message.chat_id]["chat_messages"];
+      console.log(chatArray, "chat array");
+      console.log(newState === state, "equal?");
+      console.log(newState, "newState");
       newState[action.chat_message.chat_id]["chat_messages"].push(
         action.chat_message
       );
