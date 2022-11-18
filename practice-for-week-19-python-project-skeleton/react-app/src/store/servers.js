@@ -116,15 +116,15 @@ export const deleteServerThunk = (serverId) => async (dispatch) => {
   }
 };
 
-// remove member from a server
-export const removeServerMember = (serverId) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${serverId}`, {
-    method: "DELETE",
-  });
-  if (response.ok) {
-    dispatch(remove(serverId));
-  }
-};
+// // remove member from a server
+// export const removeServerMember = (serverId) => async (dispatch) => {
+//   const response = await fetch(`/api/servers/${serverId}`, {
+//     method: "DELETE",
+//   });
+//   if (response.ok) {
+//     dispatch(remove(serverId));
+//   }
+// };
 
 const initialState = {
   servers: {},
