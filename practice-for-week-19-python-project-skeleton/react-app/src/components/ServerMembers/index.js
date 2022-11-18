@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useSelectedServer } from "../../context/ServerContext";
+import NewServerMember from "./NewServerMember";
 // import { getServerMembers } from "../../store/servers";
 
 function ServerMembers() {
@@ -71,6 +72,7 @@ function ServerMembers() {
           <p>{member.username}</p>
         </div>
       ))}
+      <NewServerMember currMembers = {membersArr}/>
     </div>
   );
 }
