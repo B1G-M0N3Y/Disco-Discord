@@ -7,8 +7,9 @@ import {
   getServers,
   deleteServerThunk,
 } from "../../../store/servers";
+import { getCurrentChannels } from "../../../store/channels";
 import { useSelectedServer } from "../../../context/ServerContext.js";
-import DeleteServer from "../DeleteServer";
+import DeleteChannel from "../../Channels/DeleteChannel.js";
 import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = ({ server }) => {
@@ -17,6 +18,7 @@ const UpdateServer = ({ server }) => {
   // get song id from url
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
+  const channels = useSelector((state) => state.channels.channels);
   const currServer = useSelector((state) => state.servers.currentServer);
   const serverArr = Object.values(servers);
   // identify the server that matches the id from url
@@ -32,6 +34,7 @@ const UpdateServer = ({ server }) => {
   // get servers, then all servers
   // so deleted server is removed immediately
   useEffect(() => {
+    getCurrentChannels(selectedServer.id);
     return () => {
       dispatch(getOneServer(selectedServer.id));
       dispatch(getServers());
@@ -123,10 +126,12 @@ const UpdateServer = ({ server }) => {
               </button>
             </>
           )}
-          {/* <div>
-            <DeleteServer />
-          </div> */}
         </form>
+      </div>
+      <div className="delete-channel">
+        <div>
+          <DeleteChannel server={server} />
+        </div>
       </div>
     </div>
   );

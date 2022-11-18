@@ -1,10 +1,38 @@
 const GET_CHANNELS = "channels/GET_CHANNELS";
+const DELETE = "channels/DELETE";
 
 export const getChannels = (channels) => {
   return {
     type: GET_CHANNELS,
     channels,
   };
+};
+
+const remove = (channelId) => {
+  return {
+    type: DELETE,
+    channelId,
+  };
+};
+
+// get server's channels
+export const getCurrentChannels = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}/channels`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getChannels(data));
+  }
+  return response;
+};
+
+// delete channel
+export const deleteChannel = (channelId) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(remove(channelId));
+  }
 };
 
 const initialState = {
@@ -17,11 +45,13 @@ const channelReducer = (state = initialState, action) => {
     case GET_CHANNELS:
       newState = { ...state };
       newState.channels = {};
-      if (action.channels) {
-          action.channels.forEach((channel) => {
-            newState.channels[channel.id] = channel;
-        });
-      }
+      action.channels.forEach((channel) => {
+        newState.channels[channel.id] = channel;
+      });
+      return newState;
+    case DELETE:
+      newState = { ...state };
+      delete newState.channels[action.channelId];
       return newState;
     default:
       return state;
