@@ -7,7 +7,9 @@ const NewServerMember = ({ serverId, currMembers }) => {
   const allUsers = useSelector((state) => state.users);
 
   const addMember = async (userId) => {
-    const response = await fetch(`/api/servers/${serverId}`,{
+    console.log("user id",userId)
+    console.log("server id",serverId)
+    const response = await fetch(`/api/servers/${serverId}/members`,{
         method:"POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
