@@ -93,16 +93,18 @@ const ChannelMessagesPage = () => {
                   </p>
                   <p className="message-body">{message.body}</p>
                 </div>
-                {message?.user_id === user?.id && (
-                  <i
-                    className="fa-regular fa-trash-can"
-                    onClick={async () => {
-                      await dispatch(deleteChannelMessage(message?.id));
-                      dispatch(getChannelMessages(selectedChannel.id));
-                      return history.push(`/servers`);
-                    }}
-                  ></i>
-                )}
+                <div className="flex-row-end trash">
+                  {message?.user_id === user?.id && (
+                    <i
+                      className="fa-regular fa-trash-can"
+                      onClick={async () => {
+                        await dispatch(deleteChannelMessage(message?.id));
+                        dispatch(getChannelMessages(selectedChannel.id));
+                        return history.push(`/servers`);
+                      }}
+                    ></i>
+                  )}
+                </div>
               </div>
             ))}
             {allMessages?.map((message) => (
@@ -113,16 +115,18 @@ const ChannelMessagesPage = () => {
                   <p className="username-message">{message.user}</p>
                   <p className="message-body">{message.body}</p>
                 </div>
-                {message?.user_id === user?.id && (
-                  <i
-                    className="fa-regular fa-trash-can"
-                    onClick={async () => {
-                      await dispatch(deleteChannelMessage(message?.id));
-                      dispatch(getChannelMessages(selectedChannel.id));
-                      return history.push(`/servers`);
-                    }}
-                  ></i>
-                )}
+                <div>
+                  {message?.user_id === user?.id && (
+                    <i
+                      className="fa-regular fa-trash-can"
+                      onClick={async () => {
+                        await dispatch(deleteChannelMessage(message?.id));
+                        dispatch(getChannelMessages(selectedChannel.id));
+                        return history.push(`/servers`);
+                      }}
+                    ></i>
+                  )}
+                </div>
               </div>
             ))}
           </div>
