@@ -10,12 +10,12 @@ import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
 import ChatProvider from "./context/ChatContext";
 
+
 const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.getServers = getServers;
-  window.getServerMembers = getServerMembers;
 }
 
 function Root() {
@@ -24,12 +24,16 @@ function Root() {
       <ModalProvider>
       <ServerProvider>
         <ChannelsProvider>
-          <ChatProvider>
+          <MessageProvider>
+            <ChatProvider>
             <App />
-          </ChatProvider>
-          </ChannelsProvider>
-        </ServerProvider>
+            </ChatProvider>
+          </MessageProvider>
+        </ChannelsProvider>
+      </ServerProvider>
+
       </ModalProvider>
+
     </Provider>
   );
 }

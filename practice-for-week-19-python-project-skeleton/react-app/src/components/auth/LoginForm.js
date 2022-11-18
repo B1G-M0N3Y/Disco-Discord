@@ -9,20 +9,16 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const user = useSelector((state) => state.session.user);
-  const servers = useSelector((state) => state.servers.servers);
   const dispatch = useDispatch();
-
-  let storageVariable = localStorage.getItem("SERVER");
-  // if (typeof storageVariable !== "undefined" && storageVariable !== null)
 
   const onLogin = async (e) => {
     e.preventDefault();
-    dispatch(getServers());
     window.localStorage.setItem("SERVER", "null");
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
     }
+    dispatch(getServers());
   };
 
   const updateEmail = (e) => {

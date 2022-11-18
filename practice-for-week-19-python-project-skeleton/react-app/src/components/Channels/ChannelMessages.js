@@ -6,6 +6,7 @@ import {
   getChannelMessages,
   newChannelMessage,
 } from "../../store/channel_messages";
+import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
 
 let socket;
@@ -16,12 +17,11 @@ const ChannelMessagesPage = () => {
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
-  const { channelId } = useParams();
-
+  const { selectedChannel, setSelectedChannel } = useSelectedChannels();
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
-    dispatch(getChannelMessages(channelId));
-  }, [dispatch]);
+    dispatch(getChannelMessages(selectedChannel.id));
+  }, [dispatch, selectedChannel]);
 
   useEffect(() => {
     socket = io();
@@ -37,7 +37,7 @@ const ChannelMessagesPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [channelId]);
+  }, [selectedChannel.id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,10 +46,14 @@ const ChannelMessagesPage = () => {
       return;
     }
     const liveMsg = { user: user.username, body: newMessage };
-    const dbMsg = { user_id: user.id, channel_id: channelId, body: newMessage };
+    const dbMsg = {
+      user_id: user.id,
+      channel_id: selectedChannel.id,
+      body: newMessage,
+    };
 
     socket.emit("chat", liveMsg);
-    await dispatch(newChannelMessage(channelId, dbMsg));
+    await dispatch(newChannelMessage(selectedChannel.id, dbMsg));
     setNewMessage("");
   };
 

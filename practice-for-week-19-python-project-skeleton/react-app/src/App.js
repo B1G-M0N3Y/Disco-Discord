@@ -11,26 +11,27 @@ import Chat from "./components/Chat";
 import { authenticate } from "./store/session";
 import BasicChat from "./components/Chat/BasicChat";
 import { io } from "socket.io-client";
-import { getServers } from "./store/servers";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
+// import UpdateServer from "./components/Servers/UpdateServer";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
+// import SidebarNav from "./components/SidebarNav";
+import ChannelList from "./components/Channels/ChannelList";
+import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 // import ChannelList from "./components/Channels/ChannelList";
 
+
 function App() {
   const [loaded, setLoaded] = useState(false);
-  const [servers, setServers] = useState([]);
 
   const dispatch = useDispatch();
-  const currServers = useSelector((state) => state.servers.servers);
 
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
-      await dispatch(getServers());
+
       setLoaded(true);
-      setServers(currServers);
     })();
   }, [dispatch]);
 
@@ -67,7 +68,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar servers={servers} />
+      <NavBar />
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -87,10 +88,10 @@ function App() {
         <ProtectedRoute path="/chat" exact={true}>
           <ChatForm />
         </ProtectedRoute>
-        <ProtectedRoute
-          path="/servers/:serverId/members"
-          exact={true}
-        ></ProtectedRoute>
+        <ProtectedRoute path="/servers" exact={true}>
+          <Servers />
+        </ProtectedRoute>
+
         <Route path="/" exact={true}>
           <LandingPage />
           {/* <SidebarNav /> */}

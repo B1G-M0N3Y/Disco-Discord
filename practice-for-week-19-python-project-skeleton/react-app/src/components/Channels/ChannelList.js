@@ -1,31 +1,21 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
-// import ServerMembers from "../ServerMembers";
+import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { useSelectedServer } from "../../context/ServerContext";
+import { getOneServer } from "../../store/servers";
 
-import { getChannels } from "../../store/channels";
-
-const ChannelList = () => {
+const ChannelList = ({ server }) => {
   const dispatch = useDispatch();
+  console.log(server.channels, "SERVER CHANNELS IN CHANNELLIST");
 
-  // get serverId from url
-  const { serverId } = useParams();
-  const { selectedServer } = useSelectedServer();
-
-  // get the current server
-  const currServer = useSelector((state) => state.servers.currentServer);
+  const { selectedServer, setSelectedServer } = useSelectedServer();
 
   useEffect(() => {
-    dispatch(getChannels(currServer.channels));
-  }, [dispatch, serverId, currServer.id]);
+    dispatch(getOneServer(server.id));
+    setSelectedServer(server.id);
+  }, [dispatch, server.name]);
 
-  // get current channels
-  const channels = useSelector((state) => state.servers.channels);
-  const channelsArr = Object.values(channels);
-
-  // map through channel list to display channels
-  const channelList = channelsArr.map((channel) => {
+  const channelList = selectedServer["channels"]?.map((channel) => {
     return (
       <div key={channel.id}>
         <NavLink to={`/servers/${selectedServer.id}/channels/${channel?.id}`}>
@@ -35,6 +25,7 @@ const ChannelList = () => {
     );
   });
 
+  // map through channel list to display channels
   return <>{channelList}</>;
 };
 

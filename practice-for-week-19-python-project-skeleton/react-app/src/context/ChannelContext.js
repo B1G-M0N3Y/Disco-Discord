@@ -4,13 +4,16 @@ export const ChannelsContext = createContext();
 export const useSelectedChannels = () => useContext(ChannelsContext);
 
 export default function ChannelsProvider(props) {
-  const [selectedChannels, setSelectedChannels] = useState();
+  const [showChannels, setShowChannels] = useState();
+  const [selectedChannel, setSelectedChannel] = useState();
 
   return (
     <ChannelsContext.Provider
       value={{
-        selectedChannels,
-        setSelectedChannels,
+        showChannels,
+        setShowChannels,
+        selectedChannel,
+        setSelectedChannel,
       }}
     >
       {props.children}

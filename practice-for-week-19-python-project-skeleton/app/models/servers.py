@@ -18,6 +18,7 @@ server_members = db.Table(
 if environment == "production":
     server_members.schema = SCHEMA
 
+
 class Server(db.Model):
     __tablename__ = "servers"
 
@@ -27,7 +28,8 @@ class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.String(255))
-    admin_id = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    admin_id = db.Column(db.Integer(), db.ForeignKey(
+        add_prefix_for_prod("users.id")), nullable=False)
 
     server_members = db.relationship(
         "User", secondary=server_members, back_populates="servers")
@@ -44,6 +46,17 @@ class Server(db.Model):
             'channels': self.channels
         }
 
+    def to_dict_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'admin_id': self.admin_id,
+            'image_url': self.image_url,
+            'server_members': [member.to_dict() for member in self.server_members],
+            'channels': [channel.to_dict() for channel in self.channels]
+        }
+
+
 class ChannelMessages(db.Model):
     __tablename__ = "channel_messages"
 
@@ -51,8 +64,10 @@ class ChannelMessages(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    channel_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("channels.id")))
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    channel_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("channels.id")))
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")))
     body = db.Column(db.String(2000), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
@@ -71,6 +86,7 @@ class ChannelMessages(db.Model):
             "updated_at": self.updated_at,
             "message_author": self.message_author.to_dict()
         }
+
 
 class Channel(db.Model):
     __tablename__ = "channels"

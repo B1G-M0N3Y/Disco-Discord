@@ -18,7 +18,6 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 
-
 @server_routes.route('/<int:server_id>/channels', methods=["POST"])
 def post_new_channel(server_id):
     """Create a new channel"""
@@ -44,12 +43,15 @@ def post_new_channel(server_id):
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 # Get user's servers route handles this now
+
+
 @server_routes.route('/<int:server_id>/channels', methods=["GET"])
 def get_all_channels(server_id):
     """Get all channels by server id"""
     channels = Channel.query.filter(Channel.server_id == server_id).all()
     result = channels_schema.dump(channels)
     return (jsonify(result))
+
 
 @server_routes.route('/all', methods=["GET"])
 def get_all_servers():
@@ -60,6 +62,8 @@ def get_all_servers():
     return (jsonify(result))
 
 # We are not currently using "public"/"private" servers
+
+
 @server_routes.route('/public', methods=["GET"])
 def get_public_servers():
     """Get all public servers"""
@@ -74,13 +78,14 @@ def get_one_server(server_id):
 
     one_server = Server.query.get(server_id)
     if not one_server:
-            return {"message": ["Server couldn't be found."]}, 404
+        return {"message": ["Server couldn't be found."]}, 404
     members = one_server.server_members
     channels = one_server.channels
 
     server_members = one_server.to_dict()["server_members"]
     server_channels = one_server.to_dict()["channels"]
-    server_users = [server_member.to_dict() for server_member in server_members]
+    server_users = [server_member.to_dict()
+                    for server_member in server_members]
     channels = [server_channel.to_dict() for server_channel in server_channels]
     server_in_dict = one_server.to_dict()
     server_in_dict["server_members"] = server_users
@@ -103,11 +108,8 @@ def post_new_server():
             image_url=data['image_url'],
         )
 
-        # server_members = [int(server_member)
-        #                 for server_member in data["server_members_lst"].split(",")]
-        # for server_member in server_members:
-        #     server_user = User.query.get(server_member)
-        #     new_server.server_members.append(server_user)
+        server_user = User.query.get(current_user.id)
+        new_server.server_members.append(server_user)
 
         db.session.add(new_server)
         db.session.commit()
@@ -133,7 +135,8 @@ def edit_server_details(server_id):
         db.session.add(server)
         db.session.commit()
         result = server_schema.dump(server)
-        return (jsonify(result))
+        print(server, server.to_dict(), 'SERVER***')
+        return (jsonify(server.to_dict_json()))
     return "Server not found", 404
 
 
@@ -149,6 +152,7 @@ def delete_server(server_id):
     else:
         return "Server not found.", 404
 
+
 @server_routes.route('', methods=["GET"])
 def user_servers():
     """
@@ -156,14 +160,16 @@ def user_servers():
     """
     user = User.query.get(current_user.id)
     if not user:
-            return {"message": ["User couldn't be found."]}, 404
+        return {"message": ["User couldn't be found."]}, 404
     servers = user.servers
     servers_list = []
     for server in servers:
         server_members = server.to_dict()["server_members"]
         server_channels = server.to_dict()["channels"]
-        channels = [server_channel.to_dict() for server_channel in server_channels]
-        server_users = [server_member.to_dict() for server_member in server_members]
+        channels = [server_channel.to_dict()
+                    for server_channel in server_channels]
+        server_users = [server_member.to_dict()
+                        for server_member in server_members]
         server_in_dict = server.to_dict()
         server_in_dict["server_members"] = server_users
         server_in_dict["channels"] = channels
@@ -171,6 +177,7 @@ def user_servers():
         print(channels, '**CHANNELS**')
         servers_list.append(server_in_dict)
     return jsonify(servers_list)
+
 
 @server_routes.route('/<int:server_id>/members', methods=["POST"])
 @login_required
@@ -183,7 +190,8 @@ def post_current_user_add_public_server(server_id):
     members = server.server_members
     server_members = server.to_dict()["server_members"]
     print(server_members, "***SERVER_MEMBERS***")
-    server_users = [server_member.to_dict() for server_member in server_members]
+    server_users = [server_member.to_dict()
+                    for server_member in server_members]
     print(server_users, "***SERVER_USERS***")
     server_in_dict = server.to_dict()
     print(server_in_dict, "***SERVER_IN_DICT***")
@@ -230,6 +238,7 @@ def post_current_user_add_public_server(server_id):
         result = server_schema.dump(server)
         return (jsonify(result))
 
+
 @server_routes.route('/<int:server_id>/members/<int:member_id>', methods=["DELETE"])
 @login_required
 def delete_user_from_server(server_id, member_id):
@@ -247,7 +256,8 @@ def delete_user_from_server(server_id, member_id):
     server_members = server.to_dict()["server_members"]
     print(server_members, "***SERVER_MEMBERS***")
 
-    server_users = [server_member.to_dict() for server_member in server_members]
+    server_users = [server_member.to_dict()
+                    for server_member in server_members]
     print(server_users, "***SERVER_USERS***")
 
     if current_user.id == member_id or current_user.id == server_admin:
