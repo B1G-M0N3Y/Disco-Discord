@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createServer } from "../../../store/servers";
+import { useSelectedServer } from "../../../context/ServerContext";
+import { createChannel } from "../../../store/channels";
+import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUser = useSelector((state) => state.session.user);
+
+  const {selectedServer} = useSelectedServer()
 
   const [channelName, setChannelName] = useState("");
 
@@ -28,16 +32,18 @@ const CreateChannelForm = ({ setShowModal }) => {
     console.log("TESTING");
     e.preventDefault();
 
-    let createServerInputs;
+    let newChannelInput;
 
     if (validationErrors.length > 0)
-      createServerInputs = {
+      newChannelInput = {
         name: channelName,
+        server_id: selectedServer.id
       };
 
-    console.log("THESE ARE CREATE CHANNEL INPUTS", createServerInputs);
+    console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
 
-    const newChannel = await dispatch(createServer(createServerInputs));
+    const newChannel = await dispatch(createChannel(newChannelInput, selectedServer.id));
+    await dispatch(getServers())
     setShowModal(false);
     return history.push(`/servers`);
   };
