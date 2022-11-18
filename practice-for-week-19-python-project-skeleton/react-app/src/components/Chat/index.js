@@ -4,6 +4,7 @@ import "./chats.css";
 import { getChat } from "../../store/chat";
 import IndividualChat from "./IndividualChat";
 import { useSelectedChat } from "../../context/ChatContext";
+import CreateChat from "./CreateChat";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Chat() {
     <>
       <div>
         <h1>Chats</h1>
+        <CreateChat />
         {chats ? (
           Object.values(chats)?.map((chat, idx) => (
             <IndividualChat chat={chat} />

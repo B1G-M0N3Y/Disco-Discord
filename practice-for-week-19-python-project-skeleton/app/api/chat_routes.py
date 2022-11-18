@@ -51,7 +51,7 @@ def create_chat():
         db.session.add(new_chat)
         db.session.commit()
         success_response = Chat.query.order_by(Chat.id.desc()).first()
-        return jsonify(chat_schema.dump(success_response))
+        return jsonify(success_response.to_dict_json())
     return {"errors": validation_errors_to_error_messages(form.errors)}, 401
 
 
