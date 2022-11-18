@@ -50,7 +50,7 @@ const CreateServerForm = ({setShowModal}) => {
 
         const newServer = await dispatch(createServer(createServerInputs));
         setShowModal(false)
-        return history.push(`/servers/${newServer?.id}`);
+        return history.push("/servers/");
     };
 
     return (
