@@ -12,12 +12,16 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 import { useSelectedMessages } from "../../context/MessageContext";
 
 import "./NavBar.css";
+import LandingPage from "../LandingPage";
+import CreateServerFormModal from "../Servers/CreateServerFormModal";
+import Chat from "../Chat";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const [showLogout, setShowLogout] = useState(false);
+  // const [showChannels, setShowChannels] = useState(false);
   const [currServerId, setCurrServerId] = useState();
 
   const sessionUser = useSelector((state) => state.session.user);
@@ -73,7 +77,31 @@ const NavBar = () => {
     }
   }, [dispatch, selectedServer]);
 
+  // (cleared on logout and login)
+  // useEffect(() => {
+  //   const data = window.localStorage.getItem(
+  //     "SERVER",
+  //     JSON.stringify(selectedServer)
+  //   );
+  //   if (data) {
+  //     setSelectedServer(JSON.parse(data));
+  //   }
+  // }, []);
+
+  // // on click, server context changes and gets stored in local storage
+  // useEffect(() => {
+  //   if (selectedServer?.id !== null || selectedServer?.id !== undefined) {
+  //     window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
+  //   }
+  // }, [selectedServer]);
+
+  const serversArray = Object.values(currServers);
+  const firstServer = serversArray[0];
+
   let userDisplay;
+  let serverDisplay;
+  let channelDisplay;
+  let channelList;
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
@@ -102,11 +130,13 @@ const NavBar = () => {
     const channelList = currServers[currServerId]?.channels.map(
       (channel, idx) => (
         <div
+          className="channel-nav"
           onClick={() => {
             setShowMessages(true);
             setSelectedChannel(channel);
+            console.log("selected channel", channel)
             console.log(showMessages, "SHOW MESSAGE CONTEXT");
-            history.push("/servers");
+            history.push(`/servers`)
           }}
         >
           {channel.name}
@@ -117,8 +147,12 @@ const NavBar = () => {
       <div
         key={server.id}
         onClick={() => {
+          // on click, set the selectedServer context
+          // setSelectedServer(server);
+          // setSelectedServer(currServers[currServerId]);
           setShowChannels(true);
           setCurrServerId(server.id);
+          setSelectedServer(server)
         }}
       >
         <div>
@@ -142,7 +176,7 @@ const NavBar = () => {
             <div className="flex-column-start server-list">
               <NavLink
                 className="navlink"
-                to="/"
+                to="/chats"
                 exact={true}
                 activeClassName="active"
                 onClick={() => setShowChannels(false)}
@@ -170,7 +204,7 @@ const NavBar = () => {
                 </div>
               )}
               {!showChannels && sessionUser && (
-                <div className="flex-column-start">CHATS HERE</div>
+                <Chat />
               )}
               {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
@@ -185,8 +219,7 @@ const NavBar = () => {
                   </NavLink>
                 </div>
               )}
-
-              <div className="flex-column-end">
+              {/* <div className="flex-column-end">
                 <NavLink
                   className="navlink"
                   to="/users"
@@ -195,6 +228,18 @@ const NavBar = () => {
                 >
                   Users
                 </NavLink>
+                {userDisplay}
+              </div> */}
+
+              <div className="flex-column-end">
+                {/* <NavLink
+                className="navlink"
+                to="/users"
+                exact={true}
+                activeClassName="active"
+              >
+                Users
+              </NavLink> */}
                 {userDisplay}
               </div>
             </div>

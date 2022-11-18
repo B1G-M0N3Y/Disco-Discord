@@ -62,52 +62,57 @@ const ChannelMessagesPage = () => {
       {/* TODO: REFACTOR TO SINGLE MAP */}
       {/* CURRENT IMPLEMENTATION JUST BARE BONES FOR TESTING */}
       {/* AND SETTING UP THE CREATE THUNK */}
-      <div className="message-section">
-        <div className="all-messages">
-          {Object.values(messageStore).map((message) => (
-            <div className="message">
-              {/* TODO: ADD DELETE BUTTON IF OWNER */}
-              <img
-                src={message.message_author.image_url}
-                className="author-message-image"
-              ></img>
-              <div className="message-text">
-                <p className="username-message">
-                  {message.message_author.username}
-                </p>
-                <p className="message-body">{message.body}</p>
+      {messageStore ? (
+        // console.log(messages, "messages in map")
+        <div className="message-section">
+          <div className="all-messages">
+            {Object.values(messageStore).map((message) => (
+              <div className="message">
+                {/* TODO: ADD DELETE BUTTON IF OWNER */}
+                <img
+                  src={message.message_author.image_url}
+                  className="author-message-image"
+                ></img>
+                <div className="message-text">
+                  <p className="username-message">
+                    {message.message_author.username}
+                  </p>
+                  <p className="message-body">{message.body}</p>
+                </div>
               </div>
-            </div>
-          ))}
-          {allMessages?.map((message) => (
-            <div className="message">
-              {/* TODO: ADD DELETE BUTTON IF OWNER */}
-              <img className="message-image"></img>
-              <div className="message-text">
-                <p className="username-message">{message.user}</p>
-                <p className="message-body">{message.body}</p>
+            ))}
+            {allMessages?.map((message) => (
+              <div className="message">
+                {/* TODO: ADD DELETE BUTTON IF OWNER */}
+                <img className="message-image"></img>
+                <div className="message-text">
+                  <p className="username-message">{message.user}</p>
+                  <p className="message-body">{message.body}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <form className="message-input-form" onSubmit={handleSubmit}>
+            <input
+              className="message-input"
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type here..."
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              className="message-button"
+              onClick={handleSubmit}
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
         </div>
-        <form className="message-input-form" onSubmit={handleSubmit}>
-          <input
-            className="message-input"
-            type="text"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type here..."
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            className="message-button"
-            onClick={handleSubmit}
-          >
-            <i class="fa-solid fa-paper-plane"></i>
-          </button>
-        </form>
-      </div>
+      ) : (
+        <div>No Chats To Display</div>
+      )}
     </>
   );
 };

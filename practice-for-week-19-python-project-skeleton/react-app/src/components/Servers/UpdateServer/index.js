@@ -68,7 +68,7 @@ const UpdateServer = ({ server }) => {
     // a user needs to be the admin in order to allow editing
     if (userId === server?.admin_id) {
       revert();
-      dispatch(updateServer(serverBody, server?.id));
+      dispatch(updateServer(serverBody, selectedServer?.id));
     }
   };
 
