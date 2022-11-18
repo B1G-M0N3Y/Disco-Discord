@@ -17,13 +17,15 @@ const NewServerMember = ({currMembers}) => {
   const currMembersId = currMembers.map(member => member.id)
   // ... we can filter users by id to get an array of only
   // users who are not members of our current server.
-  const notJoined = Object.values(allUsers).filter(user => !currMembersId.includes(user.id))
+  console.log(Object.values(allUsers))
+  const notJoined = Object.values(allUsers)[0]?.filter(user => !currMembersId.includes(user.id))
 
+  console.log('not joined', notJoined)
 
   return (
   <div>
     <p>Add a friend: </p>
-    {notJoined[0].map(user => (
+    {notJoined?.map(user => (
         <p>{user.username}</p>
     ))}
   </div>
