@@ -7,7 +7,8 @@ const CreateChannelFormModal = () => {
 
     return (
         <>
-            <button className="create-channel-button-in-modal" onClick={() => setShowModal(true)}>Create New Channel</button>
+            <i onClick={() => setShowModal(true)} class="fa-solid fa-plus"></i>
+            
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <CreateChannelForm setShowModal={setShowModal}/>

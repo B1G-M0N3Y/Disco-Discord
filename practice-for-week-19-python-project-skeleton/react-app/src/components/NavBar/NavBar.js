@@ -16,6 +16,7 @@ import LandingPage from "../LandingPage";
 import CreateServerFormModal from "../Servers/CreateServerFormModal";
 import Chat from "../Chat";
 import { createChannel } from "../../store/channels";
+import CreateChannelFormModal from "../Channels/CreateChannelFormModal";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -109,7 +110,7 @@ const NavBar = () => {
   let channelList;
 
   const newChannelModal = async() => {
-    
+
   }
 
   // Displays different options at the bottom of the navbar
@@ -212,7 +213,7 @@ const NavBar = () => {
                   >
                     {currServers[currServerId]?.name}
                   </div>
-                  <i onClick={newChannelModal} class="fa-solid fa-plus"></i>
+                  <CreateChannelFormModal />
                   {/* <div>{channelDisplay}</div> */}
                   <div>{channelList}</div>
                 </div>
