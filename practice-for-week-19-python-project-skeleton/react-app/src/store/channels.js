@@ -1,4 +1,5 @@
 const GET_CHANNELS = "channels/GET_CHANNELS";
+const ADD_CHANNEL = "channels/ADD_CHANNEL"
 
 export const getChannels = (channels) => {
   return {
@@ -6,6 +7,26 @@ export const getChannels = (channels) => {
     channels,
   };
 };
+
+const addChannel = (channel) => {
+  return {
+    type: ADD_CHANNEL,
+    channel
+  }
+}
+
+export const createChannel = (payload, channelId) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(payload)
+  })
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(addChannel(data))
+    return response;
+  }
+}
 
 const initialState = {
   channels: {},

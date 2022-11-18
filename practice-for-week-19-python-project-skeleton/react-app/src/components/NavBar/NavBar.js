@@ -15,6 +15,7 @@ import "./NavBar.css";
 import LandingPage from "../LandingPage";
 import CreateServerFormModal from "../Servers/CreateServerFormModal";
 import Chat from "../Chat";
+import { createChannel } from "../../store/channels";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -106,6 +107,10 @@ const NavBar = () => {
   let serverDisplay;
   let channelDisplay;
   let channelList;
+
+  const newChannelModal = async() => {
+    
+  }
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
@@ -203,6 +208,7 @@ const NavBar = () => {
                   >
                     {currServers[currServerId]?.name}
                   </div>
+                  <i onClick={newChannelModal} class="fa-solid fa-plus"></i>
                   {/* <div>{channelDisplay}</div> */}
                   <div>{channelList}</div>
                 </div>
