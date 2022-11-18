@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { addServer } from "../../../store/servers";
+import { createServer } from "../../../store/servers";
 import "./CreateServerFormModal.css";
 
 const CreateServerForm = ({setShowModal}) => {
@@ -48,7 +48,7 @@ const CreateServerForm = ({setShowModal}) => {
 
         console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs)
 
-        const newServer = await dispatch(addServer(createServerInputs));
+        const newServer = await dispatch(createServer(createServerInputs));
         setShowModal(false)
         return history.push(`/servers/${newServer?.id}`);
     };
