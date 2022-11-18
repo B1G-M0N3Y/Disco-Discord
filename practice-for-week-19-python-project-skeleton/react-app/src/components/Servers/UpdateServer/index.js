@@ -5,7 +5,6 @@ import { useHistory, useParams, Redirect } from "react-router-dom";
 import {
   getOneServer,
   getServers,
-  updateServer,
   deleteServerThunk,
 } from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
@@ -14,6 +13,7 @@ import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   // get song id from url
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
