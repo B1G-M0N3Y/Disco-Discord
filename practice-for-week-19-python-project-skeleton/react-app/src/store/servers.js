@@ -122,7 +122,7 @@ export const removeServerMember = (serverId) => async (dispatch) => {
     method: "DELETE",
   });
   if (response.ok) {
-    dispatch(remove(serverId));
+    dispatch(deleteServerAction(serverId));
   }
 };
 
