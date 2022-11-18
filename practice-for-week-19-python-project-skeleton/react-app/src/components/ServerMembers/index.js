@@ -72,7 +72,7 @@ function ServerMembers() {
           <p>{member.username}</p>
         </div>
       ))}
-      <NewServerMember currMembers = {membersArr}/>
+      <NewServerMember serverId={selectedServer?.id} currMembers = {membersArr}/>
     </div>
   );
 }
