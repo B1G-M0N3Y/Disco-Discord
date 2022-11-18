@@ -38,11 +38,36 @@ def connect():
     chats = [chat.to_dict_json()
              for chat in User.query.get(current_user.id).chats]
     print("******USER CONNECTED*******")
-    # print(chats[0].id)
     for chat in chats:
         join_room(chat["id"])
         print('user', current_user.id, 'joined chat room ', chat["id"])
+    servers = [server.to_dict_json()
+               for server in User.query.get(current_user.id).servers]
+    for server in servers:
+        for channel in server["channels"]:
+            print(channel, 'Channel**')
+            join_room(channel["id"])
+            print('**USER JOINED CHANNEL ROOM ***channel:',
+                  channel["id"], 'user:', current_user.id)
     emit("initialize", chats)
+
+
+# @socketio.on("connect", namespace="/channel")
+# def connect_channels():
+#     print('CONNECT CHANNEL**')
+#     servers = [server.to_dict_json()
+#                for server in User.query.get(current_user.id).servers]
+#     for server in servers:
+#         for channel in server["channels"]:
+#             join_room(channel["id"], namespace="/channel",)
+#             print('**USER JOINED CHANNEL ROOM ***channel:',
+#                   channel["id"], 'user:', current_user.id)
+#     emit("initialize", "User joined channel", namespace="/channel")
+
+@socketio.on("channelmessage")
+def new_channel_message(message):
+    emit("channelmessage", message,
+         room=message["channel_id"], include_self=False)
 
 
 @socketio.on("join")

@@ -17,7 +17,7 @@ const getMessages = (messages) => {
 //   };
 // }
 
-const addMessage = (message) => {
+export const addMessage = (message) => {
   return {
     type: ADD_MESSAGE,
     message,
@@ -96,7 +96,7 @@ const channelMessageReducer = (state = initialState, action) => {
     case GET_MESSAGES:
       return { messages: { ...action.messages } };
     case ADD_MESSAGE:
-      return { ...state, [action.message.id]: action.comment };
+      return { ...state, [action.message.id]: action.message };
     case DELETE:
       newState = { ...state };
       delete newState.messages[action.messageId];

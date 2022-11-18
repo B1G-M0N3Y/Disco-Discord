@@ -7,6 +7,7 @@ import {
   deleteChannelMessage,
   getChannelMessages,
   newChannelMessage,
+  addMessage,
 } from "../../store/channel_messages";
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
@@ -37,8 +38,20 @@ const ChannelMessagesPage = () => {
   useEffect(() => {
     socket = io();
 
+    // const channelNameSpace = socket.("/channel");
+
+    // channelNameSpace.on("connect", () => {
+    //   console.log("**CHANNEL NAMESPACE CONNECTED");
+    // });
+
     socket.on("chat", (chat) => {
       setAllMessages((messages) => [...messages, chat]);
+    });
+
+    socket.on("channelmessage", (message) => {
+      console.log(message, "HERES THE CHANNEL MESSAGE");
+      dispatch(addMessage(message));
+      dispatch(getChannelMessages(selectedChannel.id));
     });
 
     socket.on("connect", () => {
@@ -56,16 +69,19 @@ const ChannelMessagesPage = () => {
     if (!newMessage) {
       return;
     }
-    const liveMsg = { user: user.username, body: newMessage };
+    // const liveMsg = { user: user.username, body: newMessage };
     const dbMsg = {
       user_id: user.id,
       channel_id: selectedChannel.id,
       body: newMessage,
     };
-
-    socket.emit("chat", liveMsg);
-    await dispatch(newChannelMessage(selectedChannel.id, dbMsg));
+    const response = await dispatch(
+      newChannelMessage(selectedChannel.id, dbMsg)
+    );
+    dispatch(addMessage(response));
     dispatch(getChannelMessages(selectedChannel.id));
+    socket.emit("channelmessage", response);
+
     setNewMessage("");
     return history.push("/servers");
   };
