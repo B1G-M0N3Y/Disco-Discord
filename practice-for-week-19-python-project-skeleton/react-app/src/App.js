@@ -10,7 +10,7 @@ import User from "./components/User";
 import { authenticate } from "./store/session";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
-import ChannelMessagesPage from "./components/Channels/ChannelMessages";
+import ChannelMessagesPage from "./components/Channels/ChannelMessages/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 

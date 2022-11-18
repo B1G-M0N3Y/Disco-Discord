@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
-import ChannelList from "../Channels/ChannelList";
+import ChannelList from "../Channels/ChannelList/ChannelList";
 // import SidebarNav from "../SidebarNav";
 import { getServers, getOneServer } from "../../store/servers";
 // import { getChannels } from "../../store/channels";

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import { getServers } from "../../store/servers";
-import ChannelMessagesPage from "../Channels/ChannelMessages";
+import ChannelMessagesPage from "../Channels/ChannelMessages/ChannelMessages";
 import { useSelectedMessages } from "../../context/MessageContext";
 import { useSelectedServer } from "../../context/ServerContext";
 import UpdateServer from "./UpdateServer";

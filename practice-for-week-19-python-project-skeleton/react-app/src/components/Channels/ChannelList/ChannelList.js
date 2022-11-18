@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { useSelectedServer } from "../../context/ServerContext";
-import { getOneServer } from "../../store/servers";
+import { useSelectedServer } from "../../../context/ServerContext";
+import { getOneServer } from "../../../store/servers";
+import "./ChannelList.css"
 
 const ChannelList = ({ server }) => {
   const dispatch = useDispatch();

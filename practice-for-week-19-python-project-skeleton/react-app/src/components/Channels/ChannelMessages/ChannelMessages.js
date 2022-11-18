@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
-import { getServers } from "../../store/servers";
+import { getServers } from "../../../store/servers";
 import {
   deleteChannelMessage,
   getChannelMessages,
   newChannelMessage,
   addMessage,
-} from "../../store/channel_messages";
-import { useSelectedChannels } from "../../context/ChannelContext";
+} from "../../../store/channel_messages";
+import { useSelectedChannels } from "../../../context/ChannelContext";
 import "./ChannelMessages.css";
 
 let socket;
