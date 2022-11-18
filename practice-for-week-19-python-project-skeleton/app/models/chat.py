@@ -17,6 +17,7 @@ chat_members = db.Table(
 if environment == "production":
     chat_members.schema = SCHEMA
 
+
 class Chat(db.Model):
     __tablename__ = 'chats'
 
@@ -50,7 +51,8 @@ class Chat(db.Model):
             'id': self.id,
             'name': self.name,
             'adminId': self.adminId,
-            'chat_messages': sorted(unsorted_messages, key=lambda message: message["createdAt"])
+            'chat_messages': sorted(unsorted_messages, key=lambda message: message["createdAt"]),
+            'chat_members': [member.to_dict() for member in self.chat_members]
         }
 
 
