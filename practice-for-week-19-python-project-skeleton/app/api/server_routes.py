@@ -145,6 +145,12 @@ def delete_server(server_id):
     """Delete a server by id"""
     server = Server.query.get(server_id)
     if server:
+        channels = Channel.query.filter_by(server_id=server_id).all()
+        for channel in channels:
+            messages = channel.messages
+            for message in messages:
+                db.session.delete(message)
+            db.session.delete(channel)
         db.session.delete(server)
         db.session.commit()
         result = channel_schema.dump(server)
