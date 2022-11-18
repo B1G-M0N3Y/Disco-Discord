@@ -43,7 +43,7 @@ const Servers = () => {
   // pass in server id props to channel messages
 
   return (
-    <>
+    <div>
       {showMessages && (
         <>
           <h1>Messages</h1>
@@ -53,7 +53,7 @@ const Servers = () => {
         </>
       )}
       {showMessages === false && <UpdateServer server={selectedServer} />}
-    </>
+    </div>
   );
 };
 

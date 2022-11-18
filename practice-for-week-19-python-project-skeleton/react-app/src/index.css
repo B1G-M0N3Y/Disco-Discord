@@ -24,3 +24,9 @@ p {
 button {
   cursor: pointer;
 }
+
+.channel-message-display {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}

@@ -55,8 +55,10 @@ function App() {
           <ChatForm />
         </ProtectedRoute>
         <ProtectedRoute path="/servers" exact={true}>
-          <Servers />
-          <ServerMembers />
+          <div className="channel-message-display">
+            <Servers />
+            <ServerMembers />
+          </div>
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />

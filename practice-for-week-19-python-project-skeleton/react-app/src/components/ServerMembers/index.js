@@ -59,7 +59,7 @@ function ServerMembers() {
   });
 
   return (
-    <>
+    <div>
       <h1>Member List: </h1>
       {/* <ul>{serverMembers}</ul> */}
       {membersArr.map((member) => (
@@ -71,7 +71,7 @@ function ServerMembers() {
           <p>{member.username}</p>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 
