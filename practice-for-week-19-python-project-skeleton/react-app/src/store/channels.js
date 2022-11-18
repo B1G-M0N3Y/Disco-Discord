@@ -1,7 +1,8 @@
+// CREATE | POST
+const ADD_CHANNEL = "channels/ADD_CHANNEL";
+
 // READ | GET
 const GET_CHANNELS = "channels/GET_CHANNELS";
-const DELETE = "channels/DELETE";
-const ADD_CHANNEL = "channels/ADD_CHANNEL";
 // const GET_ONE_CHANNEL = "channels/GET_ONE_CHANNEL"
 
 // UPDATE | PUT
@@ -9,6 +10,14 @@ const UPDATE_CHANNEL = "chaneels/UPDATE_CHANNEL"
 
 // DELETE
 const DELETE = "channels/DELETE";
+
+// ACTIONS | CREATE | POST
+const addChannel = (channel) => {
+  return {
+    type: ADD_CHANNEL,
+    channel,
+  };
+};
 
 // ACTIONS | READ | GET
 export const getChannels = (channels) => {
@@ -18,6 +27,15 @@ export const getChannels = (channels) => {
   };
 };
 
+// ACTION | UPDATE | PUT
+const updateChannelAction = payload => {
+  return {
+    type: UPDATE_CHANNEL,
+    payload
+  }
+}
+
+// ACTION DELETE
 const remove = (channelId) => {
   return {
     type: DELETE,
@@ -25,33 +43,7 @@ const remove = (channelId) => {
   };
 };
 
-// get server's channels
-export const getCurrentChannels = (serverId) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${serverId}/channels`);
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(getChannels(data));
-  }
-  return response;
-};
-
-// delete channel
-export const deleteChannel = (channelId) => async (dispatch) => {
-  const response = await fetch(`/api/channels/${channelId}`, {
-    method: "DELETE",
-  });
-  if (response.ok) {
-    dispatch(remove(channelId));
-  }
-};
-
-const addChannel = (channel) => {
-  return {
-    type: ADD_CHANNEL,
-    channel,
-  };
-};
-
+// add channel to server
 export const createChannel = (payload, serverId) => async (dispatch) => {
   console.log(payload);
   const response = await fetch(`/api/servers/${serverId}/channels`, {
@@ -65,6 +57,43 @@ export const createChannel = (payload, serverId) => async (dispatch) => {
     return response;
   }
 };
+
+// get server's channels
+export const getCurrentChannels = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}/channels`);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(getChannels(data));
+  }
+  return response;
+};
+
+
+
+// delete channel
+export const deleteChannel = (channelId) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch(remove(channelId));
+  }
+};
+
+  // THUNK | UPDATE | PUT
+  export const updateChannelThunk = (payload, channelId) => async (dispatch) => {
+    const response = await fetch(`api/channels/${channelId}`, {
+      method: "PUT",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(updateChannelAction(data));
+      return data;
+    };
+  };
 
 const initialState = {
   channels: {},
@@ -82,7 +111,14 @@ const channelReducer = (state = initialState, action) => {
         });
       }
       return newState;
-    default:
+
+    case UPDATE_CHANNEL:
+      newState = { ...state };
+      newState.channels = {};
+      newState.channels[action.payload.id] = { ...newState[action.payload.id], ...action.payload };
+        return newState;
+
+        default:
       return state;
   }
 };

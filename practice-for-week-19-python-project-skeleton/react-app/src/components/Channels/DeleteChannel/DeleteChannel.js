@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { getOneServer, getServers } from "../../store/servers";
-import { deleteChannel, getCurrentChannels } from "../../store/channels";
-import { useSelectedServer } from "../../context/ServerContext";
+import { getOneServer, getServers } from "../../../store/servers";
+import { deleteChannel, getCurrentChannels } from "../../../store/channels";
+import { useSelectedServer } from "../../../context/ServerContext";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
