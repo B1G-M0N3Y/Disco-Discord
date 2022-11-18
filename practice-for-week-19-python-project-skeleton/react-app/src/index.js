@@ -9,6 +9,7 @@ import { ModalProvider } from "./context/Modal"
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
 import ChatProvider from "./context/ChatContext";
+import MessageProvider from "./context/MessageContext";
 
 
 const store = configureStore();
@@ -26,7 +27,7 @@ function Root() {
         <ChannelsProvider>
           <MessageProvider>
             <ChatProvider>
-            <App />
+              <App />
             </ChatProvider>
           </MessageProvider>
         </ChannelsProvider>

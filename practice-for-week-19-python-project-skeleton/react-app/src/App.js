@@ -82,10 +82,10 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/" exact={true}>
+        <ProtectedRoute path="/servers/new" exact={true}>
           <CreateServerForm />
         </ProtectedRoute>
-        <ProtectedRoute path="/chat" exact={true}>
+        <ProtectedRoute path="/chats" exact={true}>
           <ChatForm />
         </ProtectedRoute>
         <ProtectedRoute path="/servers" exact={true}>

@@ -20,8 +20,10 @@ const Servers = () => {
   // const [channel, setChannel] = useState(
   //   Object.values(servers)[0]?.channels[0]
   // );
+  console.log("selected server", selectedServer)
+  console.log("selected channel", selectedChannel)
   const [messages, setMessages] = useState(
-    Object.values(servers)[0]?.channels[0]?.messages
+    Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
   );
 
   useEffect(() => {
@@ -45,18 +47,11 @@ const Servers = () => {
         <>
           <h1>Messages</h1>
           <ul className="messages">
-            {messages ? (
-              Object.values(messages)?.map((message, idx) => (
-                // console.log(messages, "messages in map")
-                <ChannelMessagesPage />
-              ))
-            ) : (
-              <div>No Chats To Display</div>
-            )}
+            <ChannelMessagesPage />
           </ul>
         </>
       )}
-      {showMessages === false && <UpdateServer server={server} />}
+      {showMessages === false && <UpdateServer server={selectedServer} />}
     </>
   );
 };
