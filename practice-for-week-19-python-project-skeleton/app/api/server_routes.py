@@ -108,13 +108,6 @@ def post_new_server():
             image_url=data['image_url'],
         )
 
-        # server_members = [int(server_member)
-        #                 for server_member in data["server_members_lst"].split(",")]
-        # server_members = new_server.server_members
-        # for server_member in server_members:
-        #     server_user = User.query.get(server_member)
-        #     new_server.server_members.append(server_user)
-
         server_user = User.query.get(current_user.id)
         new_server.server_members.append(server_user)
 

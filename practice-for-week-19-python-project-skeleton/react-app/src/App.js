@@ -18,6 +18,9 @@ import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 // import SidebarNav from "./components/SidebarNav";
 import ChannelList from "./components/Channels/ChannelList";
 import Servers from "./components/Servers";
+import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
+// import ChannelList from "./components/Channels/ChannelList";
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -79,8 +82,11 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
+        <ProtectedRoute path="/servers/" exact={true}>
+          <CreateServerForm />
+        </ProtectedRoute>
         <ProtectedRoute path="/chat" exact={true}>
-          <Chat />
+          <ChatForm />
         </ProtectedRoute>
         <ProtectedRoute path="/servers" exact={true}>
           <Servers />

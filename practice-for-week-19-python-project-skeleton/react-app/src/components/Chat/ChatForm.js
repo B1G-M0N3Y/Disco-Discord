@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
 import { io } from "socket.io-client";
+import { useSelectedChat } from "../../context/ChatContext";
 
 let socket;
 
-function ChatForm({ chat }) {
+function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
+  const { selectedChat } = useSelectedChat();
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
@@ -43,11 +45,11 @@ function ChatForm({ chat }) {
     return () => {
       socket.disconnect();
     };
-  }, [chat]);
+  }, [selectedChat, dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = { body: text, chat_id: chat.id };
+    const message = { body: text, chat_id: selectedChat };
     console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
     console.log(response, "fetch response");
@@ -56,21 +58,39 @@ function ChatForm({ chat }) {
   };
 
   return (
-    <>
       <div className="message-history">
-        {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
-        <ChatMessages chat_id={chat?.id} />
-      </div>
-      <form onSubmit={handleSubmit}>
+        <div className="message-section">
+          {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
+
+          <ChatMessages className="message-section" chat_id={selectedChat} />
+        </div>
+        {/* <form onSubmit={handleSubmit}>
         <input
-          name="type-here"
+        name="type-here"
           onChange={(e) => {
             setText(e.target.value);
           }}
-        ></input>
-        <input type="submit" value=">"></input>
-      </form>
-    </>
+          ></input>
+          <input type="submit" value=">"></input>
+        </form> */}
+        <form className="message-input-form" onSubmit={handleSubmit}>
+          <input
+            className="message-input"
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type here..."
+            autoComplete="off"
+          />
+          <button
+            type="submit"
+            className="message-button"
+            onClick={handleSubmit}
+          >
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
   );
 }
 

@@ -12,6 +12,10 @@ import { useSelectedChannels } from "../../context/ChannelContext";
 import { useSelectedMessages } from "../../context/MessageContext";
 
 import "./NavBar.css";
+import LandingPage from "../LandingPage";
+import CreateServerFormModal from "../Servers/CreateServerFormModal";
+import Chat from "../Chat";
+
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -215,6 +219,7 @@ const NavBar = () => {
               )}
 
               <div className="flex-column-end">
+
                 <NavLink
                   className="navlink"
                   to="/users"
@@ -225,6 +230,19 @@ const NavBar = () => {
                 </NavLink>
                 {userDisplay}
               </div>
+
+            )}
+
+            <div className="flex-column-end">
+              {/* <NavLink
+                className="navlink"
+                to="/users"
+                exact={true}
+                activeClassName="active"
+              >
+                Users
+              </NavLink> */}
+              {userDisplay}
             </div>
           </div>
         </div>

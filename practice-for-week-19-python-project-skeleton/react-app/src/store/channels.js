@@ -17,9 +17,11 @@ const channelReducer = (state = initialState, action) => {
     case GET_CHANNELS:
       newState = { ...state };
       newState.channels = {};
-      action.channels.forEach((channel) => {
-        newState.channels[channel.id] = channel;
-      });
+      if (action.channels) {
+          action.channels.forEach((channel) => {
+            newState.channels[channel.id] = channel;
+        });
+      }
       return newState;
     default:
       return state;

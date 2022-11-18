@@ -4,10 +4,12 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import configureStore from "./store";
-import { getServers } from "./store/servers";
+import { getServerMembers, getServers } from "./store/servers";
+import { ModalProvider } from "./context/Modal"
 import ServerProvider from "./context/ServerContext";
 import ChannelsProvider from "./context/ChannelContext";
-import MessageProvider from "./context/MessageContext";
+import ChatProvider from "./context/ChatContext";
+
 
 const store = configureStore();
 
@@ -19,13 +21,19 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <Provider store={store}>
+      <ModalProvider>
       <ServerProvider>
         <ChannelsProvider>
           <MessageProvider>
+            <ChatProvider>
             <App />
+            </ChatProvider>
           </MessageProvider>
         </ChannelsProvider>
       </ServerProvider>
+
+      </ModalProvider>
+
     </Provider>
   );
 }

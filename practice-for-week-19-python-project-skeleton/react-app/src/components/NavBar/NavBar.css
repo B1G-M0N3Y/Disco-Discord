@@ -30,7 +30,7 @@
 .flex-column-end {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-self: flex-end;
 }
 .navbar {
   display: flex;
@@ -49,7 +49,9 @@
 
 .session-user-info {
   width: 100%;
+  height: 85px;
   display: flex;
+  justify-self: flex-end;
   align-items: center;
 }
 
@@ -79,4 +81,54 @@
   border: none;
   width: 82%;
   border-radius: 6px;
+}
+
+.chat-nav{
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.chat-nav:hover{
+  background-color: #50505033;
+}
+
+.chat-nav-members{
+  display: flex;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.chat-nav-username,
+.chat-nav-label{
+  font-size: 20px;
+}
+
+.chat-nav-username{
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 15px;
+}
+
+.chat-nav-label{
+  margin: 0;
+}
+
+.chat-nav-member{
+  margin: 0;
+}
+
+.chat-label-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 15px;
+}
+
+.chat-nav-members{
+  margin: 0;
 }
