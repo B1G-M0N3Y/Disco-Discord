@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
+import { getServers } from "../../store/servers";
 import {
+  deleteChannelMessage,
   getChannelMessages,
   newChannelMessage,
 } from "../../store/channel_messages";
@@ -13,6 +15,7 @@ let socket;
 
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
@@ -22,6 +25,14 @@ const ChannelMessagesPage = () => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(selectedChannel.id));
   }, [dispatch, selectedChannel]);
+
+  // when leaving the page...
+  useEffect(() => {
+    return () => {
+      dispatch(getChannelMessages(selectedChannel.id));
+      dispatch(getServers());
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     socket = io();
@@ -54,7 +65,9 @@ const ChannelMessagesPage = () => {
 
     socket.emit("chat", liveMsg);
     await dispatch(newChannelMessage(selectedChannel.id, dbMsg));
+    dispatch(getChannelMessages(selectedChannel.id));
     setNewMessage("");
+    return history.push("/servers");
   };
 
   return (
@@ -70,6 +83,7 @@ const ChannelMessagesPage = () => {
               <div className="message">
                 {/* TODO: ADD DELETE BUTTON IF OWNER */}
                 <img
+                  alt={message.id}
                   src={message.message_author.image_url}
                   className="author-message-image"
                 ></img>
@@ -79,6 +93,16 @@ const ChannelMessagesPage = () => {
                   </p>
                   <p className="message-body">{message.body}</p>
                 </div>
+                {message?.user_id === user?.id && (
+                  <i
+                    className="fa-regular fa-trash-can"
+                    onClick={async () => {
+                      await dispatch(deleteChannelMessage(message?.id));
+                      dispatch(getChannelMessages(selectedChannel.id));
+                      return history.push(`/servers`);
+                    }}
+                  ></i>
+                )}
               </div>
             ))}
             {allMessages?.map((message) => (
@@ -89,6 +113,16 @@ const ChannelMessagesPage = () => {
                   <p className="username-message">{message.user}</p>
                   <p className="message-body">{message.body}</p>
                 </div>
+                {message?.user_id === user?.id && (
+                  <i
+                    className="fa-regular fa-trash-can"
+                    onClick={async () => {
+                      await dispatch(deleteChannelMessage(message?.id));
+                      dispatch(getChannelMessages(selectedChannel.id));
+                      return history.push(`/servers`);
+                    }}
+                  ></i>
+                )}
               </div>
             ))}
           </div>

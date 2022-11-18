@@ -1,9 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { updateServer } from "../../../store/servers";
+import { useHistory, useParams, Redirect } from "react-router-dom";
+import {
+  getOneServer,
+  getServers,
+  updateServer,
+  deleteServerThunk,
+} from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
 import DeleteServer from "../DeleteServer";
+import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
@@ -21,17 +28,15 @@ const UpdateServer = ({ server }) => {
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
   console.log(server?.id, "serverID in form");
-  // get servers
-  // useEffect(() => {
-  //   dispatch(getOneServer(server?.id));
-  //   setSelectedServer(currServer);
-
-  //   return () => {
-  //     dispatch(getOneServer(server?.id));
-  //     setSelectedServer(currServer);
-  //     // window.localStorage.setItem("SERVER", JSON.stringify(currServer));
-  //   };
-  // }, [dispatch, servers]);
+  // when leaving the page:
+  // get servers, then all servers
+  // so deleted server is removed immediately
+  useEffect(() => {
+    return () => {
+      dispatch(getOneServer(selectedServer.id));
+      dispatch(getServers());
+    };
+  }, [dispatch]);
 
   const user = useSelector((state) => state.session.user);
 
@@ -63,7 +68,15 @@ const UpdateServer = ({ server }) => {
     if (userId === server?.admin_id) {
       revert();
       dispatch(updateServer(serverBody, selectedServer?.id));
+      history.push("/");
     }
+  };
+
+  const deleteHandler = async (e) => {
+    e.preventDefault();
+    await dispatch(deleteServerThunk(selectedServer.id));
+    // alert("Server Successfully Deleted");
+    return history.push("/");
   };
 
   if (!Object.values(servers).length) return null;
@@ -102,9 +115,17 @@ const UpdateServer = ({ server }) => {
           >
             Submit
           </button>
-          <div>
+          {user && user.id === selectedServer.admin_id && (
+            <>
+              <button id="delete-server-button" onClick={deleteHandler}>
+                {" "}
+                Delete Server{" "}
+              </button>
+            </>
+          )}
+          {/* <div>
             <DeleteServer />
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

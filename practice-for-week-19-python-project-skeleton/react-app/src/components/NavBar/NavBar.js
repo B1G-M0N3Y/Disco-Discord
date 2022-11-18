@@ -57,6 +57,10 @@ const NavBar = () => {
     return () => document.removeEventListener("click", closeLogout);
   }, [showLogout]);
 
+  useEffect(() => {
+    dispatch(getServers());
+  }, [selectedServer]);
+
   // conditionally render the channels with state boolean
   useEffect(() => {
     dispatch(getServers());
@@ -134,9 +138,9 @@ const NavBar = () => {
           onClick={() => {
             setShowMessages(true);
             setSelectedChannel(channel);
-            console.log("selected channel", channel)
+            console.log("selected channel", channel);
             console.log(showMessages, "SHOW MESSAGE CONTEXT");
-            history.push(`/servers`)
+            history.push(`/servers`);
           }}
         >
           {channel.name}
@@ -152,7 +156,7 @@ const NavBar = () => {
           // setSelectedServer(currServers[currServerId]);
           setShowChannels(true);
           setCurrServerId(server.id);
-          setSelectedServer(server)
+          setSelectedServer(server);
         }}
       >
         <div>
@@ -203,9 +207,7 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              {!showChannels && sessionUser && (
-                <Chat />
-              )}
+              {!showChannels && sessionUser && <Chat />}
               {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
@@ -247,6 +249,8 @@ const NavBar = () => {
         </div>
       </nav>
     );
+  } else {
+    return <></>;
   }
 };
 
