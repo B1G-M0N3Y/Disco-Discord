@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function ChatMessages({ chat, chat_id }) {
-  const dispatch = useDispatch();
-
-  // getters and setters
-  const [messages, setMessages] = useState([]);
-
-  // fetch chats
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(`/api/chat/${chat ? chat.id : chat_id}`);
-      const responseData = await response.json();
-      setMessages(responseData);
-    }
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chat, chat_id]);
+  console.log(chat_id, typeof chat_id, "chat id");
+  const messages = useSelector(
+    (state) => chat_id && state.chats[chat_id]["chat_messages"]
+  );
 
   return (
     <>
       <ul>
         {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
         {messages && messages.length > 0 ? (
-          messages.map((message) => (
-            <li className="chat-message">
+          messages.map((message, idx) => (
+            <li className="chat-message" key={idx}>
               <div>
                 <img
                   src={message?.author.username}

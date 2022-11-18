@@ -32,7 +32,7 @@ const getOne = (server) => {
   };
 };
 
-const remove = (serverId) => {
+const deleteServerAction = (serverId) => {
   return {
     type: DELETE,
     serverId,
@@ -102,14 +102,18 @@ export const updateServer = (serverBody, serverId) => async (dispatch) => {
   }
 };
 
-// delete a server
-export const addServerMember = (serverId) => async (dispatch) => {
-  const response = await fetch(`/api/servers/${serverId}`);
+// delete server
+export const deleteServerThunk = (serverId) => async (dispatch) => {
+  const response = await fetch(`/api/servers/${serverId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+
   if (response.ok) {
     const data = await response.json();
-    dispatch(addOrUpdate(data));
+    dispatch(deleteServerAction(serverId));
+    return data;
   }
-  return response;
 };
 
 // remove member from a server
@@ -178,7 +182,8 @@ const serverReducer = (state = initialState, action) => {
     //   return newState;
     case DELETE:
       newState = { ...state };
-      delete newState.servers[action.serverId];
+      delete newState[action.serverId];
+
       return newState;
     default:
       return state;

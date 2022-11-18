@@ -13,10 +13,11 @@ import BasicChat from "./components/Chat/BasicChat";
 import { io } from "socket.io-client";
 import ChatForm from "./components/Chat/ChatForm";
 import LandingPage from "./components/LandingPage";
-import UpdateServer from "./components/Servers/UpdateServer";
+// import UpdateServer from "./components/Servers/UpdateServer";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 // import SidebarNav from "./components/SidebarNav";
 import ChannelList from "./components/Channels/ChannelList";
+import Servers from "./components/Servers";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -82,10 +83,9 @@ function App() {
           <Chat />
         </ProtectedRoute>
         <ProtectedRoute path="/servers" exact={true}>
-          <UpdateServer />
+          <Servers />
         </ProtectedRoute>
-        {/* <ProtectedRoute path="/servers/:serverId/update" exact={true}>
-        </ProtectedRoute> */}
+
         <Route path="/" exact={true}>
           <LandingPage />
           {/* <SidebarNav /> */}

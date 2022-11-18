@@ -5,43 +5,43 @@ import { getOneServer, getServers, updateServer } from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
 import DeleteServer from "../DeleteServer";
 
-const UpdateServer = () => {
+const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   // get song id from url
-  let { serverId } = useParams();
-  serverId = parseInt(serverId);
+  // let { serverId } = useParams();
+  // serverId = parseInt(serverId);
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
   const currServer = useSelector((state) => state.servers.currentServer);
   const serverArr = Object.values(servers);
   // identify the server that matches the id from url
-  const thisServer = serverArr.find((server) => server.id === serverId);
+  const thisServer = serverArr.find((item) => item.id === server?.id);
   // getters and setters for update song form
-  const [name, setName] = useState(thisServer?.name);
-  const [imageUrl, setImageUrl] = useState(thisServer?.image_url);
+  const [name, setName] = useState(server?.name);
+  const [imageUrl, setImageUrl] = useState(server?.image_url);
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
-  console.log(serverId, "serverID in form");
+  console.log(server?.id, "serverID in form");
   // get servers
-  useEffect(() => {
-    dispatch(getOneServer(serverId));
-    setSelectedServer(currServer);
+  // useEffect(() => {
+  //   dispatch(getOneServer(server?.id));
+  //   setSelectedServer(currServer);
 
-    return () => {
-      dispatch(getOneServer(serverId));
-      setSelectedServer(currServer);
-      // window.localStorage.setItem("SERVER", JSON.stringify(currServer));
-    };
-  }, [dispatch, servers]);
+  //   return () => {
+  //     dispatch(getOneServer(server?.id));
+  //     setSelectedServer(currServer);
+  //     // window.localStorage.setItem("SERVER", JSON.stringify(currServer));
+  //   };
+  // }, [dispatch, servers]);
 
   const user = useSelector((state) => state.session.user);
 
   // helper function for clearing the form after submit
   const revert = () => {
-    setName("");
-    setImageUrl("");
+    setName(name);
+    setImageUrl(imageUrl);
   };
 
   // form validations
@@ -50,7 +50,7 @@ const UpdateServer = () => {
     setValidationErrors(errors);
     if (!name) errors.push("Server name is required.");
     if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
-    // TODO if (user.id !== thisServer?.admin_id)
+    // TODO if (user.id !== server?.admin_id)
     //   errors.push("Only the admin can update this server.");
     setValidationErrors(errors);
   }, [name, imageUrl]);
@@ -66,10 +66,9 @@ const UpdateServer = () => {
       image_url: imageUrl,
     };
     // a user needs to be the admin in order to allow editing
-    if (userId === thisServer.admin_id) {
+    if (userId === server?.admin_id) {
       revert();
-      dispatch(updateServer(serverBody, serverId));
-      // window.localStorage.setItem("SERVER", JSON.stringify(thisServer));
+      dispatch(updateServer(serverBody, server?.id));
     }
   };
 

@@ -9,6 +9,7 @@ import { getServers, getOneServer } from "../../store/servers";
 // import { getChannels } from "../../store/channels";
 import { useSelectedServer } from "../../context/ServerContext";
 import { useSelectedChannels } from "../../context/ChannelContext";
+import { useSelectedMessages } from "../../context/MessageContext";
 
 import "./NavBar.css";
 
@@ -17,7 +18,7 @@ const NavBar = () => {
   const history = useHistory();
 
   const [showLogout, setShowLogout] = useState(false);
-  const [showChannels, setShowChannels] = useState(false);
+  // const [showChannels, setShowChannels] = useState(false);
   const [currServerId, setCurrServerId] = useState();
 
   const sessionUser = useSelector((state) => state.session.user);
@@ -27,9 +28,11 @@ const NavBar = () => {
     (state) => state.servers.currentServer["channels"]
   );
   const { selectedServer, setSelectedServer } = useSelectedServer();
-  const { selectedChannels, setSelectedChannels } = useSelectedChannels();
+  const { showChannels, setShowChannels, selectedChannel, setSelectedChannel } =
+    useSelectedChannels(false);
+  const { showMessages, setShowMessages } = useSelectedMessages();
 
-  console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
+  // console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
   console.log(selectedServer, "SELECTED SERVER CONTEXT");
   console.log(typeof currChannels, "currChannels, typof on line 32");
   console.log(currChannels, "currChannels");
@@ -64,7 +67,7 @@ const NavBar = () => {
   // if selected server changes, update store
   useEffect(() => {
     if (selectedServer?.id) {
-      setSelectedChannels(selectedServer.channels);
+      // setSelectedChannels(selectedServer.channels);
       if (selectedServer !== []) {
         dispatch(getOneServer(selectedServer.id));
       }
@@ -122,16 +125,27 @@ const NavBar = () => {
       </div>
     );
     const channelList = currServers[currServerId]?.channels.map(
-      (channel, idx) => <div>{channel.name}</div>
+      (channel, idx) => (
+        <div
+          onClick={() => {
+            setShowMessages(true);
+            setSelectedChannel(channel);
+            console.log(showMessages, "SHOW MESSAGE CONTEXT");
+            history.push("/servers");
+          }}
+        >
+          {channel.name}
+        </div>
+      )
     );
     const serverDisplay = Object.values(currServers).map((server) => (
       <div
         key={server.id}
         onClick={() => {
           // on click, set the selectedServer context
-          setSelectedChannels(currChannels);
-          setSelectedServer(currServers[currServerId]);
-          // setShowChannels(true);
+          // setSelectedServer(server);
+          // setSelectedServer(currServers[currServerId]);
+          setShowChannels(true);
           setCurrServerId(server.id);
         }}
       >
@@ -172,12 +186,14 @@ const NavBar = () => {
                     onClick={() => {
                       dispatch(getServers());
                       setSelectedServer(currServers[selectedServer?.id]);
-                      history.push(`/servers/${thisServer?.id}/update`);
+                      setShowMessages(false);
+                      console.log(showMessages, "SHOW MESSAGE CONTEXT");
+                      history.push(`/servers`);
                     }}
                   >
                     {currServers[currServerId]?.name}
                   </div>
-                  <div>{channelDisplay}</div>
+                  {/* <div>{channelDisplay}</div> */}
                   <div>{channelList}</div>
                 </div>
               )}
