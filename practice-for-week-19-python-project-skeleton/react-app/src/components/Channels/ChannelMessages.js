@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
@@ -21,7 +21,7 @@ const ChannelMessagesPage = () => {
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
-  const { selectedChannel, setSelectedChannel } = useSelectedChannels();
+  const { selectedChannel } = useSelectedChannels();
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(selectedChannel.id));
@@ -37,7 +37,7 @@ const ChannelMessagesPage = () => {
 
   useEffect(() => {
     socket = io();
-
+    //NAMESPACE SETUP FOR LATER
     // const channelNameSpace = socket.("/channel");
 
     // channelNameSpace.on("connect", () => {
@@ -81,9 +81,7 @@ const ChannelMessagesPage = () => {
     dispatch(addMessage(response));
     dispatch(getChannelMessages(selectedChannel.id));
     socket.emit("channelmessage", response);
-
     setNewMessage("");
-    return history.push("/servers");
   };
 
   return (
@@ -123,8 +121,6 @@ const ChannelMessagesPage = () => {
             ))}
             {allMessages?.map((message) => (
               <div className="message">
-                {/* TODO: ADD DELETE BUTTON IF OWNER */}
-                <img className="message-image"></img>
                 <div className="message-text">
                   <p className="username-message">{message.user}</p>
                   <p className="message-body">{message.body}</p>
