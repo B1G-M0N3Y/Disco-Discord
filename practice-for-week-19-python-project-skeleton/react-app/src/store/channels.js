@@ -1,5 +1,6 @@
 const GET_CHANNELS = "channels/GET_CHANNELS";
 const DELETE = "channels/DELETE";
+const ADD_CHANNEL = "channels/ADD_CHANNEL";
 
 export const getChannels = (channels) => {
   return {
@@ -32,6 +33,27 @@ export const deleteChannel = (channelId) => async (dispatch) => {
   });
   if (response.ok) {
     dispatch(remove(channelId));
+  }
+};
+
+const addChannel = (channel) => {
+  return {
+    type: ADD_CHANNEL,
+    channel,
+  };
+};
+
+export const createChannel = (payload, serverId) => async (dispatch) => {
+  console.log(payload);
+  const response = await fetch(`/api/servers/${serverId}/channels`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(addChannel(data));
+    return response;
   }
 };
 

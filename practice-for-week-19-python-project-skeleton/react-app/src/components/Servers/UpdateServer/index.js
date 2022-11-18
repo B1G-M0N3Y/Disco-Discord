@@ -130,7 +130,7 @@ const UpdateServer = ({ server }) => {
       </div>
       <div className="delete-channel">
         <div>
-          <DeleteChannel server={server} />
+          {userId === server.admin_id && <DeleteChannel server={server} />}
         </div>
       </div>
     </div>
