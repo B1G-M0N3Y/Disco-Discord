@@ -37,6 +37,7 @@ const CreateChat = () => {
     };
     dispatch(newChat(chat));
     setShowAdd(false);
+    setChatUsers([currentUser.id]);
   };
 
   const checkBox = (e) => {
