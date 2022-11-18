@@ -13,6 +13,7 @@ import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
+import ServerMembers from "./components/ServerMembers";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -55,6 +56,7 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/servers" exact={true}>
           <Servers />
+          <ServerMembers />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />

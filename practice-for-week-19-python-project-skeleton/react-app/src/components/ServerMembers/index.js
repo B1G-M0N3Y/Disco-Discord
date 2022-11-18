@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { getServerMembers } from "../../store/servers";
+import { useSelectedServer } from "../../context/ServerContext";
+// import { getServerMembers } from "../../store/servers";
 
 function ServerMembers() {
   const { serverId } = useParams();
@@ -10,15 +12,23 @@ function ServerMembers() {
 
   // getters and setters
   const [users, setUsers] = useState([]);
+  const { selectedServer } = useSelectedServer();
 
   // get server member state
-  const membersObj = useSelector((state) => state.servers.members);
-  const membersArr = Object.values(membersObj);
+  // const membersObj = useSelector((state) => state.servers.members);
+  // const membersArr = Object.values(membersObj);
+  let membersArr = [];
+  // const currMembers = useSelector(state => state.servers[selectedServer?.id]?.serverMembers)
 
+  console.log("selected", selectedServer);
+
+  if (selectedServer) membersArr = Object.values(selectedServer.server_members);
+
+  console.log("da members", membersArr);
   // get server members with id from url
-  useEffect(() => {
-    dispatch(getServerMembers(serverId));
-  }, [dispatch, serverId]);
+  // useEffect(() => {
+  //   // dispatch(getServerMembers(serverId));
+  // }, [dispatch, selectedServer]);
 
   // fetch users
   useEffect(() => {
@@ -39,10 +49,11 @@ function ServerMembers() {
   const serverMembers = membersArr.map((member) => {
     return (
       <div>
-        <div>{findUser(member.user_id)?.image_url}</div>
+        {/* <div>{findUser(member.user_id)?.image_url}</div>
         <NavLink to={`/users/${member.user_id}`}>
           {findUser(member.user_id)?.username}
-        </NavLink>
+        </NavLink> */}
+        <p>{member.username}</p>
       </div>
     );
   });
@@ -50,7 +61,16 @@ function ServerMembers() {
   return (
     <>
       <h1>Member List: </h1>
-      <ul>{serverMembers}</ul>
+      {/* <ul>{serverMembers}</ul> */}
+      {membersArr.map((member) => (
+        <div>
+          {/* <div>{findUser(member.user_id)?.image_url}</div>
+        <NavLink to={`/users/${member.user_id}`}>
+          {findUser(member.user_id)?.username}
+        </NavLink> */}
+          <p>{member.username}</p>
+        </div>
+      ))}
     </>
   );
 }
