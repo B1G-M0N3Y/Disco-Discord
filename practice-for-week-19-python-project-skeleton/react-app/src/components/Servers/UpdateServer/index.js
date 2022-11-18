@@ -9,7 +9,7 @@ import {
 } from "../../../store/servers";
 import { getCurrentChannels } from "../../../store/channels";
 import { useSelectedServer } from "../../../context/ServerContext.js";
-import DeleteChannel from "../../Channels/DeleteChannel.js";
+import DeleteChannel from "../../Channels/DeleteChannel/DeleteChannel";
 import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = ({ server }) => {
