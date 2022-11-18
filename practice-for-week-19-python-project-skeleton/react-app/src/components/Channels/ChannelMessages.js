@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
   deleteChannelMessage,
   getChannelMessages,
   newChannelMessage,
+  addMessage,
 } from "../../store/channel_messages";
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
@@ -20,7 +21,7 @@ const ChannelMessagesPage = () => {
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
-  const { selectedChannel, setSelectedChannel } = useSelectedChannels();
+  const { selectedChannel } = useSelectedChannels();
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(selectedChannel.id));
@@ -36,9 +37,21 @@ const ChannelMessagesPage = () => {
 
   useEffect(() => {
     socket = io();
+    //NAMESPACE SETUP FOR LATER
+    // const channelNameSpace = socket.("/channel");
+
+    // channelNameSpace.on("connect", () => {
+    //   console.log("**CHANNEL NAMESPACE CONNECTED");
+    // });
 
     socket.on("chat", (chat) => {
       setAllMessages((messages) => [...messages, chat]);
+    });
+
+    socket.on("channelmessage", (message) => {
+      console.log(message, "HERES THE CHANNEL MESSAGE");
+      dispatch(addMessage(message));
+      dispatch(getChannelMessages(selectedChannel.id));
     });
 
     socket.on("connect", () => {
@@ -56,18 +69,19 @@ const ChannelMessagesPage = () => {
     if (!newMessage) {
       return;
     }
-    const liveMsg = { user: user.username, body: newMessage };
+    // const liveMsg = { user: user.username, body: newMessage };
     const dbMsg = {
       user_id: user.id,
       channel_id: selectedChannel.id,
       body: newMessage,
     };
-
-    socket.emit("chat", liveMsg);
-    await dispatch(newChannelMessage(selectedChannel.id, dbMsg));
+    const response = await dispatch(
+      newChannelMessage(selectedChannel.id, dbMsg)
+    );
+    dispatch(addMessage(response));
     dispatch(getChannelMessages(selectedChannel.id));
+    socket.emit("channelmessage", response);
     setNewMessage("");
-    return history.push("/servers");
   };
 
   return (
@@ -109,8 +123,6 @@ const ChannelMessagesPage = () => {
             ))}
             {allMessages?.map((message) => (
               <div className="message">
-                {/* TODO: ADD DELETE BUTTON IF OWNER */}
-                <img className="message-image"></img>
                 <div className="message-text">
                   <p className="username-message">{message.user}</p>
                   <p className="message-body">{message.body}</p>
