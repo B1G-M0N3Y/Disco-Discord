@@ -5,6 +5,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 // import SidebarNav from "../SidebarNav";
 import { getServers, getOneServer } from "../../store/servers";
+import { getCurrentChannels } from "../../store/channels";
 // import { getChannels } from "../../store/channels";
 import { useSelectedServer } from "../../context/ServerContext";
 import { useSelectedChannels } from "../../context/ChannelContext";
@@ -114,6 +115,9 @@ const NavBar = () => {
         key={server.id}
         onClick={() => {
           // on click, set the selectedServer context
+          // setSelectedServer(server);
+          // setSelectedServer(currServers[currServerId]);
+          dispatch(getCurrentChannels(server.id));
           setShowChannels(true);
           setCurrServerId(server.id);
           setSelectedServer(server);
