@@ -161,8 +161,12 @@ const NavBar = () => {
                   setSelectedServer(null)
                 }
               >
-                LOGO HERE
-              </NavLink>
+              <img
+                alt={currServerId}
+                className="server-pic-nav"
+                src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668891927/discoball3_fi1fmg.png">
+              </img>
+            </NavLink>
               {sessionUser && (
                 <div className="server-dropdown">
                   {serverDisplay}
