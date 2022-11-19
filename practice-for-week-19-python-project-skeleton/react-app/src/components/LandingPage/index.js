@@ -10,10 +10,12 @@ const LandingPage = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
   const allServers = useSelector((state) => state.servers.allServers);
+  const serversArr = Object.values(allServers);
 
   useEffect(() => {
     dispatch(getAllServers());
-  });
+  }, []);
+  console.log(allServers, "all servers");
 
   // Logs in a default demo user
   const loginDemoUser = async () => {

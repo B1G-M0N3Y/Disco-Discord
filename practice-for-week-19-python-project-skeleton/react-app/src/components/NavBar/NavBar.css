@@ -144,6 +144,10 @@
   font-size: 22px;
 }
 
+.home {
+  cursor: pointer;
+}
+
 .channel-nav {
   width: 200px;
   height: 48px;

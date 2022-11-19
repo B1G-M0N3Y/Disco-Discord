@@ -186,8 +186,18 @@ const NavBar = () => {
                             }}
                           />
                         )}
+                      {!selectedServer && (
+                        <div
+                          className="home"
+                          onClick={() => {
+                            history.push("/");
+                          }}
+                        >
+                          Home
+                        </div>
+                      )}
                     </div>
-                    {(!showChannels || selectedServer) && <hr />}
+                    <hr />
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (
@@ -200,7 +210,7 @@ const NavBar = () => {
               <div className=".server-name">
                 {!showChannels && sessionUser && <Chat />}
               </div>
-              {!showChannels && !sessionUser && (
+              {/* {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
                   <NavLink
@@ -212,7 +222,7 @@ const NavBar = () => {
                     Home
                   </NavLink>
                 </div>
-              )}
+              )} */}
               <div className="flex-column-end">{userDisplay}</div>
             </div>
           </div>
