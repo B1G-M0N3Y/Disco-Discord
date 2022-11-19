@@ -105,7 +105,7 @@ const NavBar = () => {
         )}
       </div>
     );
-    const channelList = currServers[selectedServer]?.channels.map(
+    const channelList = currServers[selectedServer]?.channels?.map(
       (channel, idx) => (
         <div className="channel-nav chat-nav">
           <div
