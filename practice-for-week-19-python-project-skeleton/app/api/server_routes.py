@@ -37,8 +37,10 @@ def post_new_channel(server_id):
         db.session.add(new_channel)
         db.session.commit()
 
-        success_response = Channel.query.order_by(Channel.id.desc()).first()
-        return jsonify(channel_schema.dump(success_response))
+        response = channel_schema.dump(new_channel)
+        return jsonify(response)
+        # success_response = Channel.query.order_by(Channel.id.desc()).first()
+        # return jsonify(channel_schema.dump(success_response))
 
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedServer } from "../../../context/ServerContext";
-import { createChannel } from "../../../store/channels";
+import { createChannel, getCurrentChannels } from "../../../store/channels";
 import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const currentUser = useSelector((state) => state.session.user);
 
   const { selectedServer } = useSelectedServer();
-
   const [channelName, setChannelName] = useState("");
 
   const [validationErrors, setValidationErrors] = useState("");
-  console.log("hello world");
-
-  // useEffect(() => {
-  //   dispatch(getServers());
-  // }, []);
 
   useEffect(() => {
     const errors = [];
@@ -34,7 +27,6 @@ const CreateChannelForm = ({ setShowModal }) => {
   }, [channelName]);
 
   const handleSubmit = async (e) => {
-    console.log("TESTING");
     e.preventDefault();
 
     let newChannelInput;
@@ -45,15 +37,16 @@ const CreateChannelForm = ({ setShowModal }) => {
         server_id: selectedServer,
       };
 
-    console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
-
     const newChannel = await dispatch(
       createChannel(newChannelInput, selectedServer)
     );
     // Forcing re-render
-    await dispatch(getServers());
-    setShowModal(false);
-    return history.push(`/servers/${selectedServer}`);
+    if (newChannel) {
+      dispatch(getServers());
+      dispatch(getCurrentChannels(selectedServer));
+      setShowModal(false);
+      history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
+    }
   };
 
   return (
