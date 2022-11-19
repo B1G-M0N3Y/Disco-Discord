@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
@@ -11,6 +11,7 @@ import {
 } from "../../store/channel_messages";
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
+import { useSelectedServer } from "../../context/ServerContext";
 
 let socket;
 
@@ -21,16 +22,20 @@ const ChannelMessagesPage = () => {
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
+  const {selectedServer, setSelectedServer} = useSelectedServer()
   const { selectedChannel } = useSelectedChannels();
+  const {channelId, serverId } = useParams();
+
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
-    dispatch(getChannelMessages(selectedChannel.id));
+    dispatch(getChannelMessages(channelId));
+    setSelectedServer(serverId)
   }, [dispatch, selectedChannel]);
 
   // when leaving the page...
   useEffect(() => {
     return () => {
-      dispatch(getChannelMessages(selectedChannel.id));
+      dispatch(getChannelMessages(channelId));
       dispatch(getServers());
     };
   }, [dispatch]);
@@ -51,7 +56,7 @@ const ChannelMessagesPage = () => {
     socket.on("channelmessage", (message) => {
       console.log(message, "HERES THE CHANNEL MESSAGE");
       dispatch(addMessage(message));
-      dispatch(getChannelMessages(selectedChannel.id));
+      dispatch(getChannelMessages(channelId));
     });
 
     socket.on("connect", () => {
@@ -61,7 +66,7 @@ const ChannelMessagesPage = () => {
     return () => {
       socket.disconnect();
     };
-  }, [selectedChannel.id]);
+  }, [channelId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,14 +77,14 @@ const ChannelMessagesPage = () => {
     // const liveMsg = { user: user.username, body: newMessage };
     const dbMsg = {
       user_id: user.id,
-      channel_id: selectedChannel.id,
+      channel_id: channelId,
       body: newMessage,
     };
     const response = await dispatch(
-      newChannelMessage(selectedChannel.id, dbMsg)
+      newChannelMessage(channelId, dbMsg)
     );
     dispatch(addMessage(response));
-    dispatch(getChannelMessages(selectedChannel.id));
+    dispatch(getChannelMessages(channelId));
     socket.emit("channelmessage", response);
     setNewMessage("");
   };
@@ -113,7 +118,7 @@ const ChannelMessagesPage = () => {
                       className="fa-regular fa-trash-can"
                       onClick={async () => {
                         await dispatch(deleteChannelMessage(message?.id));
-                        dispatch(getChannelMessages(selectedChannel.id));
+                        dispatch(getChannelMessages(channelId));
                         return history.push(`/servers`);
                       }}
                     ></i>
@@ -133,7 +138,7 @@ const ChannelMessagesPage = () => {
                       className="fa-regular fa-trash-can"
                       onClick={async () => {
                         await dispatch(deleteChannelMessage(message?.id));
-                        dispatch(getChannelMessages(selectedChannel.id));
+                        dispatch(getChannelMessages(channelId));
                         return history.push(`/servers`);
                       }}
                     ></i>

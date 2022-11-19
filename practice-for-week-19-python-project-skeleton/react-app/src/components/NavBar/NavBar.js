@@ -105,7 +105,7 @@ const NavBar = () => {
         )}
       </div>
     );
-    const channelList = currServers[currServerId]?.channels.map(
+    const channelList = currServers[selectedServer]?.channels.map(
       (channel, idx) => (
         <div className="channel-nav chat-nav">
           <div
@@ -167,37 +167,18 @@ const NavBar = () => {
               )}
             </div>
             <div className="flex-column-space-between channels-chats">
-              {showChannels && (
+              {selectedServer && (
                 <div className="flex-column-start">
-                  <div>
-                    <div className="width-90 server-name">
-                      {currServers[currServerId]?.name}
-                      {selectedServer &&
-                        sessionUser.id === selectedServer.admin_id && (
-                          <i
-                            className="fas fa-solid fa-chevron-down "
-                            onClick={() => {
-                              dispatch(getServers());
-                              setSelectedServer(
-                                currServers[selectedServer?.id]
-                              );
-                              setShowMessages(false);
-                              history.push(`/servers`);
-                            }}
-                          />
-                        )}
-                      {!selectedServer && (
-                        <div
-                          className="home"
-                          onClick={() => {
-                            history.push("/");
-                          }}
-                        >
-                          Home
-                        </div>
-                      )}
-                    </div>
-                    <hr />
+                  <div
+                    onClick={() => {
+                      dispatch(getServers());
+                      // setSelectedServer(currServers[selectedServer?.id]);
+                      setShowMessages(false);
+                      console.log(showMessages, "SHOW MESSAGE CONTEXT");
+                      history.push(`/servers`);
+                    }}
+                  >
+                    {currServers[selectedServer]?.name}
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (
