@@ -110,7 +110,7 @@ const NavBar = () => {
         <div className="channel-nav chat-nav">
           <div
             onClick={() => {
-              setShowMessages(true);
+              // setShowMessages(true);
               setSelectedChannel(channel);
               console.log("selected channel", channel);
               history.push(`/servers/${currServerId}/channels/${channel?.id}`);

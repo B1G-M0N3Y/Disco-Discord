@@ -54,14 +54,14 @@ function App() {
         <ProtectedRoute path="/chats/:chatId">
           <ChatForm />
         </ProtectedRoute>
+        <ProtectedRoute path="/servers/:serverId" exact={true}>
+          <Servers />
+        </ProtectedRoute>
         <ProtectedRoute
           path="/servers/:serverId/channels/:channelId"
           exact={true}
         >
           <ChannelMessagesPage />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId">
-          <Servers />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
