@@ -31,6 +31,17 @@ function ServerMembers() {
   //   // dispatch(getServerMembers(serverId));
   // }, [dispatch, selectedServer]);
 
+  const removeMember = async (userId) => {
+    const response = await fetch(`/api/servers/${selectedServer.id}/members/${userId}`,{
+        method:"DELETE"
+        });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data)
+    }
+  };
+
   // fetch users
   useEffect(() => {
     async function fetchData() {
@@ -73,7 +84,7 @@ function ServerMembers() {
           <p>{member.username}</p>
           {rawahaLog(member.id)}
           {member.id !== selectedServer?.admin_id && (
-            <i class="fa-solid fa-user-minus"></i>
+            <i onClick={() => removeMember(member.id)} class="fa-solid fa-user-minus"></i>
           )}
         </div>
       ))}
