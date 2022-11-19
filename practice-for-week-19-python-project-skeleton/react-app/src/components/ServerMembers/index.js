@@ -59,20 +59,25 @@ function ServerMembers() {
     );
   });
 
+  const rawahaLog = (str) =>{
+    console.log(str)
+  }
+
+  console.log("admin id", selectedServer?.admin_id)
   return (
     <div>
       <h1>Member List: </h1>
       {/* <ul>{serverMembers}</ul> */}
       {membersArr.map((member) => (
         <div>
-          {/* <div>{findUser(member.user_id)?.image_url}</div>
-        <NavLink to={`/users/${member.user_id}`}>
-          {findUser(member.user_id)?.username}
-        </NavLink> */}
           <p>{member.username}</p>
+          {rawahaLog(member.id)}
+          {member.id !== selectedServer?.admin_id && (
+            <i class="fa-solid fa-user-minus"></i>
+          )}
         </div>
       ))}
-      <NewServerMember serverId={selectedServer?.id} currMembers = {membersArr}/>
+      <NewServerMember serverId={selectedServer?.id} currMembers={membersArr} />
     </div>
   );
 }
