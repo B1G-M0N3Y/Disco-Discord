@@ -15,6 +15,7 @@ const CreateChannelForm = ({ setShowModal }) => {
   const [channelName, setChannelName] = useState("");
 
   const [validationErrors, setValidationErrors] = useState("");
+  console.log("hello world");
 
   useEffect(() => {
     const errors = [];
