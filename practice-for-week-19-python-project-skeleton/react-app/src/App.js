@@ -45,6 +45,11 @@ function App() {
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
         </ProtectedRoute>
+
+        {/* <ProtectedRoute path="/servers/delete" exact={true}>
+          <DeleteServer />
+        </ProtectedRoute> */}
+
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
