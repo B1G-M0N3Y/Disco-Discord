@@ -37,9 +37,7 @@ const NavBar = () => {
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel, setSelectedChannel } = useSelectedChannels(false);
 
-  // console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
   console.log(selectedServer, "SELECTED SERVER CONTEXT");
-  console.log(typeof currChannels, "currChannels, typof on line 32");
   console.log(currChannels, "currChannels");
 
   //open logout menu
@@ -189,8 +187,7 @@ const NavBar = () => {
                           />
                         )}
                     </div>
-
-                    <hr />
+                    {(!showChannels || selectedServer) && <hr />}
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (

@@ -130,7 +130,7 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ALL:
       newState = { ...state };
-      action.allServers.forEach((server) => {
+      action.servers.forEach((server) => {
         newState.allServers[server.id] = server;
       });
       return newState;
