@@ -5,7 +5,7 @@ import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel } from "../../../store/channels";
 import { getServers } from "../../../store/servers";
 
-const CreateChannelForm = ({ setShowModal, serverId }) => {
+const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUser = useSelector((state) => state.session.user);
@@ -16,6 +16,10 @@ const CreateChannelForm = ({ setShowModal, serverId }) => {
 
   const [validationErrors, setValidationErrors] = useState("");
   console.log("hello world");
+
+  // useEffect(() => {
+  //   dispatch(getServers());
+  // }, []);
 
   useEffect(() => {
     const errors = [];
@@ -44,12 +48,12 @@ const CreateChannelForm = ({ setShowModal, serverId }) => {
     console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
 
     const newChannel = await dispatch(
-      createChannel(newChannelInput, selectedServer.id)
+      createChannel(newChannelInput, selectedServer)
     );
     // Forcing re-render
     await dispatch(getServers());
     setShowModal(false);
-    return history.push(`/servers/serverId`);
+    return history.push(`/servers/${selectedServer}`);
   };
 
   return (
