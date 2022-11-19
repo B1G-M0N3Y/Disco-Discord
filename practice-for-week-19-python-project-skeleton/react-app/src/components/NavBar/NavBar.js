@@ -110,7 +110,7 @@ const NavBar = () => {
         <div className="channel-nav chat-nav">
           <div
             onClick={() => {
-              setShowMessages(true);
+              // setShowMessages(true);
               setSelectedChannel(channel);
               console.log("selected channel", channel);
               history.push(`/servers/${currServerId}/channels/${channel?.id}`);
@@ -141,6 +141,7 @@ const NavBar = () => {
               "https://cdn3.vectorstock.com/i/1000x1000/35/52/placeholder-rgb-color-icon-vector-32173552.jpg"
             }
           ></img>
+          <p>{server.name}</p>
         </div>
       </div>
     ));
