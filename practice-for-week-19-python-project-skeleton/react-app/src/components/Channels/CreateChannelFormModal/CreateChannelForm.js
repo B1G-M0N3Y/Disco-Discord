@@ -5,7 +5,7 @@ import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel } from "../../../store/channels";
 import { getServers } from "../../../store/servers";
 
-const CreateChannelForm = ({ setShowModal }) => {
+const CreateChannelForm = ({ setShowModal, serverId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUser = useSelector((state) => state.session.user);
@@ -38,7 +38,7 @@ const CreateChannelForm = ({ setShowModal }) => {
     if (validationErrors.length > 0)
       newChannelInput = {
         name: channelName,
-        server_id: selectedServer.id,
+        server_id: selectedServer,
       };
 
     console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
@@ -49,7 +49,7 @@ const CreateChannelForm = ({ setShowModal }) => {
     // Forcing re-render
     await dispatch(getServers());
     setShowModal(false);
-    return history.push(`/servers`);
+    return history.push(`/servers/serverId`);
   };
 
   return (

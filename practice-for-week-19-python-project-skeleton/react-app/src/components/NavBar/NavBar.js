@@ -173,7 +173,6 @@ const NavBar = () => {
             <div className="flex-column-space-between channels-chats">
               {selectedServer && (
                 <div className="flex-column-start">
-                  {/* <div className=""> */}
                   <div className="server-name">
                     <div
                       className="width-90"
@@ -191,7 +190,6 @@ const NavBar = () => {
                       </div>
                     </div>
                   </div>
-                  {/* </div> */}
                   <div>
                     <hr />
                   </div>
@@ -199,7 +197,7 @@ const NavBar = () => {
                   {selectedServer &&
                     sessionUser.id ===
                       currServers[selectedServer]?.admin_id && (
-                      <CreateChannelFormModal />
+                      <CreateChannelFormModal serverId={selectedServer} />
                     )}
 
                   <div>{channelList}</div>
