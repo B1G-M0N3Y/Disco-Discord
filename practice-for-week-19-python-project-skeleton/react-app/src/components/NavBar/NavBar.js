@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 import ChannelList from "../Channels/ChannelList";
 // import SidebarNav from "../SidebarNav";
@@ -22,6 +22,8 @@ import CreateChannelFormModal from "../Channels/CreateChannelFormModal";
 const NavBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const{serverId} = useParams()
 
   const [showLogout, setShowLogout] = useState(false);
   // const [showChannels, setShowChannels] = useState(false);
@@ -217,7 +219,7 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              {!showChannels && sessionUser && <Chat />}
+              {!serverId && sessionUser && <Chat />}
               {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>

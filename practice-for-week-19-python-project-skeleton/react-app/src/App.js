@@ -16,6 +16,8 @@ import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateS
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+  const [isChannel, setisChannel] = useState();
+
 
   const dispatch = useDispatch();
 
@@ -59,6 +61,9 @@ function App() {
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
+        <ProtectedRoute path="/chats/:chatId">
+          <ChatForm />
+        </ProtectedRoute>
         <Route path="/channels/:channelId">
           <ChannelMessagesPage />
         </Route>
