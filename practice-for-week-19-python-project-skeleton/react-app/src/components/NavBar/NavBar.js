@@ -105,7 +105,7 @@ const NavBar = () => {
         )}
       </div>
     );
-    const channelList = currServers[selectedServer]?.channels.map(
+    const channelList = currServers[selectedServer]?.channels?.map(
       (channel, idx) => (
         <div className="channel-nav chat-nav">
           <div
@@ -137,7 +137,7 @@ const NavBar = () => {
           <img
             alt={currServerId}
             className="server-pic-nav"
-            src={server.image_url}
+            src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
           ></img>
           {/* TODO: don't display the name here */}
           <p>{server.name}</p>
@@ -161,8 +161,12 @@ const NavBar = () => {
                   setSelectedServer(null)
                 }
               >
-                LOGO HERE
-              </NavLink>
+              <img
+                alt={currServerId}
+                className="server-pic-nav"
+                src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668891927/discoball3_fi1fmg.png">
+              </img>
+            </NavLink>
               {sessionUser && (
                 <div className="server-dropdown">
                   {serverDisplay}
@@ -173,6 +177,7 @@ const NavBar = () => {
             <div className="flex-column-space-between channels-chats">
               {selectedServer && (
                 <div className="flex-column-start">
+                  {/* <div className=""> */}
                   <div className="server-name">
                     <div
                       className="width-90"
@@ -184,7 +189,10 @@ const NavBar = () => {
                         history.push(`/servers/${selectedServer}/edit`);
                       }}
                     >
-                      {currServers[selectedServer]?.name}
+                      <div>{currServers[selectedServer]?.name}</div>
+                      <div>
+                        <i className="fas fa-solid fa-chevron-down "></i>
+                      </div>
                     </div>
                     {sessionUser.id === selectedServer && (
                       <i
@@ -199,6 +207,7 @@ const NavBar = () => {
                       ></i>
                     )}
                   </div>
+                  {/* </div> */}
                   <div>
                     <hr />
                   </div>

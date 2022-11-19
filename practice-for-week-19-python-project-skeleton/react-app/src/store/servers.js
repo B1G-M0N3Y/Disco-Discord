@@ -79,7 +79,7 @@ export const createServer = (payload) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addOrUpdate(data));
-    return response;
+    return data;
   }
 };
 
