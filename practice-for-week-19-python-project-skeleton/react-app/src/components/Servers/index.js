@@ -23,9 +23,6 @@ const Servers = () => {
   // );
   console.log("selected server", selectedServer);
   console.log("selected channel", selectedChannel);
-  const [messages, setMessages] = useState(
-    Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
-  );
 
   useEffect(() => {
     dispatch(getServers());

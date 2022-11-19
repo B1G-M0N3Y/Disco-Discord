@@ -188,10 +188,8 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              <div className=".server-name">
-                {!showChannels && sessionUser && <Chat />}
-              </div>
-              {/* {!showChannels && !sessionUser && (
+              {!selectedServer && sessionUser && <Chat />}
+              {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
                   <NavLink
@@ -203,7 +201,7 @@ const NavBar = () => {
                     Home
                   </NavLink>
                 </div>
-              )} */}
+              )}
               <div className="flex-column-end">{userDisplay}</div>
             </div>
           </div>
