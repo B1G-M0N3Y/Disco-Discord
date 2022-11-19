@@ -177,6 +177,7 @@ const NavBar = () => {
             <div className="flex-column-space-between channels-chats">
               {selectedServer && (
                 <div className="flex-column-start">
+                  {/* <div className=""> */}
                   <div className="server-name">
                     <div
                       className="width-90"
@@ -188,9 +189,13 @@ const NavBar = () => {
                         history.push(`/servers`);
                       }}
                     >
-                      {currServers[selectedServer]?.name}
+                      <div>{currServers[selectedServer]?.name}</div>
+                      <div>
+                        <i className="fas fa-solid fa-chevron-down "></i>
+                      </div>
                     </div>
                   </div>
+                  {/* </div> */}
                   <div>
                     <hr />
                   </div>
