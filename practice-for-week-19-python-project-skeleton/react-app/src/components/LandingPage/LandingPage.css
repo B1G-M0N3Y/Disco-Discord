@@ -1,117 +1,89 @@
-.landing-page{
-    width: 100%;
-    font-family: 'Shrikhand', cursive;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 2em;
+.landing-page {
+  width: 100%;
+  font-family: "Shrikhand", cursive;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
 }
 
 /* Creates a long shadow on the header */
-.landing-page h1{
-    color: #417CF2;
-    -webkit-text-stroke: #fff 1px;
-    text-shadow: #F28705 1px 1px,
-    #F28705 2px 2px,
-    #F28705 3px 3px,
-    #F28705 4px 4px,
-    #F28705 5px 5px,
-    #F28705 6px 6px,
-    #F28705 7px 7px,
-    #F28705 8px 8px,
-    #F28705 9px 9px,
-    #F28705 10px 10px,
-    #F28705 11px 11px,
-    #F28705 12px 12px,
-    #F28705 13px 13px,
-    #F28705 14px 14px,
-    #F28705 15px 15px,
-    #F28705 16px 16px,
-    #F25C05 17px 17px,
-    #F25C05 18px 18px,
-    #F25C05 19px 19px,
-    #F25C05 20px 20px,
-    #F25C05 21px 21px,
-    #F25C05 22px 22px,
-    #F25C05 23px 23px,
-    #F25C05 24px 24px,
-    #F25C05 25px 25px,
-    #F25C05 26px 26px,
-    #F25C05 27px 27px,
-    #F25C05 28px 28px,
-    #F25C05 29px 29px,
-    #F25C05 30px 30px,
-    #F25C05 31px 31px,
-    #F25C05 32px 32px;
+.landing-page h1 {
+  color: #417cf2;
+  -webkit-text-stroke: #fff 1px;
+  text-shadow: #f28705 1px 1px, #f28705 2px 2px, #f28705 3px 3px,
+    #f28705 4px 4px, #f28705 5px 5px, #f28705 6px 6px, #f28705 7px 7px,
+    #f28705 8px 8px, #f28705 9px 9px, #f28705 10px 10px, #f28705 11px 11px,
+    #f28705 12px 12px, #f28705 13px 13px, #f28705 14px 14px, #f28705 15px 15px,
+    #f28705 16px 16px, #f25c05 17px 17px, #f25c05 18px 18px, #f25c05 19px 19px,
+    #f25c05 20px 20px, #f25c05 21px 21px, #f25c05 22px 22px, #f25c05 23px 23px,
+    #f25c05 24px 24px, #f25c05 25px 25px, #f25c05 26px 26px, #f25c05 27px 27px,
+    #f25c05 28px 28px, #f25c05 29px 29px, #f25c05 30px 30px, #f25c05 31px 31px,
+    #f25c05 32px 32px;
 }
 
-.server-card-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+.server-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-
-.server-card{
-    background-color: #044BD9;
-    display: flex;
-    flex-direction: column;
-    max-width: 11em;
-    /* background-color: grey; */
-    padding: 5px;
-    margin: 10px;
-    border-radius: 4px;
+.server-card {
+  background-color: #044bd9;
+  display: flex;
+  flex-direction: column;
+  max-width: 11em;
+  /* background-color: grey; */
+  padding: 5px;
+  margin: 10px;
+  border-radius: 4px;
 }
 
-.server-pic{
-    align-self: center;
-    object-fit: cover;
-    width: 200px;
-    height: 200px;
+.server-pic {
+  align-self: center;
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
 }
 
-.server-name{
-    align-self: center;
-    font-family: 'Itim', cursive;
-    margin: 4px;
+.server-name {
+  align-self: center;
+  font-family: "Itim", cursive;
+  /* margin: 4px; */
 }
 
 .server-card:hover {
-    box-shadow:  inset 0 0 7px #fff,
-    inset 0 0 10px #fff,
-    inset 0 12px #417CF2,
-    inset 0 0 16px #417CF2,
-    inset 0 0 28px #417CF2,
-    inset 0 0 40px #417CF2,
-    inset 0 0 52px #417CF2;
+  box-shadow: inset 0 0 7px #fff, inset 0 0 10px #fff, inset 0 12px #417cf2,
+    inset 0 0 16px #417cf2, inset 0 0 28px #417cf2, inset 0 0 40px #417cf2,
+    inset 0 0 52px #417cf2;
 }
 
-.auth-container{
-    background-color: rgb(64, 64, 65);
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 6px;
+.auth-container {
+  background-color: rgb(64, 64, 65);
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px;
 }
 
-.landing-button{
-    text-align: center;
-    color: white;
-    font-size: 32px;
-    font-family: 'Itim', cursive;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    background-color: #417CF2;
-    border: none;
-    width: 64%;
-    border-radius: 6px;
+.landing-button {
+  text-align: center;
+  color: white;
+  font-size: 32px;
+  font-family: "Itim", cursive;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #417cf2;
+  border: none;
+  width: 64%;
+  border-radius: 6px;
 }
 
-.demo-login{
-    background-color: #ffffff00;
-    border: #ffffff 1px solid;
+.demo-login {
+  background-color: #ffffff00;
+  border: #ffffff 1px solid;
 }
