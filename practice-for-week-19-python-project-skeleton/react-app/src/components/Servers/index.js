@@ -29,35 +29,10 @@ const Servers = () => {
     setSelectedServer(serverId);
   }, [dispatch]);
 
-  console.log(server, "server");
-  console.log(selectedChannel, "channel in server component");
-
-  // load all servers
-
-  let serverDisplay;
-  let channelDisplay;
-
-  // const channelList = currServers[selectedServer]?.channels.map(
-  //   (channel, idx) => (
-  //     <div className="channel-nav chat-nav">
-  //       <div
-  //         onClick={() => {
-  //           setShowMessages(true);
-  //           setSelectedChannel(channel);
-  //           console.log("selected channel", channel);
-  //           history.push(`/servers/${currServerId}/channels/${channel?.id}`);
-  //         }}
-  //       >
-  //         <div className="width-90">{channel.name}</div>
-  //       </div>
-  //     </div>
-  //   )
-  // );
+  console.log(server, "server in server component");
 
   return (
     <>
-      {/* {showChannels &&
-      } */}
       {showMessages && (
         <>
           <div className="server-details-container">

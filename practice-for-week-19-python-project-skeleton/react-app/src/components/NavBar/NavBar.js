@@ -71,14 +71,14 @@ const NavBar = () => {
   }, [dispatch, sessionUser]);
 
   // if selected server changes, update store
-  useEffect(() => {
-    if (selectedServer?.id) {
-      // setSelectedChannels(selectedServer.channels);
-      if (selectedServer !== []) {
-        dispatch(getOneServer(selectedServer.id));
-      }
-    }
-  }, [dispatch, selectedServer]);
+  // useEffect(() => {
+  //   if (selectedServer?.id) {
+  //     // setSelectedChannels(selectedServer.channels);
+  //     if (selectedServer !== []) {
+  //       dispatch(getOneServer(selectedServer.id));
+  //     }
+  //   }
+  // }, [dispatch, selectedServer]);
 
   let userDisplay;
 
@@ -137,10 +137,9 @@ const NavBar = () => {
           <img
             alt={currServerId}
             className="server-pic-nav"
-            src={
-              "https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
-            }
+            src={server.image_url}
           ></img>
+          {/* TODO: don't display the name here */}
           <p>{server.name}</p>
         </div>
       </div>
@@ -174,19 +173,27 @@ const NavBar = () => {
             <div className="flex-column-space-between channels-chats">
               {selectedServer && (
                 <div className="flex-column-start">
-                  <div
-                    onClick={() => {
-                      dispatch(getServers());
-                      // setSelectedServer(currServers[selectedServer?.id]);
-                      setShowMessages(false);
-                      console.log(showMessages, "SHOW MESSAGE CONTEXT");
-                      history.push(`/servers`);
-                    }}
-                  >
-                    {currServers[selectedServer]?.name}
+                  <div className="server-name">
+                    <div
+                      className="width-90"
+                      onClick={() => {
+                        dispatch(getServers());
+                        // setSelectedServer(currServers[selectedServer?.id]);
+                        setShowMessages(false);
+                        console.log(showMessages, "SHOW MESSAGE CONTEXT");
+                        history.push(`/servers`);
+                      }}
+                    >
+                      {currServers[selectedServer]?.name}
+                    </div>
                   </div>
+                  <div>
+                    <hr />
+                  </div>
+
                   {selectedServer &&
-                    sessionUser.id === selectedServer.admin_id && (
+                    sessionUser.id ===
+                      currServers[selectedServer]?.admin_id && (
                       <CreateChannelFormModal />
                     )}
 
