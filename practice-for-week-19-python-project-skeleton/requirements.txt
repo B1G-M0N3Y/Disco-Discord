@@ -8,7 +8,7 @@
 -i https://pypi.org/simple
 alembic==1.6.5
 click==7.1.2
-eventlet==0.33.0
+eventlet==0.30.2
 flask-cors==3.0.8
 flask-login==0.5.0
 flask-marshmallow==0.14.0
