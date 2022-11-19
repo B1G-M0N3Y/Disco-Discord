@@ -14,6 +14,7 @@ import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import Chat from "./components/Chat";
+import UpdateServer from "./components/Servers/UpdateServer";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -59,9 +60,15 @@ function App() {
         <ProtectedRoute path="/chats/:chatId">
           <ChatForm />
         </ProtectedRoute>
+
+        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+          <UpdateServer />
+        </ProtectedRoute>
+
         <ProtectedRoute path="/servers/:serverId" exact={true}>
           <Servers />
         </ProtectedRoute>
+
         <ProtectedRoute
           path="/servers/:serverId/channels/:channelId"
           exact={true}
