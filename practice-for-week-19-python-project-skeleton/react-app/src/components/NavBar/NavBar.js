@@ -105,15 +105,15 @@ const NavBar = () => {
         )}
       </div>
     );
-    const channelList = currServers[currServerId]?.channels.map(
+    const channelList = currServers[selectedServer]?.channels.map(
       (channel, idx) => (
         <div className="channel-nav chat-nav">
           <div
             onClick={() => {
-              setShowMessages(true);
+              // setShowMessages(true);
               setSelectedChannel(channel);
               console.log("selected channel", channel);
-              history.push(`/servers`);
+              history.push(`/servers/${currServerId}/channels/${channel?.id}`);
             }}
           >
             <div className="width-90">{channel.name}</div>
@@ -127,9 +127,10 @@ const NavBar = () => {
         onClick={() => {
           // on click, set the selectedServer context
           dispatch(getCurrentChannels(server.id));
-          setShowChannels(true);
+          // setShowChannels(true);
           setCurrServerId(server.id);
-          setSelectedServer(server);
+          setSelectedServer(server.id);
+          history.push(`/servers/${server?.id}`);
         }}
       >
         <div>
@@ -140,6 +141,7 @@ const NavBar = () => {
               "https://cdn3.vectorstock.com/i/1000x1000/35/52/placeholder-rgb-color-icon-vector-32173552.jpg"
             }
           ></img>
+          <p>{server.name}</p>
         </div>
       </div>
     ));
@@ -155,7 +157,10 @@ const NavBar = () => {
                 to="/chats"
                 exact={true}
                 activeClassName="active"
-                onClick={() => setShowChannels(false)}
+                onClick={() =>
+                  // setShowChannels(false)
+                  setSelectedServer(null)
+                }
               >
                 LOGO HERE
               </NavLink>
@@ -167,37 +172,18 @@ const NavBar = () => {
               )}
             </div>
             <div className="flex-column-space-between channels-chats">
-              {showChannels && (
+              {selectedServer && (
                 <div className="flex-column-start">
-                  <div>
-                    <div className="width-90 server-name">
-                      {currServers[currServerId]?.name}
-                      {selectedServer &&
-                        sessionUser.id === selectedServer.admin_id && (
-                          <i
-                            className="fas fa-solid fa-chevron-down "
-                            onClick={() => {
-                              dispatch(getServers());
-                              setSelectedServer(
-                                currServers[selectedServer?.id]
-                              );
-                              setShowMessages(false);
-                              history.push(`/servers`);
-                            }}
-                          />
-                        )}
-                      {!selectedServer && (
-                        <div
-                          className="home"
-                          onClick={() => {
-                            history.push("/");
-                          }}
-                        >
-                          Home
-                        </div>
-                      )}
-                    </div>
-                    <hr />
+                  <div
+                    onClick={() => {
+                      dispatch(getServers());
+                      // setSelectedServer(currServers[selectedServer?.id]);
+                      setShowMessages(false);
+                      console.log(showMessages, "SHOW MESSAGE CONTEXT");
+                      history.push(`/servers`);
+                    }}
+                  >
+                    {currServers[selectedServer]?.name}
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (
@@ -207,10 +193,8 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              <div className=".server-name">
-                {!showChannels && sessionUser && <Chat />}
-              </div>
-              {/* {!showChannels && !sessionUser && (
+              {!selectedServer && sessionUser && <Chat />}
+              {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
                   <NavLink
@@ -222,7 +206,7 @@ const NavBar = () => {
                     Home
                   </NavLink>
                 </div>
-              )} */}
+              )}
               <div className="flex-column-end">{userDisplay}</div>
             </div>
           </div>

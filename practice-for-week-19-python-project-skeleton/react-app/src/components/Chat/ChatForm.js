@@ -4,6 +4,7 @@ import ChatMessages from "./ChatMessage";
 import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
 import { io } from "socket.io-client";
 import { useSelectedChat } from "../../context/ChatContext";
+import { useParams } from "react-router-dom";
 
 let socket;
 
@@ -11,6 +12,7 @@ function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
+  const {chatId} = useParams();
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
@@ -49,7 +51,7 @@ function ChatForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.length === 0) return;
-    const message = { body: text, chat_id: selectedChat };
+    const message = { body: text, chat_id: chatId };
     console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
     console.log(response, "fetch response");
@@ -62,7 +64,7 @@ function ChatForm() {
       <div className="message-section">
         {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
 
-        <ChatMessages className="message-section" chat_id={selectedChat} />
+        <ChatMessages className="message-section" chat_id={chatId} />
       </div>
       {/* <form onSubmit={handleSubmit}>
         <input

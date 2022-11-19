@@ -1,4 +1,4 @@
-const GET_MESSAGES = "channel_messages/GET_MESSAGES";
+ const GET_MESSAGES = "channel_messages/GET_MESSAGES";
 // const GET_CHANNELS = "channel_messages/GET_CHANNELS"
 const ADD_MESSAGE = "channel_messages/ADD_ONE";
 const DELETE = "channel_messages/DELETE";

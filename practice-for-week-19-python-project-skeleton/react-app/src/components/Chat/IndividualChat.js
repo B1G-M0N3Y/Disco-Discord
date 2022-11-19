@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 import { useSelectedChat } from "../../context/ChatContext";
+import { useHistory } from "react-router-dom";
 
 const DEFAULT_IMAGE_URL =
   "https://ledstagelightmfg.com/wp-content/uploads/2020/09/40inch-disco-ball.jpg";
 
 function IndividualChat({ chat, setChat }) {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   // getters and setters
   const [chats, setChats] = useState([]);
   const user = useSelector((state) => state.session.user);
@@ -66,7 +67,7 @@ function IndividualChat({ chat, setChat }) {
         id={chat.id}
         className="chat-nav"
         onClick={() => {
-          setSelectedChat(chat.id)
+          history.push(`/chats/${chat.id}`)
         }}
       >
         {chatSelector}

@@ -13,6 +13,7 @@ const Servers = () => {
   const { showMessages, setShowMessages } = useSelectedMessages();
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel, setSelectedChannel } = useSelectedChannels();
+  const { serverId } = useParams();
 
   const servers = useSelector((state) => state.servers.servers);
   console.log(Object.values(servers)[0]?.channels[0]?.messages, "messages");
@@ -22,12 +23,10 @@ const Servers = () => {
   // );
   console.log("selected server", selectedServer);
   console.log("selected channel", selectedChannel);
-  const [messages, setMessages] = useState(
-    Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
-  );
 
   useEffect(() => {
     dispatch(getServers());
+    setSelectedServer(serverId);
   }, [dispatch]);
 
   console.log(server, "server");
@@ -38,11 +37,27 @@ const Servers = () => {
   let serverDisplay;
   let channelDisplay;
 
-  // use state to pick the server to display channel
-  // pass in server id props to channel messages
+  // const channelList = currServers[selectedServer]?.channels.map(
+  //   (channel, idx) => (
+  //     <div className="channel-nav chat-nav">
+  //       <div
+  //         onClick={() => {
+  //           setShowMessages(true);
+  //           setSelectedChannel(channel);
+  //           console.log("selected channel", channel);
+  //           history.push(`/servers/${currServerId}/channels/${channel?.id}`);
+  //         }}
+  //       >
+  //         <div className="width-90">{channel.name}</div>
+  //       </div>
+  //     </div>
+  //   )
+  // );
 
   return (
     <>
+      {/* {showChannels &&
+      } */}
       {showMessages && (
         <>
           <div className="server-details-container">
