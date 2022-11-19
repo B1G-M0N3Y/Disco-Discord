@@ -1,7 +1,18 @@
+:root {
+  --clr-neon: hsl(317 100% 54%);
+  --clr-bg: hsl(323 21% 16%)
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .landing-page {
   width: 100%;
-  font-family: "Shrikhand", cursive;
-  color: white;
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  color: rgb(255, 0, 195);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,7 +22,8 @@
 
 /* Creates a long shadow on the header */
 .landing-page h1 {
-  color: #417cf2;
+  /* color: #417cf2; */
+  color: rgb(255, 0, 195);
   -webkit-text-stroke: #fff 1px;
   text-shadow: #f28705 1px 1px, #f28705 2px 2px, #f28705 3px 3px,
     #f28705 4px 4px, #f28705 5px 5px, #f28705 6px 6px, #f28705 7px 7px,

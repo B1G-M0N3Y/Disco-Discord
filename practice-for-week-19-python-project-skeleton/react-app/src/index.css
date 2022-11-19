@@ -9,7 +9,8 @@ body {
 }
 
 html {
-  background-color: #3c308c;
+  background-color: rgb(45, 45, 45);
+  /* background-color: #3c308c; */
 }
 
 #root {
@@ -19,7 +20,17 @@ html {
 }
 
 p {
-  font-family: "Itim", cursive;
+  /* font-family: "Itim", cursive; */
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  height: 48px;
+  line-height: 20px;
+  min-width: 0;
+  position: relative;
+  width: 1489px;
+  z-index: 100;
+  color: rgb(255, 0, 195);
 }
 
 i {
