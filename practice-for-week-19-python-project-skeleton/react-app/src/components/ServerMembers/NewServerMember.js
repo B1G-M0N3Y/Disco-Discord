@@ -4,23 +4,23 @@ import { getAllUsers } from "../../store/users";
 
 const NewServerMember = ({ serverId, currMembers }) => {
   const dispatch = useDispatch();
-  const allUsers = useSelector((state) => state.users);
+  const allUsers = useSelector((state) => state.users.allUsers);
 
   const addMember = async (userId) => {
-    console.log("user id",userId)
-    console.log("server id",serverId)
-    const response = await fetch(`/api/servers/${serverId}/members`,{
-        method:"POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          user_id: userId,
-          server_id: serverId
-        })
+    console.log("user id", userId);
+    console.log("server id", serverId);
+    const response = await fetch(`/api/servers/${serverId}/members`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: userId,
+        server_id: serverId,
+      }),
     });
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data)
+      console.log(data);
     }
   };
 
@@ -34,10 +34,12 @@ const NewServerMember = ({ serverId, currMembers }) => {
   const currMembersId = currMembers.map((member) => member.id);
   // ... we can filter users by id to get an array of only
   // users who are not members of our current server.
-  console.log(Object.values(allUsers));
-  const notJoined = Object.values(allUsers)[0]?.filter(
-    (user) => !currMembersId.includes(user.id)
-  );
+  let notJoined
+  if (allUsers) {
+    notJoined = Object.values(allUsers)[0]?.filter(
+      (user) => !currMembersId.includes(user.id)
+    );
+  }
 
   console.log("not joined", notJoined);
 
