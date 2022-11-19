@@ -181,7 +181,7 @@ const NavBar = () => {
                         // setSelectedServer(currServers[selectedServer?.id]);
                         setShowMessages(false);
                         console.log(showMessages, "SHOW MESSAGE CONTEXT");
-                        history.push(`/servers`);
+                        history.push(`/servers/${selectedServer}/edit`);
                       }}
                     >
                       {currServers[selectedServer]?.name}

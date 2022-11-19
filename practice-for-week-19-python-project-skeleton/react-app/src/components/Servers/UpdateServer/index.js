@@ -12,31 +12,33 @@ import { useSelectedServer } from "../../../context/ServerContext.js";
 import DeleteChannel from "../../Channels/DeleteChannel.js";
 import "../DeleteServer/DeleteServerButton.css";
 
-const UpdateServer = ({ server }) => {
+const UpdateServer = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   // get song id from url
+  const {serverId} = useParams();
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
   const channels = useSelector((state) => state.channels.channels);
   const currServer = useSelector((state) => state.servers.currentServer);
   const serverArr = Object.values(servers);
   // identify the server that matches the id from url
-  const thisServer = serverArr.find((item) => item.id === server?.id);
-  // getters and setters for update song form
-  const [name, setName] = useState(server?.name);
-  const [imageUrl, setImageUrl] = useState(server?.image_url);
+  // const thisServer = serverArr.find((item) => item.id === server?.id);
+  // // getters and setters for update song form
+  const [name, setName] = useState(servers[serverId]?.name);
+  console.log('name', name)
+  const [imageUrl, setImageUrl] = useState(servers[serverId]?.imageUrl);
+  console.log('image url', imageUrl)
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
-  console.log(server?.id, "serverID in form");
   // when leaving the page:
   // get servers, then all servers
   // so deleted server is removed immediately
   useEffect(() => {
-    getCurrentChannels(selectedServer.id);
+    getCurrentChannels(selectedServer?.id);
     return () => {
-      dispatch(getOneServer(selectedServer.id));
+      dispatch(getOneServer(selectedServer?.id));
       dispatch(getServers());
     };
   }, [dispatch]);
@@ -50,15 +52,15 @@ const UpdateServer = ({ server }) => {
   };
 
   // form validations
-  useEffect(() => {
-    const errors = [];
-    setValidationErrors(errors);
-    if (!name) errors.push("Server name is required.");
-    if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
-    // TODO if (user.id !== server?.admin_id)
-    //   errors.push("Only the admin can update this server.");
-    setValidationErrors(errors);
-  }, [name, imageUrl]);
+  // useEffect(() => {
+  //   const errors = [];
+  //   setValidationErrors(errors);
+  //   if (!name) errors.push("Server name is required.");
+  //   if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
+  //   // TODO if (user.id !== server?.admin_id)
+  //   //   errors.push("Only the admin can update this server.");
+  //   setValidationErrors(errors);
+  // }, [name, imageUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,10 +70,9 @@ const UpdateServer = ({ server }) => {
       image_url: imageUrl,
     };
     // a user needs to be the admin in order to allow editing
-    if (userId === server?.admin_id) {
+    if (userId === servers[serverId].admin_id) {
       revert();
-      dispatch(updateServer(serverBody, selectedServer?.id));
-      history.push("/");
+      dispatch(updateServer(serverBody, selectedServer));
     }
   };
 
@@ -118,19 +119,19 @@ const UpdateServer = ({ server }) => {
           >
             Submit
           </button>
-          {user && user.id === selectedServer.admin_id && (
+          {/* {user && user.id === selectedServer.admin_id && (
             <>
               <button id="delete-server-button" onClick={deleteHandler}>
                 {" "}
                 Delete Server{" "}
               </button>
             </>
-          )}
+          )} */}
         </form>
       </div>
       <div className="delete-channel">
         <div>
-          {userId === server.admin_id && <DeleteChannel server={server} />}
+          {/* {userId === server?.admin_id && <DeleteChannel server={server} />} */}
         </div>
       </div>
     </div>
