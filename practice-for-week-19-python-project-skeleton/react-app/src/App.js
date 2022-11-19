@@ -49,9 +49,6 @@ function App() {
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId/edit">
-          <UpdateServer />
-        </ProtectedRoute>
         <ProtectedRoute path="/servers/new" exact={true}>
           <CreateServerForm />
         </ProtectedRoute>
@@ -60,6 +57,9 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/servers/:serverId" exact={true}>
           <Servers />
+        </ProtectedRoute>
+        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+          <UpdateServer />
         </ProtectedRoute>
         <ProtectedRoute
           path="/servers/:serverId/channels/:channelId"

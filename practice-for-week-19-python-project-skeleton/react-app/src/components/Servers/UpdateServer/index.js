@@ -78,7 +78,7 @@ const UpdateServer = () => {
 
   const deleteHandler = async (e) => {
     e.preventDefault();
-    await dispatch(deleteServerThunk(selectedServer.id));
+    await dispatch(deleteServerThunk(serverId));
     // alert("Server Successfully Deleted");
     return history.push("/");
   };
@@ -119,19 +119,19 @@ const UpdateServer = () => {
           >
             Submit
           </button>
-          {/* {user && user.id === selectedServer.admin_id && (
+          {user && user.id === servers[serverId].admin_id && (
             <>
               <button id="delete-server-button" onClick={deleteHandler}>
                 {" "}
                 Delete Server{" "}
               </button>
             </>
-          )} */}
+          )}
         </form>
       </div>
       <div className="delete-channel">
         <div>
-          {/* {userId === server?.admin_id && <DeleteChannel server={server} />} */}
+          {userId === servers[serverId].admin_id && <DeleteChannel server={servers[serverId]} />}
         </div>
       </div>
     </div>
