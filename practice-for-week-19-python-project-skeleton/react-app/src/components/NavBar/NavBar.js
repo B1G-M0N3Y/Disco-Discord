@@ -20,11 +20,10 @@ import { createChannel } from "../../store/channels";
 import CreateChannelFormModal from "../Channels/CreateChannelFormModal";
 
 const NavBar = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [showLogout, setShowLogout] = useState(false);
-  // const [showChannels, setShowChannels] = useState(false);
   const [currServerId, setCurrServerId] = useState();
 
   const sessionUser = useSelector((state) => state.session.user);
@@ -33,30 +32,27 @@ const NavBar = () => {
   const currChannels = useSelector(
     (state) => state.servers.currentServer["channels"]
   );
-  const { selectedServer, setSelectedServer } = useSelectedServer();
-  const { showChannels, setShowChannels, selectedChannel, setSelectedChannel } =
-    useSelectedChannels(false);
   const { showMessages, setShowMessages } = useSelectedMessages();
+  const { showChannels, setShowChannels } = useSelectedChannels(false);
+  const { selectedServer, setSelectedServer } = useSelectedServer();
+  const { selectedChannel, setSelectedChannel } = useSelectedChannels(false);
 
-  // console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
   console.log(selectedServer, "SELECTED SERVER CONTEXT");
-  console.log(typeof currChannels, "currChannels, typof on line 32");
   console.log(currChannels, "currChannels");
 
+  //open logout menu
   const openLogout = () => {
     if (showLogout) return;
     setShowLogout(true);
   };
 
+  // close logout
   useEffect(() => {
     if (!showLogout) return;
-
     const closeLogout = () => {
       setShowLogout(false);
     };
-
     document.addEventListener("click", closeLogout);
-
     return () => document.removeEventListener("click", closeLogout);
   }, [showLogout]);
 
@@ -84,31 +80,9 @@ const NavBar = () => {
     }
   }, [dispatch, selectedServer]);
 
-  // (cleared on logout and login)
-  // useEffect(() => {
-  //   const data = window.localStorage.getItem(
-  //     "SERVER",
-  //     JSON.stringify(selectedServer)
-  //   );
-  //   if (data) {
-  //     setSelectedServer(JSON.parse(data));
-  //   }
-  // }, []);
-
-  // // on click, server context changes and gets stored in local storage
-  // useEffect(() => {
-  //   if (selectedServer?.id !== null || selectedServer?.id !== undefined) {
-  //     window.localStorage.setItem("SERVER", JSON.stringify(selectedServer));
-  //   }
-  // }, [selectedServer]);
-
-  const serversArray = Object.values(currServers);
-  const firstServer = serversArray[0];
-
   let userDisplay;
 
-  // Displays different options at the bottom of the navbar
-  // depending on if a user is logged in
+  // Displays logged in/out links
   if (sessionUser) {
     // if logged in, display user info
     userDisplay = (
@@ -133,17 +107,17 @@ const NavBar = () => {
     );
     const channelList = currServers[currServerId]?.channels.map(
       (channel, idx) => (
-        <div
-          className="channel-nav"
-          onClick={() => {
-            setShowMessages(true);
-            setSelectedChannel(channel);
-            console.log("selected channel", channel);
-            console.log(showMessages, "SHOW MESSAGE CONTEXT");
-            history.push(`/servers`);
-          }}
-        >
-          {channel.name}
+        <div className="channel-nav chat-nav">
+          <div
+            onClick={() => {
+              setShowMessages(true);
+              setSelectedChannel(channel);
+              console.log("selected channel", channel);
+              history.push(`/servers`);
+            }}
+          >
+            <div className="width-90">{channel.name}</div>
+          </div>
         </div>
       )
     );
@@ -152,8 +126,6 @@ const NavBar = () => {
         key={server.id}
         onClick={() => {
           // on click, set the selectedServer context
-          // setSelectedServer(server);
-          // setSelectedServer(currServers[currServerId]);
           dispatch(getCurrentChannels(server.id));
           setShowChannels(true);
           setCurrServerId(server.id);
@@ -161,7 +133,6 @@ const NavBar = () => {
         }}
       >
         <div>
-          {server.name}
           <img
             alt={currServerId}
             className="server-pic-nav"
@@ -189,36 +160,57 @@ const NavBar = () => {
                 LOGO HERE
               </NavLink>
               {sessionUser && (
-                <>
+                <div className="server-dropdown">
                   {serverDisplay}
                   <CreateServerFormModal />
-                </>
+                </div>
               )}
             </div>
             <div className="flex-column-space-between channels-chats">
               {showChannels && (
                 <div className="flex-column-start">
-                  <div
-                    onClick={() => {
-                      dispatch(getServers());
-                      setSelectedServer(currServers[selectedServer?.id]);
-                      setShowMessages(false);
-                      console.log(showMessages, "SHOW MESSAGE CONTEXT");
-                      history.push(`/servers`);
-                    }}
-                  >
-                    {currServers[currServerId]?.name}
+                  <div>
+                    <div className="width-90 server-name">
+                      {currServers[currServerId]?.name}
+                      {selectedServer &&
+                        sessionUser.id === selectedServer.admin_id && (
+                          <i
+                            className="fas fa-solid fa-chevron-down "
+                            onClick={() => {
+                              dispatch(getServers());
+                              setSelectedServer(
+                                currServers[selectedServer?.id]
+                              );
+                              setShowMessages(false);
+                              history.push(`/servers`);
+                            }}
+                          />
+                        )}
+                      {!selectedServer && (
+                        <div
+                          className="home"
+                          onClick={() => {
+                            history.push("/");
+                          }}
+                        >
+                          Home
+                        </div>
+                      )}
+                    </div>
+                    <hr />
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (
                       <CreateChannelFormModal />
                     )}
-                  {/* <div>{channelDisplay}</div> */}
+
                   <div>{channelList}</div>
                 </div>
               )}
-              {!showChannels && sessionUser && <Chat />}
-              {!showChannels && !sessionUser && (
+              <div className=".server-name">
+                {!showChannels && sessionUser && <Chat />}
+              </div>
+              {/* {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
                   <NavLink
@@ -230,30 +222,8 @@ const NavBar = () => {
                     Home
                   </NavLink>
                 </div>
-              )}
-              {/* <div className="flex-column-end">
-                <NavLink
-                  className="navlink"
-                  to="/users"
-                  exact={true}
-                  activeClassName="active"
-                >
-                  Users
-                </NavLink>
-                {userDisplay}
-              </div> */}
-
-              <div className="flex-column-end">
-                {/* <NavLink
-                className="navlink"
-                to="/users"
-                exact={true}
-                activeClassName="active"
-              >
-                Users
-              </NavLink> */}
-                {userDisplay}
-              </div>
+              )} */}
+              <div className="flex-column-end">{userDisplay}</div>
             </div>
           </div>
         </div>
