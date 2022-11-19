@@ -95,12 +95,15 @@ def delete_channel(channel_id):
     """
     channel = Channel.query.get(channel_id)
     if channel:
+        messages = channel.messages
+        for message in messages:
+                db.session.delete(message)
         db.session.delete(channel)
         db.session.commit()
         result = channel_schema.dump(channel)
         return {"message": ["Channel deleted."]}, 200
     else:
-        return "Channel not found."
+        return "Channel not found.", 404
 
 # Channel Completed
 # Get Details of Channel by Id

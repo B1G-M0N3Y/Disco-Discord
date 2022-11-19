@@ -6,6 +6,7 @@ import LogoutButton from "../auth/LogoutButton";
 import ChannelList from "../Channels/ChannelList";
 // import SidebarNav from "../SidebarNav";
 import { getServers, getOneServer } from "../../store/servers";
+import { getCurrentChannels } from "../../store/channels";
 // import { getChannels } from "../../store/channels";
 import { useSelectedServer } from "../../context/ServerContext";
 import { useSelectedChannels } from "../../context/ChannelContext";
@@ -15,6 +16,8 @@ import "./NavBar.css";
 import LandingPage from "../LandingPage";
 import CreateServerFormModal from "../Servers/CreateServerFormModal";
 import Chat from "../Chat";
+import { createChannel } from "../../store/channels";
+import CreateChannelFormModal from "../Channels/CreateChannelFormModal";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -103,9 +106,6 @@ const NavBar = () => {
   const firstServer = serversArray[0];
 
   let userDisplay;
-  let serverDisplay;
-  let channelDisplay;
-  let channelList;
 
   // Displays different options at the bottom of the navbar
   // depending on if a user is logged in
@@ -154,6 +154,7 @@ const NavBar = () => {
           // on click, set the selectedServer context
           // setSelectedServer(server);
           // setSelectedServer(currServers[currServerId]);
+          dispatch(getCurrentChannels(server.id));
           setShowChannels(true);
           setCurrServerId(server.id);
           setSelectedServer(server);
@@ -187,11 +188,12 @@ const NavBar = () => {
               >
                 LOGO HERE
               </NavLink>
-              {sessionUser &&
-              <>
-                {serverDisplay}
-                <CreateServerFormModal />
-              </>}
+              {sessionUser && (
+                <>
+                  {serverDisplay}
+                  <CreateServerFormModal />
+                </>
+              )}
             </div>
             <div className="flex-column-space-between channels-chats">
               {showChannels && (
@@ -207,6 +209,10 @@ const NavBar = () => {
                   >
                     {currServers[currServerId]?.name}
                   </div>
+                  {selectedServer &&
+                    sessionUser.id === selectedServer.admin_id && (
+                      <CreateChannelFormModal />
+                    )}
                   {/* <div>{channelDisplay}</div> */}
                   <div>{channelList}</div>
                 </div>

@@ -68,24 +68,26 @@ const CreateServerForm = ({setShowModal}) => {
             )}
         </div>
 
-        <label id="title-create-new-server">CREATE NEW SERVER</label>
-            <label id="title-create-server-input">Name of New Server</label>
-                <input id="form-input-create-server"
-                type="text"
-                name="name"
-                value={serverName}
-                onChange={e => setServerName(e.target.value)}
-                />
+      <label id="title-create-new-server">CREATE NEW SERVER</label>
+      <label id="title-create-server-input">Name of New Server</label>
+      <input
+        id="form-input-create-server"
+        type="text"
+        name="name"
+        value={serverName}
+        onChange={(e) => setServerName(e.target.value)}
+      />
 
-            <label id="title-create-server-input">Server Profile Image - URL</label>
-                <input id="form-input-create-server"
-                type="url"
-                name="imageURL"
-                value={imageURL}
-                onChange={e => setImageURL(e.target.value)}
-                />
+      <label id="title-create-server-input">Server Profile Image - URL</label>
+      <input
+        id="form-input-create-server"
+        type="url"
+        name="imageURL"
+        value={imageURL}
+        onChange={(e) => setImageURL(e.target.value)}
+      />
 
-            {/* <label id="title-create-server-input">Server Owner - UserId</label>
+      {/* <label id="title-create-server-input">Server Owner - UserId</label>
                 <input id="form-input-create-server"
                 type="text"
                 name="adminId"
@@ -93,9 +95,11 @@ const CreateServerForm = ({setShowModal}) => {
                 onChange={e => setAdminId(e.target.value)}
                 /> */}
 
-            <button className="button-create-server" type="submit">Create New Server</button>
+      <button className="button-create-server" type="submit">
+        Create New Server
+      </button>
     </form>
-    )
+  );
 };
 
 export default CreateServerForm;

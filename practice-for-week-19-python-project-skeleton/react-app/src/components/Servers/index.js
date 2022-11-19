@@ -21,8 +21,8 @@ const Servers = () => {
   // const [channel, setChannel] = useState(
   //   Object.values(servers)[0]?.channels[0]
   // );
-  console.log("selected server", selectedServer)
-  console.log("selected channel", selectedChannel)
+  console.log("selected server", selectedServer);
+  console.log("selected channel", selectedChannel);
   const [messages, setMessages] = useState(
     Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
   );
@@ -46,10 +46,14 @@ const Servers = () => {
     <div>
       {showMessages && (
         <>
-          <h1>Messages</h1>
-          <ul className="messages">
+          <div className="server-details-container">
             <ChannelMessagesPage />
-          </ul>
+          </div>
+        </>
+      )}
+      {showMessages === false && (
+        <>
+          <UpdateServer server={selectedServer} />
         </>
       )}
       {showMessages === false && <UpdateServer server={selectedServer} />}
