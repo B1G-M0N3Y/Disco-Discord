@@ -190,11 +190,8 @@ const NavBar = () => {
                       }}
                     >
                       <div>{currServers[selectedServer]?.name}</div>
-                      <div>
-                        <i className="fas fa-solid fa-chevron-down "></i>
-                      </div>
                     </div>
-                    {sessionUser.id === selectedServer && (
+                    {sessionUser.id === currServers[selectedServer]?.admin_id && (
                       <i
                         onClick={() => {
                           dispatch(getServers());

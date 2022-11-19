@@ -32,11 +32,12 @@ const UpdateServer = () => {
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
+
   // when leaving the page:
   // get servers, then all servers
   // so deleted server is removed immediately
   useEffect(() => {
-    getCurrentChannels(selectedServer?.id);
+    setSelectedServer(serverId)
     return () => {
       dispatch(getOneServer(serverId));
       dispatch(getServers());
