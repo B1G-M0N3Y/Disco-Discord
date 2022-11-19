@@ -217,7 +217,7 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              {!showChannels && sessionUser && <Chat />}
+              {!selectedServer && sessionUser && <Chat />}
               {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
