@@ -52,9 +52,9 @@ const CreateServerForm = ({setShowModal}) => {
 
         dispatch(createServer(createServerInputs));
         // selectedServer(newServer);
-        console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
+        // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
         setShowModal(false)
-        return history.push(`/servers/${newServer?.id}`);
+        return history.push(`/servers`);
     };
 
     return (

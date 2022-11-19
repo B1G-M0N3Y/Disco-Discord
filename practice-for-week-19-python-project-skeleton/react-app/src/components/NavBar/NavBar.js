@@ -137,7 +137,7 @@ const NavBar = () => {
           <img
             alt={currServerId}
             className="server-pic-nav"
-            src={server.image_url}
+            src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
           ></img>
           {/* TODO: don't display the name here */}
           <p>{server.name}</p>
