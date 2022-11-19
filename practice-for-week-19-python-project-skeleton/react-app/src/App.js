@@ -53,15 +53,18 @@ function App() {
         <ProtectedRoute path="/chats" exact={true}>
           <ChatForm />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers" exact={true}>
+        <ProtectedRoute path="/servers/:serverId/channels/:channelId" exact={true}>
+          <ChannelMessagesPage />
+        </ProtectedRoute>
+        <ProtectedRoute path="/servers/" exact={true}>
           <Servers />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        <Route path="/channels/:channelId">
+        {/* <Route path="/channels/:channelId">
           <ChannelMessagesPage />
-        </Route>
+        </Route> */}
       </Switch>
     </BrowserRouter>
   );
