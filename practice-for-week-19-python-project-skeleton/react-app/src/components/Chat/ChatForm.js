@@ -51,7 +51,7 @@ function ChatForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.length === 0) return;
-    const message = { body: text, chat_id: selectedChat };
+    const message = { body: text, chat_id: chatId };
     console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
     console.log(response, "fetch response");
