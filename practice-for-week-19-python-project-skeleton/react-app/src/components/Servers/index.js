@@ -13,6 +13,7 @@ const Servers = () => {
   const { showMessages, setShowMessages } = useSelectedMessages();
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel, setSelectedChannel } = useSelectedChannels();
+  const {serverId} = useParams()
 
   const servers = useSelector((state) => state.servers.servers);
   console.log(Object.values(servers)[0]?.channels[0]?.messages, "messages");
@@ -25,6 +26,10 @@ const Servers = () => {
   const [messages, setMessages] = useState(
     Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
   );
+
+  useEffect(() => {
+    setSelectedServer(serverId)
+  }, [])
 
   useEffect(() => {
     dispatch(getServers());

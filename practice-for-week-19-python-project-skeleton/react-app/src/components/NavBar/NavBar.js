@@ -23,8 +23,6 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const{serverId} = useParams()
-
   const [showLogout, setShowLogout] = useState(false);
   // const [showChannels, setShowChannels] = useState(false);
   const [currServerId, setCurrServerId] = useState();
@@ -39,6 +37,8 @@ const NavBar = () => {
   const { showChannels, setShowChannels, selectedChannel, setSelectedChannel } =
     useSelectedChannels(false);
   const { showMessages, setShowMessages } = useSelectedMessages();
+
+
 
   // console.log(selectedChannels, "SELECTED CHANNELS CONTEXT");
   console.log(selectedServer, "SELECTED SERVER CONTEXT");
@@ -198,7 +198,7 @@ const NavBar = () => {
               )}
             </div>
             <div className="flex-column-space-between channels-chats">
-              {showChannels && (
+              {selectedServer && (
                 <div className="flex-column-start">
                   <div
                     onClick={() => {
@@ -219,7 +219,7 @@ const NavBar = () => {
                   <div>{channelList}</div>
                 </div>
               )}
-              {!serverId && sessionUser && <Chat />}
+              {!selectedServer && sessionUser && <Chat />}
               {!showChannels && !sessionUser && (
                 <div className="flex-column-start">
                   <div>Discover</div>
