@@ -32,20 +32,21 @@ const Servers = () => {
   console.log(server, "server in server component");
 
   return (
-    <>
-      {showMessages && (
-        <>
-          <div className="server-details-container">
-            <ChannelMessagesPage />
-          </div>
-        </>
-      )}
-      {showMessages === false && (
-        <>
-          <UpdateServer server={selectedServer} />
-        </>
-      )}
-    </>
+    null
+    // <>
+    //   {showMessages && (
+    //     <>
+    //       <div className="server-details-container">
+    //         <ChannelMessagesPage />
+    //       </div>
+    //     </>
+    //   )}
+    //   {showMessages === false && (
+    //     <>
+    //       <UpdateServer server={selectedServer} />
+    //     </>
+    //   )}
+    // </>
   );
 };
 

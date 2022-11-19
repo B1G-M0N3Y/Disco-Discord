@@ -186,14 +186,23 @@ const NavBar = () => {
                         // setSelectedServer(currServers[selectedServer?.id]);
                         setShowMessages(false);
                         console.log(showMessages, "SHOW MESSAGE CONTEXT");
-                        history.push(`/servers`);
+                        history.push(`/servers/${selectedServer}/edit`);
                       }}
                     >
                       <div>{currServers[selectedServer]?.name}</div>
-                      <div>
-                        <i className="fas fa-solid fa-chevron-down "></i>
-                      </div>
                     </div>
+                    {sessionUser.id === currServers[selectedServer]?.admin_id && (
+                      <i
+                        onClick={() => {
+                          dispatch(getServers());
+                          // setSelectedServer(currServers[selectedServer?.id]);
+                          setShowMessages(false);
+                          console.log(showMessages, "SHOW MESSAGE CONTEXT");
+                          history.push(`/servers/${selectedServer}/edit`);
+                        }}
+                        class="fa-solid fa-pen-to-square"
+                      ></i>
+                    )}
                   </div>
                   {/* </div> */}
                   <div>
