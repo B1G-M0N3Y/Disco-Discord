@@ -14,6 +14,7 @@ const Servers = () => {
   const { showMessages, setShowMessages } = useSelectedMessages();
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel, setSelectedChannel } = useSelectedChannels();
+  const { serverId } = useParams();
 
   const servers = useSelector((state) => state.servers.servers);
   console.log(Object.values(servers)[0]?.channels[0]?.messages, "messages");
@@ -23,41 +24,30 @@ const Servers = () => {
   // );
   console.log("selected server", selectedServer);
   console.log("selected channel", selectedChannel);
-  const [messages, setMessages] = useState(
-    Object.values(servers)[selectedServer]?.channels[selectedChannel]?.messages
-  );
 
   useEffect(() => {
     dispatch(getServers());
+    setSelectedServer(serverId);
   }, [dispatch]);
 
-  console.log(server, "server");
-  console.log(selectedChannel, "channel in server component");
-
-  // load all servers
-
-  let serverDisplay;
-  let channelDisplay;
-
-  // use state to pick the server to display channel
-  // pass in server id props to channel messages
+  console.log(server, "server in server component");
 
   return (
-    <div>
-      {showMessages && (
-        <>
-          <div className="server-details-container">
-            <ChannelMessagesPage />
-          </div>
-        </>
-      )}
-      {showMessages === false && (
-        <>
-          <UpdateServer server={selectedServer} />
-        </>
-      )}
-      {showMessages === false && <UpdateServer server={selectedServer} />}
-    </div>
+    null
+    // <>
+    //   {showMessages && (
+    //     <>
+    //       <div className="server-details-container">
+    //         <ChannelMessagesPage />
+    //       </div>
+    //     </>
+    //   )}
+    //   {showMessages === false && (
+    //     <>
+    //       <UpdateServer server={selectedServer} />
+    //     </>
+    //   )}
+    // </>
   );
 };
 

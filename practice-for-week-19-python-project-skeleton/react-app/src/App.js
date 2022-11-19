@@ -14,6 +14,8 @@ import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import ServerMembers from "./components/ServerMembers";
+import Chat from "./components/Chat";
+import UpdateServer from "./components/Servers/UpdateServer";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -45,27 +47,41 @@ function App() {
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
         </ProtectedRoute>
+
+        {/* <ProtectedRoute path="/servers/delete" exact={true}>
+          <DeleteServer />
+        </ProtectedRoute> */}
+
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
         <ProtectedRoute path="/servers/new" exact={true}>
           <CreateServerForm />
         </ProtectedRoute>
-        <ProtectedRoute path="/chats" exact={true}>
+        <ProtectedRoute path="/chats/:chatId">
           <ChatForm />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers" exact={true}>
-          <div className="channel-message-display">
-            <Servers />
-            <ServerMembers />
-          </div>
+
+        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+          <UpdateServer />
+        </ProtectedRoute>
+
+        <ProtectedRoute path="/servers/:serverId" exact={true}>
+          <Servers />
+        </ProtectedRoute>
+
+        <ProtectedRoute
+          path="/servers/:serverId/channels/:channelId"
+          exact={true}
+        >
+          <ChannelMessagesPage />
         </ProtectedRoute>
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        <Route path="/channels/:channelId">
+        {/* <Route path="/channels/:channelId">
           <ChannelMessagesPage />
-        </Route>
+        </Route> */}
       </Switch>
     </BrowserRouter>
   );

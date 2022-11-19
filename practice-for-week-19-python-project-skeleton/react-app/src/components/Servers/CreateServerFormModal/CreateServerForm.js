@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useSelectedServer } from "../../../context/ServerContext";
 import { createServer } from "../../../store/servers";
 import "./CreateServerFormModal.css";
 
@@ -8,6 +9,7 @@ const CreateServerForm = ({setShowModal}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const currentUser = useSelector((state) => state.session.user)
+    const {selectedServer, setSelectedServer} = useSelectedServer()
 
     const [serverName, setServerName] = useState('');
     const [imageURL, setImageURL] = useState('');
@@ -49,8 +51,13 @@ const CreateServerForm = ({setShowModal}) => {
         console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs)
 
         const newServer = await dispatch(createServer(createServerInputs));
+        // selectedServer(newServer);
+        // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
         setShowModal(false)
-        return history.push("/servers/");
+        if (newServer) {
+            setSelectedServer(newServer.id)
+            history.push(`/servers/${newServer.id}`);
+        }
     };
 
     return (

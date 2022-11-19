@@ -79,7 +79,7 @@ export const createServer = (payload) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addOrUpdate(data));
-    return response;
+    return data;
   }
 };
 
@@ -130,7 +130,7 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ALL:
       newState = { ...state };
-      action.allServers.forEach((server) => {
+      action.servers.forEach((server) => {
         newState.allServers[server.id] = server;
       });
       return newState;

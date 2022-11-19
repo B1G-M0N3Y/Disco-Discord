@@ -13,7 +13,6 @@ const LoginForm = () => {
 
   const onLogin = async (e) => {
     e.preventDefault();
-    window.localStorage.setItem("SERVER", "null");
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);

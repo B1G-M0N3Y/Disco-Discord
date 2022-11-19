@@ -10,11 +10,12 @@ const CreateChannelForm = ({ setShowModal }) => {
   const history = useHistory();
   const currentUser = useSelector((state) => state.session.user);
 
-  const {selectedServer} = useSelectedServer()
+  const { selectedServer } = useSelectedServer();
 
   const [channelName, setChannelName] = useState("");
 
   const [validationErrors, setValidationErrors] = useState("");
+  console.log("hello world");
 
   useEffect(() => {
     const errors = [];
@@ -37,14 +38,16 @@ const CreateChannelForm = ({ setShowModal }) => {
     if (validationErrors.length > 0)
       newChannelInput = {
         name: channelName,
-        server_id: selectedServer.id
+        server_id: selectedServer.id,
       };
 
     console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
 
-    const newChannel = await dispatch(createChannel(newChannelInput, selectedServer.id));
+    const newChannel = await dispatch(
+      createChannel(newChannelInput, selectedServer.id)
+    );
     // Forcing re-render
-    await dispatch(getServers())
+    await dispatch(getServers());
     setShowModal(false);
     return history.push(`/servers`);
   };
