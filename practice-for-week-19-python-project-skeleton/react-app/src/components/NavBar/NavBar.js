@@ -138,7 +138,7 @@ const NavBar = () => {
             alt={currServerId}
             className="server-pic-nav"
             src={
-              "https://cdn3.vectorstock.com/i/1000x1000/35/52/placeholder-rgb-color-icon-vector-32173552.jpg"
+              "https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
             }
           ></img>
           <p>{server.name}</p>
