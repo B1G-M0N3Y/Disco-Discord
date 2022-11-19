@@ -83,6 +83,7 @@ function App() {
           <ChannelMessagesPage />
         </Route> */}
       </Switch>
+      <ServerMembers />
     </BrowserRouter>
   );
 }

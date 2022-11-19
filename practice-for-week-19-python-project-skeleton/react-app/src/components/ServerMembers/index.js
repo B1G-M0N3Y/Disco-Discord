@@ -11,15 +11,14 @@ import NewServerMember from "./NewServerMember";
 // import { getServerMembers } from "../../store/servers";
 
 function ServerMembers() {
-  const { serverId } = useParams();
   const dispatch = useDispatch();
 
   // getters and setters
-  const [users, setUsers] = useState([]);
+  const [members, setMembers] = useState([]);
   const [deleted, setDeleted] = useState([]);
   const { selectedServer } = useSelectedServer();
-  const currServer = useSelector(state => state.servers.currentServer)
-
+  const servers = useSelector(state => state.servers.servers)
+  const currServer = servers[selectedServer]
   // get server member state
   // const membersObj = useSelector((state) => state.servers.members);
   // const membersArr = Object.values(membersObj);
@@ -28,7 +27,7 @@ function ServerMembers() {
 
   console.log("selected", selectedServer);
 
-  if (currServer.server_members) membersArr = Object.values(currServer.server_members);
+  if (currServer?.server_members) membersArr = Object.values(currServer?.server_members);
 
   console.log("da members", membersArr);
   // get server members with id from url
@@ -42,25 +41,26 @@ function ServerMembers() {
     async function fetchData() {
       const response = await fetch("/api/users/");
       const responseData = await response.json();
-      setUsers(responseData.users);
+      setMembers(responseData.users);
     }
     fetchData();
-    console.log('ihatelife', currServer.server_members)
-    setServerUsers(currServer.server_members)
+    setServerUsers(currServer?.server_members)
   }, []);
 
-  useEffect(() => {
-    console.log("we are gaming")
-    dispatch(getServers())
-  },[deleted, membersArr])
+  // useEffect(() => {
+  //   console.log("we are gaming")
+  //   dispatch(getServers())
+  // },[deleted, membersArr])
 
   const removeMember = async (userId) => {
-    dispatch(removeServerMember(selectedServer.id, userId))
+    dispatch(removeServerMember(selectedServer, userId))
+    dispatch(getServers())
+    membersArr = membersArr.filter(member => member.id !== userId)
   };
 
   // find one user
   const findUser = (id) => {
-    const user = users.find((user) => user.id === id);
+    const user = members.find((user) => user.id === id);
     return user;
   };
 
@@ -83,7 +83,7 @@ function ServerMembers() {
           )}
         </div>
       ))}
-      <NewServerMember serverId={selectedServer?.id} currMembers={membersArr} />
+      <NewServerMember serverId={selectedServer} currMembers={membersArr} />
     </div>
   );
 }
