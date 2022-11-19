@@ -11,6 +11,7 @@ import { getCurrentChannels } from "../../../store/channels";
 import { useSelectedServer } from "../../../context/ServerContext.js";
 import DeleteChannel from "../../Channels/DeleteChannel/DeleteChannel";
 import "../DeleteServer/DeleteServerButton.css";
+import UpdateChannel from "../../Channels/UpdateChannel";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();

@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { getOneServer, getServers } from "../../../store/servers";
 import { deleteChannel, getCurrentChannels } from "../../../store/channels";
 import { useSelectedServer } from "../../../context/ServerContext";
+import UpdateChannel from "../UpdateChannel";
 
 const UpdateServer = ({ server }) => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const UpdateServer = ({ server }) => {
   const [channelSelect, setChannelSelect] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
+
 
   console.log(server?.id, "serverID in form");
 
@@ -74,7 +76,9 @@ const UpdateServer = ({ server }) => {
       <div className="edit-container">
         <br></br>
         <form className="delete-channel-form" onSubmit={handleSubmit}>
-          <div className="edit-title">Delete Channel:</div>
+
+
+          <div className="edit-title">Select a Channel:</div>
           <select
             onChange={updateChannel}
             value={channelSelect}
@@ -95,6 +99,11 @@ const UpdateServer = ({ server }) => {
                 </li>
               ))}
           </ul>
+          <>
+            <UpdateChannel server={server} channelId={channelId} />
+
+          </>
+
           <button
             className="edit-server-submit"
             type="submit"
