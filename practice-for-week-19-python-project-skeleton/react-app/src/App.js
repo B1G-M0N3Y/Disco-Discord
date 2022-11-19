@@ -55,12 +55,15 @@ function App() {
         <ProtectedRoute path="/chats/:chatId">
           <ChatForm />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId" exact={true}>
-          <Servers />
-        </ProtectedRoute>
+
         <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
           <UpdateServer />
         </ProtectedRoute>
+
+        <ProtectedRoute path="/servers/:serverId" exact={true}>
+          <Servers />
+        </ProtectedRoute>
+
         <ProtectedRoute
           path="/servers/:serverId/channels/:channelId"
           exact={true}
