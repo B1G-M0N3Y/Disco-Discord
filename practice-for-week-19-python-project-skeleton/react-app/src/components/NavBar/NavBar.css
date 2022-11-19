@@ -163,7 +163,16 @@
   font-size: 16px;
 }
 
+.flex-row-space-between {
+  display: flex;
+  flex-direction: row;
+  align-items: space-between;
+}
+
 .width-90 {
   width: 90%;
   margin-left: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
