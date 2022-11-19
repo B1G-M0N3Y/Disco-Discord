@@ -113,7 +113,7 @@ const NavBar = () => {
               setShowMessages(true);
               setSelectedChannel(channel);
               console.log("selected channel", channel);
-              history.push(`/servers`);
+              history.push(`/servers/${currServerId}/channels/${channel?.id}`);
             }}
           >
             <div className="width-90">{channel.name}</div>
@@ -127,9 +127,10 @@ const NavBar = () => {
         onClick={() => {
           // on click, set the selectedServer context
           dispatch(getCurrentChannels(server.id));
-          setShowChannels(true);
+          // setShowChannels(true);
           setCurrServerId(server.id);
-          setSelectedServer(server);
+          setSelectedServer(server.id);
+          history.push(`/servers/${server?.id}`);
         }}
       >
         <div>
@@ -155,7 +156,10 @@ const NavBar = () => {
                 to="/chats"
                 exact={true}
                 activeClassName="active"
-                onClick={() => setShowChannels(false)}
+                onClick={() =>
+                  // setShowChannels(false)
+                  setSelectedServer(null)
+                }
               >
                 LOGO HERE
               </NavLink>
