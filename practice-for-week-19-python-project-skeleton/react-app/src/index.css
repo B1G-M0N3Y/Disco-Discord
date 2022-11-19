@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
+  width: 100vw;
 }
 
 .navlink {
@@ -19,6 +20,11 @@ html {
 
 p {
   font-family: "Itim", cursive;
+}
+
+i {
+  padding: 5px;
+  cursor: pointer;
 }
 
 button {

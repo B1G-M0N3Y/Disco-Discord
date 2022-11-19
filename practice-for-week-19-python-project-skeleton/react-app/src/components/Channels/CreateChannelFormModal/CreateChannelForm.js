@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedServer } from "../../../context/ServerContext";
-import { createChannel, getCurrentChannels } from "../../../store/channels";
+import { createChannel } from "../../../store/channels";
 import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
@@ -15,12 +15,6 @@ const CreateChannelForm = ({ setShowModal }) => {
   const [channelName, setChannelName] = useState("");
 
   const [validationErrors, setValidationErrors] = useState("");
-
-  useEffect(() => {
-    return () => {
-      dispatch(getCurrentChannels(selectedServer.id));
-    };
-  });
 
   useEffect(() => {
     const errors = [];
@@ -54,7 +48,7 @@ const CreateChannelForm = ({ setShowModal }) => {
     // Forcing re-render
     await dispatch(getServers());
     setShowModal(false);
-    return history.push(`/`);
+    return history.push(`/servers`);
   };
 
   return (
