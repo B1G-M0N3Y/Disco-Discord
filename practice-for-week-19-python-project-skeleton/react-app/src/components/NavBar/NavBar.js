@@ -131,7 +131,7 @@ const NavBar = () => {
         )}
       </div>
     );
-    const channelList = currServers[currServerId]?.channels.map(
+    const channelList = currServers[selectedServer]?.channels.map(
       (channel, idx) => (
         <div
           className="channel-nav"
@@ -196,18 +196,18 @@ const NavBar = () => {
               )}
             </div>
             <div className="flex-column-space-between channels-chats">
-              {showChannels && (
+              {selectedServer && (
                 <div className="flex-column-start">
                   <div
                     onClick={() => {
                       dispatch(getServers());
-                      setSelectedServer(currServers[selectedServer?.id]);
+                      // setSelectedServer(currServers[selectedServer?.id]);
                       setShowMessages(false);
                       console.log(showMessages, "SHOW MESSAGE CONTEXT");
                       history.push(`/servers`);
                     }}
                   >
-                    {currServers[currServerId]?.name}
+                    {currServers[selectedServer]?.name}
                   </div>
                   {selectedServer &&
                     sessionUser.id === selectedServer.admin_id && (

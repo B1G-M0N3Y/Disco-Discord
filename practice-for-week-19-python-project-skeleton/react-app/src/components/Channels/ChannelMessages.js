@@ -11,6 +11,7 @@ import {
 } from "../../store/channel_messages";
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
+import { useSelectedServer } from "../../context/ServerContext";
 
 let socket;
 
@@ -21,12 +22,14 @@ const ChannelMessagesPage = () => {
   const [allMessages, setAllMessages] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
+  const {selectedServer, setSelectedServer} = useSelectedServer()
   const { selectedChannel } = useSelectedChannels();
-  const {channelId } = useParams();
+  const {channelId, serverId } = useParams();
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(channelId));
+    setSelectedServer(serverId)
   }, [dispatch, selectedChannel]);
 
   // when leaving the page...
