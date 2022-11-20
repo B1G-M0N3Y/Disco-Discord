@@ -96,7 +96,7 @@ const channelMessageReducer = (state = initialState, action) => {
     case GET_MESSAGES:
       return { messages: { ...action.messages } };
     case ADD_MESSAGE:
-      return { ...state, [action.message.id]: action.message };
+      return { ...state, [action.message?.id]: action.message };
     case DELETE:
       newState = { ...state };
       delete newState.messages[action.messageId];
