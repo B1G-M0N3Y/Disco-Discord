@@ -161,12 +161,12 @@ const NavBar = () => {
                   setSelectedServer(null)
                 }
               >
-              <img
-                alt={currServerId}
-                className="server-pic-nav"
-                src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668891927/discoball3_fi1fmg.png">
-              </img>
-            </NavLink>
+                <img
+                  alt={currServerId}
+                  className="server-pic-nav"
+                  src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668891927/discoball3_fi1fmg.png"
+                ></img>
+              </NavLink>
               {sessionUser && (
                 <div className="server-dropdown">
                   {serverDisplay}
@@ -177,7 +177,6 @@ const NavBar = () => {
             <div className="flex-column-space-between channels-chats">
               {selectedServer && (
                 <div className="flex-column-start">
-                  {/* <div className=""> */}
                   <div className="server-name">
                     <div
                       className="width-90"
@@ -204,7 +203,6 @@ const NavBar = () => {
                       ></i>
                     )}
                   </div>
-                  {/* </div> */}
                   <div>
                     <hr />
                   </div>
