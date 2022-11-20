@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedServer } from "../../../context/ServerContext";
-import { createChannel } from "../../../store/channels";
+import { createChannel, getCurrentChannels } from "../../../store/channels";
+import { getChannelMessages } from "../../../store/channel_messages";
 import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const currentUser = useSelector((state) => state.session.user);
 
   const { selectedServer } = useSelectedServer();
-
   const [channelName, setChannelName] = useState("");
 
   const [validationErrors, setValidationErrors] = useState("");
-  console.log("hello world");
 
   useEffect(() => {
     const errors = [];
 
     if (!channelName || channelName.length < 100 || channelName.length < 1) {
       errors.push(
-        "Please enter valid Server Name. Server Name must less than 100 characters."
+        "Please enter valid Channel Name. Channel Name must be less than 100 characters."
       );
     }
 
@@ -30,7 +28,6 @@ const CreateChannelForm = ({ setShowModal }) => {
   }, [channelName]);
 
   const handleSubmit = async (e) => {
-    console.log("TESTING");
     e.preventDefault();
 
     let newChannelInput;
@@ -38,18 +35,22 @@ const CreateChannelForm = ({ setShowModal }) => {
     if (validationErrors.length > 0)
       newChannelInput = {
         name: channelName,
-        server_id: selectedServer.id,
+        server_id: selectedServer,
       };
 
-    console.log("THESE ARE CREATE CHANNEL INPUTS", newChannelInput);
-
     const newChannel = await dispatch(
-      createChannel(newChannelInput, selectedServer.id)
+      createChannel(newChannelInput, selectedServer)
     );
+
     // Forcing re-render
-    await dispatch(getServers());
-    setShowModal(false);
-    return history.push(`/servers`);
+    if (newChannel) {
+      await dispatch(getServers());
+      await dispatch(getCurrentChannels(selectedServer));
+      await dispatch(getChannelMessages(newChannel.id));
+      setShowModal(false);
+      console.log('ma new channel', newChannel);
+      history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
+    }
   };
 
   return (

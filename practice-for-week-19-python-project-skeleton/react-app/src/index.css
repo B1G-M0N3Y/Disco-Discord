@@ -31,6 +31,23 @@ button {
   cursor: pointer;
 }
 
+.message-section {
+  border: 3px solid chartreuse;
+  width: 100%;
+}
+
+.member-list {
+  border: 3px solid hotpink;
+  width: 300px;
+}
+
+.row-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
 .channel-message-display {
   display: flex;
   width: 100%;

@@ -14,8 +14,9 @@ import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import ServerMembers from "./components/ServerMembers";
-import Chat from "./components/Chat";
+import Chat from "./components/Chat"
 import UpdateServer from "./components/Servers/UpdateServer";
+import UpdateChannel from "./components/Channels/DeleteChannel";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -47,11 +48,6 @@ function App() {
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
         </ProtectedRoute>
-
-        {/* <ProtectedRoute path="/servers/delete" exact={true}>
-          <DeleteServer />
-        </ProtectedRoute> */}
-
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
@@ -62,24 +58,25 @@ function App() {
           <ChatForm />
         </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
-          <UpdateServer />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+            <UpdateServer />
+            <UpdateChannel />
+          </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId" exact={true}>
-          <Servers />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId" exact={true}>
+            <Servers />
+          </ProtectedRoute>
 
-        <ProtectedRoute
-          path="/servers/:serverId/channels/:channelId"
-          exact={true}
-        >
-          <ChannelMessagesPage />
-        </ProtectedRoute>
-        <Route path="/" exact={true}>
-          <LandingPage />
-        </Route>
-        {/* <Route path="/channels/:channelId">
+          <ProtectedRoute
+            path="/servers/:serverId/channels/:channelId"
+            exact={true}
+          >
+            <ChannelMessagesPage />
+          </ProtectedRoute>
+          <Route path="/" exact={true}>
+            <LandingPage />
+          </Route>
+          {/* <Route path="/channels/:channelId">
           <ChannelMessagesPage />
         </Route> */}
       </Switch>

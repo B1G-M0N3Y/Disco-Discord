@@ -5,75 +5,76 @@ import { useSelectedServer } from "../../../context/ServerContext";
 import { createServer } from "../../../store/servers";
 import "./CreateServerFormModal.css";
 
-const CreateServerForm = ({setShowModal}) => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const currentUser = useSelector((state) => state.session.user)
-    const {selectedServer, setSelectedServer} = useSelectedServer()
+const CreateServerForm = ({ setShowModal }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const currentUser = useSelector((state) => state.session.user);
+  const { setSelectedServer } = useSelectedServer();
 
-    const [serverName, setServerName] = useState('');
-    const [imageURL, setImageURL] = useState('');
-    const [adminId, setAdminId] = useState(currentUser.id);
+  const [serverName, setServerName] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [adminId, setAdminId] = useState(currentUser.id);
 
-    const [validationErrors, setValidationErrors] = useState('');
+  const [validationErrors, setValidationErrors] = useState("");
 
-    useEffect(() => {
-        const errors = [];
+  useEffect(() => {
+    const errors = [];
 
-        if (!serverName || serverName.length < 100 || serverName.length < 5) {
-            errors.push("Please enter valid Server Name. Server Name must be more than 5 and less than 100 characters.");
-        }
+    if (!serverName || serverName.length < 100 || serverName.length < 5) {
+      errors.push(
+        "Please enter valid Server Name. Server Name must be more than 5 and less than 100 characters."
+      );
+    }
 
-        if (imageURL.length > 255) {
-            errors.push("Please enter a vaild Image URL. Image URL must be less than 255 characters");
-        }
+    if (imageURL.length > 255) {
+      errors.push(
+        "Please enter a vaild Image URL. Image URL must be less than 255 characters"
+      );
+    }
 
-        if (!adminId) {
-            errors.push("Please log in to create a new server");
-        }
+    if (!adminId) {
+      errors.push("Please log in to create a new server");
+    }
 
-        setValidationErrors(errors)
-    }, [serverName, imageURL, adminId])
+    setValidationErrors(errors);
+  }, [serverName, imageURL, adminId]);
 
-    const handleSubmit = async (e) => {
-        console.log("TESTING")
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    console.log("TESTING");
+    e.preventDefault();
 
-        let createServerInputs;
+    let createServerInputs;
 
-        if (validationErrors.length > 0)
-            createServerInputs = {
-                name: serverName,
-                image_url: imageURL,
-                admin_id: adminId
-            };
+    if (validationErrors.length > 0)
+      createServerInputs = {
+        name: serverName,
+        image_url: imageURL,
+        admin_id: adminId,
+      };
 
-        console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs)
+    console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs);
 
-        const newServer = await dispatch(createServer(createServerInputs));
-        // selectedServer(newServer);
-        // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
-        setShowModal(false)
-        if (newServer) {
-            setSelectedServer(newServer.id)
-            history.push(`/servers/${newServer.id}`);
-        }
-    };
+    const newServer = await dispatch(createServer(createServerInputs));
+    // selectedServer(newServer);
+    // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
+    setShowModal(false);
+    if (newServer) {
+      setSelectedServer(newServer.id);
+      history.push(`/servers/${newServer.id}`);
+    }
+  };
 
-    return (
-        <form
-        className='create-server-form'
-        onSubmit={handleSubmit}>
-
-        <div className="errors-create-server-form">
-            {validationErrors.length > 0 && (
-                <ul className="create-spot-errors">
-                    {validationErrors.map(e => (
-                        <li key={e}>{e}</li>
-                        ))}
-                </ul>
-            )}
-        </div>
+  return (
+    <form className="create-server-form" onSubmit={handleSubmit}>
+      <div className="errors-create-server-form">
+        {validationErrors.length > 0 && (
+          <ul className="create-spot-errors">
+            {validationErrors.map((e) => (
+              <li key={e}>{e}</li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <label id="title-create-new-server">CREATE NEW SERVER</label>
       <label id="title-create-server-input">Name of New Server</label>
