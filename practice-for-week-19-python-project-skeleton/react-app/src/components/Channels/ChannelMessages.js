@@ -159,34 +159,35 @@ const ChannelMessagesPage = () => {
               </div>
             ))}
           </div>
-
-          <form className="message-input-form" onSubmit={handleSubmit}>
-            <input
-              className="message-input"
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type here..."
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className={
-                validationErrors.length > 0
-                  ? "disabled-message"
-                  : "message-button"
-              }
-              onClick={handleSubmit}
-              disabled={!!validationErrors.length}
-            >
-              {validationErrors.length > 0 && (
-                <i class="fa-solid fa-paper-plane disabled-plane"></i>
-              )}
-              {validationErrors.length === 0 && (
-                <i class="fa-solid fa-paper-plane"></i>
-              )}
-            </button>
-          </form>
+          <div className="form-wrapper">
+            <form className="message-input-form" onSubmit={handleSubmit}>
+              <input
+                className="message-input"
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type here..."
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className={
+                  validationErrors.length > 0
+                    ? "disabled-message"
+                    : "message-button"
+                }
+                onClick={handleSubmit}
+                disabled={!!validationErrors.length}
+              >
+                {validationErrors.length > 0 && (
+                  <i class="fa-solid fa-paper-plane disabled-plane"></i>
+                )}
+                {validationErrors.length === 0 && (
+                  <i class="fa-solid fa-paper-plane"></i>
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       ) : (
         <div>No Chats To Display</div>

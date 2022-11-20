@@ -13,6 +13,7 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
+  overflow-x: hidden;
   width: 98%;
 }
 
@@ -40,8 +41,13 @@
 .message-section {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+}
+
+.form-wrapper {
+  width: 100%;
+  margin-right: 15px;
 }
 
 .flex-row-center {
