@@ -1,27 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 function ChatMessages({ chat_id }) {
-  console.log(chat_id, typeof chat_id, "chat id");
   const messages = useSelector(
     (state) => chat_id && state.chats[chat_id]?.chat_messages
   );
-
-  console.log("da messages", messages);
 
   return (
     <>
       {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
       {messages && messages.length > 0 ? (
         messages.map((message, idx) => (
-          // <div className="message-section">
-
           <div className="message" key={idx}>
             <div className="inner-message">
               <div className="flex-row-center">
                 <img
                   className="author-message-image"
-                  src={message?.author.imageUrl}
+                  src={message?.author.image_url}
                   alt={`${message?.author.username} chat pic`}
                 ></img>
                 <div className="message-text">
@@ -32,11 +27,11 @@ function ChatMessages({ chat_id }) {
               </div>
             </div>
           </div>
-
-          // </div>
         ))
       ) : (
-        <div>No Messages Found</div>
+        <div className="no-chat-messages">
+          No Messages Found <br /> Send A Groovy Message Below!
+        </div>
       )}
     </>
   );

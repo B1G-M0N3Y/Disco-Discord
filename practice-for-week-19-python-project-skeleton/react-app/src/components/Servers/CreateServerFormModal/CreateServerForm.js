@@ -40,7 +40,6 @@ const CreateServerForm = ({ setShowModal }) => {
   }, [serverName, imageURL, adminId]);
 
   const handleSubmit = async (e) => {
-    console.log("TESTING");
     e.preventDefault();
 
     let createServerInputs;
@@ -52,11 +51,7 @@ const CreateServerForm = ({ setShowModal }) => {
         admin_id: adminId,
       };
 
-    console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs);
-
     const newServer = await dispatch(createServer(createServerInputs));
-    // selectedServer(newServer);
-    // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
     setShowModal(false);
     if (newServer) {
       setSelectedServer(newServer.id);

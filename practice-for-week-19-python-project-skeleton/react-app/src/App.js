@@ -15,7 +15,6 @@ import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
-import { useSelectedChannels } from "./context/ChannelContext";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -41,7 +40,6 @@ function App() {
       <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}>
         <NavBar />
       </div>
-
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -61,7 +59,6 @@ function App() {
         <ProtectedRoute path="/chats/:chatId">
           <ChatForm />
         </ProtectedRoute>
-
         <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
           <UpdateServer />
           <UpdateChannel />
@@ -80,9 +77,6 @@ function App() {
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        {/* <Route path="/channels/:channelId">
-          <ChannelMessagesPage />
-        </Route> */}
       </Switch>
       <div
         className={!user?.id ? "logged-out-landing" : "left-right-columns"}
