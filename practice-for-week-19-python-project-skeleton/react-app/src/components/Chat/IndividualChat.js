@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSelectedChat } from "../../context/ChatContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { deleteChat } from "../../store/chat";
 
 const DEFAULT_IMAGE_URL =
@@ -19,6 +19,7 @@ function IndividualChat({ chat, setChat }) {
     chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
     "find index"
   );
+
   const { selectedChat, setSelectedChat } = useSelectedChat();
 
   const determineNextChatOnDelete = () => {
@@ -37,8 +38,8 @@ function IndividualChat({ chat, setChat }) {
     history.push(`/chats/${nextChatIndex}`);
   };
 
-  const handleDelete = (chatId) => {
-    dispatch(deleteChat(chatId));
+  const handleDelete = async (chatId) => {
+    await dispatch(deleteChat(chatId));
     // determineNextChatOnDelete();
     const indexOfChatInChatsArr = chatsArr?.findIndex(
       (chatIdx) => chatIdx === chat.id
@@ -52,7 +53,8 @@ function IndividualChat({ chat, setChat }) {
     console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
     setSelectedChat(nextChatIndex);
     console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
-    history.push(`/chats/${nextChatIndex}`);
+
+    return history.push(`/chats/${nextChatIndex}`);
   };
 
   let chatSelector;
