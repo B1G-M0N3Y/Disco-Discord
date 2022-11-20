@@ -75,6 +75,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
     await dispatch(addServerMember(serverId, userId));
+    await dispatch(getServers());
     return history.push(`/servers/${serverId}`);
     // }
   };
@@ -84,8 +85,8 @@ const NewServerMember = ({ serverId, currMembers }) => {
     setValidationErrors([]);
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
-    dispatch(removeServerMember(serverId, memberId));
-    dispatch(getMembers());
+    await dispatch(removeServerMember(serverId, memberId));
+    await dispatch(getServers());
     revert();
     return history.push(`/servers/${serverId}`);
     // }
@@ -158,7 +159,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           <option value="" disabled selected>
             Select an member to remove...
           </option>
-          {membersArr?.map((user) => {
+          {servers[serverId]?.server_members.map((user) => {
             return <option key={user.username}>{user.username}</option>;
           })}
         </select>
