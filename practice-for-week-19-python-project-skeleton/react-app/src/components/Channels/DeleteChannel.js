@@ -66,8 +66,8 @@ const UpdateChannel = ({ server }) => {
     if (channelSelect === []) errors.push("Please select a channel.");
     if (channelId === undefined) errors.push("Please select a channel.");
     if (!name) errors.push("Please enter a name.");
-    if (arrOfNames.includes(name)) errors.push("Channel names must be unique.");
-    if (user.id !== servers[serverId].admin_id)
+    if (arrOfNames?.includes(name)) errors.push("Channel names must be unique.");
+    if (user.id !== servers[serverId]?.admin_id)
       errors.push("Only the admin can make channel edits.");
     setEditErrors(errors);
   }, [channelSelect, channelId, name]);
@@ -78,7 +78,7 @@ const UpdateChannel = ({ server }) => {
     setDeleteErrors(errors);
     if (channelSelect === []) errors.push("Please select a channel.");
     if (channelId === undefined) errors.push("Please select a channel.");
-    if (user.id !== servers[serverId].admin_id)
+    if (user.id !== servers[serverId]?.admin_id)
       errors.push("Only the admin can make channel edits.");
     setDeleteErrors(errors);
   }, [channelSelect, channelId]);
@@ -87,7 +87,8 @@ const UpdateChannel = ({ server }) => {
     e.preventDefault();
     revert();
     await dispatch(deleteChannel(channelId));
-    return history.push(`/`);
+    await dispatch(getServers());
+    return history.push(`/servers/${serverId}/edit`);
   };
 
   const editHandler = async (e) => {
@@ -99,8 +100,9 @@ const UpdateChannel = ({ server }) => {
     revert();
     // a user needs to be the admin in order to allow editing
     if (user.id === servers[serverId].admin_id) {
-      dispatch(updateChannel(channelBody, channelId));
-      return history.push(`/`);
+      await dispatch(updateChannel(channelBody, channelId));
+      await dispatch(getServers());
+      return history.push(`/servers/${serverId}/edit`);
     }
   };
 
@@ -138,12 +140,13 @@ const UpdateChannel = ({ server }) => {
                   {err}
                 </li>
               ))}
-            {deleteErrors.length > 0 &&
+              {/* Commented out to prevent double errors displaying */}
+            {/* {deleteErrors.length > 0 &&
               deleteErrors.map((err) => (
                 <li id="err" key={err}>
                   {err}
                 </li>
-              ))}
+              ))} */}
           </ul>
           <button
             className="edit-server-submit"

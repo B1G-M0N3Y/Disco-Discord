@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel, getCurrentChannels } from "../../../store/channels";
+import { getChannelMessages } from "../../../store/channel_messages";
 import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
@@ -43,9 +44,11 @@ const CreateChannelForm = ({ setShowModal }) => {
 
     // Forcing re-render
     if (newChannel) {
-      dispatch(getServers());
-      dispatch(getCurrentChannels(selectedServer));
+      await dispatch(getServers());
+      await dispatch(getCurrentChannels(selectedServer));
+      await dispatch(getChannelMessages(newChannel.id));
       setShowModal(false);
+      console.log('ma new channel', newChannel);
       history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
     }
   };

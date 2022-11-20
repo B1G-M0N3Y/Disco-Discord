@@ -16,7 +16,6 @@ const Servers = () => {
   const { serverId } = useParams();
 
   const servers = useSelector((state) => state.servers.servers);
-  console.log(Object.values(servers)[0]?.channels[0]?.messages, "messages");
   const [server, setServer] = useState(Object.values(servers)[0]);
   // const [channel, setChannel] = useState(
   //   Object.values(servers)[0]?.channels[0]
