@@ -56,25 +56,29 @@ function App() {
           <ChatForm />
         </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
-          <UpdateServer />
-          <UpdateChannel />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+            <UpdateServer />
+            <UpdateChannel />
+          </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId" exact={true}>
-          <Servers />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId" exact={true}>
+            <Servers />
+          </ProtectedRoute>
 
-        <ProtectedRoute
-          path="/servers/:serverId/channels/:channelId"
-          exact={true}
-        >
+          <ProtectedRoute
+            path="/servers/:serverId/channels/:channelId"
+            exact={true}
+          >
+            <ChannelMessagesPage />
+          </ProtectedRoute>
+          <Route path="/" exact={true}>
+            <LandingPage />
+          </Route>
+          {/* <Route path="/channels/:channelId">
           <ChannelMessagesPage />
-        </ProtectedRoute>
-        <Route path="/" exact={true}>
-          <LandingPage />
-        </Route>
-      </Switch>
+        </Route> */}
+        </Switch>
+        <div className="member-list"></div>
     </BrowserRouter>
   );
 }

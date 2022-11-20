@@ -18,18 +18,19 @@ let socket;
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState();
   const [allMessages, setAllMessages] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
-  const {selectedServer, setSelectedServer} = useSelectedServer()
+  const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel } = useSelectedChannels();
-  const {channelId, serverId } = useParams();
+  const { channelId, serverId } = useParams();
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(channelId));
-    setSelectedServer(serverId)
+    setSelectedServer(serverId);
   }, [dispatch, selectedChannel]);
 
   // when leaving the page...
@@ -68,6 +69,14 @@ const ChannelMessagesPage = () => {
     };
   }, [channelId]);
 
+  // error validations
+  useEffect(() => {
+    let errors = [];
+    setValidationErrors(errors);
+    if (!newMessage) errors.push("Please enter a message body.");
+    setValidationErrors(errors);
+  }, [newMessage]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -80,9 +89,7 @@ const ChannelMessagesPage = () => {
       channel_id: channelId,
       body: newMessage,
     };
-    const response = await dispatch(
-      newChannelMessage(channelId, dbMsg)
-    );
+    const response = await dispatch(newChannelMessage(channelId, dbMsg));
     dispatch(addMessage(response));
     dispatch(getChannelMessages(channelId));
     socket.emit("channelmessage", response);
@@ -100,29 +107,34 @@ const ChannelMessagesPage = () => {
           <div className="all-messages">
             {Object.values(messageStore).map((message) => (
               <div className="message">
-                {/* TODO: ADD DELETE BUTTON IF OWNER */}
-                <img
-                  alt={message.id}
-                  src={message.message_author.image_url}
-                  className="author-message-image"
-                ></img>
-                <div className="message-text">
-                  <p className="username-message">
-                    {message.message_author.username}
-                  </p>
-                  <p className="message-body">{message.body}</p>
-                </div>
-                <div className="flex-row-end trash">
-                  {message?.user_id === user?.id && (
-                    <i
-                      className="fa-regular fa-trash-can"
-                      onClick={async () => {
-                        await dispatch(deleteChannelMessage(message?.id));
-                        dispatch(getChannelMessages(channelId));
-                        return history.push(`/servers/${serverId}/channels/${channelId}`);
-                      }}
-                    ></i>
-                  )}
+                <div className="inner-message">
+                  <div className="flex-row-center">
+                    <img
+                      alt={message.id}
+                      src={message.message_author.image_url}
+                      className="author-message-image"
+                    ></img>
+                    <div className="message-text">
+                      <p className="username-message">
+                        {message.message_author.username}
+                      </p>
+                      <p className="message-body">{message.body}</p>
+                    </div>
+                  </div>
+                  <div className="flex-row-end trash">
+                    {message?.user_id === user?.id && (
+                      <i
+                        className="fa-regular fa-trash-can"
+                        onClick={async () => {
+                          await dispatch(deleteChannelMessage(message?.id));
+                          dispatch(getChannelMessages(channelId));
+                          return history.push(
+                            `/servers/${serverId}/channels/${channelId}`
+                          );
+                        }}
+                      ></i>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -147,23 +159,35 @@ const ChannelMessagesPage = () => {
               </div>
             ))}
           </div>
-          <form className="message-input-form" onSubmit={handleSubmit}>
-            <input
-              className="message-input"
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type here..."
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="message-button"
-              onClick={handleSubmit}
-            >
-              <i class="fa-solid fa-paper-plane"></i>
-            </button>
-          </form>
+          <div className="form-wrapper">
+            <form className="message-input-form" onSubmit={handleSubmit}>
+              <input
+                className="message-input"
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type here..."
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className={
+                  validationErrors.length > 0
+                    ? "disabled-message"
+                    : "message-button"
+                }
+                onClick={handleSubmit}
+                disabled={!!validationErrors.length}
+              >
+                {validationErrors.length > 0 && (
+                  <i class="fa-solid fa-paper-plane disabled-plane"></i>
+                )}
+                {validationErrors.length === 0 && (
+                  <i class="fa-solid fa-paper-plane"></i>
+                )}
+              </button>
+            </form>
+          </div>
         </div>
       ) : (
         <div>No Chats To Display</div>

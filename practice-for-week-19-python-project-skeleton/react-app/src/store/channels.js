@@ -53,7 +53,7 @@ export const createChannel = (payload, serverId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addOrUpdate(data));
-    return response;
+    return data;
   }
 };
 
