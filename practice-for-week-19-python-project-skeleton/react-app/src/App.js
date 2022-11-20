@@ -13,7 +13,6 @@ import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
-import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
 
@@ -36,32 +35,26 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="row-layout">
-        <NavBar />
-        <Switch>
-          <Route path="/login" exact={true}>
-            <LoginForm />
-          </Route>
-          <Route path="/sign-up" exact={true}>
-            <SignUpForm />
-          </Route>
-          <ProtectedRoute path="/users" exact={true}>
-            <UsersList />
-          </ProtectedRoute>
-
-          {/* <ProtectedRoute path="/servers/delete" exact={true}>
-          <DeleteServer />
-        </ProtectedRoute> */}
-
-          <ProtectedRoute path="/users/:userId" exact={true}>
-            <User />
-          </ProtectedRoute>
-          <ProtectedRoute path="/servers/new" exact={true}>
-            <CreateServerForm />
-          </ProtectedRoute>
-          <ProtectedRoute path="/chats/:chatId">
-            <ChatForm />
-          </ProtectedRoute>
+      <NavBar />
+      <Switch>
+        <Route path="/login" exact={true}>
+          <LoginForm />
+        </Route>
+        <Route path="/sign-up" exact={true}>
+          <SignUpForm />
+        </Route>
+        <ProtectedRoute path="/users" exact={true}>
+          <UsersList />
+        </ProtectedRoute>
+        <ProtectedRoute path="/users/:userId" exact={true}>
+          <User />
+        </ProtectedRoute>
+        <ProtectedRoute path="/servers/new" exact={true}>
+          <CreateServerForm />
+        </ProtectedRoute>
+        <ProtectedRoute path="/chats/:chatId">
+          <ChatForm />
+        </ProtectedRoute>
 
           <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
             <UpdateServer />

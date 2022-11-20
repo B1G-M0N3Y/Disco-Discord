@@ -7,9 +7,7 @@ import {
   getServers,
   deleteServerThunk,
 } from "../../../store/servers";
-import { getCurrentChannels } from "../../../store/channels";
 import { useSelectedServer } from "../../../context/ServerContext.js";
-import DeleteChannel from "../../Channels/DeleteChannel.js";
 import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = () => {
@@ -19,11 +17,6 @@ const UpdateServer = () => {
   const { serverId } = useParams();
   const userId = useSelector((state) => state.session.user.id);
   const servers = useSelector((state) => state.servers.servers);
-  const channels = useSelector((state) => state.channels.channels);
-  const currServer = useSelector((state) => state.servers.currentServer);
-  const serverArr = Object.values(servers);
-  // identify the server that matches the id from url
-  // const thisServer = serverArr.find((item) => item.id === server?.id);
   // // getters and setters for update song form
   const [name, setName] = useState(servers[serverId]?.name);
   console.log("name", name);
@@ -32,12 +25,11 @@ const UpdateServer = () => {
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
-
   // when leaving the page:
   // get servers, then all servers
   // so deleted server is removed immediately
   useEffect(() => {
-    setSelectedServer(serverId)
+    setSelectedServer(serverId);
     return () => {
       dispatch(getOneServer(serverId));
       dispatch(getServers());
@@ -80,7 +72,6 @@ const UpdateServer = () => {
   const deleteHandler = async (e) => {
     e.preventDefault();
     await dispatch(deleteServerThunk(serverId));
-    // alert("Server Successfully Deleted");
     return history.push("/");
   };
 
@@ -132,17 +123,13 @@ const UpdateServer = () => {
           </form>
         </div>
         <div className="delete-channel">
-          <div>
-            {/* {userId === servers[serverId].admin_id && (
-              <DeleteChannel server={servers[serverId]} />
-            )} */}
-          </div>
+          <div></div>
         </div>
       </div>
     );
   } else {
-    history.push(`/server/${serverId}`)
-    return null
+    history.push(`/server/${serverId}`);
+    return null;
   }
 };
 
