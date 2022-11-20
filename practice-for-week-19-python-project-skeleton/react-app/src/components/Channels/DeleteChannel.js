@@ -16,6 +16,7 @@ const UpdateServer = ({ server }) => {
   const [channelId, setChannelId] = useState();
   const [channelSelect, setChannelSelect] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
+  const [channelName, setChannelName] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
   console.log(server?.id, "serverID in form");
@@ -23,13 +24,13 @@ const UpdateServer = ({ server }) => {
   useEffect(() => {
     return () => {
       dispatch(getServers());
-      dispatch(getOneServer(selectedServer.id));
-      getCurrentChannels(selectedServer.id);
+      dispatch(getOneServer(selectedServer?.id));
+      getCurrentChannels(selectedServer?.id);
     };
   }, [dispatch]);
 
   useEffect(() => {
-    let selected = channelsArr.find(
+    let selected = server.channels.find(
       (channel) => channel.name === channelSelect
     );
     setChannelId(selected?.id);
@@ -60,12 +61,22 @@ const UpdateServer = ({ server }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setValidationErrors([]);
+    console.log('da id', channelId)
     // a user needs to be the admin in order to allow editing
     if (user.id === server?.admin_id) {
-      dispatch(deleteChannel(channelId));
-      return history.push("/");
+      // dispatch(deleteChannel(channelId));
+      // return history.push(`/servers/${selectedServer}`);
+      await fetch(`/channels/${channelId}`,{
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({name: channelName})
+      })
+      history.push(`/servers/${selectedServer}/channels/${channelId}`)
     }
   };
+
 
   if (!Object.values(servers).length) return null;
 
@@ -73,8 +84,8 @@ const UpdateServer = ({ server }) => {
     <div className="wrapper-container">
       <div className="edit-container">
         <br></br>
+        <div className="edit-title">Update or Delete Channel:</div>
         <form className="delete-channel-form" onSubmit={handleSubmit}>
-          <div className="edit-title">Delete Channel:</div>
           <select
             onChange={updateChannel}
             value={channelSelect}
@@ -83,10 +94,16 @@ const UpdateServer = ({ server }) => {
             <option value="" disabled selected>
               Select an channel...
             </option>
-            {channelsArr.map((channel) => {
-              return <option key={channel.name}>{channel.name}</option>;
+            {server.channels.map((channel) => {
+              return <option key={channel.name} value={channel.id}>{channel.name}</option>;
             })}
           </select>
+          <input
+            type="text"
+            value={channelName}
+            onChange={(e) => setChannelName(e.target.value)}
+          ></input>
+          <button type="submit"> Update Name</button>
           <ul className="errors">
             {validationErrors.length > 0 &&
               validationErrors.map((err) => (
@@ -97,7 +114,7 @@ const UpdateServer = ({ server }) => {
           </ul>
           <button
             className="edit-server-submit"
-            type="submit"
+            // type="submit"
             disabled={!!validationErrors.length}
           >
             Delete Channel
