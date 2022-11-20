@@ -107,31 +107,34 @@ const ChannelMessagesPage = () => {
           <div className="all-messages">
             {Object.values(messageStore).map((message) => (
               <div className="message">
-                {/* TODO: ADD DELETE BUTTON IF OWNER */}
-                <img
-                  alt={message.id}
-                  src={message.message_author.image_url}
-                  className="author-message-image"
-                ></img>
-                <div className="message-text">
-                  <p className="username-message">
-                    {message.message_author.username}
-                  </p>
-                  <p className="message-body">{message.body}</p>
-                </div>
-                <div className="flex-row-end trash">
-                  {message?.user_id === user?.id && (
-                    <i
-                      className="fa-regular fa-trash-can"
-                      onClick={async () => {
-                        await dispatch(deleteChannelMessage(message?.id));
-                        dispatch(getChannelMessages(channelId));
-                        return history.push(
-                          `/servers/${serverId}/channels/${channelId}`
-                        );
-                      }}
-                    ></i>
-                  )}
+                <div className="inner-message">
+                  <div className="flex-row-center">
+                    <img
+                      alt={message.id}
+                      src={message.message_author.image_url}
+                      className="author-message-image"
+                    ></img>
+                    <div className="message-text">
+                      <p className="username-message">
+                        {message.message_author.username}
+                      </p>
+                      <p className="message-body">{message.body}</p>
+                    </div>
+                  </div>
+                  <div className="flex-row-end trash">
+                    {message?.user_id === user?.id && (
+                      <i
+                        className="fa-regular fa-trash-can"
+                        onClick={async () => {
+                          await dispatch(deleteChannelMessage(message?.id));
+                          dispatch(getChannelMessages(channelId));
+                          return history.push(
+                            `/servers/${serverId}/channels/${channelId}`
+                          );
+                        }}
+                      ></i>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -156,6 +159,7 @@ const ChannelMessagesPage = () => {
               </div>
             ))}
           </div>
+
           <form className="message-input-form" onSubmit={handleSubmit}>
             <input
               className="message-input"
