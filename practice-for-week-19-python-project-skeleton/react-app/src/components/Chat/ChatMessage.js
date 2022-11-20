@@ -17,7 +17,7 @@ function ChatMessages({ chat_id }) {
               <div className="flex-row-center">
                 <img
                   className="author-message-image"
-                  src={message?.author.imageUrl}
+                  src={message?.author.image_url}
                   alt={`${message?.author.username} chat pic`}
                 ></img>
                 <div className="message-text">
