@@ -10,12 +10,18 @@ const LandingPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
+  const servers = useSelector((state) => state.servers.servers);
   const allServers = useSelector((state) => state.servers.allServers);
-  const serversArr = Object.values(allServers).slice(0, 9);
+  const serversArr = Object.values(allServers);
+  let firstNine = serversArr.slice(0, 9);
 
   useEffect(() => {
     dispatch(getAllServers());
-  }, []);
+    return () => {
+      dispatch(getAllServers());
+    };
+  }, [servers]);
+
   console.log(allServers, "all servers");
 
   // Logs in a default demo user
@@ -49,51 +55,19 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="server-card-container">
-              {/* TODO: Write Loop For all public servers */}
-              {serversArr.map((server) => {
+              {firstNine?.map((server) => {
                 let isAqua = isEven(server.id);
                 return (
                   <>
                     <button
                       id={isAqua ? "sc-1" : "sc-2"}
-                      onClick={() => history.push("/servers/1")}
-                    ></button>
+                      onClick={() => history.push(`/servers/${server.id}`)}
+                    >
+                      {server.name}
+                    </button>
                   </>
                 );
               })}
-
-              <button
-                id="sc-2"
-                onClick={() => history.push("/servers/2")}
-              ></button>
-              <button
-                id="sc-1"
-                onClick={() => history.push("/servers/3")}
-              ></button>
-              <button
-                id="sc-2"
-                onClick={() => history.push("/servers/4")}
-              ></button>
-              <button
-                id="sc-1"
-                onClick={() => history.push("/servers/5")}
-              ></button>
-              <button
-                id="sc-2"
-                onClick={() => history.push("/servers/6")}
-              ></button>
-              <button
-                id="sc-1"
-                onClick={() => history.push("/servers/7")}
-              ></button>
-              <button
-                id="sc-2"
-                onClick={() => history.push("/servers/8")}
-              ></button>
-              <button
-                id="sc-1"
-                onClick={() => history.push("/servers/9")}
-              ></button>
             </div>
           </div>
         </div>
