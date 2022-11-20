@@ -48,10 +48,10 @@ export const addServerMember = (serverId, userId) => async (dispatch) => {
   const response = await fetch(`/api/servers/${serverId}/members`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: {
+    body: JSON.stringify({
       user_id: userId,
       server_id: serverId,
-    },
+    }),
   });
 
   if (response.ok) {
