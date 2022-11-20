@@ -11,13 +11,48 @@ function IndividualChat({ chat, setChat }) {
   const dispatch = useDispatch();
   const history = useHistory();
   // getters and setters
-  const [setChats] = useState([]);
   const user = useSelector((state) => state.session.user);
+  const chats = useSelector((state) => state.chats);
 
+  const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
+  console.log(
+    chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
+    "find index"
+  );
   const { selectedChat, setSelectedChat } = useSelectedChat();
+
+  const determineNextChatOnDelete = () => {
+    const indexOfChatInChatsArr = chatsArr?.findIndex(
+      (chatIdx) => chatIdx === chat.id
+    );
+    let nextChatIndex;
+    if (indexOfChatInChatsArr === 0) {
+      nextChatIndex = chatsArr[indexOfChatInChatsArr + 1];
+    } else {
+      nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
+    }
+    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
+    setSelectedChat(nextChatIndex);
+    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
+    history.push(`/chats/${nextChatIndex}`);
+  };
 
   const handleDelete = (chatId) => {
     dispatch(deleteChat(chatId));
+    // determineNextChatOnDelete();
+    const indexOfChatInChatsArr = chatsArr?.findIndex(
+      (chatIdx) => chatIdx === chat.id
+    );
+    let nextChatIndex;
+    if (indexOfChatInChatsArr === 0) {
+      nextChatIndex = chatsArr[indexOfChatInChatsArr + 1];
+    } else {
+      nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
+    }
+    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
+    setSelectedChat(nextChatIndex);
+    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
+    history.push(`/chats/${nextChatIndex}`);
   };
 
   let chatSelector;
@@ -57,14 +92,6 @@ function IndividualChat({ chat, setChat }) {
           alt={otherUser?.username}
         ></img>
         <p className="chat-nav-username">{otherUser?.username}</p>
-        <div>
-          <i
-            class="fa-solid fa-x"
-            onClick={() => {
-              handleDelete(chat.id);
-            }}
-          ></i>
-        </div>
       </>
     );
   }
@@ -74,7 +101,6 @@ function IndividualChat({ chat, setChat }) {
     async function fetchData() {
       const response = await fetch("/api/chat/");
       const responseData = await response.json();
-      setChats(responseData);
     }
     fetchData();
   }, []);
@@ -94,6 +120,16 @@ function IndividualChat({ chat, setChat }) {
           }}
         >
           {chatSelector}
+          {chat.adminId === user.id && (
+            <div className="delete-chat-button-container">
+              <i
+                class="fa-solid fa-x delete-chat-button"
+                onClick={() => {
+                  handleDelete(chat.id);
+                }}
+              ></i>
+            </div>
+          )}
         </div>
       </div>
     </>

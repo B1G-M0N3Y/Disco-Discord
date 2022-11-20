@@ -180,3 +180,13 @@
 .selected-chat {
   background-color: #50505033;
 }
+
+.delete-chat-button {
+  margin-right: 20px;
+}
+
+.delete-chat-button-container {
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 100%;
+}
