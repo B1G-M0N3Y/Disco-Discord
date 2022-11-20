@@ -10,16 +10,6 @@ ul {
   margin: 20px 50px;
 }
 
-.message-section {
-  overflow-y: scroll;
-  white-space: nowrap;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-
 .message-history-chat {
   display: flex;
   flex-direction: column;

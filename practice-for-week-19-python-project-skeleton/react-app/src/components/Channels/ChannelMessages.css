@@ -13,7 +13,7 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   height: 100%;
   width: 98%;
 }
