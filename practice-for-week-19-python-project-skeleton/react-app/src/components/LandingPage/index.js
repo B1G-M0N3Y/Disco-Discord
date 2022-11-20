@@ -25,23 +25,37 @@ const LandingPage = () => {
 
   return (
     <>
-      <div class="landing-page">
-        <div class="neon-title">
-          <h2>FOLLOW THE CALL</h2>
-          <h2>OF THE</h2>
-          <h2>DISCO BALL</h2>
-          {/* <h2>FOLLOW THE CALL OF THE DISCO BALL</h2> */}
-          {/* <h1>Follow the Call</h1>
-          <h2>of the</h2>
-          <h1>Disco Ball</h1> */}
+      {currentUser && (
+        <div>
+            <div class="logged-in-landing">
+              <div class="logged-in-neon-title">
+                <h2>BAD DECISIONS MAKE BETTER STORIES</h2>
+                <h1>let's create memories</h1>
+              </div>
+              <div className="server-card-container">
+                {/* TODO: Write Loop For all public servers */}
+                  <h2 id="sc-1">1</h2>
+                  <h2 id="sc-2">2</h2>
+                  <h2 id="sc-1">3</h2>
+                  <h2 id="sc-2">4</h2>
+                  <h2 id="sc-1">5</h2>
+                  <h2 id="sc-2">6</h2>
+                  <h2 id="sc-1">7</h2>
+                  <h2 id="sc-2">8</h2>
+                  <h2 id="sc-1">9</h2>
+              </div>
+            </div>
         </div>
+      )}
 
-        {currentUser && (
-          <div>
+      {!currentUser && (
+        <div class="landing-page">
+          <div class="neon-title">
+            <h2>follow the call</h2>
+            <h2>of the</h2>
+            <h2>disco ball</h2>
           </div>
-        )}
 
-        {!currentUser && (
           <div className="auth-container">
             <div>
               <button
@@ -50,24 +64,25 @@ const LandingPage = () => {
                 <h2>LOGIN</h2>
               </button>
             </div>
+
             <div>
               <button
                 className="landing-buttons" id="lb-2"
-                onClick={() => history.push("/signup")}>
+                onClick={() => history.push("/sign-up")}>
                 <h2>SIGN UP</h2>
               </button>
             </div>
+
             <div>
               <button
                 className="demo-button"
                 onClick={() => loginDemoUser()}
-              >
-                LET'S BOOGIE
+              > let's boogie
               </button>
             </div>
           </div>
+        </div>
         )}
-      </div>
     </>
   );
 };
