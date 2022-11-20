@@ -38,7 +38,7 @@ const LandingPage = () => {
   return (
     <>
       {currentUser && (
-        <div>
+        <div className="message-section">
           <div class="logged-in-landing">
             <div class="logged-in-neon-title">
               <div id="title-1">
