@@ -18,7 +18,6 @@ export const addChat = (chat) => {
 };
 
 export const addChatMessage = (chat_message) => {
-  console.log(chat_message, typeof chat_message, "addCHATMESSAGE");
   return {
     type: ADD_CHAT_MESSAGE,
     chat_message: { ...chat_message },
@@ -75,7 +74,6 @@ export const newChat = (chat) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addChat(data));
-    console.log(data, "addCHAT DATA");
     return data;
   } else {
     alert("Error Occurred during Create Chat");

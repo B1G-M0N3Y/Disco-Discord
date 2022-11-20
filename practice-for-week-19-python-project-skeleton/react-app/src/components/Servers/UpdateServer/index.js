@@ -19,9 +19,7 @@ const UpdateServer = () => {
   const servers = useSelector((state) => state.servers.servers);
   // // getters and setters for update song form
   const [name, setName] = useState(servers[serverId]?.name);
-  console.log("name", name);
   const [imageUrl, setImageUrl] = useState(servers[serverId]?.imageUrl);
-  console.log("image url", imageUrl);
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
@@ -43,17 +41,6 @@ const UpdateServer = () => {
     setName(name);
     setImageUrl(imageUrl);
   };
-
-  // form validations
-  // useEffect(() => {
-  //   const errors = [];
-  //   setValidationErrors(errors);
-  //   if (!name) errors.push("Server name is required.");
-  //   if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
-  //   // TODO if (user.id !== server?.admin_id)
-  //   //   errors.push("Only the admin can update this server.");
-  //   setValidationErrors(errors);
-  // }, [name, imageUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

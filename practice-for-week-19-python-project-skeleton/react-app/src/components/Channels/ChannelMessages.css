@@ -74,10 +74,6 @@
   align-items: flex-end;
 }
 
-.trash {
-  /* border: 1px solid aqua; */
-}
-
 .message:hover .fa-trash-can {
   visibility: visible;
   opacity: 1;
@@ -119,7 +115,6 @@
   width: 38px;
   height: 38px;
   font-size: 1.2em;
-  padding-right: 37px;
 }
 
 .message-button:hover {
@@ -158,6 +153,7 @@
 .message-text {
   margin-left: 25px;
   height: 100%;
+  z-index: -1;
 }
 
 .message-text p {

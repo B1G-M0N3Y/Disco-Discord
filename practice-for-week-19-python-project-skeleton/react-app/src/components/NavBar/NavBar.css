@@ -193,8 +193,8 @@
 
 .create-chat-dropdown {
   position: absolute;
-  /* left: 290px;
-  top: 20px; */
+  left: 290px;
+  top: 20px;
   background-color: #3c308c;
   border: 5px solid #7d40bf;
   border-radius: 5px;
@@ -203,6 +203,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1;
 }
 
 .create-chat-option {

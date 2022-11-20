@@ -30,11 +30,6 @@ function ChatForm() {
       console.log("***CONNECTED TO WEB SOCKET");
     });
 
-    socket.on("join", (data) => {
-      console.log("JOIN ROOM ***");
-      console.log(data);
-    });
-
     socket.on("newmessage", (data) => {
       console.log(data, typeof data, "INCOMING MESSAGE****");
       dispatch(addChatMessage(data));
@@ -62,9 +57,7 @@ function ChatForm() {
     e.preventDefault();
     if (text.length === 0) return;
     const message = { body: text, chat_id: chatId };
-    console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
-    console.log(response, "fetch response");
     socket.emit("newmessage", response);
     setText("");
   };
