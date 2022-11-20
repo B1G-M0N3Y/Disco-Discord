@@ -1,0 +1,27 @@
+.login-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 50%;
+    background-color: red;
+    margin-top: 40%; */
+    /* text-align: center;
+    border: white solid 20px;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    width: 50%;
+    height: 50%;
+    align-items: center; */
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+
+.login-form {
+    display: grid;
+    /* place-items: center; */
+}
