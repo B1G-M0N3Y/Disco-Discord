@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useSelectedServer } from "../../context/ServerContext";
 import { getServers } from "../../store/servers";
-import { getAllUsers, removeServerMember, setServerUsers } from "../../store/users";
+import {
+  getAllUsers,
+  removeServerMember,
+  setServerUsers,
+} from "../../store/users";
 import Servers from "../Servers";
 import NewServerMember from "./NewServerMember";
 // import { getServerMembers } from "../../store/servers";
@@ -17,8 +21,9 @@ function ServerMembers() {
   const [members, setMembers] = useState([]);
   const [deleted, setDeleted] = useState([]);
   const { selectedServer } = useSelectedServer();
-  const servers = useSelector(state => state.servers.servers)
-  const currServer = servers[selectedServer]
+  const servers = useSelector((state) => state.servers.servers);
+  const currUser = useSelector((state) => state.session.user);
+  const currServer = servers[selectedServer];
   // get server member state
   // const membersObj = useSelector((state) => state.servers.members);
   // const membersArr = Object.values(membersObj);
@@ -27,14 +32,14 @@ function ServerMembers() {
 
   console.log("selected", selectedServer);
 
-  if (currServer?.server_members) membersArr = Object.values(currServer?.server_members);
+  if (currServer?.server_members)
+    membersArr = Object.values(currServer?.server_members);
 
   console.log("da members", membersArr);
   // get server members with id from url
   // useEffect(() => {
   //   // dispatch(getServerMembers(serverId));
   // }, [dispatch, selectedServer]);
-
 
   // fetch users
   useEffect(() => {
@@ -44,7 +49,7 @@ function ServerMembers() {
       setMembers(responseData.users);
     }
     fetchData();
-    setServerUsers(currServer?.server_members)
+    setServerUsers(currServer?.server_members);
   }, []);
 
   // useEffect(() => {
@@ -53,9 +58,9 @@ function ServerMembers() {
   // },[deleted, membersArr])
 
   const removeMember = async (userId) => {
-    dispatch(removeServerMember(selectedServer, userId))
-    dispatch(getServers())
-    membersArr = membersArr.filter(member => member.id !== userId)
+    dispatch(removeServerMember(selectedServer, userId));
+    dispatch(getServers());
+    membersArr = membersArr.filter((member) => member.id !== userId);
   };
 
   // find one user
@@ -64,12 +69,11 @@ function ServerMembers() {
     return user;
   };
 
+  const rawahaLog = (str) => {
+    console.log(str);
+  };
 
-  const rawahaLog = (str) =>{
-    console.log(str)
-  }
-
-  console.log("admin id", selectedServer?.admin_id)
+  console.log("admin id", selectedServer?.admin_id);
   return (
     <div>
       <h1>Member List: </h1>
@@ -77,13 +81,11 @@ function ServerMembers() {
       {membersArr.map((member) => (
         <div>
           <p>{member.username}</p>
-          {rawahaLog(member.id)}
-          {member.id !== selectedServer?.admin_id && (
-            <i onClick={() => removeMember(member.id)} class="fa-solid fa-user-minus"></i>
-          )}
         </div>
       ))}
-      <NewServerMember serverId={selectedServer} currMembers={membersArr} />
+      {currServer.admin_id === currUser.id && (
+        <NewServerMember serverId={selectedServer} currMembers={membersArr} />
+      )}
     </div>
   );
 }
