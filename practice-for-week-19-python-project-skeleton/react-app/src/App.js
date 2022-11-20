@@ -15,7 +15,6 @@ import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
-import { useSelectedChannels } from "./context/ChannelContext";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
