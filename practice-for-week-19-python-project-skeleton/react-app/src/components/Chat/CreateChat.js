@@ -72,23 +72,30 @@ const CreateChat = () => {
           }}
         ></i>
         {showAdd && (
-          <div>
+          <div className="create-chat-dropdown">
+            <div>Select Friends</div>
             <form onSubmit={handleSubmit}>
               {users &&
                 users.map((user, idx) => (
-                  <div>
+                  <div className="create-chat-option">
                     <label key={idx}>
                       {" "}
                       <input
                         type="checkbox"
                         onChange={checkBox}
                         value={user?.id}
+                        className="create-chat-checkbox"
                       />
                       {user?.username}
                     </label>
                   </div>
                 ))}
-              <input type="submit" disabled={disabled} />
+              <input
+                type="submit"
+                disabled={disabled}
+                className="create-chat-submit"
+                value="Create A Chat"
+              />
             </form>
           </div>
         )}

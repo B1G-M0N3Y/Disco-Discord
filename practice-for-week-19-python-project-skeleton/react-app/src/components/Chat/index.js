@@ -27,9 +27,9 @@ function Chat() {
       <div>
         <div className="server-name">
           <div className="width-90">Chats</div>
+          <CreateChat />
         </div>
         <hr />
-        <CreateChat />
         {chats ? (
           Object.values(chats)?.map((chat, idx) => (
             <IndividualChat chat={chat} />
