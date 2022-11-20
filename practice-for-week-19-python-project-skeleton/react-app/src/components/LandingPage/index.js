@@ -24,23 +24,19 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="landing-page">
-        <h1>Welcome to the party!</h1>
+      <div class="landing-page">
+        <div class="neon-title">
+          <h2>FOLLOW THE CALL</h2>
+          <h2>OF THE</h2>
+          <h2>DISCO BALL</h2>
+          {/* <h2>FOLLOW THE CALL OF THE DISCO BALL</h2> */}
+          {/* <h1>Follow the Call</h1>
+          <h2>of the</h2>
+          <h1>Disco Ball</h1> */}
+        </div>
+
         {currentUser && (
           <div>
-            <h3>Explore our open clubs:</h3>
-            {/*displays a grid of available public servers */}
-            <div className="server-card-container">
-              {/* TODO: Write Loop For all public servers */}
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-              <ServerCard />
-            </div>
           </div>
         )}
 
