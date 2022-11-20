@@ -36,54 +36,57 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
-      <Switch>
-        <Route path="/login" exact={true}>
-          <LoginForm />
-        </Route>
-        <Route path="/sign-up" exact={true}>
-          <SignUpForm />
-        </Route>
-        <ProtectedRoute path="/users" exact={true}>
-          <UsersList />
-        </ProtectedRoute>
+      <div className="row-layout">
+        <NavBar />
+        <Switch>
+          <Route path="/login" exact={true}>
+            <LoginForm />
+          </Route>
+          <Route path="/sign-up" exact={true}>
+            <SignUpForm />
+          </Route>
+          <ProtectedRoute path="/users" exact={true}>
+            <UsersList />
+          </ProtectedRoute>
 
-        {/* <ProtectedRoute path="/servers/delete" exact={true}>
+          {/* <ProtectedRoute path="/servers/delete" exact={true}>
           <DeleteServer />
         </ProtectedRoute> */}
 
-        <ProtectedRoute path="/users/:userId" exact={true}>
-          <User />
-        </ProtectedRoute>
-        <ProtectedRoute path="/servers/new" exact={true}>
-          <CreateServerForm />
-        </ProtectedRoute>
-        <ProtectedRoute path="/chats/:chatId">
-          <ChatForm />
-        </ProtectedRoute>
+          <ProtectedRoute path="/users/:userId" exact={true}>
+            <User />
+          </ProtectedRoute>
+          <ProtectedRoute path="/servers/new" exact={true}>
+            <CreateServerForm />
+          </ProtectedRoute>
+          <ProtectedRoute path="/chats/:chatId">
+            <ChatForm />
+          </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
-          <UpdateServer />
-          <UpdateChannel />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
+            <UpdateServer />
+            <UpdateChannel />
+          </ProtectedRoute>
 
-        <ProtectedRoute path="/servers/:serverId" exact={true}>
-          <Servers />
-        </ProtectedRoute>
+          <ProtectedRoute path="/servers/:serverId" exact={true}>
+            <Servers />
+          </ProtectedRoute>
 
-        <ProtectedRoute
-          path="/servers/:serverId/channels/:channelId"
-          exact={true}
-        >
-          <ChannelMessagesPage />
-        </ProtectedRoute>
-        <Route path="/" exact={true}>
-          <LandingPage />
-        </Route>
-        {/* <Route path="/channels/:channelId">
+          <ProtectedRoute
+            path="/servers/:serverId/channels/:channelId"
+            exact={true}
+          >
+            <ChannelMessagesPage />
+          </ProtectedRoute>
+          <Route path="/" exact={true}>
+            <LandingPage />
+          </Route>
+          {/* <Route path="/channels/:channelId">
           <ChannelMessagesPage />
         </Route> */}
-      </Switch>
+        </Switch>
+        <div className="member-list"></div>
+      </div>
     </BrowserRouter>
   );
 }
