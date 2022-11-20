@@ -44,50 +44,55 @@ const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={onSignUp}>
-      <div>
+    <form class="sign-up-form-container"onSubmit={onSignUp}>
+      <div class="errors">
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))}
       </div>
-      <div>
-        <label>User Name</label>
-        <input
-          type='text'
-          name='username'
-          onChange={updateUsername}
-          value={username}
-        ></input>
-      </div>
+
+      <div class="sign-up-form">
+        <div>
+          <label>User Name</label>
+          <input id="inputs"
+            type='text'
+            name='username'
+            onChange={updateUsername}
+            value={username}
+          ></input>
+        </div>
+
       <div>
         <label>Email</label>
-        <input
+        <input id="inputs"
           type='text'
           name='email'
           onChange={updateEmail}
           value={email}
-        ></input>
+          ></input>
       </div>
+
       <div>
         <label>Password</label>
-        <input
+        <input id="inputs"
           type='password'
           name='password'
           onChange={updatePassword}
           value={password}
-        ></input>
+          ></input>
       </div>
       <div>
         <label>Repeat Password</label>
-        <input
+        <input id="inputs"
           type='password'
           name='repeat_password'
           onChange={updateRepeatPassword}
           value={repeatPassword}
           required={true}
-        ></input>
+          ></input>
       </div>
-      <button type='submit'>Sign Up</button>
+      <button id="sign-up-button" type='submit'>SIGN UP</button>
+      </div>
     </form>
   );
 };
