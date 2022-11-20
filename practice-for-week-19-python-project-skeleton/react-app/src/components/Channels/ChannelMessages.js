@@ -119,7 +119,7 @@ const ChannelMessagesPage = () => {
                       onClick={async () => {
                         await dispatch(deleteChannelMessage(message?.id));
                         dispatch(getChannelMessages(channelId));
-                        return history.push(`/servers`);
+                        return history.push(`/servers/${serverId}/channels/${channelId}`);
                       }}
                     ></i>
                   )}

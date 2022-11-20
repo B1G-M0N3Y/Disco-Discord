@@ -41,3 +41,8 @@ i {
 button {
   cursor: pointer;
 }
+
+.message-section {
+  border: 3px solid chartreuse;
+  width: 100%;
+}
