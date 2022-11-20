@@ -1,11 +1,18 @@
 const GET_CHANNELS = "channels/GET_CHANNELS";
 const DELETE = "channels/DELETE";
-const ADD_CHANNEL = "channels/ADD_CHANNEL";
+const ADD_UPDATE = "channels/ADD_UPDATE";
 
 export const getChannels = (channels) => {
   return {
     type: GET_CHANNELS,
     channels,
+  };
+};
+
+const addOrUpdate = (channel) => {
+  return {
+    type: ADD_UPDATE,
+    channel,
   };
 };
 
@@ -36,15 +43,8 @@ export const deleteChannel = (channelId) => async (dispatch) => {
   }
 };
 
-const addChannel = (channel) => {
-  return {
-    type: ADD_CHANNEL,
-    channel,
-  };
-};
-
 export const createChannel = (payload, serverId) => async (dispatch) => {
-  console.log(payload);
+  // console.log(payload);
   const response = await fetch(`/api/servers/${serverId}/channels`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -52,8 +52,24 @@ export const createChannel = (payload, serverId) => async (dispatch) => {
   });
   if (response.ok) {
     const data = await response.json();
-    dispatch(addChannel(data));
-    return data;
+    dispatch(addOrUpdate(data));
+    return response;
+  }
+};
+
+// update channel
+export const updateChannel = (channelBody, channelId) => async (dispatch) => {
+  const response = await fetch(`/api/channels/${channelId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(channelBody),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(addOrUpdate(data));
+    return response;
   }
 };
 
@@ -71,6 +87,17 @@ const channelReducer = (state = initialState, action) => {
         newState.channels[channel.id] = channel;
       });
       return newState;
+    case ADD_UPDATE:
+      if (!state.channels[action.channel.id]) {
+        newState = { ...state };
+        newState.channels[action.channel.id] = action.channel;
+        return newState;
+      } else {
+        newState = { ...state };
+
+        newState.channels[action.channel.id] = action.channel;
+        return newState;
+      }
     case DELETE:
       newState = { ...state };
       delete newState.channels[action.channelId];
