@@ -12,12 +12,12 @@ function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
-  const {chatId} = useParams();
+  const { chatId } = useParams();
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
     dispatch(getChat());
-  }, [dispatch]);
+  }, [dispatch, chatId]);
 
   useEffect(() => {
     socket = io();

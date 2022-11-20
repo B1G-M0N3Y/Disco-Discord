@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useSelectedChat } from "../../context/ChatContext";
 import { newChat } from "../../store/chat";
-import UsersList from "../UsersList";
 
 const CreateChat = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -9,6 +10,8 @@ const CreateChat = () => {
   const currentUser = useSelector((state) => state.session.user);
   const [chatUsers, setChatUsers] = useState([currentUser.id]);
   const [disabled, setDisabled] = useState(true);
+  const history = useHistory();
+  const { selectedChat, setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
 
@@ -35,9 +38,12 @@ const CreateChat = () => {
       adminId: currentUser.id,
       chat_members_lst: String(chatUsers),
     };
-    dispatch(newChat(chat));
+    const response = await dispatch(newChat(chat));
+    console.log(response, "new chat response");
     setShowAdd(false);
     setChatUsers([currentUser.id]);
+    setSelectedChat(response.id);
+    history.push(`/chats/${response.id}`);
   };
 
   const checkBox = (e) => {

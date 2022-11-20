@@ -176,3 +176,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.selected-chat {
+  background-color: #50505033;
+}
