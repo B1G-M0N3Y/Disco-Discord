@@ -11,7 +11,7 @@ const CreateChat = () => {
   const [chatUsers, setChatUsers] = useState([currentUser.id]);
   const [disabled, setDisabled] = useState(true);
   const history = useHistory();
-  const { selectedChat, setSelectedChat } = useSelectedChat();
+  const { setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
 
@@ -43,6 +43,7 @@ const CreateChat = () => {
     setShowAdd(false);
     setChatUsers([currentUser.id]);
     setSelectedChat(response.id);
+    setDisabled(true);
     history.push(`/chats/${response.id}`);
   };
 
