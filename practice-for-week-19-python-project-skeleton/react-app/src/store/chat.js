@@ -1,8 +1,7 @@
 const GET_CHAT_MESSAGES = "chat/GET_CHAT_MESSAGES";
-// const GET_CHANNELS = "channel_messages/GET_CHANNELS"
 const ADD_CHAT_MESSAGE = "chat_messages/ADD_ONE";
 const ADD_CHAT = "chat/ADD_CHAT";
-// const DELETE = "channel_messages/DELETE";
+const DELETE_CHAT = "chat/DELETE";
 
 const getChatMessages = (chats) => {
   return {
@@ -10,13 +9,6 @@ const getChatMessages = (chats) => {
     chats,
   };
 };
-
-// const getChannels = (channels) => {
-//   return {
-//     type: GET_CHANNELS,
-//     channels,
-//   };
-// }
 
 export const addChat = (chat) => {
   return {
@@ -33,12 +25,12 @@ export const addChatMessage = (chat_message) => {
   };
 };
 
-// const remove = (serverId) => {
-//   return {
-//     type: DELETE,
-//     serverId,
-//   };
-// };
+const removeChat = (chatId) => {
+  return {
+    type: DELETE_CHAT,
+    chatId,
+  };
+};
 
 // get all chats
 export const getChat = (chats) => async (dispatch) => {
@@ -89,6 +81,17 @@ export const newChat = (chat) => async (dispatch) => {
     alert("Error Occurred during Create Chat");
   }
 };
+export const deleteChat = (chatId) => async (dispatch) => {
+  const response = await fetch(`/api/chat/${chatId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(removeChat(chatId));
+  } else {
+    alert("Error Occurred during Delete Chat");
+  }
+};
 
 const initialState = { chats: {} };
 
@@ -111,6 +114,10 @@ const chatReducer = (state = initialState, action) => {
     case ADD_CHAT:
       newState = { ...state };
       newState[action.chat.id] = action.chat;
+      return newState;
+    case DELETE_CHAT:
+      newState = { ...state };
+      delete newState[action.chatId];
       return newState;
     default:
       return state;

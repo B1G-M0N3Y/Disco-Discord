@@ -13,7 +13,6 @@ import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
-import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
 
@@ -47,11 +46,6 @@ function App() {
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
         </ProtectedRoute>
-
-        {/* <ProtectedRoute path="/servers/delete" exact={true}>
-          <DeleteServer />
-        </ProtectedRoute> */}
-
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
@@ -80,9 +74,6 @@ function App() {
         <Route path="/" exact={true}>
           <LandingPage />
         </Route>
-        {/* <Route path="/channels/:channelId">
-          <ChannelMessagesPage />
-        </Route> */}
       </Switch>
     </BrowserRouter>
   );
