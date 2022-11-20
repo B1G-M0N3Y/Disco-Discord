@@ -13,7 +13,6 @@ const LandingPage = () => {
   const servers = useSelector((state) => state.servers.servers);
   const allServers = useSelector((state) => state.servers.allServers);
   const serversArr = Object.values(allServers);
-  let firstNine = serversArr.slice(0, 9);
 
   useEffect(() => {
     dispatch(getAllServers());
@@ -55,7 +54,7 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="server-card-container">
-              {firstNine?.map((server) => {
+              {serversArr?.map((server) => {
                 let isAqua = isEven(server.id);
                 return (
                   <>
