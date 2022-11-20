@@ -80,6 +80,26 @@
   color: white;
 }
 
+.disabled-message:hover {
+  /* color: white; */
+  cursor: not-allowed;
+}
+
+.disabled-message {
+  color: #3c308c;
+  margin-left: 15px;
+  background-color: #1d1b59;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.2em;
+}
+
+.disabled-plane {
+  cursor: not-allowed;
+}
+
 .all-messages::-webkit-scrollbar-track {
   background-color: #3c308c;
 }

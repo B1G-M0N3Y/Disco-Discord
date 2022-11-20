@@ -18,18 +18,19 @@ let socket;
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState();
   const [allMessages, setAllMessages] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
-  const {selectedServer, setSelectedServer} = useSelectedServer()
+  const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel } = useSelectedChannels();
-  const {channelId, serverId } = useParams();
+  const { channelId, serverId } = useParams();
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
     dispatch(getChannelMessages(channelId));
-    setSelectedServer(serverId)
+    setSelectedServer(serverId);
   }, [dispatch, selectedChannel]);
 
   // when leaving the page...
@@ -68,6 +69,14 @@ const ChannelMessagesPage = () => {
     };
   }, [channelId]);
 
+  // error validations
+  useEffect(() => {
+    let errors = [];
+    setValidationErrors(errors);
+    if (!newMessage) errors.push("Please enter a message body.");
+    setValidationErrors(errors);
+  }, [newMessage]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -80,9 +89,7 @@ const ChannelMessagesPage = () => {
       channel_id: channelId,
       body: newMessage,
     };
-    const response = await dispatch(
-      newChannelMessage(channelId, dbMsg)
-    );
+    const response = await dispatch(newChannelMessage(channelId, dbMsg));
     dispatch(addMessage(response));
     dispatch(getChannelMessages(channelId));
     socket.emit("channelmessage", response);
@@ -119,7 +126,9 @@ const ChannelMessagesPage = () => {
                       onClick={async () => {
                         await dispatch(deleteChannelMessage(message?.id));
                         dispatch(getChannelMessages(channelId));
-                        return history.push(`/servers/${serverId}/channels/${channelId}`);
+                        return history.push(
+                          `/servers/${serverId}/channels/${channelId}`
+                        );
                       }}
                     ></i>
                   )}
@@ -158,10 +167,20 @@ const ChannelMessagesPage = () => {
             />
             <button
               type="submit"
-              className="message-button"
+              className={
+                validationErrors.length > 0
+                  ? "disabled-message"
+                  : "message-button"
+              }
               onClick={handleSubmit}
+              disabled={!!validationErrors.length}
             >
-              <i class="fa-solid fa-paper-plane"></i>
+              {validationErrors.length > 0 && (
+                <i class="fa-solid fa-paper-plane disabled-plane"></i>
+              )}
+              {validationErrors.length === 0 && (
+                <i class="fa-solid fa-paper-plane"></i>
+              )}
             </button>
           </form>
         </div>

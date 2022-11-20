@@ -19,7 +19,7 @@ const CreateChannelForm = ({ setShowModal }) => {
 
     if (!channelName || channelName.length < 100 || channelName.length < 1) {
       errors.push(
-        "Please enter valid Server Name. Server Name must less than 100 characters."
+        "Please enter valid Channel Name. Channel Name must be less than 100 characters."
       );
     }
 
@@ -40,6 +40,7 @@ const CreateChannelForm = ({ setShowModal }) => {
     const newChannel = await dispatch(
       createChannel(newChannelInput, selectedServer)
     );
+
     // Forcing re-render
     if (newChannel) {
       dispatch(getServers());
