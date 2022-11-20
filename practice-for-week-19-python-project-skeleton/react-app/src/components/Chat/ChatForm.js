@@ -9,10 +9,11 @@ import { useParams } from "react-router-dom";
 let socket;
 
 function ChatForm() {
+  const { chatId } = useParams();
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
-  const { chatId } = useParams();
+  const [validationErrors, setValidationErrors] = useState([]);
 
   useEffect(() => {
     dispatch(getChat());
@@ -48,6 +49,15 @@ function ChatForm() {
       socket.disconnect();
     };
   }, [selectedChat, dispatch]);
+
+  // error validations
+  useEffect(() => {
+    let errors = [];
+    setValidationErrors(errors);
+    if (!text) errors.push("Please enter a message body.");
+    setValidationErrors(errors);
+  }, [text]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (text.length === 0) return;
@@ -60,23 +70,42 @@ function ChatForm() {
   };
 
   return (
-    <div className="message-history-chat">
-      <div className="message-section">
-        <ChatMessages className="message-section" chat_id={chatId} />
+    // <div className="message-history">
+    <div className="message-section">
+      <div className="all-messages">
+        {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
+
+        <ChatMessages chat_id={chatId} />
       </div>
-      <form className="message-input-form" onSubmit={handleSubmit}>
-        <input
-          className="message-input"
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Type here..."
-          autoComplete="off"
-        />
-        <button type="submit" className="message-button" onClick={handleSubmit}>
-          <i class="fa-solid fa-paper-plane"></i>
-        </button>
-      </form>
+      <div className="form-wrapper">
+        <form className="message-input-form" onSubmit={handleSubmit}>
+          <input
+            className="message-input"
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Type here..."
+            autoComplete="off"
+          />
+          <button
+            type="submit"
+            className={
+              validationErrors.length > 0
+                ? "disabled-message"
+                : "message-button"
+            }
+            onClick={handleSubmit}
+            disabled={!!validationErrors.length}
+          >
+            {validationErrors.length > 0 && (
+              <i class="fa-solid fa-paper-plane disabled-plane"></i>
+            )}
+            {validationErrors.length === 0 && (
+              <i class="fa-solid fa-paper-plane"></i>
+            )}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

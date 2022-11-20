@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel, getCurrentChannels } from "../../../store/channels";
+import { getChannelMessages } from "../../../store/channel_messages";
 import { getServers } from "../../../store/servers";
 
 const CreateChannelForm = ({ setShowModal }) => {
@@ -19,7 +20,7 @@ const CreateChannelForm = ({ setShowModal }) => {
 
     if (!channelName || channelName.length < 100 || channelName.length < 1) {
       errors.push(
-        "Please enter valid Server Name. Server Name must less than 100 characters."
+        "Please enter valid Channel Name. Channel Name must be less than 100 characters."
       );
     }
 
@@ -40,11 +41,14 @@ const CreateChannelForm = ({ setShowModal }) => {
     const newChannel = await dispatch(
       createChannel(newChannelInput, selectedServer)
     );
+
     // Forcing re-render
     if (newChannel) {
-      dispatch(getServers());
-      dispatch(getCurrentChannels(selectedServer));
+      await dispatch(getServers());
+      await dispatch(getCurrentChannels(selectedServer));
+      await dispatch(getChannelMessages(newChannel.id));
       setShowModal(false);
+      console.log('ma new channel', newChannel);
       history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
     }
   };

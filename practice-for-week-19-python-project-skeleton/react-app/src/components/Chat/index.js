@@ -18,7 +18,7 @@ function Chat() {
   useEffect(() => {
     //   TODO SETUP THIS REDUX
     dispatch(getChat());
-    setSelectedChat(Object.values(chats)[0].id);
+    setSelectedChat(Object.values(chats)[0]?.id);
     // DONT ADD CHATS TO DEPENDENCY ARRAY OR EVERYTHING WILL BREAK AND I WILL CRY
   }, [dispatch, setSelectedChat]);
 

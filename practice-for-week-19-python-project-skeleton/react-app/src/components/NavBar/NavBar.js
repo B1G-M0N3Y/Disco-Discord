@@ -124,7 +124,7 @@ const NavBar = () => {
             src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
           ></img>
           {/* TODO: don't display the name here */}
-          <p>{server.name}</p>
+          {/* <p>{server.name}</p> */}
         </div>
       </div>
     ));

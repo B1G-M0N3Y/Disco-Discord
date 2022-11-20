@@ -7,16 +7,55 @@
   scrollbar-width: thin;
 }
 
-/* .all-messages {
+.all-messages {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   overflow-y: scroll;
-} */
+  overflow-x: hidden;
+  height: 100%;
+  width: 98%;
+}
 
 .message {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   color: white;
-  padding: 10px 50px 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   height: fit-content;
+  width: 100%;
+}
+
+.inner-message {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  /* padding: 10px 50px 10px; */
+  height: fit-content;
+  width: 96%;
+}
+
+.message-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-wrapper {
+  width: 100%;
+  margin-right: 15px;
+}
+
+.flex-row-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .message:hover {
@@ -25,6 +64,7 @@
 
 .fa-trash-can {
   opacity: 0;
+
   /* visibility: none; */
 }
 
@@ -35,7 +75,7 @@
 }
 
 .trash {
-  margin-left: 100px;
+  /* border: 1px solid aqua; */
 }
 
 .message:hover .fa-trash-can {
@@ -52,8 +92,12 @@
 .message-input-form {
   height: 85px;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  width: 98%;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .message-input {
@@ -62,7 +106,7 @@
   height: 38px;
   border-radius: 6px;
   border: none;
-  width: 85%;
+  width: 95%;
   padding-left: 15px;
 }
 
@@ -80,6 +124,26 @@
 
 .message-button:hover {
   color: white;
+}
+
+.disabled-message:hover {
+  /* color: white; */
+  cursor: not-allowed;
+}
+
+.disabled-message {
+  color: #3c308c;
+  margin-left: 15px;
+  background-color: #1d1b59;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.2em;
+}
+
+.disabled-plane {
+  cursor: not-allowed;
 }
 
 .all-messages::-webkit-scrollbar-track {
@@ -110,6 +174,7 @@
   height: 48px;
   width: 48px;
   object-fit: cover;
+  margin-left: 20px;
 }
 
 /* .message-body{
