@@ -13,7 +13,6 @@ function ChatForm() {
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const { selectedChat } = useSelectedChat();
-  const { chatId } = useParams();
   const [validationErrors, setValidationErrors] = useState([]);
 
   useEffect(() => {

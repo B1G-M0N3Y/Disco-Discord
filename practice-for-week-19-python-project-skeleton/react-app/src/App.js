@@ -79,7 +79,6 @@ function App() {
         </Route> */}
         </Switch>
         <div className="member-list"></div>
-      </div>
     </BrowserRouter>
   );
 }
