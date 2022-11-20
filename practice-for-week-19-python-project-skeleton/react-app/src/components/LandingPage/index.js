@@ -2,7 +2,7 @@ import ServerCard from "./ServerCard";
 import "./LandingPage.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { login } from "../../store/session";
 import { getAllServers } from "../../store/servers";
 
@@ -11,6 +11,7 @@ const LandingPage = () => {
   const currentUser = useSelector((state) => state.session.user);
   const allServers = useSelector((state) => state.servers.allServers);
   const serversArr = Object.values(allServers);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getAllServers());
@@ -42,18 +43,28 @@ const LandingPage = () => {
 
         {!currentUser && (
           <div className="auth-container">
-            <NavLink className="navlink landing-button" to="/login">
-              Login
-            </NavLink>
-            <NavLink className="navlink landing-button" to="/sign-up">
-              Sign Up
-            </NavLink>
-            <button
-              className="demo-login landing-button"
-              onClick={() => loginDemoUser()}
-            >
-              Demo User
-            </button>
+            <div>
+              <button
+                className="landing-buttons" id="lb-1"
+                onClick={() => history.push("/login")}>
+                <h2>LOGIN</h2>
+              </button>
+            </div>
+            <div>
+              <button
+                className="landing-buttons" id="lb-2"
+                onClick={() => history.push("/signup")}>
+                <h2>SIGN UP</h2>
+              </button>
+            </div>
+            <div>
+              <button
+                className="demo-button"
+                onClick={() => loginDemoUser()}
+              >
+                LET'S BOOGIE
+              </button>
+            </div>
           </div>
         )}
       </div>
