@@ -29,20 +29,26 @@ const LandingPage = () => {
         <div>
             <div class="logged-in-landing">
               <div class="logged-in-neon-title">
-                <h2>BAD DECISIONS MAKE BETTER STORIES</h2>
-                <h1>let's create memories</h1>
+                <div id="title-1">
+                <h2>BAD DECISIONS. MAKE BETTER STORIES.</h2>
+                {/* <h2>MAKE BETTER STORIES</h2> */}
+                </div>
+                <div>
+                  <h1 id="title-2">let's create some memories.</h1>
+                  <img id="disco-gif" src="https://i.pinimg.com/originals/15/1f/07/151f073cab6e304361f4f22577756974.gif"></img>
+                </div>
               </div>
               <div className="server-card-container">
                 {/* TODO: Write Loop For all public servers */}
-                  <h2 id="sc-1">1</h2>
-                  <h2 id="sc-2">2</h2>
-                  <h2 id="sc-1">3</h2>
-                  <h2 id="sc-2">4</h2>
-                  <h2 id="sc-1">5</h2>
-                  <h2 id="sc-2">6</h2>
-                  <h2 id="sc-1">7</h2>
-                  <h2 id="sc-2">8</h2>
-                  <h2 id="sc-1">9</h2>
+                  <button id="sc-1" onClick={() => history.push("/servers/1")}></button>
+                  <button id="sc-2" onClick={() => history.push("/servers/2")}></button>
+                  <button id="sc-1" onClick={() => history.push("/servers/3")}></button>
+                  <button id="sc-2" onClick={() => history.push("/servers/4")}></button>
+                  <button id="sc-1" onClick={() => history.push("/servers/5")}></button>
+                  <button id="sc-2" onClick={() => history.push("/servers/6")}></button>
+                  <button id="sc-1" onClick={() => history.push("/servers/7")}></button>
+                  <button id="sc-2" onClick={() => history.push("/servers/8")}></button>
+                  <button id="sc-1" onClick={() => history.push("/servers/9")}></button>
               </div>
             </div>
         </div>
