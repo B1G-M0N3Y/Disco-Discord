@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LoginForm from "./components/auth/LoginForm";
 import SignUpForm from "./components/auth/SignUpForm";
 import NavBar from "./components/NavBar/NavBar";
@@ -13,12 +13,14 @@ import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
-import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
+import { useSelectedChannels } from "./context/ChannelContext";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
+
+  const user = useSelector((state) => state.session.user);
 
   const dispatch = useDispatch();
 
@@ -36,7 +38,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}>
+        <NavBar />
+      </div>
+
       <Switch>
         <Route path="/login" exact={true}>
           <LoginForm />
@@ -47,11 +52,6 @@ function App() {
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
         </ProtectedRoute>
-
-        {/* <ProtectedRoute path="/servers/delete" exact={true}>
-          <DeleteServer />
-        </ProtectedRoute> */}
-
         <ProtectedRoute path="/users/:userId" exact={true}>
           <User />
         </ProtectedRoute>
@@ -84,6 +84,9 @@ function App() {
           <ChannelMessagesPage />
         </Route> */}
       </Switch>
+      <div
+        className={!user?.id ? "logged-out-landing" : "left-right-columns"}
+      ></div>
     </BrowserRouter>
   );
 }
