@@ -34,9 +34,6 @@ const NavBar = () => {
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { setSelectedChannel } = useSelectedChannels(false);
 
-  console.log(selectedServer, "SELECTED SERVER CONTEXT");
-  console.log(currChannels, "currChannels");
-
   //open logout menu
   const openLogout = () => {
     if (showLogout) return;
@@ -98,7 +95,6 @@ const NavBar = () => {
           <div
             onClick={() => {
               setSelectedChannel(channel);
-              console.log("selected channel", channel);
               history.push(`/servers/${currServerId}/channels/${channel?.id}`);
             }}
           >
@@ -168,7 +164,6 @@ const NavBar = () => {
                         dispatch(getServers());
                         // setSelectedServer(currServers[selectedServer?.id]);
                         setShowMessages(false);
-                        console.log(showMessages, "SHOW MESSAGE CONTEXT");
                         history.push(`/servers/${selectedServer}/edit`);
                       }}
                     >
@@ -181,7 +176,6 @@ const NavBar = () => {
                           dispatch(getServers());
                           // setSelectedServer(currServers[selectedServer?.id]);
                           setShowMessages(false);
-                          console.log(showMessages, "SHOW MESSAGE CONTEXT");
                           history.push(`/servers/${selectedServer}/edit`);
                         }}
                         class="fa-solid fa-pen-to-square"

@@ -23,17 +23,12 @@ const UpdateChannel = ({ server }) => {
   let arrOfNames;
   if (channelsArr) arrOfNames = channelsArr.map((channel) => channel.name);
 
-  console.log("channelsFromServer", channelsFromServer);
-  console.log("arrayOfNames", arrOfNames);
-
   const [name, setName] = useState();
   const [channelId, setChannelId] = useState(null);
   const [channelSelect, setChannelSelect] = useState([]);
   const [editErrors, setEditErrors] = useState([]);
   const [deleteErrors, setDeleteErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
-
-  console.log(serverId, "serverID in form");
 
   useEffect(() => {
     return () => {
@@ -55,9 +50,6 @@ const UpdateChannel = ({ server }) => {
     setChannelId();
     setChannelSelect([]);
   };
-
-  console.log(channelSelect, "SELECTED CHANNEL IN DELETE CHANNEL");
-  console.log(channelId, "CHANNEL ID IN DELETE CHANNEL");
 
   // edit form validations
   useEffect(() => {

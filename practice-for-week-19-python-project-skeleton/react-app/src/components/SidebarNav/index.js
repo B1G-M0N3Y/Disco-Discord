@@ -34,7 +34,6 @@ function SidebarNav() {
   // filter all servers to find only user's servers
   // const currentUser = useSelector((state) => state.session.user);
   const allServers = useSelector((state) => state.servers.servers);
-  console.log("all servers", allServers);
   const serversArr = Object.values(allServers);
   // const filteredMembers = members.filter(
   //   (item) => item.user_id === currentUser?.id

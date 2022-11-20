@@ -15,7 +15,6 @@ const LandingPage = () => {
   useEffect(() => {
     dispatch(getAllServers());
   }, []);
-  console.log(allServers, "all servers");
 
   // Logs in a default demo user
   const loginDemoUser = async () => {

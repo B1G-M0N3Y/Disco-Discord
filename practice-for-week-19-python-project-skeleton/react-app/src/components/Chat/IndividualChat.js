@@ -15,10 +15,6 @@ function IndividualChat({ chat, setChat }) {
   const chats = useSelector((state) => state.chats);
 
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
-  console.log(
-    chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
-    "find index"
-  );
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
 
@@ -32,9 +28,7 @@ function IndividualChat({ chat, setChat }) {
     } else {
       nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
     }
-    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
     setSelectedChat(nextChatIndex);
-    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
     history.push(`/chats/${nextChatIndex}`);
   };
 
@@ -50,16 +44,12 @@ function IndividualChat({ chat, setChat }) {
     } else {
       nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
     }
-    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
     setSelectedChat(nextChatIndex);
-    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
 
     return history.push(`/chats/${nextChatIndex}`);
   };
 
   let chatSelector;
-
-  console.log(selectedChat, chat.id, selectedChat === chat.id, "test");
 
   const selectChat = () => {
     setSelectedChat(chat.id);
@@ -85,7 +75,6 @@ function IndividualChat({ chat, setChat }) {
     const otherUser = chat.chat_members?.filter(
       (member) => member.email !== user.email
     )[0];
-    console.log(otherUser);
     chatSelector = (
       <>
         <img

@@ -23,7 +23,6 @@ function UsersList() {
   //         setServers(data);
   //       });
   //     // const responseData = await response.json();
-  //     // console.log(responseData.servers);
   //     // setServers(responseData.servers);
   //   }
   //   fetchData();

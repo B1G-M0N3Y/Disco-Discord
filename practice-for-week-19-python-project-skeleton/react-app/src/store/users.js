@@ -40,11 +40,6 @@ export const getAllUsers = () => async (dispatch) => {
 };
 
 export const addServerMember = (serverId, userId) => async (dispatch) => {
-  console.log(
-    serverId,
-    userId,
-    "server and user Id in thunk for adding memeber"
-  );
   const response = await fetch(`/api/servers/${serverId}/members`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -57,7 +52,6 @@ export const addServerMember = (serverId, userId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addMember(data));
-    console.log(data);
     return data;
   }
 };
@@ -70,7 +64,6 @@ export const removeServerMember = (serverId, memberId) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(removeMember(data));
-    console.log(data);
     return data;
   }
 };

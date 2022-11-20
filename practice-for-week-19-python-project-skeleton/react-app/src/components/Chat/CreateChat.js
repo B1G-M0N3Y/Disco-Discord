@@ -19,7 +19,6 @@ const CreateChat = () => {
     async function fetchData() {
       const response = await fetch("/api/users/");
       const responseData = await response.json();
-      console.log(responseData, "responseDATA");
       const filteredUsers = responseData.users.filter(
         (user) => user.id !== currentUser.id
       );
@@ -28,18 +27,14 @@ const CreateChat = () => {
     fetchData();
   }, []);
 
-  console.log(users, "users**");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(String(chatUsers));
     const chat = {
       name: "Chat",
       adminId: currentUser.id,
       chat_members_lst: String(chatUsers),
     };
     const response = await dispatch(newChat(chat));
-    console.log(response, "new chat response");
     setShowAdd(false);
     setChatUsers([currentUser.id]);
     setSelectedChat(response.id);

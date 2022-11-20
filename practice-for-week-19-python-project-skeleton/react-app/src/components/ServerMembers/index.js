@@ -30,12 +30,9 @@ function ServerMembers() {
   let membersArr = [];
   // const currMembers = useSelector(state => state.servers[selectedServer?.id]?.serverMembers)
 
-  console.log("selected", selectedServer);
-
   if (currServer?.server_members)
     membersArr = Object.values(currServer?.server_members);
 
-  console.log("da members", membersArr);
   // get server members with id from url
   // useEffect(() => {
   //   // dispatch(getServerMembers(serverId));
@@ -52,38 +49,16 @@ function ServerMembers() {
     setServerUsers(currServer?.server_members);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("we are gaming")
-  //   dispatch(getServers())
-  // },[deleted, membersArr])
-
-  const removeMember = async (userId) => {
-    dispatch(removeServerMember(selectedServer, userId));
-    dispatch(getServers());
-    membersArr = membersArr.filter((member) => member.id !== userId);
-  };
-
-  // find one user
-  const findUser = (id) => {
-    const user = members.find((user) => user.id === id);
-    return user;
-  };
-
-  const rawahaLog = (str) => {
-    console.log(str);
-  };
-
-  console.log("admin id", selectedServer?.admin_id);
   return (
     <div>
       <h1>Member List: </h1>
       {/* <ul>{serverMembers}</ul> */}
       {membersArr.map((member) => (
         <div>
-          <p>{member.username}</p>
+          <p>{member?.username}</p>
         </div>
       ))}
-      {currServer.admin_id === currUser.id && (
+      {currServer?.admin_id === currUser.id && (
         <NewServerMember serverId={selectedServer} currMembers={membersArr} />
       )}
     </div>

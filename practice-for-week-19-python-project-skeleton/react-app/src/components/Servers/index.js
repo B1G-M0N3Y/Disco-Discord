@@ -21,15 +21,11 @@ const Servers = () => {
   // const [channel, setChannel] = useState(
   //   Object.values(servers)[0]?.channels[0]
   // );
-  console.log("selected server", selectedServer);
-  console.log("selected channel", selectedChannel);
 
   useEffect(() => {
     dispatch(getServers());
     setSelectedServer(serverId);
   }, [dispatch]);
-
-  console.log(server, "server in server component");
 
   return (
     null

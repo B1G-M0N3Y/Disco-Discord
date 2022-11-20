@@ -19,9 +19,7 @@ const UpdateServer = () => {
   const servers = useSelector((state) => state.servers.servers);
   // // getters and setters for update song form
   const [name, setName] = useState(servers[serverId]?.name);
-  console.log("name", name);
   const [imageUrl, setImageUrl] = useState(servers[serverId]?.imageUrl);
-  console.log("image url", imageUrl);
   const [validationErrors, setValidationErrors] = useState([]);
   const { selectedServer, setSelectedServer } = useSelectedServer();
 
