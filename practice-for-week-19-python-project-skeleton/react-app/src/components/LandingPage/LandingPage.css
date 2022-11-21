@@ -229,16 +229,10 @@
 .demo-button {
   position: relative;
   text-align: center;
-  /* width: 250px; */
   font-family: "Pacifico", cursive;
   font-size: 30px;
-  color: #15f4ee;
-  /* color: var(--clr-neon); */
-  /* font-family: Whitney, "Helvetica Neue", Arial, sans-serif; */
-  /* font-weight: 700; */
-  /* font-weight: 40px; */
-  /* border:  0.35em solid var(--clr-neon); */
-  border: 0.2em solid #15f4ee;
+  color: var(--clr-neon);
+  border: 0.2em solid var(--clr-neon);
   border-radius: 1.2em;
   cursor: pointer;
   transition: 1.5s;
@@ -247,12 +241,9 @@
   width: 260px;
   height: 75px;
 
-  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var#15f4ee;
-  /* 0 0 0.5em var(--clr-neon); */
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em varvar(--clr-neon);
 
-  box-shadow: inset 0 0 1em 0 #15f4ee, 0 0 8em 0 #15f4ee;
-  /* inset 0 0 1.1em 0 var(--clr-neon),
-          0 0 1.8em 0 var(--clr-neon); */
+  box-shadow: inset 0 0 1em 0 var(--clr-neon), 0 0 8em 0 var(--clr-neon);
 }
 
 .demo-button:hover,
