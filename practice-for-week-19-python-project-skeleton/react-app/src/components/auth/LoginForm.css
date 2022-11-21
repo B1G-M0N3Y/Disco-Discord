@@ -47,13 +47,20 @@
   /* transition: background-color 100ms linear; */
 }
 
+#login-title {
+  text-align: center;
+  font-size: 2rem;
+  font-family: "Pacifico", cursive;
+  margin-top: -10px;
+}
+
 .error {
   color: var(--clr-neon);
   font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
   position: absolute;
 }
 
-#inputs {
+#login-inputs {
   margin-left: 60px;
   margin-bottom: 25px;
   height: 40px;
