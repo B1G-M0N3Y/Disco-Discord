@@ -11,22 +11,50 @@ const CreateServerForm = ({ setShowModal }) => {
   const currentUser = useSelector((state) => state.session.user);
   const { setSelectedServer } = useSelectedServer();
 
-  const [serverName, setServerName] = useState("");
-  const [imageURL, setImageURL] = useState("");
+  const [serverName, setServerName] = useState();
+  const [imageURL, setImageURL] = useState();
   const [adminId, setAdminId] = useState(currentUser.id);
 
-  const [validationErrors, setValidationErrors] = useState("");
+  const [validationErrors, setValidationErrors] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const errors = [];
+
+  //   if (!serverName || serverName.length < 100 || serverName.length < 5) {
+  //     errors.push(
+  //       "Please enter valid Server Name. Server Name must be more than 5 and less than 100 characters."
+  //     );
+  //   }
+
+  //   if (imageURL.length > 255) {
+  //     errors.push(
+  //       "Please enter a vaild Image URL. Image URL must be less than 255 characters"
+  //     );
+  //   }
+
+  //   if (!adminId) {
+  //     errors.push("Please log in to create a new server");
+  //   }
+
+  //   setValidationErrors(errors);
+  // }, [serverName, imageURL, adminId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let createServerInputs;
+
     const errors = [];
 
-    if (!serverName || serverName.length < 100 || serverName.length < 5) {
+    console.log('name',serverName)
+
+    if (!serverName || serverName?.length > 100 || serverName?.length < 5) {
       errors.push(
         "Please enter valid Server Name. Server Name must be more than 5 and less than 100 characters."
       );
     }
 
-    if (imageURL.length > 255) {
+    if (imageURL?.length > 255) {
       errors.push(
         "Please enter a vaild Image URL. Image URL must be less than 255 characters"
       );
@@ -37,25 +65,24 @@ const CreateServerForm = ({ setShowModal }) => {
     }
 
     setValidationErrors(errors);
-  }, [serverName, imageURL, adminId]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    console.log(validationErrors.length)
 
-    let createServerInputs;
+    if (validationErrors.length === 0){
 
-    if (validationErrors.length > 0)
       createServerInputs = {
         name: serverName,
         image_url: imageURL,
         admin_id: adminId,
       };
 
-    const newServer = await dispatch(createServer(createServerInputs));
-    setShowModal(false);
-    if (newServer) {
-      setSelectedServer(newServer.id);
-      history.push(`/servers/${newServer.id}`);
+      const newServer = await dispatch(createServer(createServerInputs));
+      setShowModal(false);
+
+      if (newServer) {
+        setSelectedServer(newServer.id);
+        history.push(`/servers/${newServer.id}`);
+      }
     }
   };
 
@@ -65,7 +92,7 @@ const CreateServerForm = ({ setShowModal }) => {
         {validationErrors.length > 0 && (
           <ul className="create-spot-errors">
             {validationErrors.map((e) => (
-              <li key={e}>{e}</li>
+              <li className="error" key={e}>{e}</li>
             ))}
           </ul>
         )}
@@ -88,15 +115,8 @@ const CreateServerForm = ({ setShowModal }) => {
         name="imageURL"
         value={imageURL}
         onChange={(e) => setImageURL(e.target.value)}
+        required
       />
-
-      {/* <label id="title-create-server-input">Server Owner - UserId</label>
-                <input id="form-input-create-server"
-                type="text"
-                name="adminId"
-                value={adminId}
-                onChange={e => setAdminId(e.target.value)}
-                /> */}
 
       <button className="button-create-server" type="submit">
         Create New Server

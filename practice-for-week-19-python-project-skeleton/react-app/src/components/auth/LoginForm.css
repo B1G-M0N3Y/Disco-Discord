@@ -50,7 +50,7 @@
 .error {
   color: var(--clr-neon);
   font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-  position: absolute;
+  /* position: absolute; */
 }
 
 #inputs {

@@ -15,24 +15,34 @@ const CreateChannelForm = ({ setShowModal }) => {
 
   const [validationErrors, setValidationErrors] = useState("");
 
-  useEffect(() => {
-    const errors = [];
+  // useEffect(() => {
+  //   const errors = [];
 
-    if (!channelName || channelName.length < 100 || channelName.length < 1) {
-      errors.push(
-        "Please enter valid Channel Name. Channel Name must be less than 100 characters."
-      );
-    }
+  //   if (!channelName || channelName.length < 100 || channelName.length < 1) {
+  //     errors.push(
+  //       "Please enter valid Channel Name. Channel Name must be less than 100 characters."
+  //     );
+  //   }
 
-    setValidationErrors(errors);
-  }, [channelName]);
+  //   setValidationErrors(errors);
+  // }, [channelName]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let newChannelInput;
 
-    if (validationErrors.length > 0)
+    const errors = [];
+
+    if (!channelName || channelName.length > 100 || channelName.length < 1) {
+      errors.push(
+        "Please enter valid Channel Name. Channel Name must be less than 100 characters."
+      );
+    }
+
+    setValidationErrors(errors);
+
+    if (validationErrors.length === 0)
       newChannelInput = {
         name: channelName,
         server_id: selectedServer,
@@ -56,9 +66,9 @@ const CreateChannelForm = ({ setShowModal }) => {
     <form className="create-channel-form" onSubmit={handleSubmit}>
       <div className="errors-create-channel-form">
         {validationErrors.length > 0 && (
-          <ul className="create-spot-errors">
+          <ul className="create-channel-errors">
             {validationErrors.map((e) => (
-              <li key={e}>{e}</li>
+              <li className="error"key={e}>{e}</li>
             ))}
           </ul>
         )}
@@ -72,6 +82,7 @@ const CreateChannelForm = ({ setShowModal }) => {
         name="name"
         value={channelName}
         onChange={(e) => setChannelName(e.target.value)}
+        required
       />
 
       <button className="button-create-channel" type="submit">

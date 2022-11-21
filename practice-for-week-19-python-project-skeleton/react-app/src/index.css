@@ -64,3 +64,11 @@ button {
   width: 100%;
   height: 100%;
 }
+
+#modal-content{
+  width: 460px;
+}
+
+.error{
+  color:red;
+}
