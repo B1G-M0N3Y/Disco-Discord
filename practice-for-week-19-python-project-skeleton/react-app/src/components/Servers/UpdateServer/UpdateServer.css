@@ -79,7 +79,7 @@
   margin-top: 5px;
 }
 
-select {
+.channel-select {
   width: 100%;
   height: 40px;
   margin-top: 20px;
@@ -90,9 +90,9 @@ select {
   font-size: 20px;
 }
 
-select:focus,
-select:active,
-select:hover {
+.channel-select:focus,
+.channel-select:active,
+.channel-select:hover {
   border-color: gray;
   outline: none;
 }

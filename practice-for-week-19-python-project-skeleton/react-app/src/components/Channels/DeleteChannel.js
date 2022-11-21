@@ -108,6 +108,7 @@ const UpdateChannel = ({ server }) => {
           <div className="edit-title">Edit channel details:</div>
           <br></br>
           <select
+            className="channel-select"
             onChange={(e) => setChannelSelect(e.target.value)}
             value={channelSelect}
             placeholder="Delete Channel:"
