@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelectedChat } from "../../context/ChatContext";
 import { getChat } from "../../store/chat";
 
 // import { getServerMembers } from "../../store/servers";
@@ -22,7 +20,7 @@ function ChatMembers() {
   const { chatId } = useParams();
   console.log(chatId, "test");
   console.log(chats, chatId, Object.keys(chats).length > 1, "test2");
-  if (chats && chatId) {
+  if (chats && chatId && chats[chatId]) {
     chatMembers = Object.values(chats[chatId]?.chat_members);
   }
   return (
