@@ -97,7 +97,7 @@ const ChannelMessagesPage = () => {
             {Object.values(messageStore).map((message) => (
               <div className="message">
                 <div className="inner-message">
-                  <div className="flex-row-center">
+                  {/* <div className="flex-row-center"> */}
                     <img
                       alt={message.id}
                       src={message.message_author.image_url}
@@ -108,7 +108,7 @@ const ChannelMessagesPage = () => {
                         {message.message_author.username}
                       </p>
                       <p className="message-body">{message.body}</p>
-                    </div>
+                    {/* </div> */}
                   </div>
                   <div className="flex-row-end trash">
                     {message?.user_id === user?.id && (

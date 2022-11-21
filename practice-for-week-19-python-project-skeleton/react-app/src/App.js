@@ -66,11 +66,9 @@ function App() {
         <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
           <UpdateServer />
         </ProtectedRoute>
-
         <ProtectedRoute path="/servers/:serverId" exact={true}>
           <Servers />
         </ProtectedRoute>
-
         <ProtectedRoute
           path="/servers/:serverId/channels/:channelId"
           exact={true}
@@ -82,14 +80,13 @@ function App() {
         </Route>
       </Switch>
 
-      <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}>
-        <Route path="/servers">
+      {/* <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}> */}
+        <Route path="/servers/:serverId">
           <ServerMembers />
         </Route>
         <Route path="/chats/:chatId">
           <ChatMembers />
         </Route>
-      </div>
     </BrowserRouter>
   );
 }
