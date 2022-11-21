@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { logout } from "../../store/session";
 import { useSelectedServer } from "../../context/ServerContext";
 import { useSelectedChannels } from "../../context/ChannelContext";
+import "./LogoutButton.css"
 
 const LogoutButton = () => {
   const { setShowChannels } = useSelectedChannels();

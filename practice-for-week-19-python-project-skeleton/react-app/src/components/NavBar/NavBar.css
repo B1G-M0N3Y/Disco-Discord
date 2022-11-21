@@ -86,19 +86,25 @@
 }
 
 .logout-button {
-  text-align: center;
-  color: white;
-  font-size: 16px;
-  font-family: "Itim", cursive;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: red;
-  border: none;
-  width: 82%;
-  border-radius: 6px;
+  border: 0.2em solid var(--clr-neon);
+  border-radius: 1.2em;
+  cursor: pointer;
+  transition: 1.5s;
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  background-color: rgba(73, 70, 72, 0.724);
+  color: rgba(212, 212, 212, 0.785);
+  font-weight: 900;
+  margin-left: 25px;
+  /* float: right; */
+  margin-top: 75px;
+  font-size: 17px;
+
+  height: 50px;
+  width: 140px;
+
+  box-shadow: inset 0 0 1em 0 var(--clr-neon), 0 0 8em 0 var(--clr-neon);
 }
+
 
 .chat-nav {
   margin-top: 0px;
