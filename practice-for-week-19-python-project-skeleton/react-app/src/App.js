@@ -81,7 +81,7 @@ function App() {
       </Switch>
 
       {/* <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}> */}
-        <Route path="/servers">
+        <Route path="/servers/:serverId">
           <ServerMembers />
         </Route>
         <Route path="/chats/:chatId">
