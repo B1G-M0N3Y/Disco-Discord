@@ -1,8 +1,8 @@
 const GET_CHAT_MESSAGES = "chat/GET_CHAT_MESSAGES";
-// const GET_CHANNELS = "channel_messages/GET_CHANNELS"
 const ADD_CHAT_MESSAGE = "chat_messages/ADD_ONE";
 const ADD_CHAT = "chat/ADD_CHAT";
-// const DELETE = "channel_messages/DELETE";
+const DELETE_CHAT = "chat/DELETE";
+const DELETE_CHAT_MESSAGE = "chat_message/DELETE";
 
 const getChatMessages = (chats) => {
   return {
@@ -10,13 +10,6 @@ const getChatMessages = (chats) => {
     chats,
   };
 };
-
-// const getChannels = (channels) => {
-//   return {
-//     type: GET_CHANNELS,
-//     channels,
-//   };
-// }
 
 export const addChat = (chat) => {
   return {
@@ -26,19 +19,26 @@ export const addChat = (chat) => {
 };
 
 export const addChatMessage = (chat_message) => {
-  console.log(chat_message, typeof chat_message, "addCHATMESSAGE");
   return {
     type: ADD_CHAT_MESSAGE,
     chat_message: { ...chat_message },
   };
 };
 
-// const remove = (serverId) => {
-//   return {
-//     type: DELETE,
-//     serverId,
-//   };
-// };
+const removeChat = (chatId) => {
+  return {
+    type: DELETE_CHAT,
+    chatId,
+  };
+};
+
+const removeChatMessage = (chatMessageId, chatId) => {
+  return {
+    type: DELETE_CHAT_MESSAGE,
+    chatMessageId,
+    chatId,
+  };
+};
 
 // get all chats
 export const getChat = (chats) => async (dispatch) => {
@@ -83,12 +83,34 @@ export const newChat = (chat) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addChat(data));
-    console.log(data, "addCHAT DATA");
     return data;
   } else {
     alert("Error Occurred during Create Chat");
   }
 };
+export const deleteChat = (chatId) => async (dispatch) => {
+  const response = await fetch(`/api/chat/${chatId}`, {
+    method: "DELETE",
+  });
+
+  if (response.ok) {
+    dispatch(removeChat(chatId));
+  } else {
+    alert("Error Occurred during Delete Chat");
+  }
+};
+
+export const deleteChatMessage =
+  (chatMessageId, chatId) => async (dispatch) => {
+    const response = await fetch(`/api/chat/message/${chatMessageId}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      dispatch(removeChatMessage(chatMessageId, chatId));
+    } else {
+      alert("Error Occurred during Delete Chat");
+    }
+  };
 
 const initialState = { chats: {} };
 
@@ -111,6 +133,23 @@ const chatReducer = (state = initialState, action) => {
     case ADD_CHAT:
       newState = { ...state };
       newState[action.chat.id] = action.chat;
+      return newState;
+    case DELETE_CHAT:
+      newState = { ...state };
+      delete newState[action.chatId];
+      return newState;
+    case DELETE_CHAT_MESSAGE:
+      console.log("DELETE_CHAT_MESSAGE");
+      newState = { ...state };
+      console.log(newState[action.chatId], "actionCHATID");
+      const chatMessageArr = newState[action.chatId]["chat_messages"];
+      const chatIdx = chatMessageArr.findIndex(
+        (message) => message.id === action.chatMessageId
+      );
+      console.log(chatMessageArr, chatIdx, "DELETECHATMESSAGE**");
+      chatMessageArr.splice(chatIdx, 1);
+      newState[action.chatId]["chat_messages"] = chatMessageArr;
+      console.log(chatMessageArr, "after Delete");
       return newState;
     default:
       return state;

@@ -1,4 +1,4 @@
-const GET_MESSAGES = "channel_messages/GET_MESSAGES";
+ const GET_MESSAGES = "channel_messages/GET_MESSAGES";
 // const GET_CHANNELS = "channel_messages/GET_CHANNELS"
 const ADD_MESSAGE = "channel_messages/ADD_ONE";
 const DELETE = "channel_messages/DELETE";
@@ -96,7 +96,7 @@ const channelMessageReducer = (state = initialState, action) => {
     case GET_MESSAGES:
       return { messages: { ...action.messages } };
     case ADD_MESSAGE:
-      return { ...state, [action.message.id]: action.message };
+      return { ...state, [action.message?.id]: action.message };
     case DELETE:
       newState = { ...state };
       delete newState.messages[action.messageId];

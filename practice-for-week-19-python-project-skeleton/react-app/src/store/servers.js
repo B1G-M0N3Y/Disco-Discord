@@ -79,7 +79,7 @@ export const createServer = (payload) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(addOrUpdate(data));
-    return response;
+    return data;
   }
 };
 
@@ -92,11 +92,8 @@ export const updateServer = (serverBody, serverId) => async (dispatch) => {
     },
     body: JSON.stringify(serverBody),
   });
-  console.log("SERVER BODY", serverBody, serverId);
   if (response.ok) {
-    console.log("the response is ok");
     const data = await response.json();
-    console.log(data, "dispatched DATA IN updateServer");
     dispatch(addOrUpdate(data));
     return response;
   }
@@ -130,27 +127,18 @@ const serverReducer = (state = initialState, action) => {
       return newState;
     case ALL:
       newState = { ...state };
-      action.allServers.forEach((server) => {
+      action.servers.forEach((server) => {
         newState.allServers[server.id] = server;
       });
       return newState;
     case ADD_UPDATE:
       if (!state.servers[action.server.id]) {
-        console.log("IF***");
         newState = { ...state };
-        console.log(newState, "New State in add/update");
         newState.servers[action.server.id] = action.server;
-        console.log(newState, "New State after add/update");
         return newState;
       } else {
-        console.log("ELSE****");
         newState = { ...state };
-
-        console.log(action.server, "action");
-
-        console.log(newState.currentServer, "before");
         newState.currentServer = action.server;
-        console.log(newState.currentServer, "after");
         newState.servers[action.server.id] = action.server;
         return newState;
       }
@@ -159,12 +147,11 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         currentServer: { ...action.server },
       };
-
     case DELETE:
       newState = { ...state };
       delete newState.servers[action.serverId];
+      delete newState.allServers[action.serverId];
       delete newState.currentServer[0];
-
       return newState;
     default:
       return state;

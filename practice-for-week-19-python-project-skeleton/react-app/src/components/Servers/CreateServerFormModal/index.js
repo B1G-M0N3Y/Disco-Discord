@@ -7,7 +7,7 @@ const CreateServerFormModal = () => {
 
     return (
         <>
-            <button className="create-server-button-in-modal" onClick={() => setShowModal(true)}>Create New Server</button>
+            <button className="create-server-button-in-modal" onClick={() => setShowModal(true)}>+</button>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <CreateServerForm setShowModal={setShowModal}/>
