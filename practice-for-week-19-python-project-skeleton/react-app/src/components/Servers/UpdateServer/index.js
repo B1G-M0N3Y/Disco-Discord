@@ -8,7 +8,6 @@ import {
   deleteServerThunk,
 } from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
-import "../DeleteServer/DeleteServerButton.css";
 
 const UpdateServer = () => {
   const dispatch = useDispatch();
@@ -58,13 +57,30 @@ const UpdateServer = () => {
 
   const deleteHandler = async (e) => {
     e.preventDefault();
+    const serversArr = Object.keys(servers).map((serversId) =>
+      parseInt(serversId)
+    );
     await dispatch(deleteServerThunk(serverId));
-    return history.push("/");
+    const indexOfServerInServersArr = serversArr?.findIndex(
+      (serverIdx) => serverIdx === parseInt(serverId)
+    );
+    console.log(serversArr, "servers arr");
+    console.log(serverId, typeof serverId, "serverID");
+    console.log(indexOfServerInServersArr, "index of servers in server");
+    let nextServerIndex;
+    if (indexOfServerInServersArr === 0) {
+      nextServerIndex = serversArr[indexOfServerInServersArr + 1];
+    } else {
+      nextServerIndex = serversArr[indexOfServerInServersArr - 1];
+    }
+    console.log(nextServerIndex, "next server index");
+    setSelectedServer(nextServerIndex);
+    return history.push(`/servers/${nextServerIndex}`);
   };
 
   if (!Object.values(servers).length) return null;
 
-  if (userId === servers[serverId].admin_id) {
+  if (userId === servers[serverId]?.admin_id) {
     return (
       <div className="wrapper-container">
         <div className="edit-container">

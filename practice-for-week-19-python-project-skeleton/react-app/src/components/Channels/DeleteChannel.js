@@ -7,7 +7,6 @@ import {
   getCurrentChannels,
   updateChannel,
 } from "../../store/channels";
-import { useSelectedServer } from "../../context/ServerContext";
 // import DeleteChannel from "./UpdateChannel";
 
 const UpdateChannel = ({ server }) => {
@@ -132,13 +131,6 @@ const UpdateChannel = ({ server }) => {
                   {err}
                 </li>
               ))}
-            {/* Commented out to prevent double errors displaying */}
-            {/* {deleteErrors.length > 0 &&
-              deleteErrors.map((err) => (
-                <li id="err" key={err}>
-                  {err}
-                </li>
-              ))} */}
           </ul>
           <button
             className="edit-server-submit"
@@ -156,8 +148,6 @@ const UpdateChannel = ({ server }) => {
           </button>
         </form>
       </div>
-
-      {/* <DeleteChannel channelId={channelId} /> */}
     </div>
   );
 };
