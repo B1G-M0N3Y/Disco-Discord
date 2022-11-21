@@ -28,10 +28,9 @@ const NewServerMember = ({ serverId, currMembers }) => {
   const [members, setMembers] = useState([]);
   const [userId, setUserId] = useState();
   const [memberId, setMemberId] = useState();
-  const [userSelect, setUserSelect] = useState();
-  const [memberSelect, setMemberSelect] = useState();
-  const [addErrors, setAddErrors] = useState([]);
-  const [removeErrors, setRemoveErrors] = useState([]);
+  const [userSelect, setUserSelect] = useState([]);
+  const [memberSelect, setMemberSelect] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
 
   if (currServer?.server_members) {
     currMembers = Object.values(currServer?.server_members);
@@ -57,46 +56,33 @@ const NewServerMember = ({ serverId, currMembers }) => {
 
   const revert = () => {
     setUserId();
-    setUserSelect();
+    setUserSelect([]);
     setMemberId();
-    setMemberSelect();
+    setMemberSelect([]);
   };
 
-  // remove validations
+  // form validations
   useEffect(() => {
     const errors = [];
-    setRemoveErrors(errors);
-    if (!memberSelect) errors.push("Select a member.");
-    // if (user.id !== serversArr[serverId]?.admin_id)
-    //   errors.push("Only the admin can add or remove members.");
-    setRemoveErrors(errors);
-  }, [memberSelect]);
-
-  // add validations
-  useEffect(() => {
-    const errors = [];
-    setAddErrors(errors);
-    if (!userSelect) errors.push("Select a user.");
-    // if (user.id !== serversArr[serverId]?.admin_id)
-    //   errors.push("Only the admin can add or remove members.");
-    setAddErrors(errors);
-  }, [userSelect]);
+    setValidationErrors(errors);
+    // if (!name) errors.push("Server name is required.");
+    setValidationErrors(errors);
+  }, []);
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    setAddErrors([]);
+    setValidationErrors([]);
     setUserSelect([]);
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
     await dispatch(addServerMember(serverId, userId));
     await dispatch(getServers());
-    revert();
     // }
   };
 
   const handleRemove = async (e) => {
     e.preventDefault();
-    setRemoveErrors([]);
+    setValidationErrors([]);
     setUserSelect([]);
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
@@ -126,7 +112,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
   return (
     <>
       <form className="add-remove-form" onSubmit={handleAdd}>
-        <div className="add-remove-members">Add A User:</div>
+        <div className="add-members">Add A User:</div>
         <select
           className="select-member"
           onChange={updateUser}
@@ -140,27 +126,25 @@ const NewServerMember = ({ serverId, currMembers }) => {
             return <option key={user.username}>{user.username}</option>;
           })}
         </select>
-        {/* <ul className="errors">
-          {addErrors.length > 0 &&
-            addErrors.map((err) => (
+        <ul className="errors">
+          {validationErrors.length > 0 &&
+            validationErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
             ))}
-        </ul> */}
+        </ul>
         <button
-          className={
-            addErrors.length > 0 ? "member-edit-disabled" : "edit-user-submit"
-          }
+          className="edit-member-submit"
           type="submit"
-          disabled={!!addErrors.length}
+          disabled={!!validationErrors.length}
         >
           Add
         </button>
       </form>
 
       <form className="remove-form" onSubmit={handleRemove}>
-        <div className="add-remove-members">Remove A Member:</div>
+        <div className="remove-members">Remove A Member:</div>
         <select
           className="select-member"
           onChange={updateMember}
@@ -176,22 +160,18 @@ const NewServerMember = ({ serverId, currMembers }) => {
             }
           })}
         </select>
-        {/* <ul className="errors">
-          {removeErrors.length > 0 &&
-            removeErrors.map((err) => (
+        <ul className="errors">
+          {validationErrors.length > 0 &&
+            validationErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
             ))}
-        </ul> */}
+        </ul>
         <button
-          className={
-            removeErrors.length > 0
-              ? "member-edit-disabled"
-              : "edit-member-submit"
-          }
+          className="edit-member-submit"
           type="submit"
-          disabled={!!removeErrors.length}
+          disabled={!!validationErrors.length}
         >
           Remove
         </button>
