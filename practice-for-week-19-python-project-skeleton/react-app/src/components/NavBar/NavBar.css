@@ -1,7 +1,7 @@
 .flex-row {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .flex-column-start {
@@ -34,10 +34,10 @@
   justify-self: flex-end;
 }
 .navbar {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   list-style-type: none;
-  height: 100%;
+  /* height: 100%; */
   background-color: #323232;
   border-right: #292929 solid 10px;
 }
@@ -49,7 +49,7 @@
 
 .session-user-info {
   width: 100%;
-  height: 85px;
+  /* height: 85px; */
   display: flex;
   justify-self: flex-end;
   align-items: center;
