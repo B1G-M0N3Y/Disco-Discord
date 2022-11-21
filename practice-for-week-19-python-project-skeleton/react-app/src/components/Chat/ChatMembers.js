@@ -20,19 +20,22 @@ function ChatMembers() {
 
   let chatMembers;
   const { chatId } = useParams();
-  console.log(chatId, "test");
-  console.log(chats, chatId, Object.keys(chats).length > 1, "test2");
-  if (chats && chatId) {
+
+  if (chats && chatId && chats[chatId]) {
     chatMembers = Object.values(chats[chatId]?.chat_members);
   }
+
   return (
-    <div className="chat-members">
+    <div className="member-component">
       <h1>Chat Members: </h1>
+      <div className="chat-member-list">
       {chatMembers?.map((member) => (
-        <div>
-          <p>{member?.username}</p>
-        </div>
+          <div className="member">
+            <img src={member.image_url}></img>
+            <p>{member?.username}</p>
+          </div>
       ))}
+      </div>
     </div>
   );
 }
