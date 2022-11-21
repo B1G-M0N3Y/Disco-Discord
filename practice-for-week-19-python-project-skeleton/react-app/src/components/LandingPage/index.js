@@ -12,6 +12,7 @@ const LandingPage = () => {
   const servers = useSelector((state) => state.servers.servers);
   const allServers = useSelector((state) => state.servers.allServers);
   const serversArr = Object.values(allServers);
+  const userServers = Object.values(servers);
 
   useEffect(() => {
     return () => {
@@ -54,8 +55,9 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="server-card-container">
-              {serversArr?.map((server) => {
-                let idx = serversArr.indexOf(server);
+              {/* {serversArr?.map((server) => { */}
+              {userServers?.map((server) => {
+                let idx = userServers.indexOf(server);
                 let isAqua = isEven(idx);
                 return (
                   <>
