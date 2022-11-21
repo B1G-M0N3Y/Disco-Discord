@@ -62,3 +62,15 @@
     padding-left: 15px;
     padding-right: 15px;
   }
+
+  .modal-title{
+    padding-bottom: 25px;
+    font-size: 1.75em;
+  }
+
+  .modal-input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 25px;
+  }

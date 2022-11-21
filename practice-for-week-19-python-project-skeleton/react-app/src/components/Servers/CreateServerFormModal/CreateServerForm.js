@@ -100,25 +100,36 @@ const CreateServerForm = ({ setShowModal }) => {
           )}
         </div>
 
-        <label id="title-create-new-server">CREATE NEW SERVER</label>
-        <label id="title-create-server-input">Name of New Server</label>
-        <input
-          id="form-input-create-server"
-          type="text"
-          name="name"
-          value={serverName}
-          onChange={(e) => setServerName(e.target.value)}
-          required
-        />
+        <label className="title-create-new-server modal-title">
+          CREATE NEW SERVER
+        </label>
 
-        <label id="title-create-server-input">Server Profile Image - URL</label>
-        <input
-          id="form-input-create-server"
-          type="url"
-          name="imageURL"
-          value={imageURL}
-          onChange={(e) => setImageURL(e.target.value)}
-        />
+        <div className="modal-input">
+          <label className="title-create-server-input">
+            Name
+          </label>
+          <input
+            id="form-input-create-server"
+            type="text"
+            name="name"
+            value={serverName}
+            onChange={(e) => setServerName(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="modal-input">
+          <label id="title-create-server-input">
+            Image URL
+          </label>
+          <input
+            id="form-input-create-server"
+            type="url"
+            name="imageURL"
+            value={imageURL}
+            onChange={(e) => setImageURL(e.target.value)}
+          />
+        </div>
 
         <button className="button-create-server" type="submit">
           Create New Server

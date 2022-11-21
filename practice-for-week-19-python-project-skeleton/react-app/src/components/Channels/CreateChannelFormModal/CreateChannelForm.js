@@ -5,7 +5,7 @@ import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel, getCurrentChannels } from "../../../store/channels";
 import { getChannelMessages } from "../../../store/channel_messages";
 import { getServers } from "../../../store/servers";
-import './CreateChannelForm.css'
+import "./CreateChannelForm.css";
 
 const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();
@@ -78,18 +78,22 @@ const CreateChannelForm = ({ setShowModal }) => {
           )}
         </div>
 
-        <label className="title-create-new-channel">CREATE NEW CHANNEL</label>
-        <label className="title-create-channel-input">
-          Name of New Channel
+        <label className="title-create-new-channel modal-title">
+          CREATE NEW CHANNEL
         </label>
-        <input
-          id="form-input-create-channel"
-          type="text"
-          name="name"
-          value={channelName}
-          onChange={(e) => setChannelName(e.target.value)}
-          required
-        />
+        <div className="modal-input">
+          <label className="title-create-channel-input">
+            Name
+          </label>
+          <input
+            id="form-input-create-channel"
+            type="text"
+            name="name"
+            value={channelName}
+            onChange={(e) => setChannelName(e.target.value)}
+            required
+          />
+        </div>
 
         <button className="button-create-channel" type="submit">
           Create New Channel
