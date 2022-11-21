@@ -35,7 +35,8 @@ const LoginForm = () => {
 
   return (
     <form class="login-form-container" onSubmit={onLogin}>
-      <div class="errors">
+      <p id="login-title">LOGIN</p>
+      <div class="login-errors">
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))}
@@ -45,7 +46,7 @@ const LoginForm = () => {
         <div className="width-100">
           <label htmlFor="email">Email</label>
           <input
-            id="inputs"
+            id="login-inputs"
             name="email"
             type="text"
             placeholder="Email"
@@ -56,7 +57,7 @@ const LoginForm = () => {
         <div className="width-100">
           <label htmlFor="password">Password</label>
           <input
-            id="inputs"
+            id="login-inputs"
             name="password"
             type="password"
             placeholder="Password"

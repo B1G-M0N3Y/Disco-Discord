@@ -24,7 +24,7 @@ const Servers = () => {
     setSelectedServer(serverId);
   }, [dispatch]);
 
-  return null;
+  return (<div className="filler"></div>);
 };
 
 export default Servers;

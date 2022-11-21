@@ -110,9 +110,9 @@ const NewServerMember = ({ serverId, currMembers }) => {
   };
 
   return (
-    <>
+    <div className="edit-members">
       <form className="add-remove-form" onSubmit={handleAdd}>
-        <div className="add-members">Add A User:</div>
+        <label className="add-members">Add A User:</label>
         <select
           className="select-member"
           onChange={updateUser}
@@ -139,12 +139,12 @@ const NewServerMember = ({ serverId, currMembers }) => {
           type="submit"
           disabled={!!validationErrors.length}
         >
-          Add
+          <i class="fa-solid fa-user-plus"></i>
         </button>
       </form>
 
       <form className="remove-form" onSubmit={handleRemove}>
-        <div className="remove-members">Remove A Member:</div>
+        <label className="remove-members">Remove A Member:</label>
         <select
           className="select-member"
           onChange={updateMember}
@@ -152,7 +152,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           placeholder="Remove a member:"
         >
           <option value="" disabled selected>
-            Select an member to remove...
+            Select a member to remove...
           </option>
           {servers[serverId]?.server_members?.map((user) => {
             if (servers[serverId].admin_id !== user.id) {
@@ -169,14 +169,14 @@ const NewServerMember = ({ serverId, currMembers }) => {
             ))}
         </ul>
         <button
-          className="edit-member-submit"
+          className="remove-member-submit"
           type="submit"
           disabled={!!validationErrors.length}
         >
-          Remove
+          <i class="fa-solid fa-user-minus"></i>
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -141,7 +141,7 @@ const NavBar = () => {
                 <img
                   alt={currServerId}
                   className="server-pic-nav"
-                  src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668891927/discoball3_fi1fmg.png"
+                  src="https://i.pinimg.com/originals/15/1f/07/151f073cab6e304361f4f22577756974.gif"
                 ></img>
               </NavLink>
               {sessionUser && (

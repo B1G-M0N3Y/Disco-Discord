@@ -2,6 +2,10 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
+  /* height: 100vw; */
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  color: rgb(223, 223, 223);
+  font-size: 12px;
 }
 
 .navlink {
@@ -16,21 +20,8 @@ html {
 #root {
   display: flex;
   flex-direction: row;
+  align-items: space-between;
   margin: 0 !important;
-}
-
-p {
-  /* font-family: "Itim", cursive; */
-  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  height: 48px;
-  line-height: 20px;
-  min-width: 0;
-  position: relative;
-  width: 100%;
-  z-index: 100;
-  color: rgb(255, 0, 195);
 }
 
 i {
@@ -45,9 +36,6 @@ button {
 .message-section {
   width: 100%;
   height: 100vh;
-  margin-top: 40px;
-  overflow-y: no-scroll;
-  overflow-x: no-scroll;
 }
 
 .logged-out-landing {
@@ -63,10 +51,16 @@ button {
 
 .left-right-columns {
   width: 300px;
+  align-self: flex-end;
 }
 
 .channel-message-display {
   display: flex;
   width: 100%;
   justify-content: space-between;
+}
+
+
+.filler{
+  width: 100%;
 }
