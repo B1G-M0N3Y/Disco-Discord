@@ -30,7 +30,8 @@ const NewServerMember = ({ serverId, currMembers }) => {
   const [memberId, setMemberId] = useState();
   const [userSelect, setUserSelect] = useState([]);
   const [memberSelect, setMemberSelect] = useState([]);
-  const [validationErrors, setValidationErrors] = useState([]);
+  const [addErrors, setAddErrors] = useState([]);
+  const [removeErrors, setRemoveErrors] = useState([]);
 
   if (currServer?.server_members) {
     currMembers = Object.values(currServer?.server_members);
@@ -61,17 +62,25 @@ const NewServerMember = ({ serverId, currMembers }) => {
     setMemberSelect([]);
   };
 
-  // form validations
+  // remove validations
   useEffect(() => {
     const errors = [];
-    setValidationErrors(errors);
-    // if (!name) errors.push("Server name is required.");
-    setValidationErrors(errors);
-  }, []);
+    setRemoveErrors(errors);
+    if (!memberSelect?.id) errors.push("Select a member.");
+    setRemoveErrors(errors);
+  }, [memberSelect]);
+
+  // add validations
+  useEffect(() => {
+    const errors = [];
+    setAddErrors(errors);
+    if (!userSelect?.id) errors.push("Select a user.");
+    setAddErrors(errors);
+  }, [userSelect]);
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    setValidationErrors([]);
+    setAddErrors([]);
     setUserSelect([]);
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
@@ -82,7 +91,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
 
   const handleRemove = async (e) => {
     e.preventDefault();
-    setValidationErrors([]);
+    setRemoveErrors([]);
     setUserSelect([]);
     // a user needs to be the admin in order to allow editing
     // if (user.id === serversArr[serverId]?.admin_id) {
@@ -112,7 +121,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
   return (
     <>
       <form className="add-remove-form" onSubmit={handleAdd}>
-        <div className="add-members">Add A User:</div>
+        <div className="add-remove-members">Add A User:</div>
         <select
           className="select-member"
           onChange={updateUser}
@@ -126,25 +135,29 @@ const NewServerMember = ({ serverId, currMembers }) => {
             return <option key={user.username}>{user.username}</option>;
           })}
         </select>
-        <ul className="errors">
-          {validationErrors.length > 0 &&
-            validationErrors.map((err) => (
+        {/* <ul className="errors">
+          {removeErrors.length > 0 &&
+            removeErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
             ))}
-        </ul>
+        </ul> */}
         <button
-          className="edit-member-submit"
+          className={
+            removeErrors.length > 0
+              ? "member-edit-disabled"
+              : "edit-member-submit"
+          }
           type="submit"
-          disabled={!!validationErrors.length}
+          disabled={!!removeErrors.length}
         >
           Add
         </button>
       </form>
 
       <form className="remove-form" onSubmit={handleRemove}>
-        <div className="remove-members">Remove A Member:</div>
+        <div className="add-remove-members">Remove A Member:</div>
         <select
           className="select-member"
           onChange={updateMember}
@@ -160,18 +173,20 @@ const NewServerMember = ({ serverId, currMembers }) => {
             }
           })}
         </select>
-        <ul className="errors">
-          {validationErrors.length > 0 &&
-            validationErrors.map((err) => (
+        {/* <ul className="errors">
+          {addErrors.length > 0 &&
+            addErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
             ))}
-        </ul>
+        </ul> */}
         <button
-          className="edit-member-submit"
+          className={
+            addErrors.length > 0 ? "member-edit-disabled" : "edit-member-submit"
+          }
           type="submit"
-          disabled={!!validationErrors.length}
+          disabled={!!addErrors.length}
         >
           Remove
         </button>

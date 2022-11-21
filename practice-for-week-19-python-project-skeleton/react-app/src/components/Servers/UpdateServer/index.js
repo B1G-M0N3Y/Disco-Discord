@@ -85,68 +85,72 @@ const UpdateServer = () => {
 
   if (user.id === servers[serverId].admin_id) {
     return (
-      <>
-        <div className="update-delete-server flex-column-center">
-          <div className="edit-container">
-            <div className="edit-title">Edit server details:</div>
+      <div className="update-delete-server flex-column-center">
+        <div className="edit-container">
+          <div className="edit-title">Edit server details:</div>
+          <br></br>
+          <div className="edit-name">Edit channel name: </div>
+          <form
+            className="edit-server-form flex-column"
+            onSubmit={handleSubmit}
+          >
+            <input
+              className="edit-input"
+              type="name"
+              placeholder="Name"
+              value={name}
+              required={true}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              className="edit-input"
+              type="imageUrl"
+              placeholder="Image Url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
             <br></br>
-            <div className="edit-name">Edit channel name: </div>
-            <form
-              className="edit-server-form flex-column"
-              onSubmit={handleSubmit}
+            <div className="errors">
+              {editErrors.length > 0 &&
+                editErrors.map((err) => (
+                  <li id="err" key={err}>
+                    {err}
+                  </li>
+                ))}
+            </div>
+            <br></br>
+            <button
+              className={
+                editErrors.length > 0 ? "edit-disabled" : "edit-server-submit"
+              }
+              type="submit"
+              disabled={!!editErrors.length}
             >
-              <input
-                className="edit-input"
-                type="name"
-                placeholder="Name"
-                value={name}
-                required={true}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <input
-                className="edit-input"
-                type="imageUrl"
-                placeholder="Image Url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-              <br></br>
-              <div className="errors">
-                {editErrors.length > 0 &&
-                  editErrors.map((err) => (
-                    <li id="err" key={err}>
-                      {err}
-                    </li>
-                  ))}
-              </div>
-              <br></br>
-              <button
-                className="edit-server-submit"
-                type="submit"
-                disabled={!!editErrors.length}
-              >
-                Submit
-              </button>
-              {user && user.id === servers[serverId].admin_id && (
-                <>
-                  <button
-                    disabled={!!deleteErrors.length}
-                    className="delete-server-button"
-                    onClick={deleteHandler}
-                  >
-                    {" "}
-                    Delete Server{" "}
-                  </button>
-                </>
-              )}
-            </form>
-            <br />
-            <hr />
-          </div>
-
-          <UpdateChannel />
+              Submit
+            </button>
+            {user && user.id === servers[serverId].admin_id && (
+              <>
+                <button
+                  disabled={!!deleteErrors.length}
+                  className={
+                    deleteErrors.length > 0
+                      ? "edit-disabled"
+                      : "delete-server-button"
+                  }
+                  onClick={deleteHandler}
+                >
+                  {" "}
+                  Delete Server{" "}
+                </button>
+              </>
+            )}
+          </form>
+          <br />
+          <hr />
         </div>
-      </>
+
+        <UpdateChannel />
+      </div>
     );
   } else {
     history.push(`/server/${serverId}`);
