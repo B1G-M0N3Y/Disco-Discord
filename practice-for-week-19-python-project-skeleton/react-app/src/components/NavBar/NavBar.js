@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 // import SidebarNav from "../SidebarNav";
 import { getServers } from "../../store/servers";
@@ -21,14 +21,12 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const [showLogout, setShowLogout] = useState(false);
+
   const [currServerId, setCurrServerId] = useState();
 
   const sessionUser = useSelector((state) => state.session.user);
   const currServers = useSelector((state) => state.servers.servers);
 
-  const currChannels = useSelector(
-    (state) => state.servers.currentServer["channels"]
-  );
   const { showMessages, setShowMessages } = useSelectedMessages();
   const { showChannels, setShowChannels } = useSelectedChannels(false);
   const { selectedServer, setSelectedServer } = useSelectedServer();
@@ -91,15 +89,14 @@ const NavBar = () => {
     );
     const channelList = currServers[selectedServer]?.channels?.map(
       (channel, idx) => (
-        <div className="channel-nav chat-nav">
-          <div
-            onClick={() => {
-              setSelectedChannel(channel);
-              history.push(`/servers/${currServerId}/channels/${channel?.id}`);
-            }}
-          >
-            <div className="width-90">{channel.name}</div>
-          </div>
+        <div
+          className="channel-nav chat-nav"
+          onClick={() => {
+            setSelectedChannel(channel);
+            history.push(`/servers/${selectedServer}/channels/${channel?.id}`);
+          }}
+        >
+          <div className="width-90">{channel.name}</div>
         </div>
       )
     );
@@ -120,7 +117,7 @@ const NavBar = () => {
             src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
           ></img>
           {/* TODO: don't display the name here */}
-          <p>{server.name}</p>
+          {/* <p>{server.name}</p> */}
         </div>
       </div>
     ));

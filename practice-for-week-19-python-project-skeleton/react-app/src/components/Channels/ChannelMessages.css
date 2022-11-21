@@ -13,7 +13,7 @@
   justify-content: flex-start;
   align-items: center;
   overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   height: 100%;
   width: 98%;
 }
@@ -74,10 +74,6 @@
   align-items: flex-end;
 }
 
-.trash {
-  /* border: 1px solid aqua; */
-}
-
 .message:hover .fa-trash-can {
   visibility: visible;
   opacity: 1;
@@ -107,6 +103,7 @@
   border-radius: 6px;
   border: none;
   width: 95%;
+  padding-left: 15px;
 }
 
 .message-button {
@@ -156,6 +153,7 @@
 .message-text {
   margin-left: 25px;
   height: 100%;
+  z-index: -1;
 }
 
 .message-text p {

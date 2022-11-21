@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 function UsersList() {
   const [users, setUsers] = useState([]);
-  // const [servers, setServers] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -14,20 +13,6 @@ function UsersList() {
     fetchData();
   }, []);
 
-  // this is just a test
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const response = await fetch("/api/servers/")
-  //       .then((resp) => resp.json())
-  //       .then((data) => {
-  //         setServers(data);
-  //       });
-  //     // const responseData = await response.json();
-  //     // setServers(responseData.servers);
-  //   }
-  //   fetchData();
-  // }, []);
-
   const userComponents = users.map((user) => {
     return (
       <li key={user.id}>
@@ -35,15 +20,6 @@ function UsersList() {
       </li>
     );
   });
-
-  // this is just a test
-  // const serverComponents = servers.map((server) => {
-  //   return (
-  //     <li key={server.id}>
-  //       <NavLink to={`/servers/${server.id}`}>{server.name}</NavLink>
-  //     </li>
-  //   );
-  // });
 
   return (
     <>

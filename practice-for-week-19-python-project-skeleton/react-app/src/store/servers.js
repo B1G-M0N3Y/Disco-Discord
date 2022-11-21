@@ -135,6 +135,7 @@ const serverReducer = (state = initialState, action) => {
       if (!state.servers[action.server.id]) {
         newState = { ...state };
         newState.servers[action.server.id] = action.server;
+
         return newState;
       } else {
         newState = { ...state };

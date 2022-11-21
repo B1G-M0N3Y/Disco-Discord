@@ -42,17 +42,6 @@ const UpdateServer = () => {
     setImageUrl(imageUrl);
   };
 
-  // form validations
-  // useEffect(() => {
-  //   const errors = [];
-  //   setValidationErrors(errors);
-  //   if (!name) errors.push("Server name is required.");
-  //   if (imageUrl?.length > 255) errors.push("Url cannot exceed length limit.");
-  //   // TODO if (user.id !== server?.admin_id)
-  //   //   errors.push("Only the admin can update this server.");
-  //   setValidationErrors(errors);
-  // }, [name, imageUrl]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setValidationErrors([]);

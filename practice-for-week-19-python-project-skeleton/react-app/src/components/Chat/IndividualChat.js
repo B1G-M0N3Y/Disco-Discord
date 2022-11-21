@@ -15,22 +15,12 @@ function IndividualChat({ chat, setChat }) {
   const chats = useSelector((state) => state.chats);
 
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
+  console.log(
+    chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
+    "find index"
+  );
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
-
-  const determineNextChatOnDelete = () => {
-    const indexOfChatInChatsArr = chatsArr?.findIndex(
-      (chatIdx) => chatIdx === chat.id
-    );
-    let nextChatIndex;
-    if (indexOfChatInChatsArr === 0) {
-      nextChatIndex = chatsArr[indexOfChatInChatsArr + 1];
-    } else {
-      nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
-    }
-    setSelectedChat(nextChatIndex);
-    history.push(`/chats/${nextChatIndex}`);
-  };
 
   const handleDelete = async (chatId) => {
     await dispatch(deleteChat(chatId));
@@ -45,7 +35,6 @@ function IndividualChat({ chat, setChat }) {
       nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
     }
     setSelectedChat(nextChatIndex);
-
     return history.push(`/chats/${nextChatIndex}`);
   };
 

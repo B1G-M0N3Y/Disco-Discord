@@ -190,3 +190,49 @@
   justify-content: flex-end;
   width: 100%;
 }
+
+.create-chat-dropdown {
+  position: absolute;
+  left: 290px;
+  top: 20px;
+  background-color: #3c308c;
+  border: 5px solid #7d40bf;
+  border-radius: 5px;
+  width: 250px;
+  padding-block: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.create-chat-option {
+  min-width: 100px;
+}
+
+.create-chat-checkbox {
+  margin-right: 5px;
+}
+
+.create-chat-submit {
+  align-self: center;
+  background-color: #7d40bf;
+  font-family: "Itim", cursive;
+  font-size: 18px;
+  border: none;
+  color: white;
+  width: 140px;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.create-chat-submit:hover {
+  border: 1px solid white;
+}
+
+.create-chat-submit:disabled {
+  background-color: gray;
+  border: none !important;
+  color: rgb(219, 9, 9);
+}
