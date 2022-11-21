@@ -40,7 +40,7 @@ const CreateChannelForm = ({ setShowModal }) => {
         "Please enter valid Channel Name. Channel Name must be less than 100 characters."
       );
     }
-
+    console.log(errors, errors.length, "errs");
     setValidationErrors(errors);
 
     if (errors.length === 0) {

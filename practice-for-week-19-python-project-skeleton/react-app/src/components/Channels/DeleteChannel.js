@@ -139,14 +139,18 @@ const UpdateChannel = ({ server }) => {
           </div>
           <br></br>
           <button
-            className="edit-server-submit"
+            className={
+              editErrors.length > 0 ? "edit-disabled" : "edit-server-submit"
+            }
             type="submit"
             disabled={!!editErrors.length}
           >
             Submit
           </button>
           <button
-            className="delete-server-button"
+            className={
+              deleteErrors.length > 0 ? "edit-disabled" : "delete-server-button"
+            }
             disabled={!!deleteErrors.length}
             onClick={handleClick}
           >

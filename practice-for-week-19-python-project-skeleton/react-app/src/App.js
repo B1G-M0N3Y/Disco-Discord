@@ -16,6 +16,8 @@ import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateS
 import ServerMembers from "./components/ServerMembers";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
+import ChatMembers from "./components/Chat/ChatMembers";
+import { getChat } from "./store/chat";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -27,6 +29,7 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
+      await dispatch(getChat());
 
       setLoaded(true);
     })();
@@ -81,7 +84,9 @@ function App() {
         <Route path="/servers">
           <ServerMembers />
         </Route>
-      {/* </div> */}
+        <Route path="/chats/:chatId">
+          <ChatMembers />
+        </Route>
     </BrowserRouter>
   );
 }

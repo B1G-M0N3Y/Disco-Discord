@@ -106,3 +106,8 @@
   color: var(--clr-neon);
   text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
 }
+
+.chat-member-list{
+    margin-left: 15px;
+    align-self: flex-start;
+}
