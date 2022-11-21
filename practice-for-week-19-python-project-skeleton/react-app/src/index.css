@@ -2,6 +2,10 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
+  /* height: 100vw; */
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  color: rgb(223, 223, 223);
+  font-size: 12px;
 }
 
 .navlink {
