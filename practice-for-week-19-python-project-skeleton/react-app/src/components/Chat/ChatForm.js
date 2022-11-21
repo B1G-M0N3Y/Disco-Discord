@@ -16,21 +16,18 @@ function ChatForm() {
   const [validationErrors, setValidationErrors] = useState([]);
 
   useEffect(() => {
-    //   TODO SETUP THIS REDUX
     dispatch(getChat());
   }, [dispatch, chatId]);
+
+  useEffect(() => {
+    setText("");
+  }, [chatId]);
 
   useEffect(() => {
     socket = io();
 
     socket.on("connect", () => {
       console.log("***CONNECTED TO WEB SOCKET");
-      // socket.emit("join", { chat_id: chat.id });
-    });
-
-    socket.on("join", (data) => {
-      console.log("JOIN ROOM ***");
-      console.log(data);
     });
 
     socket.on("newmessage", (data) => {
@@ -41,8 +38,6 @@ function ChatForm() {
 
     socket.on("initialize", (data) => {
       console.log("initialized data", data);
-      // TODO SEND DATA TO REDUX optional
-      //THIS IS BEING HANDLED BY REDUX THUNK
     });
 
     return () => {
@@ -62,9 +57,7 @@ function ChatForm() {
     e.preventDefault();
     if (text.length === 0) return;
     const message = { body: text, chat_id: chatId };
-    console.log(message, "message");
     const response = await dispatch(newChatMessage(message));
-    console.log(response, "fetch response");
     socket.emit("newmessage", response);
     setText("");
   };
@@ -76,15 +69,6 @@ function ChatForm() {
         {/* TODO ADD TERNARY WITH USESTATE VARIABLE IF CHANNEL MESSAGE OR PRIVATE MESSAGE */}
 
         <ChatMessages chat_id={chatId} />
-        {/* <form onSubmit={handleSubmit}>
-        <input
-        name="type-here"
-        onChange={(e) => {
-          setText(e.target.value);
-        }}
-        ></input>
-        <input type="submit" value=">"></input>
-      </form> */}
       </div>
       <div className="form-wrapper">
         <form className="message-input-form" onSubmit={handleSubmit}>

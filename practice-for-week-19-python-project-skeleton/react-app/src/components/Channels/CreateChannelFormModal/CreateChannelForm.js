@@ -48,7 +48,6 @@ const CreateChannelForm = ({ setShowModal }) => {
       await dispatch(getCurrentChannels(selectedServer));
       await dispatch(getChannelMessages(newChannel.id));
       setShowModal(false);
-      console.log('ma new channel', newChannel);
       history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
     }
   };

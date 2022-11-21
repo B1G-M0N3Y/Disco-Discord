@@ -43,19 +43,12 @@ const ChannelMessagesPage = () => {
 
   useEffect(() => {
     socket = io();
-    //NAMESPACE SETUP FOR LATER
-    // const channelNameSpace = socket.("/channel");
-
-    // channelNameSpace.on("connect", () => {
-    //   console.log("**CHANNEL NAMESPACE CONNECTED");
-    // });
 
     socket.on("chat", (chat) => {
       setAllMessages((messages) => [...messages, chat]);
     });
 
     socket.on("channelmessage", (message) => {
-      console.log(message, "HERES THE CHANNEL MESSAGE");
       dispatch(addMessage(message));
       dispatch(getChannelMessages(channelId));
     });
@@ -98,11 +91,7 @@ const ChannelMessagesPage = () => {
 
   return (
     <>
-      {/* TODO: REFACTOR TO SINGLE MAP */}
-      {/* CURRENT IMPLEMENTATION JUST BARE BONES FOR TESTING */}
-      {/* AND SETTING UP THE CREATE THUNK */}
       {messageStore ? (
-        // console.log(messages, "messages in map")
         <div className="message-section">
           <div className="all-messages">
             {Object.values(messageStore).map((message) => (

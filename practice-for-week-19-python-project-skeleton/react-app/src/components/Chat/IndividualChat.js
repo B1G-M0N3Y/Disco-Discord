@@ -22,22 +22,6 @@ function IndividualChat({ chat, setChat }) {
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
 
-  const determineNextChatOnDelete = () => {
-    const indexOfChatInChatsArr = chatsArr?.findIndex(
-      (chatIdx) => chatIdx === chat.id
-    );
-    let nextChatIndex;
-    if (indexOfChatInChatsArr === 0) {
-      nextChatIndex = chatsArr[indexOfChatInChatsArr + 1];
-    } else {
-      nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
-    }
-    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
-    setSelectedChat(nextChatIndex);
-    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
-    history.push(`/chats/${nextChatIndex}`);
-  };
-
   const handleDelete = async (chatId) => {
     await dispatch(deleteChat(chatId));
     // determineNextChatOnDelete();
@@ -50,16 +34,11 @@ function IndividualChat({ chat, setChat }) {
     } else {
       nextChatIndex = chatsArr[indexOfChatInChatsArr - 1];
     }
-    console.log(nextChatIndex, typeof nextChatIndex, "next chat index");
     setSelectedChat(nextChatIndex);
-    console.log(selectedChat, `/chats/${nextChatIndex}`, "test***");
-
     return history.push(`/chats/${nextChatIndex}`);
   };
 
   let chatSelector;
-
-  console.log(selectedChat, chat.id, selectedChat === chat.id, "test");
 
   const selectChat = () => {
     setSelectedChat(chat.id);
@@ -85,7 +64,6 @@ function IndividualChat({ chat, setChat }) {
     const otherUser = chat.chat_members?.filter(
       (member) => member.email !== user.email
     )[0];
-    console.log(otherUser);
     chatSelector = (
       <>
         <img

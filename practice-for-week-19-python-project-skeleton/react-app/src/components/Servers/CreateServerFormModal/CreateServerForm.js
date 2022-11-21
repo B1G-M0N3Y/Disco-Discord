@@ -40,7 +40,6 @@ const CreateServerForm = ({ setShowModal }) => {
   }, [serverName, imageURL, adminId]);
 
   const handleSubmit = async (e) => {
-    console.log("TESTING");
     e.preventDefault();
 
     let createServerInputs;
@@ -52,11 +51,7 @@ const CreateServerForm = ({ setShowModal }) => {
         admin_id: adminId,
       };
 
-    console.log("THESE ARE CREATE SERVER INPUTS", createServerInputs);
-
     const newServer = await dispatch(createServer(createServerInputs));
-    // selectedServer(newServer);
-    // console.log("THIS IS NEW SERVER VARIABLE: ", newServer)
     setShowModal(false);
     if (newServer) {
       setSelectedServer(newServer.id);
@@ -94,15 +89,6 @@ const CreateServerForm = ({ setShowModal }) => {
         value={imageURL}
         onChange={(e) => setImageURL(e.target.value)}
       />
-
-      {/* <label id="title-create-server-input">Server Owner - UserId</label>
-                <input id="form-input-create-server"
-                type="text"
-                name="adminId"
-                value={adminId}
-                onChange={e => setAdminId(e.target.value)}
-                /> */}
-
       <button className="button-create-server" type="submit">
         Create New Server
       </button>
