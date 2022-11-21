@@ -4,16 +4,16 @@ import session from "./session";
 import serverReducer from "./servers";
 import channelReducer from "./channels";
 import channelMessageReducer from "./channel_messages";
-import privateMessageReducer from "./private_messages";
 import chatReducer from "./chat";
+import userReducer from "./users";
 
 const rootReducer = combineReducers({
   session,
   servers: serverReducer,
   channels: channelReducer,
   channelMessages: channelMessageReducer,
-  privateMessages: privateMessageReducer,
   chats: chatReducer,
+  users: userReducer
 });
 
 let enhancer;

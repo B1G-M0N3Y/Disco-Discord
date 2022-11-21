@@ -8,7 +8,7 @@ import {
   updateChannel,
 } from "../../store/channels";
 import { useSelectedServer } from "../../context/ServerContext";
-// import DeleteChannel from "./UpdateChannel";
+import "../Servers/UpdateServer/UpdateServer.css";
 
 const UpdateChannel = ({ server }) => {
   const dispatch = useDispatch();
@@ -101,45 +101,43 @@ const UpdateChannel = ({ server }) => {
   if (!Object.values(servers).length) return null;
 
   return (
-    <div className="wrapper-container">
+    <div className="update-delete-server flex-column-center">
       <div className="edit-container">
         <br></br>
-        <form className="delete-channel-form" onSubmit={editHandler}>
-          <div>Edit Channel Details:</div>
+        <form className="edit-server-form flex-column" onSubmit={editHandler}>
+          <div className="edit-title">Edit channel details:</div>
+          <br></br>
           <select
+            className="channel-select"
             onChange={(e) => setChannelSelect(e.target.value)}
             value={channelSelect}
             placeholder="Delete Channel:"
           >
-            <option value="" disabled selected>
+            <option value="" disabled selected className="select-dropdown">
               Select an channel...
             </option>
             {channelsArr?.map((channel) => {
               return <option key={channel.name}>{channel.name}</option>;
             })}
           </select>
-          <div>Edit Channel Name: </div>
+          <div className="edit-name">Edit channel name: </div>
           <input
+            className="edit-input"
             type="name"
             placeholder="Channel Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <ul className="errors">
+          <br></br>
+          <div className="errors">
             {editErrors.length > 0 &&
               editErrors.map((err) => (
                 <li id="err" key={err}>
                   {err}
                 </li>
               ))}
-            {/* Commented out to prevent double errors displaying */}
-            {/* {deleteErrors.length > 0 &&
-              deleteErrors.map((err) => (
-                <li id="err" key={err}>
-                  {err}
-                </li>
-              ))} */}
-          </ul>
+          </div>
+          <br></br>
           <button
             className="edit-server-submit"
             type="submit"
@@ -148,7 +146,7 @@ const UpdateChannel = ({ server }) => {
             Submit
           </button>
           <button
-            className="delete-server-submit"
+            className="delete-server-button"
             disabled={!!deleteErrors.length}
             onClick={handleClick}
           >
@@ -156,8 +154,6 @@ const UpdateChannel = ({ server }) => {
           </button>
         </form>
       </div>
-
-      {/* <DeleteChannel channelId={channelId} /> */}
     </div>
   );
 };
