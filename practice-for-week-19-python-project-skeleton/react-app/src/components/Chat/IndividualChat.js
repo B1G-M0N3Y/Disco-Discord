@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useSelectedChat } from "../../context/ChatContext";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { deleteChat } from "../../store/chat";
 
 const DEFAULT_IMAGE_URL =
@@ -15,10 +15,6 @@ function IndividualChat({ chat, setChat }) {
   const chats = useSelector((state) => state.chats);
 
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
-  console.log(
-    chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
-    "find index"
-  );
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
 
@@ -80,7 +76,7 @@ function IndividualChat({ chat, setChat }) {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch("/api/chat/");
-      const responseData = await response.json();
+      await response.json();
     }
     fetchData();
   }, []);

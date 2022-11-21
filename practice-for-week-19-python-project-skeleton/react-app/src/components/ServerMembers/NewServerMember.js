@@ -167,7 +167,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           <option value="" disabled selected>
             Select an member to remove...
           </option>
-          {servers[serverId]?.server_members.map((user) => {
+          {servers[serverId]?.server_members?.map((user) => {
             if (servers[serverId].admin_id !== user.id) {
               return <option key={user.username}>{user.username}</option>;
             }

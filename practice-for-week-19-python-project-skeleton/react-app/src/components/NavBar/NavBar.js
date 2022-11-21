@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 // import SidebarNav from "../SidebarNav";
 import { getServers } from "../../store/servers";
@@ -27,7 +27,7 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const currServers = useSelector((state) => state.servers.servers);
 
-  const { showMessages, setShowMessages } = useSelectedMessages();
+  const { setShowMessages } = useSelectedMessages();
   const { showChannels, setShowChannels } = useSelectedChannels(false);
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { setSelectedChannel } = useSelectedChannels(false);
