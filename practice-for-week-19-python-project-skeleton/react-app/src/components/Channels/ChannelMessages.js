@@ -98,16 +98,22 @@ const ChannelMessagesPage = () => {
               <div className="message">
                 <div className="inner-message">
                   {/* <div className="flex-row-center"> */}
+                  {message.message_author.image_url ? (
                     <img
                       alt={message.id}
                       src={message.message_author.image_url}
                       className="author-message-image"
                     ></img>
-                    <div className="message-text">
-                      <p className="username-message">
-                        {message.message_author.username}
-                      </p>
-                      <p className="message-body">{message.body}</p>
+                  ) : (
+                    <div className="author-message-image default-image">
+                      {message.message_author.username[0].toUpperCase()}
+                    </div>
+                  )}
+                  <div className="message-text">
+                    <p className="username-message">
+                      {message.message_author.username}
+                    </p>
+                    <p className="message-body">{message.body}</p>
                     {/* </div> */}
                   </div>
                   <div className="flex-row-end trash">
