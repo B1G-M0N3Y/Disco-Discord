@@ -135,7 +135,6 @@ const serverReducer = (state = initialState, action) => {
       if (!state.servers[action.server.id]) {
         newState = { ...state };
         newState.servers[action.server.id] = action.server;
-
         return newState;
       } else {
         newState = { ...state };
@@ -148,12 +147,11 @@ const serverReducer = (state = initialState, action) => {
         ...state,
         currentServer: { ...action.server },
       };
-
     case DELETE:
       newState = { ...state };
       delete newState.servers[action.serverId];
+      delete newState.allServers[action.serverId];
       delete newState.currentServer[0];
-
       return newState;
     default:
       return state;
