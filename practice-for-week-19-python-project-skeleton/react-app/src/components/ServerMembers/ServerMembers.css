@@ -1,125 +1,125 @@
-.member-sidebar {
+.member-component {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  align-items: center;
+  width: 320px;
+  border-left: var(--clr-neon) 0.35em solid;
+  box-shadow: inset 8px 0 10px -6px var(--clr-neon), 0 0 1.8em 0 var(--clr-neon);
+  font-family: "Pacifico", cursive;
 }
 
-.member-list-add {
+.member-component h1 {
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
+  font-size: 1.8em;
+}
+
+.member-container {
+  margin-left: 10px;
+  width: 202px;
+  /* display: grid;
+  grid-template-rows: 1fr 1fr; */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 95%;
+}
+
+.member img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member p {
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+.member {
+  font-family: "Pacifico", cursive;
+  color: white;
+  /* color: #15f4ee;
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em #15f4ee; */
+  display: flex;
+  align-items: center;
 }
 
 .member-list {
-  display: flex;
-  flex-direction: row;
-  height: 68px;
-}
-
-.server-members {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-self: flex-start;
   justify-content: flex-start;
-  height: 100%;
-  overflow-y: scroll;
 }
 
-.member-image {
-  align-self: flex-start;
-  border-radius: 50%;
-  height: 48px;
-  width: 48px;
-  object-fit: cover;
-}
-
-.buffer {
-  height: 20px;
-}
-
-.member-image-container {
-  align-self: flex-start;
-  height: 48px;
-  width: 48px;
-}
-
-.member-name {
-  margin-left: 20px;
+.edit-members {
+  margin-top: 100px;
   display: flex;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.member-title {
-  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+.edit-members form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.edit-members form label {
+  margin-bottom: 15px;
+}
+
+.edit-members form select {
+  padding-left: 5px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #272525;
   color: white;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-size: 25px;
+  border: none;
+}
+
+.edit-members form button {
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3em;
+  font-size: 20px;
+  background-color: #00000000;
+}
+
+.remove-form {
+  margin-top: 30px;
+}
+
+.edit-member-submit {
+  border: #15f4ee 0.1em solid;
+  box-shadow: 0 0 2.3em 0 #15f4ee;
+  color: #15f4ee;
 }
 
 .select-member {
-  width: 90%;
-  height: 32px;
-  margin-top: 20px;
-  background: rgb(45, 45, 45);
-  border-color: white;
+  width: 202px;
+}
+
+.remove-member-submit {
+  border: var(--clr-neon) 0.1em solid;
+  box-shadow: 0 0 2.3em 0 var(--clr-neon);
+  color: var(--clr-neon);
+}
+
+.add-members {
   color: #15f4ee;
-  border-radius: 8px;
-  font-size: 16px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em #15f4ee;
 }
 
-.select-member:focus,
-.select-member:active,
-.select-member:hover {
-  border-color: #15f4ee;
-  outline: none;
+.remove-members {
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
 }
 
-.add-remove-members {
-  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-  color: white;
-  width: 100%;
-  margin-top: 20px;
-  font-size: 16px;
-}
-
-.edit-member-submit,
-.edit-user-submit {
-  width: 90%;
-  height: 32px;
-  margin-top: 10px;
-  background: none;
-  border-color: white;
-  color: white;
-  border-radius: 0.5em;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.member-edit-disabled {
-  width: 90%;
-  height: 32px;
-  margin-top: 10px;
-  background: none;
-  border-color: white;
-  color: white;
-  border-radius: 0.5em;
-  font-size: 16px;
-  cursor: default;
-}
-
-.edit-user-submit:hover {
-  color: #15f4ee;
-  border-color: #15f4ee;
-}
-
-.edit-member-submit:hover {
-  color: hsl(317 100% 54%);
-  border-color: hsl(317 100% 54%);
+.chat-member-list {
+  margin-left: 15px;
+  align-self: flex-start;
 }

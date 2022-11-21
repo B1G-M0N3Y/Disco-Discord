@@ -70,7 +70,9 @@ const UpdateServer = () => {
     // a user needs to be the admin in order to allow editing
     if (user.id === servers[serverId].admin_id) {
       revert();
-      dispatch(updateServer(serverBody, selectedServer));
+      await dispatch(updateServer(serverBody, selectedServer));
+      dispatch(getServers());
+      return history.push(`/servers/${selectedServer}/edit`);
     }
   };
 
@@ -109,7 +111,7 @@ const UpdateServer = () => {
             <input
               className="edit-input"
               type="name"
-              placeholder="Name"
+              placeholder="Server Name"
               value={name}
               required={true}
               onChange={(e) => setName(e.target.value)}
