@@ -1,7 +1,7 @@
 .sign-up-form-container {
     position: absolute;
     left: 50%;
-    top: 35%;
+    top: 50%;
     transform: translate(-50%, -50%);
     color: #15f4ee;
     border: #15f4ee 0.35em solid;

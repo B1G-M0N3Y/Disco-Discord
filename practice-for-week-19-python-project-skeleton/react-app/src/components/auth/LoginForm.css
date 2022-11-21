@@ -1,7 +1,7 @@
 .login-form-container {
   position: absolute;
   left: 50%;
-  top: 25%;
+  top: 40%;
   transform: translate(-50%, -50%);
   color: var(--clr-neon);
   border: var(--clr-neon) 0.35em solid;
