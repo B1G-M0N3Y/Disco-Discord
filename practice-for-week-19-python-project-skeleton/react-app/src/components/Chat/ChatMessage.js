@@ -14,16 +14,18 @@ function ChatMessages({ chat_id }) {
           <div className="message" key={idx}>
             <div className="inner-message">
               {/* <div className="flex-row-center"> */}
-                <img
-                  className="author-message-image"
-                  src={message?.author.image_url}
-                  alt={`${message?.author.username} chat pic`}
-                ></img>
-                <div className="message-text">
+              <img
+                className="author-message-image"
+                src={message?.author.image_url}
+                alt={`${message?.author.username} chat pic`}
+              ></img>
+              <div className="message-text">
+                <div className="message-text-top">
                   <p className="username-message">{message?.author.username}</p>
-                  <p>{message.createdAt}</p>
-                  <div className="message-body">{message.body}</div>
+                  <p className="message-date">{message.createdAt}</p>
                 </div>
+                <div className="message-body">{message.body}</div>
+              </div>
               {/* </div> */}
             </div>
           </div>
