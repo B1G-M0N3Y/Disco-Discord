@@ -92,7 +92,12 @@ const UpdateServer = () => {
       nextServerIndex = serversArr[indexOfServerInServersArr - 1];
     }
     setSelectedServer(nextServerIndex);
-    return history.push(`/servers/${nextServerIndex}`);
+
+    if (nextServerIndex === undefined) {
+      return history.push("/");
+    } else {
+      return history.push(`/servers/${nextServerIndex}`);
+    }
   };
 
   if (!Object.values(servers).length) return null;
@@ -101,9 +106,9 @@ const UpdateServer = () => {
     return (
       <div className="update-delete-server flex-column-center">
         <div className="edit-container">
-          <div className="edit-title">Edit server details:</div>
+          <div className="edit-title">Edit Server Details:</div>
           <br></br>
-          <div className="edit-name">Edit channel name: </div>
+          <div className="edit-name">Edit Server Name: </div>
           <form
             className="edit-server-form flex-column"
             onSubmit={handleSubmit}

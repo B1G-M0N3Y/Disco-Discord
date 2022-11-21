@@ -113,8 +113,10 @@ const NavBar = () => {
           history.push(`/servers/${server?.id}`);
         }}
         >
+          <div id="display-server-name">
+            {server.name}
+          </div>
         <div>
-          <p id="display-server-name">{server.name}</p>
           <img
             alt={currServerId}
             className="server-pic-nav"

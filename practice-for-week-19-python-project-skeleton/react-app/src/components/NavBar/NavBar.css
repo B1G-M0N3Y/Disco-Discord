@@ -253,10 +253,18 @@
 }
 
 #display-server-name {
-  display: none;
+  text-align: center;
+  /* display: none;
+  visibility: hidden;
+  position: relative; */
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
-#display-server-name:hover {
-  display: block;
-  color: white;
-}
+/* #display-server-name:hover {
+  border: white solid 5px;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  position: absolute;
+} */
