@@ -51,5 +51,14 @@
     border: 1px solid rgb(39, 37, 37);
     border-radius: 1.5em;
     padding: 25px;
+  }
 
+  .create-form-wrapper form button{
+    background-color: white;
+    border-radius: 3em;
+    letter-spacing: 1px;
+    height: 40px;
+    width: fit-content;
+    padding-left: 15px;
+    padding-right: 15px;
   }
