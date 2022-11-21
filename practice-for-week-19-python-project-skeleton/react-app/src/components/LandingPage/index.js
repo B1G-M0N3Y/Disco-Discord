@@ -56,7 +56,6 @@ const LandingPage = () => {
             <div className="server-card-container">
               {serversArr?.map((server) => {
                 let idx = serversArr.indexOf(server);
-                console.log(idx, "index of servers arr");
                 let isAqua = isEven(idx);
                 return (
                   <>
