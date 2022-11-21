@@ -2,6 +2,7 @@ const GET_CHAT_MESSAGES = "chat/GET_CHAT_MESSAGES";
 const ADD_CHAT_MESSAGE = "chat_messages/ADD_ONE";
 const ADD_CHAT = "chat/ADD_CHAT";
 const DELETE_CHAT = "chat/DELETE";
+const DELETE_CHAT_MESSAGE = "chat_message/DELETE";
 
 const getChatMessages = (chats) => {
   return {
@@ -27,6 +28,14 @@ export const addChatMessage = (chat_message) => {
 const removeChat = (chatId) => {
   return {
     type: DELETE_CHAT,
+    chatId,
+  };
+};
+
+const removeChatMessage = (chatMessageId, chatId) => {
+  return {
+    type: DELETE_CHAT_MESSAGE,
+    chatMessageId,
     chatId,
   };
 };
@@ -91,6 +100,18 @@ export const deleteChat = (chatId) => async (dispatch) => {
   }
 };
 
+export const deleteChatMessage =
+  (chatMessageId, chatId) => async (dispatch) => {
+    const response = await fetch(`/api/chat/message/${chatMessageId}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      dispatch(removeChatMessage(chatMessageId, chatId));
+    } else {
+      alert("Error Occurred during Delete Chat");
+    }
+  };
+
 const initialState = { chats: {} };
 
 const chatReducer = (state = initialState, action) => {
@@ -116,6 +137,19 @@ const chatReducer = (state = initialState, action) => {
     case DELETE_CHAT:
       newState = { ...state };
       delete newState[action.chatId];
+      return newState;
+    case DELETE_CHAT_MESSAGE:
+      console.log("DELETE_CHAT_MESSAGE");
+      newState = { ...state };
+      console.log(newState[action.chatId], "actionCHATID");
+      const chatMessageArr = newState[action.chatId]["chat_messages"];
+      const chatIdx = chatMessageArr.findIndex(
+        (message) => message.id === action.chatMessageId
+      );
+      console.log(chatMessageArr, chatIdx, "DELETECHATMESSAGE**");
+      chatMessageArr.splice(chatIdx, 1);
+      newState[action.chatId]["chat_messages"] = chatMessageArr;
+      console.log(chatMessageArr, "after Delete");
       return newState;
     default:
       return state;

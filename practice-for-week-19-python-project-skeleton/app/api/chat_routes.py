@@ -153,3 +153,17 @@ def get_chat_members(chat_id):
     chat = Chat.query.get(chat_id)
     response = [members.to_dict() for members in chat.chat_members]
     return jsonify(response)
+
+
+@ chat_routes.route('/message/<int:chat_message_id>', methods=["DELETE"])
+def delete_chat_message(chat_message_id):
+    """
+    Query for chat messages by chat id and returns a list of chat messages (list of dictionary)
+    """
+    chat_message = ChatMessage.query.get(chat_message_id)
+    print(chat_message, 'chatmessage*****')
+    if chat_message:
+        db.session.delete(chat_message)
+        db.session.commit()
+        return 'Deleted Chat Message'
+    return 'Delete Not Successful'
