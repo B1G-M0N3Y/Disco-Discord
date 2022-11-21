@@ -106,6 +106,7 @@ const CreateServerForm = ({ setShowModal }) => {
         name="name"
         value={serverName}
         onChange={(e) => setServerName(e.target.value)}
+        required
       />
 
       <label id="title-create-server-input">Server Profile Image - URL</label>
@@ -115,7 +116,6 @@ const CreateServerForm = ({ setShowModal }) => {
         name="imageURL"
         value={imageURL}
         onChange={(e) => setImageURL(e.target.value)}
-        required
       />
 
       <button className="button-create-server" type="submit">
