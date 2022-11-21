@@ -68,7 +68,7 @@ const CreateServerForm = ({ setShowModal }) => {
 
     console.log(validationErrors.length);
 
-    if (validationErrors.length === 0) {
+    if (errors.length === 0) {
       createServerInputs = {
         name: serverName,
         image_url: imageURL,
@@ -105,9 +105,7 @@ const CreateServerForm = ({ setShowModal }) => {
         </label>
 
         <div className="modal-input">
-          <label className="title-create-server-input">
-            Name
-          </label>
+          <label className="title-create-server-input">Name</label>
           <input
             id="form-input-create-server"
             type="text"
@@ -119,9 +117,7 @@ const CreateServerForm = ({ setShowModal }) => {
         </div>
 
         <div className="modal-input">
-          <label id="title-create-server-input">
-            Image URL
-          </label>
+          <label id="title-create-server-input">Image URL</label>
           <input
             id="form-input-create-server"
             type="url"
