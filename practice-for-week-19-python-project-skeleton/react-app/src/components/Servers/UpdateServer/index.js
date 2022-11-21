@@ -83,16 +83,12 @@ const UpdateServer = () => {
     const indexOfServerInServersArr = serversArr?.findIndex(
       (serverIdx) => serverIdx === parseInt(serverId)
     );
-    console.log(serversArr, "servers arr");
-    console.log(serverId, typeof serverId, "serverID");
-    console.log(indexOfServerInServersArr, "index of servers in server");
     let nextServerIndex;
     if (indexOfServerInServersArr === 0) {
       nextServerIndex = serversArr[indexOfServerInServersArr + 1];
     } else {
       nextServerIndex = serversArr[indexOfServerInServersArr - 1];
     }
-    console.log(nextServerIndex, "next server index");
     setSelectedServer(nextServerIndex);
     return history.push(`/servers/${nextServerIndex}`);
   };
