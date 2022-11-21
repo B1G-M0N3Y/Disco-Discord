@@ -110,7 +110,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
   };
 
   return (
-    <>
+    <div>
       <form className="add-remove-form" onSubmit={handleAdd}>
         <div className="add-members">Add A User:</div>
         <select
@@ -176,7 +176,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           Remove
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,29 @@
+.member-component {
+  width: 248px;
+  border-left: var(--clr-neon) 0.35em solid;
+  box-shadow: inset 8px 0 10px -6px  var(--clr-neon), 0 0 1.8em 0 var(--clr-neon);
+}
+
+.member-container {
+    margin-left: 10px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  height: 100%;
+}
+
+.member img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member p {
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+}

@@ -16,6 +16,7 @@ html {
 #root {
   display: flex;
   flex-direction: row;
+  align-items: space-between;
   margin: 0 !important;
 }
 
@@ -24,10 +25,8 @@ p {
   font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
-  height: 48px;
   line-height: 20px;
   min-width: 0;
-  position: relative;
   width: 100%;
   z-index: 100;
   color: rgb(255, 0, 195);
@@ -45,7 +44,6 @@ button {
 .message-section {
   width: 100%;
   height: 100vh;
-  margin-top: 40px;
   overflow-y: no-scroll;
   overflow-x: no-scroll;
 }
@@ -63,10 +61,16 @@ button {
 
 .left-right-columns {
   width: 300px;
+  align-self: flex-end;
 }
 
 .channel-message-display {
   display: flex;
   width: 100%;
   justify-content: space-between;
+}
+
+
+.filler{
+  width: 100%;
 }

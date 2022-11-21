@@ -13,6 +13,7 @@ import {
 import Servers from "../Servers";
 import NewServerMember from "./NewServerMember";
 // import { getServerMembers } from "../../store/servers";
+import "./ServerMembers.css";
 
 function ServerMembers() {
   const dispatch = useDispatch();
@@ -50,17 +51,22 @@ function ServerMembers() {
   }, []);
 
   return (
-    <div>
+    <div className="member-component">
       <h1>Member List: </h1>
       {/* <ul>{serverMembers}</ul> */}
-      {membersArr.map((member) => (
-        <div>
-          <p>{member?.username}</p>
+      <div className="member-container">
+        <div className="member-list">
+          {membersArr.map((member) => (
+            <div className="member">
+              <img src={member.image_url}></img>
+              <p>{member?.username}</p>
+            </div>
+          ))}
         </div>
-      ))}
-      {currServer?.admin_id === currUser?.id && (
-        <NewServerMember serverId={selectedServer} currMembers={membersArr} />
-      )}
+        {currServer?.admin_id === currUser?.id && (
+          <NewServerMember serverId={selectedServer} currMembers={membersArr} />
+        )}
+      </div>
     </div>
   );
 }
