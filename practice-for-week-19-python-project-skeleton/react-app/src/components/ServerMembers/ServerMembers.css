@@ -27,3 +27,53 @@
   display: flex;
   align-items: center;
 }
+
+
+.edit-members{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-members form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-members form label{
+    margin-bottom: 15px;
+}
+
+.edit-members form select{
+    height: 40px;
+    border-radius: 8px;
+    background-color:#272525;
+    color: white;
+    border: none;
+}
+
+.edit-members form button {
+    height: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 3em;
+    font-size: 20px;
+    background-color: #00000000;
+}
+
+.remove-form{
+    margin-top: 20px;
+}
+
+.edit-member-submit{
+    border: #15f4ee 0.1em solid;
+    box-shadow: 0 0 2.3em 0 #15f4ee;
+    color: #15f4ee;
+}
+
+.remove-member-submit{
+    border: var(--clr-neon)  0.1em solid;
+    box-shadow: 0 0 2.3em 0 var(--clr-neon) ;
+    color: var(--clr-neon) ;
+}
