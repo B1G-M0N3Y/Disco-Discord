@@ -62,7 +62,6 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute path="/servers/:serverId/edit" exact={true}>
           <UpdateServer />
-          <UpdateChannel />
         </ProtectedRoute>
 
         <ProtectedRoute path="/servers/:serverId" exact={true}>
@@ -79,12 +78,12 @@ function App() {
           <LandingPage />
         </Route>
       </Switch>
-      <Route path="/servers">
-        <ServerMembers />
-      </Route>
-      <div
-        className={!user?.id ? "logged-out-landing" : "left-right-columns"}
-      ></div>
+
+      <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}>
+        <Route path="/servers">
+          <ServerMembers />
+        </Route>
+      </div>
     </BrowserRouter>
   );
 }

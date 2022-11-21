@@ -58,7 +58,7 @@ function ServerMembers() {
           <p>{member?.username}</p>
         </div>
       ))}
-      {currServer?.admin_id === currUser.id && (
+      {currServer?.admin_id === currUser?.id && (
         <NewServerMember serverId={selectedServer} currMembers={membersArr} />
       )}
     </div>
