@@ -1,10 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteChatMessage, getChat } from "../../store/chat";
 
 function ChatMessages({ chat_id }) {
   const messages = useSelector(
     (state) => chat_id && state.chats[chat_id]?.chat_messages
   );
+  const chat = useSelector((state) => chat_id && state.chats[chat_id]);
+  const dispatch = useDispatch();
+  const handleDelete = async (chatMessageId) => {
+    await dispatch(deleteChatMessage(chatMessageId, chat_id));
+    await dispatch(getChat());
+  };
+  const currentUser = useSelector((state) => state.session.user);
 
   return (
     <>
@@ -24,6 +32,12 @@ function ChatMessages({ chat_id }) {
                   <p>{message.createdAt}</p>
                   <p className="message-body">{message.body}</p>
                 </div>
+                {currentUser.id === message.author_id && (
+                  <i
+                    className="fa-regular fa-trash-can"
+                    onClick={() => handleDelete(message.id)}
+                  ></i>
+                )}
               </div>
             </div>
           </div>
