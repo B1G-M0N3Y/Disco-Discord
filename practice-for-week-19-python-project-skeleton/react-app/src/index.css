@@ -20,18 +20,6 @@ html {
   margin: 0 !important;
 }
 
-p {
-  /* font-family: "Itim", cursive; */
-  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  min-width: 0;
-  width: 100%;
-  z-index: 100;
-  color: rgb(255, 0, 195);
-}
-
 i {
   padding: 5px;
   cursor: pointer;

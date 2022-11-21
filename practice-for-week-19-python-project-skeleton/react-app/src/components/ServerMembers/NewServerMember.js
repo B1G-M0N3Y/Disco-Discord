@@ -139,7 +139,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           type="submit"
           disabled={!!validationErrors.length}
         >
-          Add
+          <i class="fa-solid fa-user-plus"></i>
         </button>
       </form>
 
@@ -173,7 +173,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
           type="submit"
           disabled={!!validationErrors.length}
         >
-          Remove
+          <i class="fa-solid fa-user-minus"></i>
         </button>
       </form>
     </div>
