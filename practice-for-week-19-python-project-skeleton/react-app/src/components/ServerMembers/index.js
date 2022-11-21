@@ -4,6 +4,7 @@ import { useSelectedServer } from "../../context/ServerContext";
 
 import { setServerUsers } from "../../store/users";
 import NewServerMember from "./NewServerMember";
+// import { getServerMembers } from "../../store/servers";
 import "./ServerMembers.css";
 
 function ServerMembers() {
@@ -33,37 +34,22 @@ function ServerMembers() {
   }, []);
 
   return (
-    <div className="member-sidebar">
-      <div className="member-title">Members-{membersArr?.length} </div>
+    <div className="member-component">
+      <h1 className="member-title">Members-{membersArr?.length} </h1>
       {/* <ul>{serverMembers}</ul> */}
-      <br></br>
-      <div className="member-list-add">
-        <div className="server-members">
+      <div className="member-container">
+        <div className="member-list">
           {membersArr.map((member) => (
-            <div className="member-list">
-              <div className="member-image-container">
-                <img
-                  className="member-image"
-                  src={member?.image_url}
-                  alt={member?.id}
-                ></img>
-              </div>
-              <div className="member-name">
-                <p>{member?.username}</p>
-              </div>
+            <div className="member">
+              <img src={member.image_url}></img>
+              <p>{member?.username}</p>
             </div>
           ))}
         </div>
-        <div className="add-and-remove">
-          {currServer?.admin_id === currUser?.id && (
-            <NewServerMember
-              serverId={selectedServer}
-              currMembers={membersArr}
-            />
-          )}
-        </div>
+        {currServer?.admin_id === currUser?.id && (
+          <NewServerMember serverId={selectedServer} currMembers={membersArr} />
+        )}
       </div>
-      <div className="buffer"></div>
     </div>
   );
 }
