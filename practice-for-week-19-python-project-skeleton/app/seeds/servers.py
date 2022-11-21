@@ -6,17 +6,17 @@ from sqlalchemy import func
 def seed_servers():
     odyssey = Server(
         name="The Odyssey",
-        image_url="image.jpg",
+        image_url="https://travolta.com/wp-content/uploads/2017/05/SNF.png",
         admin_id=1
     )
     dance_city = Server(
         name="Dance City",
-        image_url="image.jpg",
+        image_url="https://bloximages.chicago2.vip.townnews.com/pressofatlanticcity.com/content/tncms/assets/v3/editorial/4/d5/4d5664c0-164e-5655-acca-4b4f22807650/4fe3b10c95b3c.image.jpg",
         admin_id=2
     )
     cars = Server(
         name="The Movie Cars",
-        image_url="image.jpg",
+        image_url="https://images.squarespace-cdn.com/content/v1/56410d89e4b08c5cf2d10fd8/1566929404220-0CL3B4WLQZT4YALPVEOF/LM+small.jpg",
         admin_id=3
     )
 
