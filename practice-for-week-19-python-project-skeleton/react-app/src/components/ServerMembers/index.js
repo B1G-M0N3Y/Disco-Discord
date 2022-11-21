@@ -33,27 +33,37 @@ function ServerMembers() {
   }, []);
 
   return (
-    <div>
+    <div className="member-sidebar">
       <div className="member-title">Members-{membersArr?.length} </div>
       {/* <ul>{serverMembers}</ul> */}
       <br></br>
-      {membersArr.map((member) => (
-        <div className="flex-row">
-          <div className="member-image-container">
-            <img
-              className="member-image"
-              src={member?.image_url}
-              alt={member?.id}
-            ></img>
-          </div>
-          <div className="member-name">
-            <p>{member?.username}</p>
-          </div>
+      <div className="member-list-add">
+        <div className="server-members">
+          {membersArr.map((member) => (
+            <div className="member-list">
+              <div className="member-image-container">
+                <img
+                  className="member-image"
+                  src={member?.image_url}
+                  alt={member?.id}
+                ></img>
+              </div>
+              <div className="member-name">
+                <p>{member?.username}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-      {currServer?.admin_id === currUser?.id && (
-        <NewServerMember serverId={selectedServer} currMembers={membersArr} />
-      )}
+        <div className="add-and-remove">
+          {currServer?.admin_id === currUser?.id && (
+            <NewServerMember
+              serverId={selectedServer}
+              currMembers={membersArr}
+            />
+          )}
+        </div>
+      </div>
+      <div className="buffer"></div>
     </div>
   );
 }

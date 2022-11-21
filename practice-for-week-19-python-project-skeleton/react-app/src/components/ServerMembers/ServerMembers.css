@@ -1,9 +1,40 @@
+.member-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.member-list-add {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+}
+
+.member-list {
+  display: flex;
+  flex-direction: row;
+  height: 68px;
+}
+
+.server-members {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .member-image {
   align-self: flex-start;
   border-radius: 50%;
   height: 48px;
   width: 48px;
   object-fit: cover;
+}
+
+.buffer {
+  height: 20px;
 }
 
 .member-image-container {
@@ -38,6 +69,9 @@
   color: #15f4ee;
   border-radius: 8px;
   font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .select-member:focus,
@@ -55,5 +89,37 @@
   font-size: 16px;
 }
 
-.edit-member-submit {
+.edit-member-submit,
+.edit-user-submit {
+  width: 90%;
+  height: 32px;
+  margin-top: 10px;
+  background: none;
+  border-color: white;
+  color: white;
+  border-radius: 0.5em;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.member-edit-disabled {
+  width: 90%;
+  height: 32px;
+  margin-top: 10px;
+  background: none;
+  border-color: white;
+  color: white;
+  border-radius: 0.5em;
+  font-size: 16px;
+  cursor: default;
+}
+
+.edit-user-submit:hover {
+  color: #15f4ee;
+  border-color: #15f4ee;
+}
+
+.edit-member-submit:hover {
+  color: hsl(317 100% 54%);
+  border-color: hsl(317 100% 54%);
 }

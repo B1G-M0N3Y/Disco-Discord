@@ -28,8 +28,8 @@ const NewServerMember = ({ serverId, currMembers }) => {
   const [members, setMembers] = useState([]);
   const [userId, setUserId] = useState();
   const [memberId, setMemberId] = useState();
-  const [userSelect, setUserSelect] = useState([]);
-  const [memberSelect, setMemberSelect] = useState([]);
+  const [userSelect, setUserSelect] = useState();
+  const [memberSelect, setMemberSelect] = useState();
   const [addErrors, setAddErrors] = useState([]);
   const [removeErrors, setRemoveErrors] = useState([]);
 
@@ -57,16 +57,18 @@ const NewServerMember = ({ serverId, currMembers }) => {
 
   const revert = () => {
     setUserId();
-    setUserSelect([]);
+    setUserSelect();
     setMemberId();
-    setMemberSelect([]);
+    setMemberSelect();
   };
 
   // remove validations
   useEffect(() => {
     const errors = [];
     setRemoveErrors(errors);
-    if (!memberSelect?.id) errors.push("Select a member.");
+    if (!memberSelect) errors.push("Select a member.");
+    // if (user.id !== serversArr[serverId]?.admin_id)
+    //   errors.push("Only the admin can add or remove members.");
     setRemoveErrors(errors);
   }, [memberSelect]);
 
@@ -74,7 +76,9 @@ const NewServerMember = ({ serverId, currMembers }) => {
   useEffect(() => {
     const errors = [];
     setAddErrors(errors);
-    if (!userSelect?.id) errors.push("Select a user.");
+    if (!userSelect) errors.push("Select a user.");
+    // if (user.id !== serversArr[serverId]?.admin_id)
+    //   errors.push("Only the admin can add or remove members.");
     setAddErrors(errors);
   }, [userSelect]);
 
@@ -86,6 +90,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
     // if (user.id === serversArr[serverId]?.admin_id) {
     await dispatch(addServerMember(serverId, userId));
     await dispatch(getServers());
+    revert();
     // }
   };
 
@@ -136,8 +141,8 @@ const NewServerMember = ({ serverId, currMembers }) => {
           })}
         </select>
         {/* <ul className="errors">
-          {removeErrors.length > 0 &&
-            removeErrors.map((err) => (
+          {addErrors.length > 0 &&
+            addErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
@@ -145,12 +150,10 @@ const NewServerMember = ({ serverId, currMembers }) => {
         </ul> */}
         <button
           className={
-            removeErrors.length > 0
-              ? "member-edit-disabled"
-              : "edit-member-submit"
+            addErrors.length > 0 ? "member-edit-disabled" : "edit-user-submit"
           }
           type="submit"
-          disabled={!!removeErrors.length}
+          disabled={!!addErrors.length}
         >
           Add
         </button>
@@ -174,8 +177,8 @@ const NewServerMember = ({ serverId, currMembers }) => {
           })}
         </select>
         {/* <ul className="errors">
-          {addErrors.length > 0 &&
-            addErrors.map((err) => (
+          {removeErrors.length > 0 &&
+            removeErrors.map((err) => (
               <li id="err" key={err}>
                 {err}
               </li>
@@ -183,10 +186,12 @@ const NewServerMember = ({ serverId, currMembers }) => {
         </ul> */}
         <button
           className={
-            addErrors.length > 0 ? "member-edit-disabled" : "edit-member-submit"
+            removeErrors.length > 0
+              ? "member-edit-disabled"
+              : "edit-member-submit"
           }
           type="submit"
-          disabled={!!addErrors.length}
+          disabled={!!removeErrors.length}
         >
           Remove
         </button>
