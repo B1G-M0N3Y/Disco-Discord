@@ -17,6 +17,7 @@ import ServerMembers from "./components/ServerMembers";
 import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
+import ChatMembers from "./components/Chat/ChatMembers";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -83,6 +84,9 @@ function App() {
       <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}>
         <Route path="/servers">
           <ServerMembers />
+        </Route>
+        <Route path="/chats">
+          <ChatMembers />
         </Route>
       </div>
     </BrowserRouter>
