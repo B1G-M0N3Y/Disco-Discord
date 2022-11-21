@@ -253,12 +253,14 @@
 }
 
 #display-server-name {
-  text-align: center;
-  /* display: none;
-  visibility: hidden;
-  position: relative; */
+  /* display: none; */
   padding-top: 2px;
   padding-bottom: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 80%;
+  text-align: center;
 }
 
 /* #display-server-name:hover {
@@ -268,3 +270,13 @@
   background-color: white;
   position: absolute;
 } */
+
+/* .server-pic-nav:hover #display-server-name { */
+  /* display: block; */
+  /* visibility: visible;
+  opacity: 1; */
+  /* position: absolute; */
+  /* border: white solid 5px; */
+  /* width: 10px;
+  height: 10px; */
+/* } */

@@ -33,14 +33,13 @@ function ChatMessages({ chat_id }) {
                   <p className="message-date">{message.createdAt}</p>
                 </div>
                 <div className="message-body">{message.body}</div>
-                {currentUser.id === message.author_id && (
-                  <i
-                    className="fa-regular fa-trash-can"
-                    onClick={() => handleDelete(message.id)}
-                  ></i>
-                )}
               </div>
-              {/* </div> */}
+              {currentUser.id === message.author_id && (
+                <i
+                  className="fa-regular fa-trash-can"
+                  onClick={() => handleDelete(message.id)}
+                ></i>
+              )}
             </div>
           </div>
         ))

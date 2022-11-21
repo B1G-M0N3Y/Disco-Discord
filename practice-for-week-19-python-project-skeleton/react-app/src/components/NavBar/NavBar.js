@@ -113,15 +113,15 @@ const NavBar = () => {
           history.push(`/servers/${server?.id}`);
         }}
         >
-          <div id="display-server-name">
-            {server.name}
-          </div>
         <div>
           <img
             alt={currServerId}
             className="server-pic-nav"
-            src="https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
+            src={!server.image_url ? "https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png" : server.image_url}
             ></img>
+          <div id="display-server-name">
+            {server.name}
+          </div>
           {/* TODO: don't display the name here */}
           {/* <p>{server.name}</p> */}
         </div>
