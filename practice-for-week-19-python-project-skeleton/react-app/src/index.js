@@ -11,6 +11,7 @@ import ChannelsProvider from "./context/ChannelContext";
 import ChatProvider from "./context/ChatContext";
 import MessageProvider from "./context/MessageContext";
 import { getCurrentChannels } from "./store/channels";
+import { addServerMember } from "./store/users";
 
 const store = configureStore();
 
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV !== "production") {
   window.store = store;
   window.getServers = getServers;
   window.getCurrentChannels = getCurrentChannels;
+  window.addServerMember = addServerMember;
 }
 
 function Root() {

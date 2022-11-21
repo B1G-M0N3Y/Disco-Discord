@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useSelectedChat } from "../../context/ChatContext";
 import { newChat } from "../../store/chat";
-import UsersList from "../UsersList";
 
 const CreateChat = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -9,6 +10,8 @@ const CreateChat = () => {
   const currentUser = useSelector((state) => state.session.user);
   const [chatUsers, setChatUsers] = useState([currentUser.id]);
   const [disabled, setDisabled] = useState(true);
+  const history = useHistory();
+  const { setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
 
@@ -16,8 +19,7 @@ const CreateChat = () => {
     async function fetchData() {
       const response = await fetch("/api/users/");
       const responseData = await response.json();
-      console.log(responseData, "responseDATA");
-      const filteredUsers = responseData.users.filter(
+      const filteredUsers = responseData.users?.filter(
         (user) => user.id !== currentUser.id
       );
       setUsers(filteredUsers);
@@ -25,19 +27,19 @@ const CreateChat = () => {
     fetchData();
   }, []);
 
-  console.log(users, "users**");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(String(chatUsers));
     const chat = {
       name: "Chat",
       adminId: currentUser.id,
       chat_members_lst: String(chatUsers),
     };
-    dispatch(newChat(chat));
+    const response = await dispatch(newChat(chat));
     setShowAdd(false);
     setChatUsers([currentUser.id]);
+    setSelectedChat(response.id);
+    setDisabled(true);
+    history.push(`/chats/${response.id}`);
   };
 
   const checkBox = (e) => {
@@ -65,23 +67,30 @@ const CreateChat = () => {
           }}
         ></i>
         {showAdd && (
-          <div>
+          <div className="create-chat-dropdown">
+            <div>Select Friends</div>
             <form onSubmit={handleSubmit}>
               {users &&
                 users.map((user, idx) => (
-                  <div>
+                  <div className="create-chat-option">
                     <label key={idx}>
                       {" "}
                       <input
                         type="checkbox"
                         onChange={checkBox}
                         value={user?.id}
+                        className="create-chat-checkbox"
                       />
                       {user?.username}
                     </label>
                   </div>
                 ))}
-              <input type="submit" disabled={disabled} />
+              <input
+                type="submit"
+                disabled={disabled}
+                className="create-chat-submit"
+                value="Create A Chat"
+              />
             </form>
           </div>
         )}

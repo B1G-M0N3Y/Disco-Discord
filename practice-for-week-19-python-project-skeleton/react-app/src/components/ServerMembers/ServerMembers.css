@@ -1,0 +1,125 @@
+.member-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  border-left: var(--clr-neon) 0.35em solid;
+  box-shadow: inset 8px 0 10px -6px var(--clr-neon), 0 0 1.8em 0 var(--clr-neon);
+  font-family: "Pacifico", cursive;
+}
+
+.member-component h1 {
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
+  font-size: 1.8em;
+}
+
+.member-container {
+  margin-left: 10px;
+  width: 202px;
+  /* display: grid;
+  grid-template-rows: 1fr 1fr; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.member img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member p {
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+.member {
+  font-family: "Pacifico", cursive;
+  color: white;
+  /* color: #15f4ee;
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em #15f4ee; */
+  display: flex;
+  align-items: center;
+}
+
+.member-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  justify-content: flex-start;
+}
+
+.edit-members {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.edit-members form {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.edit-members form label {
+  margin-bottom: 15px;
+}
+
+.edit-members form select {
+  padding-left: 5px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #272525;
+  color: white;
+  border: none;
+}
+
+.edit-members form button {
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3em;
+  font-size: 20px;
+  background-color: #00000000;
+}
+
+.remove-form {
+  margin-top: 30px;
+}
+
+.edit-member-submit {
+  border: #15f4ee 0.1em solid;
+  box-shadow: 0 0 2.3em 0 #15f4ee;
+  color: #15f4ee;
+}
+
+.select-member {
+  width: 202px;
+}
+
+.remove-member-submit {
+  border: var(--clr-neon) 0.1em solid;
+  box-shadow: 0 0 2.3em 0 var(--clr-neon);
+  color: var(--clr-neon);
+}
+
+.add-members {
+  color: #15f4ee;
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em #15f4ee;
+}
+
+.remove-members {
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
+}
+
+.chat-member-list {
+  margin-left: 15px;
+  align-self: flex-start;
+}

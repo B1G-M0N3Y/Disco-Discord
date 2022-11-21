@@ -1,35 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteChatMessage, getChat } from "../../store/chat";
 
 function ChatMessages({ chat_id }) {
-  console.log(chat_id, typeof chat_id, "chat id");
   const messages = useSelector(
-    (state) => chat_id && state.chats[chat_id]["chat_messages"]
+    (state) => chat_id && state.chats[chat_id]?.chat_messages
   );
-
-  console.log('da messages', messages)
+  const chat = useSelector((state) => chat_id && state.chats[chat_id]);
+  const dispatch = useDispatch();
+  const handleDelete = async (chatMessageId) => {
+    await dispatch(deleteChatMessage(chatMessageId, chat_id));
+    await dispatch(getChat());
+  };
+  const currentUser = useSelector((state) => state.session.user);
 
   return (
     <>
-        {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
-        {messages && messages.length > 0 ? (
-          messages.map((message, idx) => (
-            <div className="message" key={idx}>
+      {/* TODO ADD TERNARY FOR TO SELECT A CHAT TO LOAD MESSAGES */}
+      {messages && messages.length > 0 ? (
+        messages.map((message, idx) => (
+          <div className="message" key={idx}>
+            <div className="inner-message">
+              {/* <div className="flex-row-center"> */}
               <img
-                className="message-image"
-                src={message?.author.imageUrl}
+                className="author-message-image"
+                src={message?.author.image_url}
                 alt={`${message?.author.username} chat pic`}
               ></img>
               <div className="message-text">
-                <p className="username-message">{message?.author.username}</p>
-                <p>{message.createdAt}</p>
-                <p className="message-body">{message.body}</p>
+                <div className="message-text-top">
+                  <p className="username-message">{message?.author.username}</p>
+                  <p className="message-date">{message.createdAt}</p>
+                </div>
+                <div className="message-body">{message.body}</div>
               </div>
+              {currentUser.id === message.author_id && (
+                <i
+                  className="fa-regular fa-trash-can"
+                  onClick={() => handleDelete(message.id)}
+                ></i>
+              )}
             </div>
-          ))
-        ) : (
-          <div>No Messages Found</div>
-        )}
+          </div>
+        ))
+      ) : (
+        <div className="no-chat-messages">
+          No Messages Found <br /> Send A Groovy Message Below!
+        </div>
+      )}
     </>
   );
 }

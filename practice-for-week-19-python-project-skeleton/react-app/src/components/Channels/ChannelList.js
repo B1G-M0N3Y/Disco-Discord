@@ -6,7 +6,6 @@ import { getOneServer } from "../../store/servers";
 
 const ChannelList = ({ server }) => {
   const dispatch = useDispatch();
-  console.log(server.channels, "SERVER CHANNELS IN CHANNELLIST");
 
   const { selectedServer, setSelectedServer } = useSelectedServer();
 

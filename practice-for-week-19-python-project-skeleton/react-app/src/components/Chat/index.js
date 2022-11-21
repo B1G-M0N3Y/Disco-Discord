@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./chats.css";
 import { getChat } from "../../store/chat";
@@ -18,15 +18,18 @@ function Chat() {
   useEffect(() => {
     //   TODO SETUP THIS REDUX
     dispatch(getChat());
-    setSelectedChat(Object.values(chats)[0].id);
+    setSelectedChat(Object.values(chats)[0]?.id);
     // DONT ADD CHATS TO DEPENDENCY ARRAY OR EVERYTHING WILL BREAK AND I WILL CRY
   }, [dispatch, setSelectedChat]);
 
   return (
     <>
       <div>
-        <h1>Chats</h1>
-        <CreateChat />
+        <div className="server-name">
+          <div className="width-90">Chats</div>
+          <CreateChat />
+        </div>
+        <hr />
         {chats ? (
           Object.values(chats)?.map((chat, idx) => (
             <IndividualChat chat={chat} />

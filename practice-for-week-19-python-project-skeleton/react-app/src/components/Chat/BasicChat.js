@@ -7,66 +7,36 @@ let socket;
 const BasicChat = () => {
   const [newMessage, setNewMessage] = useState("");
   const [allMessages, setAllMessages] = useState([]);
-  const user = useSelector(state => state.session.user)
+  const user = useSelector((state) => state.session.user);
 
-
-  useEffect(()=>{
-
+  useEffect(() => {
     socket = io();
 
-    socket.on("chat", (chat)=>{
-      setAllMessages(messages => [...messages, chat])
-    })
+    socket.on("chat", (chat) => {
+      setAllMessages((messages) => [...messages, chat]);
+    });
 
-    return(() => {
-      socket.disconnect()
-    })
-  },[])
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!newMessage) {
       return;
     }
-    const payload = {user:user.username, body:newMessage}
+    const payload = { user: user.username, body: newMessage };
     socket.emit("chat", payload);
     setNewMessage("");
   };
-
-  // useEffect(() => {
-  //   if(socket){
-  //     socket?.on("data", (data) => {
-  //       setAllMessages([...allMessages, data.data]);
-  //     });
-  //   }
-  // },[socket, allMessages]);
-
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   const customScript = document.createElement('script')
-
-  //   script.type = "text/javascript"
-  //   script.src = "//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"
-  //   script.async = true;
-
-  //   customScript.src = "{{ url_for('/scripts/)}}"
-
-  //   document.body.appendChild(script);
-
-  //   return()=>{
-  //     document.body.removeChild(script);
-  //   }
-  // },[url]);
 
   return (
     <>
       <div className="message-section">
         {allMessages.map((message) => (
           <div className="message">
-            {/* TODO: ADD USER IMAGE */}
-            {/* TODO: ADD DELETE BUTTON IF OWNER */}
-            {/* TODO: ADD DYNAMIC USERNAME */}
             <p className="username-message">{message.user}</p>
             <p className="message-body">{message.body}</p>
           </div>
