@@ -74,10 +74,10 @@
 }
 
 .server-pic-nav:hover {
-  box-shadow: inset 0 0 .5em 0 var(--clr-neon), 0 0 .5em 0 var(--clr-neon);
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
 }
 .disco-pic-nav:hover {
-  box-shadow: inset 0 0 .5em 0 #15f4ee, 0 0 .5em 0 #15f4ee;
+  box-shadow: inset 0 0 0.5em 0 #15f4ee, 0 0 0.5em 0 #15f4ee;
 }
 
 .username-nav {
@@ -180,7 +180,7 @@
   align-items: flex-start;
   justify-content: center;
   padding: 5px;
-  font-family: "Itim", cursive;
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
 }
 
 .fa-chevron-down,
@@ -294,11 +294,11 @@
 } */
 
 /* .server-pic-nav:hover #display-server-name { */
-  /* display: block; */
-  /* visibility: visible;
+/* display: block; */
+/* visibility: visible;
   opacity: 1; */
-  /* position: absolute; */
-  /* border: white solid 5px; */
-  /* width: 10px;
+/* position: absolute; */
+/* border: white solid 5px; */
+/* width: 10px;
   height: 10px; */
 /* } */
