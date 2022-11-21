@@ -14,7 +14,7 @@ const CreateChannelForm = ({ setShowModal }) => {
   const { selectedServer } = useSelectedServer();
   const [channelName, setChannelName] = useState("");
 
-  const [validationErrors, setValidationErrors] = useState("");
+  const [validationErrors, setValidationErrors] = useState([]);
 
   // useEffect(() => {
   //   const errors = [];
@@ -43,23 +43,24 @@ const CreateChannelForm = ({ setShowModal }) => {
 
     setValidationErrors(errors);
 
-    if (validationErrors.length === 0)
+    if (errors.length === 0) {
       newChannelInput = {
         name: channelName,
         server_id: selectedServer,
       };
 
-    const newChannel = await dispatch(
-      createChannel(newChannelInput, selectedServer)
-    );
+      const newChannel = await dispatch(
+        createChannel(newChannelInput, selectedServer)
+      );
 
-    // Forcing re-render
-    if (newChannel) {
-      await dispatch(getServers());
-      await dispatch(getCurrentChannels(selectedServer));
-      await dispatch(getChannelMessages(newChannel.id));
-      setShowModal(false);
-      history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
+      // Forcing re-render
+      if (newChannel) {
+        await dispatch(getServers());
+        await dispatch(getCurrentChannels(selectedServer));
+        await dispatch(getChannelMessages(newChannel.id));
+        setShowModal(false);
+        history.push(`/servers/${selectedServer}/channels/${newChannel?.id}`);
+      }
     }
   };
 
@@ -82,9 +83,7 @@ const CreateChannelForm = ({ setShowModal }) => {
           CREATE NEW CHANNEL
         </label>
         <div className="modal-input">
-          <label className="title-create-channel-input">
-            Name
-          </label>
+          <label className="title-create-channel-input">Name</label>
           <input
             id="form-input-create-channel"
             type="text"
