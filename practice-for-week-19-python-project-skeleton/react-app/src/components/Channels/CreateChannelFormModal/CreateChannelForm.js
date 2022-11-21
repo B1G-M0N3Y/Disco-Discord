@@ -5,6 +5,7 @@ import { useSelectedServer } from "../../../context/ServerContext";
 import { createChannel, getCurrentChannels } from "../../../store/channels";
 import { getChannelMessages } from "../../../store/channel_messages";
 import { getServers } from "../../../store/servers";
+import './CreateChannelForm.css'
 
 const CreateChannelForm = ({ setShowModal }) => {
   const dispatch = useDispatch();

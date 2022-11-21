@@ -44,11 +44,9 @@
     border-radius: 0.5em;
   }
 
-  .create-server-form label{
+  .create-form-wrapper{
     font-family: Pacifico;
     font-size: 1.4em;
-  }
-  .create-form-wrapper{
     background-color: #2d2d2dd3;
     border: 1px solid rgb(39, 37, 37);
     border-radius: 1.5em;
