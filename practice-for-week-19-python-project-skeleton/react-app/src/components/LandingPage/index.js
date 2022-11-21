@@ -20,7 +20,6 @@ const LandingPage = () => {
       dispatch(getAllServers());
     };
   }, [servers]);
->>>>>>> dev
 
   // Logs in a default demo user
   const loginDemoUser = async () => {
