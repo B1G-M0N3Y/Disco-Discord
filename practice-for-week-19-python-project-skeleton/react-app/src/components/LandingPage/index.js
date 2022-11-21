@@ -12,13 +12,15 @@ const LandingPage = () => {
   const servers = useSelector((state) => state.servers.servers);
   const allServers = useSelector((state) => state.servers.allServers);
   const serversArr = Object.values(allServers);
-  let firstNine = serversArr.slice(0, 9);
 
   useEffect(() => {
-    dispatch(getAllServers());
     return () => {
       dispatch(getAllServers());
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllServers());
   }, [servers]);
 
   // Logs in a default demo user
@@ -26,8 +28,8 @@ const LandingPage = () => {
     await dispatch(login("demo@aa.io", "password"));
   };
 
-  const isEven = (id) => {
-    if (id % 2 === 0) {
+  const isEven = (idx) => {
+    if (idx % 2 === 0) {
       return true;
     }
   };
@@ -52,8 +54,9 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="server-card-container">
-              {firstNine?.map((server) => {
-                let isAqua = isEven(server.id);
+              {serversArr?.map((server) => {
+                let idx = serversArr.indexOf(server);
+                let isAqua = isEven(idx);
                 return (
                   <>
                     <button

@@ -1,0 +1,104 @@
+.update-delete-server {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-container {
+  width: 70%;
+}
+
+.edit-server-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.edit-title {
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+.edit-name {
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.edit-input {
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  width: 100%;
+  margin-top: 10px;
+  border-color: white;
+  background-color: transparent;
+  height: 40px;
+  color: #15f4ee;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 20px;
+  border-radius: 0.5em;
+}
+
+.edit-server-submit,
+.delete-server-button {
+  width: 160px;
+  height: 40px;
+  margin-top: 10px;
+  background: none;
+  border-color: white;
+  color: white;
+  border-radius: 0.5em;
+  font-size: 20px;
+}
+
+.edit-server-submit:hover {
+  color: #15f4ee;
+  border-color: #15f4ee;
+}
+
+.delete-server-button:hover {
+  color: hsl(317 100% 54%);
+  border-color: hsl(317 100% 54%);
+}
+
+.errors {
+  color: hsl(317 100% 54%);
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.channel-select {
+  width: 100%;
+  height: 40px;
+  margin-top: 20px;
+  background: rgb(45, 45, 45);
+  border-color: white;
+  color: #15f4ee;
+  border-radius: 0.5em;
+  font-size: 20px;
+}
+
+.channel-select:focus,
+.channel-select:active,
+.channel-select:hover {
+  border-color: #15f4ee;
+  outline: none;
+}
+
+#err {
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
+  list-style-type: none;
+  font-size: 20px;
+}

@@ -114,6 +114,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
       <form className="add-remove-form" onSubmit={handleAdd}>
         <div className="add-members">Add A User:</div>
         <select
+          className="select-member"
           onChange={updateUser}
           value={userSelect}
           placeholder="Add a user:"
@@ -134,7 +135,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
             ))}
         </ul>
         <button
-          className="edit-server-submit"
+          className="edit-member-submit"
           type="submit"
           disabled={!!validationErrors.length}
         >
@@ -145,6 +146,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
       <form className="remove-form" onSubmit={handleRemove}>
         <div className="remove-members">Remove A Member:</div>
         <select
+          className="select-member"
           onChange={updateMember}
           value={memberSelect}
           placeholder="Remove a member:"
@@ -167,7 +169,7 @@ const NewServerMember = ({ serverId, currMembers }) => {
             ))}
         </ul>
         <button
-          className="edit-server-submit"
+          className="edit-member-submit"
           type="submit"
           disabled={!!validationErrors.length}
         >
