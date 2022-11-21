@@ -415,8 +415,8 @@
   font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
   font-size: 25px;
   /* display: inline-block; */
-  cursor: pointer;
-  text-decoration: none;
+  /* cursor: pointer; */
+  /* text-decoration: none; */
   /* color: rgb(5, 7, 170); */
   color: rgb(223, 223, 223);
   text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 1em rgb(144, 144, 144);
