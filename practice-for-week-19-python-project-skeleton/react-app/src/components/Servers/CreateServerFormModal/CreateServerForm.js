@@ -89,15 +89,6 @@ const CreateServerForm = ({ setShowModal }) => {
         value={imageURL}
         onChange={(e) => setImageURL(e.target.value)}
       />
-
-      {/* <label id="title-create-server-input">Server Owner - UserId</label>
-                <input id="form-input-create-server"
-                type="text"
-                name="adminId"
-                value={adminId}
-                onChange={e => setAdminId(e.target.value)}
-                /> */}
-
       <button className="button-create-server" type="submit">
         Create New Server
       </button>

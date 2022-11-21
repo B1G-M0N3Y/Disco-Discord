@@ -136,3 +136,11 @@ def undo_chats():
     else:
         db.session.execute("DELETE FROM chats")
     db.session.commit()
+
+def undo_chat_members():
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.chat_members RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM chat_members")
+    db.session.commit()

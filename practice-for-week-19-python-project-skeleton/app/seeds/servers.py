@@ -65,8 +65,8 @@ def seed_server_members():
     user3 = User.query.get(3)
 
     server1.server_members.append(user1)
-    server1.server_members.append(user2)
-    server1.server_members.append(user3)
+    # server1.server_members.append(user2)
+    # server1.server_members.append(user3)
     server2.server_members.append(user1)
     server2.server_members.append(user2)
     server2.server_members.append(user3)

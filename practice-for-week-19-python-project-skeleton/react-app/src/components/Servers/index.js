@@ -7,6 +7,7 @@ import { useSelectedMessages } from "../../context/MessageContext";
 import { useSelectedServer } from "../../context/ServerContext";
 import UpdateServer from "./UpdateServer";
 import { useSelectedChannels } from "../../context/ChannelContext";
+import ServerMembers from "../ServerMembers";
 
 const Servers = () => {
   const dispatch = useDispatch();
