@@ -40,17 +40,17 @@ const LandingPage = () => {
         <div className="message-section">
           <div class="logged-in-landing">
             <div class="logged-in-neon-title">
-              <div id="title-1">
-                <h2>BAD DECISIONS. MAKE BETTER STORIES.</h2>
-                {/* <h2>MAKE BETTER STORIES</h2> */}
-              </div>
-              <div>
-                <h1 id="title-2">let's create some memories.</h1>
+              <div id="li-title">
+                <h2 id="li-title-1">Disco-ord</h2>
                 <img
                   id="disco-gif"
                   alt="disco"
                   src="https://i.pinimg.com/originals/15/1f/07/151f073cab6e304361f4f22577756974.gif"
                 ></img>
+                <h1 id="li-title-2">let's create some memories.</h1>
+                {/* <h2>MAKE BETTER STORIES</h2> */}
+              </div>
+              <div>
               </div>
             </div>
             <div className="server-card-container">
@@ -63,7 +63,7 @@ const LandingPage = () => {
                       id={isAqua ? "sc-1" : "sc-2"}
                       onClick={() => history.push(`/servers/${server.id}`)}
                     >
-                      {server.name}
+                      <p id="dance-server-name">{server.name}</p>
                     </button>
                   </>
                 );

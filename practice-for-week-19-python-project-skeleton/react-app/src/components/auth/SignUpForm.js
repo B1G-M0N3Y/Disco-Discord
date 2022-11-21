@@ -57,7 +57,8 @@ const SignUpForm = () => {
 
   return (
     <form class="sign-up-form-container" onSubmit={onSignUp}>
-      <div class="errors">
+      <p id="sign-up-title">SIGN UP</p>
+      <div class="sign-up-errors">
         {errors.map((error, ind) => (
           <div key={ind}>{error}</div>
         ))}
@@ -67,7 +68,7 @@ const SignUpForm = () => {
         <div>
           <label>User Name</label>
           <input
-            id="inputs"
+            id="sign-up-inputs"
             type="text"
             name="username"
             onChange={updateUsername}
@@ -76,8 +77,9 @@ const SignUpForm = () => {
         </div>
 
         <div>
-          <label>First name</label>
+          <label>First Name</label>
           <input
+            id="sign-up-inputs"
             type="text"
             name="firstName"
             onChange={updateFirstName}
@@ -85,8 +87,9 @@ const SignUpForm = () => {
           ></input>
         </div>
         <div>
-          <label>Last name</label>
+          <label>Last Name</label>
           <input
+            id="sign-up-inputs"
             type="text"
             name="lastName"
             onChange={updateLastName}
@@ -96,7 +99,7 @@ const SignUpForm = () => {
         <div>
           <label>Email</label>
           <input
-            id="inputs"
+            id="sign-up-inputs"
             type="text"
             name="email"
             onChange={updateEmail}
@@ -107,7 +110,7 @@ const SignUpForm = () => {
         <div>
           <label>Password</label>
           <input
-            id="inputs"
+            id="sign-up-inputs"
             type="password"
             name="password"
             onChange={updatePassword}
@@ -117,7 +120,7 @@ const SignUpForm = () => {
         <div>
           <label>Repeat Password</label>
           <input
-            id="inputs"
+            id="sign-up-inputs"
             type="password"
             name="repeat_password"
             onChange={updateRepeatPassword}
