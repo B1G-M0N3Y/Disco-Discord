@@ -127,7 +127,7 @@
 }
 
 .disabled-message {
-    margin-left: 15px;
+  margin-left: 15px;
   border: none;
   border-radius: 50%;
   width: 38px;
@@ -172,19 +172,19 @@
   margin-left: 20px;
 }
 
-.message-body{
-    inline-size: 100%;
-    word-break: break-all;
-    /* width: 100%; */
-    /* overflow-wrap: break-word; */
+.message-body {
+  inline-size: 100%;
+  word-break: break-all;
+  /* width: 100%; */
+  /* overflow-wrap: break-word; */
 }
 
-.message-text-top{
+.message-text-top {
   display: flex;
   align-items: center;
 }
 
-.message-date{
+.message-date {
   padding-left: 12px;
   font-size: 11px;
   color: #808080;
