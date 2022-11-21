@@ -1,8 +1,7 @@
-import ServerCard from "./ServerCard";
 import "./LandingPage.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { login } from "../../store/session";
 import { getAllServers } from "../../store/servers";
 
@@ -20,8 +19,6 @@ const LandingPage = () => {
       dispatch(getAllServers());
     };
   }, [servers]);
-
-  console.log(allServers, "all servers");
 
   // Logs in a default demo user
   const loginDemoUser = async () => {

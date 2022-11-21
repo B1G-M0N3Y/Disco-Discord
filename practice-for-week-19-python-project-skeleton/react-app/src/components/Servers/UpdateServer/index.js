@@ -21,7 +21,6 @@ const UpdateServer = () => {
   const servers = useSelector((state) => state.servers.servers);
   // // getters and setters for update song form
   const [name, setName] = useState(servers[serverId]?.name);
-  console.log("name", name);
   const [imageUrl, setImageUrl] = useState(servers[serverId]?.imageUrl);
   console.log("image url", imageUrl);
   const [editErrors, setEditErrors] = useState([]);
@@ -89,12 +88,13 @@ const UpdateServer = () => {
     return (
       <div className="update-delete-server flex-column-center">
         <div className="edit-container">
+          <div className="edit-title">Edit server details:</div>
           <br></br>
+          <div className="edit-name">Edit channel name: </div>
           <form
             className="edit-server-form flex-column"
             onSubmit={handleSubmit}
           >
-            <div className="edit-title">Edit server details:</div>
             <input
               className="edit-input"
               type="name"
@@ -110,14 +110,16 @@ const UpdateServer = () => {
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
             />
-            <ul className="errors">
+            <br></br>
+            <div className="errors">
               {editErrors.length > 0 &&
                 editErrors.map((err) => (
                   <li id="err" key={err}>
                     {err}
                   </li>
                 ))}
-            </ul>
+            </div>
+            <br></br>
             <button
               className="edit-server-submit"
               type="submit"
@@ -129,7 +131,7 @@ const UpdateServer = () => {
               <>
                 <button
                   disabled={!!deleteErrors.length}
-                  id="delete-server-button"
+                  className="delete-server-button"
                   onClick={deleteHandler}
                 >
                   {" "}

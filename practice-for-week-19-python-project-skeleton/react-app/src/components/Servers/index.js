@@ -17,36 +17,13 @@ const Servers = () => {
 
   const servers = useSelector((state) => state.servers.servers);
   const [server, setServer] = useState(Object.values(servers)[0]);
-  // const [channel, setChannel] = useState(
-  //   Object.values(servers)[0]?.channels[0]
-  // );
-  console.log("selected server", selectedServer);
-  console.log("selected channel", selectedChannel);
 
   useEffect(() => {
     dispatch(getServers());
     setSelectedServer(serverId);
   }, [dispatch]);
 
-  console.log(server, "server in server component");
-
-  return (
-    null
-    // <>
-    //   {showMessages && (
-    //     <>
-    //       <div className="server-details-container">
-    //         <ChannelMessagesPage />
-    //       </div>
-    //     </>
-    //   )}
-    //   {showMessages === false && (
-    //     <>
-    //       <UpdateServer server={selectedServer} />
-    //     </>
-    //   )}
-    // </>
-  );
+  return null;
 };
 
 export default Servers;

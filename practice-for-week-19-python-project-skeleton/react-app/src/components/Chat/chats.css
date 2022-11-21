@@ -1,3 +1,27 @@
 ul {
   color: white;
 }
+
+.no-chat-messages {
+  color: white;
+  font-size: 50px;
+  text-align: center;
+  font-family: cursive;
+  margin: 20px 50px;
+}
+
+.message-history-chat {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-end;
+  height: 100vh;
+}
+
+.chat-message-image {
+  align-self: flex-start;
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+  object-fit: cover;
+}

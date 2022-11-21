@@ -23,17 +23,11 @@ const UpdateChannel = ({ server }) => {
   let arrOfNames;
   if (channelsArr) arrOfNames = channelsArr.map((channel) => channel.name);
 
-  console.log("channelsFromServer", channelsFromServer);
-  console.log("arrayOfNames", arrOfNames);
-
   const [name, setName] = useState();
   const [channelId, setChannelId] = useState(null);
   const [channelSelect, setChannelSelect] = useState([]);
   const [editErrors, setEditErrors] = useState([]);
   const [deleteErrors, setDeleteErrors] = useState([]);
-  const { selectedServer, setSelectedServer } = useSelectedServer();
-
-  console.log(serverId, "serverID in form");
 
   useEffect(() => {
     return () => {
@@ -55,9 +49,6 @@ const UpdateChannel = ({ server }) => {
     setChannelId();
     setChannelSelect([]);
   };
-
-  console.log(channelSelect, "SELECTED CHANNEL IN DELETE CHANNEL");
-  console.log(channelId, "CHANNEL ID IN DELETE CHANNEL");
 
   // edit form validations
   useEffect(() => {
@@ -115,19 +106,20 @@ const UpdateChannel = ({ server }) => {
         <br></br>
         <form className="edit-server-form flex-column" onSubmit={editHandler}>
           <div className="edit-title">Edit channel details:</div>
+          <br></br>
           <select
             onChange={(e) => setChannelSelect(e.target.value)}
             value={channelSelect}
             placeholder="Delete Channel:"
           >
-            <option value="" disabled selected>
+            <option value="" disabled selected className="select-dropdown">
               Select an channel...
             </option>
             {channelsArr?.map((channel) => {
               return <option key={channel.name}>{channel.name}</option>;
             })}
           </select>
-          <div className="edit-title">Edit Channel Name: </div>
+          <div className="edit-name">Edit channel name: </div>
           <input
             className="edit-input"
             type="name"
@@ -135,14 +127,16 @@ const UpdateChannel = ({ server }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <ul className="errors">
+          <br></br>
+          <div className="errors">
             {editErrors.length > 0 &&
               editErrors.map((err) => (
                 <li id="err" key={err}>
                   {err}
                 </li>
               ))}
-          </ul>
+          </div>
+          <br></br>
           <button
             className="edit-server-submit"
             type="submit"
