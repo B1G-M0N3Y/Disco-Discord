@@ -25,11 +25,7 @@
   }
   #modal-content {
     width: 460px;
-    background-color: #2d2d2dd3;
     position: absolute;
-    border-radius: 1.5em;
-    padding: 25px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
   }
 
   #modal-content form{
@@ -42,16 +38,20 @@
     margin-bottom: 25px;
     height: 40px;
     width: 200px;
-    background-color: rgb(39, 37, 37);
     color: #15f4ee;
     font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-    border: 1px solid rgb(39, 37, 37);
+    background-color: rgb(39, 37, 37);
     border-radius: 0.5em;
   }
 
   .create-server-form label{
     font-family: Pacifico;
     font-size: 1.4em;
-    /* color: var(--clr-neon);
-    text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon); */
+  }
+  .create-form-wrapper{
+    background-color: #2d2d2dd3;
+    border: 1px solid rgb(39, 37, 37);
+    border-radius: 1.5em;
+    padding: 25px;
+
   }

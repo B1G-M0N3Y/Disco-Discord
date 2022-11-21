@@ -63,32 +63,38 @@ const CreateChannelForm = ({ setShowModal }) => {
   };
 
   return (
-    <form className="create-channel-form" onSubmit={handleSubmit}>
-      <div className="errors-create-channel-form">
-        {validationErrors.length > 0 && (
-          <ul className="create-channel-errors">
-            {validationErrors.map((e) => (
-              <li className="error"key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="create-form-wrapper channel-form">
+      <form className="create-channel-form" onSubmit={handleSubmit}>
+        <div className="errors-create-channel-form">
+          {validationErrors.length > 0 && (
+            <ul className="create-channel-errors">
+              {validationErrors.map((e) => (
+                <li className="error" key={e}>
+                  {e}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-      <label className="title-create-new-channel">CREATE NEW CHANNEL</label>
-      <label className="title-create-channel-input">Name of New Channel</label>
-      <input
-        id="form-input-create-channel"
-        type="text"
-        name="name"
-        value={channelName}
-        onChange={(e) => setChannelName(e.target.value)}
-        required
-      />
+        <label className="title-create-new-channel">CREATE NEW CHANNEL</label>
+        <label className="title-create-channel-input">
+          Name of New Channel
+        </label>
+        <input
+          id="form-input-create-channel"
+          type="text"
+          name="name"
+          value={channelName}
+          onChange={(e) => setChannelName(e.target.value)}
+          required
+        />
 
-      <button className="button-create-channel" type="submit">
-        Create New Channel
-      </button>
-    </form>
+        <button className="button-create-channel" type="submit">
+          Create New Channel
+        </button>
+      </form>
+    </div>
   );
 };
 

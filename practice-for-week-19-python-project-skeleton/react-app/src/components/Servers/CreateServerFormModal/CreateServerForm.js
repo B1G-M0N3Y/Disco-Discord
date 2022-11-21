@@ -46,7 +46,7 @@ const CreateServerForm = ({ setShowModal }) => {
 
     const errors = [];
 
-    console.log('name',serverName)
+    console.log("name", serverName);
 
     if (!serverName || serverName?.length > 100 || serverName?.length < 5) {
       errors.push(
@@ -66,10 +66,9 @@ const CreateServerForm = ({ setShowModal }) => {
 
     setValidationErrors(errors);
 
-    console.log(validationErrors.length)
+    console.log(validationErrors.length);
 
-    if (validationErrors.length === 0){
-
+    if (validationErrors.length === 0) {
       createServerInputs = {
         name: serverName,
         image_url: imageURL,
@@ -87,41 +86,45 @@ const CreateServerForm = ({ setShowModal }) => {
   };
 
   return (
-    <form className="create-server-form" onSubmit={handleSubmit}>
-      <div className="errors-create-server-form">
-        {validationErrors.length > 0 && (
-          <ul className="create-spot-errors">
-            {validationErrors.map((e) => (
-              <li className="error" key={e}>{e}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className="create-form-wrapper server-form">
+      <form className="create-server-form" onSubmit={handleSubmit}>
+        <div className="errors-create-server-form">
+          {validationErrors.length > 0 && (
+            <ul className="create-spot-errors">
+              {validationErrors.map((e) => (
+                <li className="error" key={e}>
+                  {e}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-      <label id="title-create-new-server">CREATE NEW SERVER</label>
-      <label id="title-create-server-input">Name of New Server</label>
-      <input
-        id="form-input-create-server"
-        type="text"
-        name="name"
-        value={serverName}
-        onChange={(e) => setServerName(e.target.value)}
-        required
-      />
+        <label id="title-create-new-server">CREATE NEW SERVER</label>
+        <label id="title-create-server-input">Name of New Server</label>
+        <input
+          id="form-input-create-server"
+          type="text"
+          name="name"
+          value={serverName}
+          onChange={(e) => setServerName(e.target.value)}
+          required
+        />
 
-      <label id="title-create-server-input">Server Profile Image - URL</label>
-      <input
-        id="form-input-create-server"
-        type="url"
-        name="imageURL"
-        value={imageURL}
-        onChange={(e) => setImageURL(e.target.value)}
-      />
+        <label id="title-create-server-input">Server Profile Image - URL</label>
+        <input
+          id="form-input-create-server"
+          type="url"
+          name="imageURL"
+          value={imageURL}
+          onChange={(e) => setImageURL(e.target.value)}
+        />
 
-      <button className="button-create-server" type="submit">
-        Create New Server
-      </button>
-    </form>
+        <button className="button-create-server" type="submit">
+          Create New Server
+        </button>
+      </form>
+    </div>
   );
 };
 
