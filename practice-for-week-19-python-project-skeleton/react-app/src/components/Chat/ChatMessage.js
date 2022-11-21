@@ -13,7 +13,7 @@ function ChatMessages({ chat_id }) {
         messages.map((message, idx) => (
           <div className="message" key={idx}>
             <div className="inner-message">
-              <div className="flex-row-center">
+              {/* <div className="flex-row-center"> */}
                 <img
                   className="author-message-image"
                   src={message?.author.image_url}
@@ -22,9 +22,9 @@ function ChatMessages({ chat_id }) {
                 <div className="message-text">
                   <p className="username-message">{message?.author.username}</p>
                   <p>{message.createdAt}</p>
-                  <p className="message-body">{message.body}</p>
+                  <div className="message-body">{message.body}</div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           </div>
         ))

@@ -32,8 +32,6 @@ button {
 .message-section {
   width: 100%;
   height: 100vh;
-  overflow-y: no-scroll;
-  overflow-x: no-scroll;
 }
 
 .logged-out-landing {
