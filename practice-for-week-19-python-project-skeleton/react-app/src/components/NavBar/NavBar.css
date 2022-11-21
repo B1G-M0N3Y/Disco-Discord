@@ -1,7 +1,8 @@
 .flex-row {
   display: flex;
   flex-direction: row;
-  /* height: 100%; */
+  height: 100vh;
+  border: #292929;
 }
 
 .flex-column-start {
@@ -14,6 +15,7 @@
   background-color: #292929;
   padding: 5px;
   width: 60px;
+
   /* height: 100%; */
 }
 
@@ -40,6 +42,7 @@
   /* height: 100%; */
   background-color: #323232;
   border-right: #292929 solid 10px;
+  height: 100vh;
 }
 
 .navbar > * {
@@ -162,6 +165,9 @@
 .fa-chevron-down,
 .fa-plus {
   font-size: 16px;
+  font-weight: 800;
+  color: var(--clr-neon);
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
 }
 
 .flex-row-space-between {
@@ -237,3 +243,7 @@
   border: none !important;
   color: rgb(219, 9, 9);
 }
+
+/* .button-create-server {
+
+} */
