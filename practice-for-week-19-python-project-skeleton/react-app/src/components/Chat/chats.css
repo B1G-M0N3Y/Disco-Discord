@@ -25,3 +25,10 @@ ul {
   width: 48px;
   object-fit: cover;
 }
+
+.default-image {
+  font-size: 35px;
+  background-color: purple;
+  padding-left: 14px;
+  padding-top: 5px;
+}

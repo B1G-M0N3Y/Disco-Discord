@@ -74,10 +74,10 @@
 }
 
 .server-pic-nav:hover {
-  box-shadow: inset 0 0 .5em 0 var(--clr-neon), 0 0 .5em 0 var(--clr-neon);
+  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
 }
 .disco-pic-nav:hover {
-  box-shadow: inset 0 0 .5em 0 #15f4ee, 0 0 .5em 0 #15f4ee;
+  box-shadow: inset 0 0 0.5em 0 #15f4ee, 0 0 0.5em 0 #15f4ee;
 }
 
 .username-nav {
@@ -86,19 +86,26 @@
 }
 
 .logout-button {
+  position: relative;
   text-align: center;
-  color: white;
-  font-size: 16px;
-  font-family: "Itim", cursive;
-  margin-top: 60px;
-  margin-bottom: 60px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background-color: red;
-  border: none;
-  width: 82%;
-  border-radius: 6px;
+  /* font-family: "Pacifico", cursive; */
+  font-size: 20px;
+  color: var(--clr-neon);
+  border: 0.2em solid var(--clr-neon);
+  border-radius: 1.2em;
+  cursor: pointer;
+  transition: 1.5s;
+  letter-spacing: 2px;
+  margin-left: 12px;
+
+  width: 180px;
+  height: 60px;
+
+  text-shadow: 0 0 0.125em hsl(0 0% 60% / 0.5), 0 0 0.5em var(--clr-neon);
+
+  box-shadow: inset 0 0 1em 0 var(--clr-neon), 0 0 8em 0 var(--clr-neon);
 }
+
 
 .chat-nav {
   margin-top: 0px;
@@ -173,7 +180,7 @@
   align-items: flex-start;
   justify-content: center;
   padding: 5px;
-  font-family: "Itim", cursive;
+  font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
 }
 
 .fa-chevron-down,
@@ -287,11 +294,11 @@
 } */
 
 /* .server-pic-nav:hover #display-server-name { */
-  /* display: block; */
-  /* visibility: visible;
+/* display: block; */
+/* visibility: visible;
   opacity: 1; */
-  /* position: absolute; */
-  /* border: white solid 5px; */
-  /* width: 10px;
+/* position: absolute; */
+/* border: white solid 5px; */
+/* width: 10px;
   height: 10px; */
 /* } */

@@ -27,13 +27,12 @@ const NavBar = () => {
   const sessionUser = useSelector((state) => state.session.user);
   const currServers = useSelector((state) => state.servers.servers);
 
-
   const { setShowMessages } = useSelectedMessages();
   const { showChannels, setShowChannels } = useSelectedChannels(false);
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { setSelectedChannel } = useSelectedChannels(false);
 
-  console.log("THIS IS CURRENT SERVER ID", currServerId)
+  console.log("THIS IS CURRENT SERVER ID", currServerId);
 
   //open logout menu
   const openLogout = () => {
@@ -74,18 +73,24 @@ const NavBar = () => {
       <div className="session-user-info">
         {showLogout ? (
           <LogoutButton />
-          ) : (
-            <>
-            <img
-              alt={sessionUser.id}
-              className="user-pic-nav"
-              src={sessionUser.image_url}
+        ) : (
+          <>
+            {sessionUser?.image_url ? (
+              <img
+                alt={sessionUser.id}
+                className="user-pic-nav"
+                src={sessionUser?.image_url}
               ></img>
+            ) : (
+              <div className="author-message-image default-image">
+                {sessionUser?.username[0].toUpperCase()}
+              </div>
+            )}
             <p className="username-nav">{sessionUser.username}</p>
             <i
               onClick={openLogout}
               className="fa-solid fa-right-from-bracket"
-              ></i>
+            ></i>
           </>
         )}
       </div>
@@ -93,18 +98,18 @@ const NavBar = () => {
     const channelList = currServers[selectedServer]?.channels?.map(
       (channel, idx) => (
         <div
-        className="channel-nav chat-nav"
-        onClick={() => {
-          setSelectedChannel(channel);
-          history.push(`/servers/${selectedServer}/channels/${channel?.id}`);
-        }}
+          className="channel-nav chat-nav"
+          onClick={() => {
+            setSelectedChannel(channel);
+            history.push(`/servers/${selectedServer}/channels/${channel?.id}`);
+          }}
         >
           <div className="width-90">{channel.name}</div>
         </div>
       )
-      );
-      const serverDisplay = Object.values(currServers).map((server) => (
-        <div
+    );
+    const serverDisplay = Object.values(currServers).map((server) => (
+      <div
         key={server.id}
         onClick={() => {
           dispatch(getCurrentChannels(server.id));
@@ -112,16 +117,18 @@ const NavBar = () => {
           setSelectedServer(server.id);
           history.push(`/servers/${server?.id}`);
         }}
-        >
+      >
         <div>
           <img
             alt={currServerId}
             className="server-pic-nav"
-            src={!server.image_url ? "https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png" : server.image_url}
-            ></img>
-          <div id="display-server-name">
-            {server.name}
-          </div>
+            src={
+              !server.image_url
+                ? "https://res.cloudinary.com/duvgdb8rd/image/upload/v1668887061/serverStockImg_lxsd2e.png"
+                : server.image_url
+            }
+          ></img>
+          <div id="display-server-name">{server.name}</div>
           {/* TODO: don't display the name here */}
           {/* <p>{server.name}</p> */}
         </div>

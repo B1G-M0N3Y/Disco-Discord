@@ -22,11 +22,17 @@ function ChatMessages({ chat_id }) {
           <div className="message" key={idx}>
             <div className="inner-message">
               {/* <div className="flex-row-center"> */}
-              <img
-                className="author-message-image"
-                src={message?.author.image_url}
-                alt={`${message?.author.username} chat pic`}
-              ></img>
+              {message?.author.image_url ? (
+                <img
+                  className="author-message-image"
+                  src={message?.author.image_url}
+                  alt={`${message?.author.username} chat pic`}
+                ></img>
+              ) : (
+                <div className="author-message-image default-image">
+                  {message.author.username[0].toUpperCase()}
+                </div>
+              )}
               <div className="message-text">
                 <div className="message-text-top">
                   <p className="username-message">{message?.author.username}</p>
