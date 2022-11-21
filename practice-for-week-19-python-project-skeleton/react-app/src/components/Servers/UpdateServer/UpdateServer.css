@@ -93,7 +93,7 @@
 .channel-select:focus,
 .channel-select:active,
 .channel-select:hover {
-  border-color: gray;
+  border-color: #15f4ee;
   outline: none;
 }
 
