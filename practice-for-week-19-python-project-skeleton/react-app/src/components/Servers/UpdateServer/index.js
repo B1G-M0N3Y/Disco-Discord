@@ -8,7 +8,6 @@ import {
   deleteServerThunk,
 } from "../../../store/servers";
 import { useSelectedServer } from "../../../context/ServerContext.js";
-import "../DeleteServer/DeleteServerButton.css";
 import UpdateChannel from "../../Channels/DeleteChannel";
 import "./UpdateServer.css";
 
@@ -77,13 +76,26 @@ const UpdateServer = () => {
 
   const deleteHandler = async (e) => {
     e.preventDefault();
+    const serversArr = Object.keys(servers).map((serversId) =>
+      parseInt(serversId)
+    );
     await dispatch(deleteServerThunk(serverId));
-    return history.push("/");
+    const indexOfServerInServersArr = serversArr?.findIndex(
+      (serverIdx) => serverIdx === parseInt(serverId)
+    );
+    let nextServerIndex;
+    if (indexOfServerInServersArr === 0) {
+      nextServerIndex = serversArr[indexOfServerInServersArr + 1];
+    } else {
+      nextServerIndex = serversArr[indexOfServerInServersArr - 1];
+    }
+    setSelectedServer(nextServerIndex);
+    return history.push(`/servers/${nextServerIndex}`);
   };
 
   if (!Object.values(servers).length) return null;
 
-  if (user.id === servers[serverId].admin_id) {
+  if (user.id === servers[serverId]?.admin_id) {
     return (
       <>
         <div className="update-delete-server flex-column-center">

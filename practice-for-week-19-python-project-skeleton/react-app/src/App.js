@@ -14,7 +14,6 @@ import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import ServerMembers from "./components/ServerMembers";
-import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
 
