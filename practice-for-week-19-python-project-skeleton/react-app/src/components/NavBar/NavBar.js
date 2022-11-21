@@ -140,7 +140,7 @@ const NavBar = () => {
               >
                 <img
                   alt={currServerId}
-                  className="server-pic-nav"
+                  className="disco-pic-nav"
                   src="https://i.pinimg.com/originals/15/1f/07/151f073cab6e304361f4f22577756974.gif"
                 ></img>
               </NavLink>
