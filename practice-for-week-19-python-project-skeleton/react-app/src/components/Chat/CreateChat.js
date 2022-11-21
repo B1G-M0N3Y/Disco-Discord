@@ -19,7 +19,7 @@ const CreateChat = () => {
     async function fetchData() {
       const response = await fetch("/api/users/");
       const responseData = await response.json();
-      const filteredUsers = responseData.users.filter(
+      const filteredUsers = responseData.users?.filter(
         (user) => user.id !== currentUser.id
       );
       setUsers(filteredUsers);

@@ -105,7 +105,7 @@ const UpdateChannel = ({ server }) => {
       <div className="edit-container">
         <br></br>
         <form className="edit-server-form flex-column" onSubmit={editHandler}>
-          <div className="edit-title">Edit channel details:</div>
+          <div className="edit-title">Edit Channel Details:</div>
           <br></br>
           <select
             className="channel-select"
@@ -120,7 +120,7 @@ const UpdateChannel = ({ server }) => {
               return <option key={channel.name}>{channel.name}</option>;
             })}
           </select>
-          <div className="edit-name">Edit channel name: </div>
+          <div className="edit-name">Edit Channel Name: </div>
           <input
             className="edit-input"
             type="name"
