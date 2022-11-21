@@ -13,6 +13,8 @@ import LandingPage from "./components/LandingPage";
 import ChannelMessagesPage from "./components/Channels/ChannelMessages";
 import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
+import ServerMembers from "./components/ServerMembers";
+import Chat from "./components/Chat";
 import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
 
@@ -78,6 +80,9 @@ function App() {
           <LandingPage />
         </Route>
       </Switch>
+      <Route path="/servers">
+        <ServerMembers />
+      </Route>
       <div
         className={!user?.id ? "logged-out-landing" : "left-right-columns"}
       ></div>

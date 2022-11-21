@@ -15,6 +15,11 @@ function IndividualChat({ chat, setChat }) {
   const chats = useSelector((state) => state.chats);
 
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
+  console.log(
+    chatsArr?.findIndex((chatIdx) => chatIdx === chat.id),
+    "find index"
+  );
+
   const { selectedChat, setSelectedChat } = useSelectedChat();
 
   const handleDelete = async (chatId) => {
