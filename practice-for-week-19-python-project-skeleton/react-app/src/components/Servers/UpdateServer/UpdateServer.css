@@ -26,7 +26,7 @@
   color: white;
   width: 100%;
   margin-top: 20px;
-  font-size: 2rem;
+  font-size: 25px;
 }
 
 .edit-name {
@@ -34,7 +34,7 @@
   color: white;
   width: 100%;
   margin-top: 20px;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .edit-input {
@@ -47,7 +47,7 @@
   color: #15f4ee;
   padding: 10px;
   margin-top: 10px;
-  font-size: 20px;
+  font-size: 18px;
   border-radius: 0.5em;
 }
 
@@ -60,7 +60,19 @@
   border-color: white;
   color: white;
   border-radius: 0.5em;
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.edit-disabled {
+  width: 160px;
+  height: 40px;
+  margin-top: 10px;
+  background: none;
+  border-color: white;
+  color: white;
+  border-radius: 0.5em;
+  font-size: 18px;
+  cursor: default;
 }
 
 .edit-server-submit:hover {
@@ -75,7 +87,7 @@
 
 .errors {
   color: hsl(317 100% 54%);
-  font-size: 20px;
+  font-size: 18px;
   margin-top: 5px;
 }
 
@@ -87,7 +99,7 @@
   border-color: white;
   color: #15f4ee;
   border-radius: 0.5em;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .channel-select:focus,
@@ -100,5 +112,5 @@
 #err {
   font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
   list-style-type: none;
-  font-size: 20px;
+  font-size: 18px;
 }
