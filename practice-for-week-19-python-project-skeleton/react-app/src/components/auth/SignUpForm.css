@@ -31,7 +31,7 @@
 .error {
     color: #15f4ee;
     font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-    position: absolute;
+    /* position: absolute; */
 }
 
 #inputs {
