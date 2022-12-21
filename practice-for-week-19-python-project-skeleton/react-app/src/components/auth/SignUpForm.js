@@ -13,6 +13,8 @@ const SignUpForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.allUsers);
@@ -27,8 +29,12 @@ const SignUpForm = () => {
       );
   };
 
+
   const onSignUp = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+
     const userData = {
       username,
       first_name: firstName,
@@ -69,9 +75,13 @@ const SignUpForm = () => {
     }
   };
 
+  const updateImage = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  }
+
   const updateUsername = (e) => {
     setUsername(e.target.value);
-    console.log(username, "username");
   };
   const updateFirstName = (e) => {
     setFirstName(e.target.value);
@@ -148,7 +158,14 @@ const SignUpForm = () => {
             required
           ></input>
         </div>
-
+        <div>
+          <label>Profile Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={updateImage}
+          ></input>
+        </div>
         <div>
           <label>Password</label>
           <input
