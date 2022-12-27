@@ -5,6 +5,7 @@ import { getChat } from "../../store/chat";
 import IndividualChat from "./IndividualChat";
 import { useSelectedChat } from "../../context/ChatContext";
 import CreateChat from "./CreateChat";
+import { io } from "socket.io-client";
 
 function Chat() {
   const dispatch = useDispatch();
@@ -17,10 +18,24 @@ function Chat() {
 
   useEffect(() => {
     //   TODO SETUP THIS REDUX
-    dispatch(getChat());
+    // dispatch(getChat());
     setSelectedChat(Object.values(chats)[0]?.id);
     // DONT ADD CHATS TO DEPENDENCY ARRAY OR EVERYTHING WILL BREAK AND I WILL CRY
   }, [dispatch, setSelectedChat]);
+
+  useEffect(()=>{
+
+    const socket = io();
+
+    socket.on("newchat", (data) => {
+      console.log( "NEW CHAT ALERT****");
+      // dispatch(addChatMessage(data));
+      dispatch(getChat());
+    });
+    return () => {
+      socket.disconnect();
+    };
+  })
 
   return (
     <>

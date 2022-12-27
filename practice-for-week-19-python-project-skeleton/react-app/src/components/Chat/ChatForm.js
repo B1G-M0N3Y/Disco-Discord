@@ -32,7 +32,12 @@ function ChatForm() {
 
     socket.on("newmessage", (data) => {
       console.log(data, typeof data, "INCOMING MESSAGE****");
-      dispatch(addChatMessage(data));
+      // dispatch(addChatMessage(data));
+      dispatch(getChat());
+    });
+    socket.on("newchats", (data) => {
+      console.log( "NEW CHAT ALERT****");
+      // dispatch(addChatMessage(data));
       dispatch(getChat());
     });
 
