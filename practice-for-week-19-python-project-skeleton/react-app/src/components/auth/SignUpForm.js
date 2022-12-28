@@ -32,16 +32,18 @@ const SignUpForm = () => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image);
 
-    const userData = {
-      username,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      password,
-    };
+    const awsImage = new FormData();
+    awsImage.append("image", image);
+
+    // Additional API call to send image up to AWS
+    const awsImageRes = await fetch('/api/images', {
+      method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: awsImage,
+    })
 
     let errors = [];
 
@@ -65,14 +67,34 @@ const SignUpForm = () => {
       errors.push("Passwords must match");
     }
 
-    if (errors.length === 0) {
-      const data = await dispatch(signUp(userData));
-      if (data) {
-        setErrors(data);
-      }
-    } else {
-      setErrors(errors);
+    setErrors(errors);
+
+    if (awsImageRes.ok){
+      await awsImageRes.json().then(async (awaitedImage) => {
+        setImageLoading(false)
+
+        const imageUrl = awaitedImage.url
+
+        const userData = {
+          username,
+          first_name: firstName,
+          last_name: lastName,
+          image_url: imageUrl,
+          email,
+          password,
+        };
+
+        if (errors.length === 0) {
+          const data = await dispatch(signUp(userData));
+          if (data) {
+            setErrors(data);
+          }
+        } else {
+        }
+      })
     }
+
+
   };
 
   const updateImage = (e) => {
