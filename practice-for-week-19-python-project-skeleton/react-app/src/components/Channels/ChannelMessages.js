@@ -101,6 +101,15 @@ const ChannelMessagesPage = () => {
                         onClick={async () => {
                           await dispatch(deleteChannelMessage(message?.id));
                           dispatch(getChannelMessages(channelId));
+                          const payload = {
+                            channel_id: parseInt(channelId),
+                          };
+                          console.log(
+                            payload,
+                            payload["channel_id"],
+                            typeof payload["channel_id"]
+                          );
+                          socket.emit("channelmessage", payload);
                           return history.push(
                             `/servers/${serverId}/channels/${channelId}`
                           );
