@@ -17,13 +17,13 @@ const ChannelMessage = ({ message }) => {
 
   const handleDelete = async () => {
     await dispatch(deleteChannelMessage(message?.id));
-    dispatch(getChannelMessages(message?.channelId));
+    dispatch(getChannelMessages(message["channel_id"]));
     const payload = {
-      channel_id: parseInt(message?.channelId),
+      channel_id: message["channel_id"],
     };
     socket.emit("channelmessage", payload);
     return history.push(
-      `/servers/${message?.serverId}/channels/${message?.channelId}`
+      `/servers/${message?.serverId}/channels/${message["channel_id"]}`
     );
   };
   return (
