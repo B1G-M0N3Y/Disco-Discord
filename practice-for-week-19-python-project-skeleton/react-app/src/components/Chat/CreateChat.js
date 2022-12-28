@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedChat } from "../../context/ChatContext";
 import { getChat, newChat } from "../../store/chat";
 import { io } from "socket.io-client";
+import SocketProvider, { SocketContext, useSocket } from "../../context/SocketContext";
 
 
-let socket;
+
 
 const CreateChat = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -18,6 +19,10 @@ const CreateChat = () => {
   const { setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
+
+  const {socket} =useSocket()
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -31,18 +36,18 @@ const CreateChat = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    socket = io();
-    // socket.on("newchats", (newChatData) => {
-    //   console.log(newChatData, 'new chat data!')
-    //   dispatch(getChat())
-    // });
+  //   socket = io();
+  //   // socket.on("newchats", (newChatData) => {
+  //   //   console.log(newChatData, 'new chat data!')
+  //   //   dispatch(getChat())
+  //   // });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,7 +57,7 @@ const CreateChat = () => {
       chat_members_lst: String(chatUsers),
     };
     const response = await dispatch(newChat(chat));
-    socket.emit("newchat",response)
+    socket.emit("updatechat", response)
     setShowAdd(false);
     setChatUsers([currentUser.id]);
     setSelectedChat(response.id);

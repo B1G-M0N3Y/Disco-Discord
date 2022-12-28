@@ -18,12 +18,12 @@ import UpdateServer from "./components/Servers/UpdateServer";
 import UpdateChannel from "./components/Channels/DeleteChannel";
 import ChatMembers from "./components/Chat/ChatMembers";
 import { getChat } from "./store/chat";
+import { io } from "socket.io-client";
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
-
   const user = useSelector((state) => state.session.user);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,6 +38,9 @@ function App() {
   if (!loaded) {
     return null;
   }
+
+  //WEBSOCKET (SOCKET IO) INITIALIZATION FOR ENTIRE APP
+
 
   return (
     <BrowserRouter>

@@ -23,19 +23,6 @@ function Chat() {
     // DONT ADD CHATS TO DEPENDENCY ARRAY OR EVERYTHING WILL BREAK AND I WILL CRY
   }, [dispatch, setSelectedChat]);
 
-  useEffect(()=>{
-
-    const socket = io();
-
-    socket.on("newchat", (data) => {
-      console.log( "NEW CHAT ALERT****");
-      // dispatch(addChatMessage(data));
-      dispatch(getChat());
-    });
-    return () => {
-      socket.disconnect();
-    };
-  })
 
   return (
     <>

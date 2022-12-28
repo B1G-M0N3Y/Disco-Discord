@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
   deleteChannelMessage,
@@ -12,8 +11,9 @@ import {
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
 import { useSelectedServer } from "../../context/ServerContext";
+import { useSocket } from "../../context/SocketContext";
 
-let socket;
+
 
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const ChannelMessagesPage = () => {
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel } = useSelectedChannels();
   const { channelId, serverId } = useParams();
+  const {socket} = useSocket()
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
@@ -40,27 +41,6 @@ const ChannelMessagesPage = () => {
       dispatch(getServers());
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    socket = io();
-
-    socket.on("chat", (chat) => {
-      setAllMessages((messages) => [...messages, chat]);
-    });
-
-    socket.on("channelmessage", (message) => {
-      dispatch(addMessage(message));
-      dispatch(getChannelMessages(channelId));
-    });
-
-    socket.on("connect", () => {
-      console.log("**CONNECTED");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [channelId]);
 
   // error validations
   useEffect(() => {

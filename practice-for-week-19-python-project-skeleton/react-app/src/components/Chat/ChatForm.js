@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import ChatMessages from "./ChatMessage";
 import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
-import { io } from "socket.io-client";
-import { useSelectedChat } from "../../context/ChatContext";
 import { useParams } from "react-router-dom";
+import { useSocket } from "../../context/SocketContext";
 
-let socket;
+
 
 function ChatForm() {
   const { chatId } = useParams();
   const dispatch = useDispatch();
   const [text, setText] = useState();
-  const { selectedChat } = useSelectedChat();
   const [validationErrors, setValidationErrors] = useState([]);
+  const {socket} = useSocket()
 
   useEffect(() => {
     dispatch(getChat());
@@ -22,33 +21,6 @@ function ChatForm() {
   useEffect(() => {
     setText("");
   }, [chatId]);
-
-  useEffect(() => {
-    socket = io();
-
-    socket.on("connect", () => {
-      console.log("***CONNECTED TO WEB SOCKET");
-    });
-
-    socket.on("newmessage", (data) => {
-      console.log(data, typeof data, "INCOMING MESSAGE****");
-      // dispatch(addChatMessage(data));
-      dispatch(getChat());
-    });
-    socket.on("newchats", (data) => {
-      console.log( "NEW CHAT ALERT****");
-      // dispatch(addChatMessage(data));
-      dispatch(getChat());
-    });
-
-    socket.on("initialize", (data) => {
-      console.log("initialized data", data);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [selectedChat, dispatch]);
 
   // error validations
   useEffect(() => {
@@ -63,6 +35,7 @@ function ChatForm() {
     if (text.length === 0) return;
     const message = { body: text, chat_id: chatId };
     const response = await dispatch(newChatMessage(message));
+    console.log(response,'response from chatform')
     socket.emit("newmessage", response);
     setText("");
   };

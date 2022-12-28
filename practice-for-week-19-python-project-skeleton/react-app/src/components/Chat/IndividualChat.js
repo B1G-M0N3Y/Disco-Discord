@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useSelectedChat } from "../../context/ChatContext";
 import { useHistory } from "react-router-dom";
 import { deleteChat } from "../../store/chat";
+import { useSocket } from "../../context/SocketContext";
 
 const DEFAULT_IMAGE_URL =
   "https://ledstagelightmfg.com/wp-content/uploads/2020/09/40inch-disco-ball.jpg";
@@ -17,9 +18,11 @@ function IndividualChat({ chat, setChat }) {
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
+  const {socket} = useSocket()
 
   const handleDelete = async (chatId) => {
-    await dispatch(deleteChat(chatId));
+    const response = await dispatch(deleteChat(chatId));
+    socket.emit("updatechat", response)
     // determineNextChatOnDelete();
     const indexOfChatInChatsArr = chatsArr?.findIndex(
       (chatIdx) => chatIdx === chat.id
