@@ -36,19 +36,6 @@ const CreateChat = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-
-  //   socket = io();
-  //   // socket.on("newchats", (newChatData) => {
-  //   //   console.log(newChatData, 'new chat data!')
-  //   //   dispatch(getChat())
-  //   // });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const chat = {

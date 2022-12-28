@@ -23,7 +23,6 @@ function IndividualChat({ chat, setChat }) {
   const handleDelete = async (chatId) => {
     const response = await dispatch(deleteChat(chatId));
     socket.emit("updatechat", response)
-    // determineNextChatOnDelete();
     const indexOfChatInChatsArr = chatsArr?.findIndex(
       (chatIdx) => chatIdx === chat.id
     );
