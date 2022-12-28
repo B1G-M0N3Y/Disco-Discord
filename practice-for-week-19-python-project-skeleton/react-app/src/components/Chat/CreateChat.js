@@ -4,10 +4,10 @@ import { useHistory } from "react-router-dom";
 import { useSelectedChat } from "../../context/ChatContext";
 import { getChat, newChat } from "../../store/chat";
 import { io } from "socket.io-client";
-import SocketProvider, { SocketContext, useSocket } from "../../context/SocketContext";
-
-
-
+import SocketProvider, {
+  SocketContext,
+  useSocket,
+} from "../../context/SocketContext";
 
 const CreateChat = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -19,10 +19,7 @@ const CreateChat = () => {
   const { setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
-
-  const {socket} =useSocket()
-
-
+  const { socket } = useSocket();
 
   useEffect(() => {
     async function fetchData() {
@@ -44,7 +41,7 @@ const CreateChat = () => {
       chat_members_lst: String(chatUsers),
     };
     const response = await dispatch(newChat(chat));
-    socket.emit("updatechat", response)
+    socket.emit("updatechat", response);
     setShowAdd(false);
     setChatUsers([currentUser.id]);
     setSelectedChat(response.id);

@@ -23,7 +23,6 @@ function Chat() {
     // DONT ADD CHATS TO DEPENDENCY ARRAY OR EVERYTHING WILL BREAK AND I WILL CRY
   }, [dispatch, setSelectedChat]);
 
-
   return (
     <>
       <div>

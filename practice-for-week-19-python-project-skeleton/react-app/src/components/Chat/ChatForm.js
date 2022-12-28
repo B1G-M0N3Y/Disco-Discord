@@ -5,14 +5,12 @@ import { getChat, newChatMessage, addChatMessage } from "../../store/chat";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../../context/SocketContext";
 
-
-
 function ChatForm() {
   const { chatId } = useParams();
   const dispatch = useDispatch();
   const [text, setText] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
-  const {socket} = useSocket()
+  const { socket } = useSocket();
 
   useEffect(() => {
     dispatch(getChat());
@@ -35,7 +33,7 @@ function ChatForm() {
     if (text.length === 0) return;
     const message = { body: text, chat_id: chatId };
     const response = await dispatch(newChatMessage(message));
-    console.log(response,'response from chatform')
+    console.log(response, "response from chatform");
     socket.emit("newmessage", response);
     setText("");
   };

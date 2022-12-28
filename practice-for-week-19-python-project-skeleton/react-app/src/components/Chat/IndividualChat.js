@@ -18,11 +18,11 @@ function IndividualChat({ chat, setChat }) {
   const chatsArr = Object.keys(chats).map((chatId) => parseInt(chatId));
 
   const { selectedChat, setSelectedChat } = useSelectedChat();
-  const {socket} = useSocket()
+  const { socket } = useSocket();
 
   const handleDelete = async (chatId) => {
     const response = await dispatch(deleteChat(chatId));
-    socket.emit("updatechat", response)
+    socket.emit("updatechat", response);
     const indexOfChatInChatsArr = chatsArr?.findIndex(
       (chatIdx) => chatIdx === chat.id
     );
