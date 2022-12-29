@@ -70,28 +70,32 @@ const SignUpForm = () => {
 
     if (awsImageRes.ok){
       await awsImageRes.json()
-      // .then(async (awaitedImage) => {
-      //   setImageLoading(false)
+      .then(async (awaitedImage) => {
+        setImageLoading(false)
 
-      //   const imageUrl = awaitedImage.url
+        const imageUrl = await awaitedImage.url
 
-      //   const userData = {
-      //     username,
-      //     first_name: firstName,
-      //     last_name: lastName,
-      //     image_url: imageUrl,
-      //     email,
-      //     password,
-      //   };
+        console.log('image url', imageUrl)
 
-      //   if (errors.length === 0) {
-      //     const data = await dispatch(signUp(userData));
-      //     if (data) {
-      //       setErrors(data);
-      //     }
-      //   } else {
-      //   }
-      // })
+        const userData = {
+          username,
+          first_name: firstName,
+          last_name: lastName,
+          image_url: imageUrl,
+          email,
+          password,
+        };
+
+        console.log('user data', userData)
+
+        if (errors.length === 0) {
+          const data = await dispatch(signUp(userData));
+          if (data) {
+            setErrors(data);
+          }
+        } else {
+        }
+      })
     }
 
 

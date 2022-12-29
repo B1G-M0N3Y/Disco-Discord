@@ -17,7 +17,7 @@ def username_exists(form, field):
     username = field.data
     user = User.query.filter(User.username == username).first()
     if user:
-        raise ValidationError('Username is already in use.')     
+        raise ValidationError('Username is already in use.')
 
 
 
@@ -25,6 +25,7 @@ class SignUpForm(FlaskForm):
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])
+    image_url = StringField('image_url')
     password = StringField('password', validators=[DataRequired()])
     first_name = StringField(
         'First name', validators=[DataRequired()])
