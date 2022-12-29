@@ -9,7 +9,7 @@ def seed_users():
         password='password',
         first_name='Demo',
         last_name='User',
-        image_url='https://upload.wikimedia.org/wikipedia/commons/7/7e/Appacademylogo.png')
+        image_url='https://disco-ord.s3.us-west-1.amazonaws.com/Appacademylogo.png')
     marnie = User(
         username='marnie',
         email='marnie@aa.io',

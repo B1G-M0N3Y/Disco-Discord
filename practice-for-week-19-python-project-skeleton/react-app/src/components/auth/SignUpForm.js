@@ -36,13 +36,12 @@ const SignUpForm = () => {
     const awsImage = new FormData();
     awsImage.append("image", image);
 
+
+      setImageLoading(true)
     // Additional API call to send image up to AWS
     const awsImageRes = await fetch('/api/images', {
       method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: awsImage,
+      body: awsImage,
     })
 
     let errors = [];
@@ -70,28 +69,29 @@ const SignUpForm = () => {
     setErrors(errors);
 
     if (awsImageRes.ok){
-      await awsImageRes.json().then(async (awaitedImage) => {
-        setImageLoading(false)
+      await awsImageRes.json()
+      // .then(async (awaitedImage) => {
+      //   setImageLoading(false)
 
-        const imageUrl = awaitedImage.url
+      //   const imageUrl = awaitedImage.url
 
-        const userData = {
-          username,
-          first_name: firstName,
-          last_name: lastName,
-          image_url: imageUrl,
-          email,
-          password,
-        };
+      //   const userData = {
+      //     username,
+      //     first_name: firstName,
+      //     last_name: lastName,
+      //     image_url: imageUrl,
+      //     email,
+      //     password,
+      //   };
 
-        if (errors.length === 0) {
-          const data = await dispatch(signUp(userData));
-          if (data) {
-            setErrors(data);
-          }
-        } else {
-        }
-      })
+      //   if (errors.length === 0) {
+      //     const data = await dispatch(signUp(userData));
+      //     if (data) {
+      //       setErrors(data);
+      //     }
+      //   } else {
+      //   }
+      // })
     }
 
 
