@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Draggable, Droppable } from 'react-drag-and-drop'
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
 import { getAllUsers } from "../../store/users";
@@ -214,6 +215,7 @@ const SignUpForm = () => {
             required={true}
           ></input>
         </div>
+        <Droppable className ='sign-up-image-field'>Submit Image Here</Droppable>
         <button id="sign-up-button" type="submit">
           SIGN UP
         </button>

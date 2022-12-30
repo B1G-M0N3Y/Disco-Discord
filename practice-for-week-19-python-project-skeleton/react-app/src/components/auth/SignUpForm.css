@@ -80,3 +80,12 @@
       inset 0 0 1em 0 #15f4ee,
             0 0 8em 0 #15f4ee;
 }
+
+.sign-up-image-field{
+  margin-top: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5em;
+  border: dashed .1em red;
+}
