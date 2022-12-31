@@ -3,11 +3,20 @@ import { FileUploader } from "react-drag-drop-files";
 
 const ALLOWED_TYPES = ["pdf", "png", "jpg", "jpeg", "gif"]
 
-const ProfileImageSubmit = () => {
+const ProfileImageSubmit = ({image, setImage}) => {
+
+    const handleChange = (file) => {
+        setImage(file)
+        console.log('after upload', image)
+    }
+
+    console.log('image', image)
+
     return (
         <FileUploader
             label='Something Groovy'
             types={ALLOWED_TYPES}
+            handleChange={handleChange}
             children={
                 <div className='sign-up-file-upload'>
                     <div className="sign-up-file-upload-text">

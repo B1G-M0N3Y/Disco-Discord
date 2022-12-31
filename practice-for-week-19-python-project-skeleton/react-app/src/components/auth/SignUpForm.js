@@ -206,7 +206,7 @@ const SignUpForm = () => {
             required={true}
           ></input>
         </div>
-        <ProfileImageSubmit />
+        <ProfileImageSubmit image={image} setImage={setImage}/>
       </div>
       <button id="sign-up-button" type="submit">
         SIGN UP
