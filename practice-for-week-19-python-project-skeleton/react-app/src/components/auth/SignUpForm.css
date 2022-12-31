@@ -81,11 +81,29 @@
             0 0 8em 0 #15f4ee;
 }
 
-.sign-up-image-field{
+.sign-up-file-upload{
   margin-top: 1.2em;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 5em;
   border: dashed .1em red;
+  border-radius: 1em;
+}
+
+.sign-up-file-upload-text{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: .6em;
+}
+
+.sign-up-file-upload-text p{
+  margin: 0;
+}
+
+.sign-up-file-extensions{
+  font-size: .4em;
 }

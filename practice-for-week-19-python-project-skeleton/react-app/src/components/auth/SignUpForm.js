@@ -6,6 +6,8 @@ import { signUp } from "../../store/session";
 import { getAllUsers } from "../../store/users";
 import "./SignUpForm.css";
 
+const ALLOWED_TYPES = ["pdf", "png", "jpg", "jpeg", "gif"]
+
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
   const [username, setUsername] = useState("");
@@ -38,7 +40,7 @@ const SignUpForm = () => {
     awsImage.append("image", image);
 
 
-      setImageLoading(true)
+    setImageLoading(true)
     // Additional API call to send image up to AWS
     const awsImageRes = await fetch('/api/images', {
       method: "POST",
@@ -69,34 +71,34 @@ const SignUpForm = () => {
 
     setErrors(errors);
 
-    if (awsImageRes.ok){
+    if (awsImageRes.ok) {
       await awsImageRes.json()
-      .then(async (awaitedImage) => {
-        setImageLoading(false)
+        .then(async (awaitedImage) => {
+          setImageLoading(false)
 
-        const imageUrl = await awaitedImage.url
+          const imageUrl = await awaitedImage.url
 
-        console.log('image url', imageUrl)
+          console.log('image url', imageUrl)
 
-        const userData = {
-          username,
-          first_name: firstName,
-          last_name: lastName,
-          image_url: imageUrl,
-          email,
-          password,
-        };
+          const userData = {
+            username,
+            first_name: firstName,
+            last_name: lastName,
+            image_url: imageUrl,
+            email,
+            password,
+          };
 
-        console.log('user data', userData)
+          console.log('user data', userData)
 
-        if (errors.length === 0) {
-          const data = await dispatch(signUp(userData));
-          if (data) {
-            setErrors(data);
+          if (errors.length === 0) {
+            const data = await dispatch(signUp(userData));
+            if (data) {
+              setErrors(data);
+            }
+          } else {
           }
-        } else {
-        }
-      })
+        })
     }
 
 
@@ -186,14 +188,6 @@ const SignUpForm = () => {
           ></input>
         </div>
         <div>
-          <label>Profile Image</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={updateImage}
-          ></input>
-        </div>
-        <div>
           <label>Password</label>
           <input
             id="sign-up-inputs"
@@ -215,12 +209,32 @@ const SignUpForm = () => {
             required={true}
           ></input>
         </div>
-        <FileUploader></FileUploader>
-        <button id="sign-up-button" type="submit">
-          SIGN UP
-        </button>
+        <FileUploader
+          label='Something Groovy'
+          types={ALLOWED_TYPES}
+          children={
+            <div className='sign-up-file-upload'>
+              <div className="sign-up-file-upload-text">
+                <p>Click here to upload a file</p>
+                <p>or</p>
+                <p>Drag and drop from your computer</p>
+              </div>
+              <p className="sign-up-file-extensions">* extensions allowed: {ALLOWED_TYPES.map((type, idx) => {
+                if (idx === (ALLOWED_TYPES.length - 1)) {
+                  return `${type}.`
+                }
+                return `${type}, `
+              }
+              )}</p>
+            </div>
+          }
+        />
+
       </div>
-    </form>
+      <button id="sign-up-button" type="submit">
+        SIGN UP
+      </button>
+    </form >
   );
 };
 
