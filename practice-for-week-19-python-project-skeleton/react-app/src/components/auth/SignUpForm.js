@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { FileUploader } from "react-drag-drop-files";
 import { Redirect } from "react-router-dom";
 import { signUp } from "../../store/session";
-import { getAllUsers } from "../../store/users";
+import ProfileImageSubmit from "./ProfileImageSubmit";
 import "./SignUpForm.css";
-
-const ALLOWED_TYPES = ["pdf", "png", "jpg", "jpeg", "gif"]
 
 const SignUpForm = () => {
   const [errors, setErrors] = useState([]);
@@ -209,27 +206,7 @@ const SignUpForm = () => {
             required={true}
           ></input>
         </div>
-        <FileUploader
-          label='Something Groovy'
-          types={ALLOWED_TYPES}
-          children={
-            <div className='sign-up-file-upload'>
-              <div className="sign-up-file-upload-text">
-                <p>Click here to upload a file</p>
-                <p>or</p>
-                <p>Drag and drop from your computer</p>
-              </div>
-              <p className="sign-up-file-extensions">* extensions allowed: {ALLOWED_TYPES.map((type, idx) => {
-                if (idx === (ALLOWED_TYPES.length - 1)) {
-                  return `${type}.`
-                }
-                return `${type}, `
-              }
-              )}</p>
-            </div>
-          }
-        />
-
+        <ProfileImageSubmit />
       </div>
       <button id="sign-up-button" type="submit">
         SIGN UP
