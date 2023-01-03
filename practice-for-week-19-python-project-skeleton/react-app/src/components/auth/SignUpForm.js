@@ -129,89 +129,177 @@ const SignUpForm = () => {
     return <Redirect to="/" />;
   }
 
+  const TextSubmit = () => (
+    <>
+      <form class="sign-up-form-container" onSubmit={onSignUp}>
+        <p id="sign-up-title">SIGN UP</p>
+        <div class="sign-up-errors">
+          {errors.map((error, ind) => (
+            <div key={ind}>{error}</div>
+            ))}
+        </div>
+
+        <div class="sign-up-form">
+          <div>
+            <label>User Name</label>
+            <input
+              id="sign-up-inputs"
+              type="text"
+              name="username"
+              onChange={updateUsername}
+              value={username}
+              required
+              ></input>
+          </div>
+
+          <div>
+            <label>First Name</label>
+            <input
+              id="sign-up-inputs"
+              type="text"
+              name="firstName"
+              onChange={updateFirstName}
+              value={firstName}
+              required
+              ></input>
+          </div>
+          <div>
+            <label>Last Name</label>
+            <input
+              id="sign-up-inputs"
+              type="text"
+              name="lastName"
+              onChange={updateLastName}
+              value={lastName}
+              required
+              ></input>
+          </div>
+          <div>
+            <label>Email</label>
+            <input
+              id="sign-up-inputs"
+              type="text"
+              name="email"
+              onChange={updateEmail}
+              value={email}
+              required
+              ></input>
+          </div>
+          <div>
+            <label>Password</label>
+            <input
+              id="sign-up-inputs"
+              type="password"
+              name="password"
+              onChange={updatePassword}
+              value={password}
+              required
+              ></input>
+          </div>
+          <div>
+            <label>Repeat Password</label>
+            <input
+              id="sign-up-inputs"
+              type="password"
+              name="repeat_password"
+              onChange={updateRepeatPassword}
+              value={repeatPassword}
+              required={true}
+              ></input>
+          </div>
+          <ProfileImageSubmit image={image} setImage={setImage} />
+        </div>
+        <button id="sign-up-button" type="submit">
+          SIGN UP
+        </button>
+      </form >
+    </>
+  )
+
   return (
-    <form class="sign-up-form-container" onSubmit={onSignUp}>
-      <p id="sign-up-title">SIGN UP</p>
-      <div class="sign-up-errors">
-        {errors.map((error, ind) => (
-          <div key={ind}>{error}</div>
-        ))}
-      </div>
+    // <form class="sign-up-form-container" onSubmit={onSignUp}>
+    //   <p id="sign-up-title">SIGN UP</p>
+    //   <div class="sign-up-errors">
+    //     {errors.map((error, ind) => (
+      //       <div key={ind}>{error}</div>
+      //     ))}
+      //   </div>
 
-      <div class="sign-up-form">
-        <div>
-          <label>User Name</label>
-          <input
-            id="sign-up-inputs"
-            type="text"
-            name="username"
-            onChange={updateUsername}
-            value={username}
-            required
-          ></input>
-        </div>
+    //   <div class="sign-up-form">
+    //     <div>
+    //       <label>User Name</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="text"
+    //         name="username"
+    //         onChange={updateUsername}
+    //         value={username}
+    //         required
+    //       ></input>
+    //     </div>
 
-        <div>
-          <label>First Name</label>
-          <input
-            id="sign-up-inputs"
-            type="text"
-            name="firstName"
-            onChange={updateFirstName}
-            value={firstName}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input
-            id="sign-up-inputs"
-            type="text"
-            name="lastName"
-            onChange={updateLastName}
-            value={lastName}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Email</label>
-          <input
-            id="sign-up-inputs"
-            type="text"
-            name="email"
-            onChange={updateEmail}
-            value={email}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            id="sign-up-inputs"
-            type="password"
-            name="password"
-            onChange={updatePassword}
-            value={password}
-            required
-          ></input>
-        </div>
-        <div>
-          <label>Repeat Password</label>
-          <input
-            id="sign-up-inputs"
-            type="password"
-            name="repeat_password"
-            onChange={updateRepeatPassword}
-            value={repeatPassword}
-            required={true}
-          ></input>
-        </div>
-        <ProfileImageSubmit image={image} setImage={setImage}/>
-      </div>
-      <button id="sign-up-button" type="submit">
-        SIGN UP
-      </button>
-    </form >
+    //     <div>
+    //       <label>First Name</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="text"
+    //         name="firstName"
+    //         onChange={updateFirstName}
+    //         value={firstName}
+    //         required
+    //       ></input>
+    //     </div>
+    //     <div>
+    //       <label>Last Name</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="text"
+    //         name="lastName"
+    //         onChange={updateLastName}
+    //         value={lastName}
+    //         required
+    //       ></input>
+    //     </div>
+    //     <div>
+    //       <label>Email</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="text"
+    //         name="email"
+    //         onChange={updateEmail}
+    //         value={email}
+    //         required
+    //       ></input>
+    //     </div>
+    //     <div>
+    //       <label>Password</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="password"
+    //         name="password"
+    //         onChange={updatePassword}
+    //         value={password}
+    //         required
+    //       ></input>
+    //     </div>
+    //     <div>
+    //       <label>Repeat Password</label>
+    //       <input
+    //         id="sign-up-inputs"
+    //         type="password"
+    //         name="repeat_password"
+    //         onChange={updateRepeatPassword}
+    //         value={repeatPassword}
+    //         required={true}
+    //       ></input>
+    //     </div>
+    //     <ProfileImageSubmit image={image} setImage={setImage}/>
+    //   </div>
+    //   <button id="sign-up-button" type="submit">
+    //     SIGN UP
+    //   </button>
+    // </form >
+    <TextSubmit />
   );
 };
 
