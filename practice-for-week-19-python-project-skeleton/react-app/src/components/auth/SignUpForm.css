@@ -1,26 +1,12 @@
 .sign-up-form-container {
-    color: #15f4ee;
-    padding: .05em 1.5em;
-    padding: 75px;
-
-    text-shadow:
+  color: #15f4ee;
+  margin: 0;
+  text-shadow:
     0 0 0.125em hsl(0 0% 60% / 0.5),
     0 0 0.5em #15f4ee;
-
-
-  min-width: 500px;
+  min-width: 20em;
+  padding: 2em;
 }
-
-/* .sign-up-form {
-    font-size: 2rem;
-    font-family: 'Pacifico', cursive;  font-size: 35px;
-    display: inline-block;
-    cursor: pointer;
-    text-decoration: none;
-    color: #15f4ee;
-    padding-top: 25px;
-    width: 500px
-} */
 
 #sign-up-title {
     text-align: center;
@@ -33,16 +19,10 @@
 .sign-up-errors {
     color: #15f4ee;
     font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
-    /* position: absolute; */
-    /* display: flex;
-    margin-bottom: 50px; */
 }
 
 #sign-up-inputs {
-    /* display: flex; */
-    /* margin-left: 60px; */
     float: right;
-    /* margin-bottom: 25px; */
     height: 40px;
     width: 175px;
     background-color: rgb(39, 37, 37);
@@ -65,10 +45,8 @@
     float: right;
     margin-top: 40px;
     font-size: 25px;
-
     height: 65px;
     width: 165px;
-
     box-shadow:
       inset 0 0 1em 0 #15f4ee,
             0 0 8em 0 #15f4ee;
@@ -82,7 +60,9 @@
   justify-content: center;
   height: 5em;
   border-radius: 1em;
-  width: 500px;
+  width: 15em;
+  height: 15em;
+  border: #15f4ee dashed .22em;
 }
 
 .sign-up-file-upload-text{
@@ -110,21 +90,22 @@
   text-decoration: none;
   color: #15f4ee;
   overflow: hidden;
+  padding: 0;
   padding-top: 25px;
-  min-width: 500px;
+  width: 20em;
   border: #15f4ee 0.35em solid;
   border-radius: 1.5em;
   box-shadow:
-    inset 0 0 2em 0 #15f4ee,
-          0 0 3em 0 #15f4ee;
+  inset 0 0 2em 0 #15f4ee,
+  0 0 3em 0 #15f4ee;
 }
 
 .sign-up-inner{
   white-space: nowrap;
   transition: transform 0.3s;
   display: flex;
+  width: 20em;
   flex-direction: row;
-  width: 500px;
 }
 
 .sign-up-page{
@@ -136,7 +117,9 @@
 }
 
 .sign-up-image-preview{
-  height: 4em;
+  justify-self: center;
+  height: 10em;
+  width: 10em;
   border: dashed .12em #15f4ee;
 }
 
@@ -151,6 +134,8 @@
 }
 
 .sign-up-image-page{
+  min-width: 20em;
+  padding: 1em;
   display: flex;
   flex-direction: column;
 }
@@ -162,8 +147,7 @@
   padding: 25px;
 }
 
-.image-submit-back,
-.image-submit-skip{
+.image-submit-back{
   display: flex;
   flex-direction: column;
   font-size: .6em;
@@ -173,6 +157,22 @@
   align-self: flex-start;
 }
 
-.image-submit-skip button{
-  align-self: flex-end;
+.sign-up-image-upload{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1.5em;
+  width: 100%;
+}
+
+.sign-up-uploaded-image{
+  width: 15em;
+  height: 15em;
+}
+
+.sign-up-uploaded-image img{
+  width: 15em;
+  height: 15em;
+  border-radius: 50%;
+  border: white solid .22em;
 }
