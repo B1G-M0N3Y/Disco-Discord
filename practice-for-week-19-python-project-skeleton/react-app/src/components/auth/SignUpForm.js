@@ -219,9 +219,9 @@ const SignUpForm = () => {
   return (
     <div className="sign-up-page">
       <div className='sign-up-carousel'>
-        <div className='sign-up-inner' style={{ transform: `translateX(-${position * 100}%)` }}>
+        <div className='sign-up-inner' style={{ transform: `translateX(-${1 * 100}%)` }}>
           <TextSubmit />
-          <ProfileImageSubmit image={image} setImage={setImage} />
+          <ProfileImageSubmit image={image} setImage={setImage} setPosition={setPosition}/>
         </div>
       </div>
     </div>

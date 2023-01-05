@@ -121,7 +121,8 @@
 }
 
 .sign-up-inner{
-  /* overflow: hidden; */
+  white-space: nowrap;
+  transition: transform 0.3s;
   display: flex;
   flex-direction: row;
   width: 500px;
