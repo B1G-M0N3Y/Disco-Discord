@@ -15,6 +15,7 @@ const SignUpForm = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
+  const [position, setPosition] = useState(0)
   const user = useSelector((state) => state.session.user);
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.allUsers);
@@ -136,7 +137,7 @@ const SignUpForm = () => {
         <div class="sign-up-errors">
           {errors.map((error, ind) => (
             <div key={ind}>{error}</div>
-            ))}
+          ))}
         </div>
 
         <div class="sign-up-form">
@@ -149,7 +150,7 @@ const SignUpForm = () => {
               onChange={updateUsername}
               value={username}
               required
-              ></input>
+            ></input>
           </div>
 
           <div>
@@ -161,7 +162,7 @@ const SignUpForm = () => {
               onChange={updateFirstName}
               value={firstName}
               required
-              ></input>
+            ></input>
           </div>
           <div>
             <label>Last Name</label>
@@ -172,7 +173,7 @@ const SignUpForm = () => {
               onChange={updateLastName}
               value={lastName}
               required
-              ></input>
+            ></input>
           </div>
           <div>
             <label>Email</label>
@@ -183,7 +184,7 @@ const SignUpForm = () => {
               onChange={updateEmail}
               value={email}
               required
-              ></input>
+            ></input>
           </div>
           <div>
             <label>Password</label>
@@ -194,7 +195,7 @@ const SignUpForm = () => {
               onChange={updatePassword}
               value={password}
               required
-              ></input>
+            ></input>
           </div>
           <div>
             <label>Repeat Password</label>
@@ -205,101 +206,25 @@ const SignUpForm = () => {
               onChange={updateRepeatPassword}
               value={repeatPassword}
               required={true}
-              ></input>
+            ></input>
           </div>
-          <ProfileImageSubmit image={image} setImage={setImage} />
         </div>
-        <button id="sign-up-button" type="submit">
-          SIGN UP
+        <button id="sign-up-button" onClick={() => setPosition(position + 1)}>
+          Next
         </button>
       </form >
     </>
   )
 
   return (
-    // <form class="sign-up-form-container" onSubmit={onSignUp}>
-    //   <p id="sign-up-title">SIGN UP</p>
-    //   <div class="sign-up-errors">
-    //     {errors.map((error, ind) => (
-      //       <div key={ind}>{error}</div>
-      //     ))}
-      //   </div>
-
-    //   <div class="sign-up-form">
-    //     <div>
-    //       <label>User Name</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="text"
-    //         name="username"
-    //         onChange={updateUsername}
-    //         value={username}
-    //         required
-    //       ></input>
-    //     </div>
-
-    //     <div>
-    //       <label>First Name</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="text"
-    //         name="firstName"
-    //         onChange={updateFirstName}
-    //         value={firstName}
-    //         required
-    //       ></input>
-    //     </div>
-    //     <div>
-    //       <label>Last Name</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="text"
-    //         name="lastName"
-    //         onChange={updateLastName}
-    //         value={lastName}
-    //         required
-    //       ></input>
-    //     </div>
-    //     <div>
-    //       <label>Email</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="text"
-    //         name="email"
-    //         onChange={updateEmail}
-    //         value={email}
-    //         required
-    //       ></input>
-    //     </div>
-    //     <div>
-    //       <label>Password</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="password"
-    //         name="password"
-    //         onChange={updatePassword}
-    //         value={password}
-    //         required
-    //       ></input>
-    //     </div>
-    //     <div>
-    //       <label>Repeat Password</label>
-    //       <input
-    //         id="sign-up-inputs"
-    //         type="password"
-    //         name="repeat_password"
-    //         onChange={updateRepeatPassword}
-    //         value={repeatPassword}
-    //         required={true}
-    //       ></input>
-    //     </div>
-    //     <ProfileImageSubmit image={image} setImage={setImage}/>
-    //   </div>
-    //   <button id="sign-up-button" type="submit">
-    //     SIGN UP
-    //   </button>
-    // </form >
-    <TextSubmit />
+    <div className="sign-up-page">
+      <div className='sign-up-carousel'>
+        <div className='sign-up-inner' style={{ transform: `translateX(-${position * 100}%)` }}>
+          <TextSubmit />
+          <ProfileImageSubmit image={image} setImage={setImage} />
+        </div>
+      </div>
+    </div>
   );
 };
 
