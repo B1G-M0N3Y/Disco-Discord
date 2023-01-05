@@ -132,9 +132,9 @@ const SignUpForm = () => {
 
   const TextSubmit = () => (
     <>
-      <form class="sign-up-form-container" onSubmit={onSignUp}>
+      <form className="sign-up-form-container" onSubmit={onSignUp}>
         <p id="sign-up-title">SIGN UP</p>
-        <div class="sign-up-errors">
+        <div className="sign-up-errors">
           {errors.map((error, ind) => (
             <div key={ind}>{error}</div>
           ))}
@@ -209,7 +209,7 @@ const SignUpForm = () => {
             ></input>
           </div>
         </div>
-        <button id="sign-up-button" onClick={() => setPosition(position + 1)}>
+        <button className="sign-up-button" onClick={() => setPosition(position + 1)}>
           Next
         </button>
       </form >
@@ -221,7 +221,12 @@ const SignUpForm = () => {
       <div className='sign-up-carousel'>
         <div className='sign-up-inner' style={{ transform: `translateX(-${1 * 100}%)` }}>
           <TextSubmit />
-          <ProfileImageSubmit image={image} setImage={setImage} setPosition={setPosition}/>
+          <ProfileImageSubmit
+            image={image}
+            setImage={setImage}
+            setPosition={setPosition}
+            position={position}
+          />
         </div>
       </div>
     </div>
