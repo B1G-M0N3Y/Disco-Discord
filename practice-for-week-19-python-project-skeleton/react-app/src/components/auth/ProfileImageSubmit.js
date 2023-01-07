@@ -42,6 +42,7 @@ const ProfileImageSubmit = ({ image, setImage, setPosition, position }) => {
         handleChange={handleChange}
         children={
           <div className="sign-up-image-upload">
+            <p>Profile Picture (optional)</p>
             <ImagePreview />
           </div>
         }

@@ -164,6 +164,9 @@
   border-radius: 1.5em;
   width: 100%;
 }
+.sign-up-image-upload p{
+ margin: 0;
+}
 
 .sign-up-uploaded-image{
   width: 15em;
@@ -175,4 +178,17 @@
   height: 15em;
   border-radius: 50%;
   border: white solid .22em;
+}
+
+.sign-up-input{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+
+.error{
+  align-self: flex-end;
+  margin: 0;
+  font-size: .4em;
 }

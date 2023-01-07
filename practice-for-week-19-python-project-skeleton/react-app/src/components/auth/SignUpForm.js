@@ -6,7 +6,7 @@ import ProfileImageSubmit from "./ProfileImageSubmit";
 import "./SignUpForm.css";
 
 const SignUpForm = () => {
-  const [errors, setErrors] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,6 +20,8 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.allUsers);
 
+
+
   const usernames = [];
 
   const validateEmail = (email) => {
@@ -30,6 +32,33 @@ const SignUpForm = () => {
       );
   };
 
+  const next = async (e) => {
+    let errors = {};
+
+    if (username.length <= 4 || username.length >= 50) {
+      errors.user =
+        "Username must be more than 4 characters and less than 50 characters "
+    }
+
+    if (password.length <= 6 || password.length >= 50) {
+      errors.pass =
+        "Password must be more than 6 characters and less than 50 characters "
+    }
+
+    if (!validateEmail(email)) {
+      errors.email = "Email must be a valid email"
+    }
+
+    if (password !== repeatPassword) {
+      errors.repeat = "Passwords must match";
+    }
+
+    setValidationErrors(errors);
+
+    if (errors.length === 0) {
+      setPosition(position + 1)
+    }
+  }
 
   const onSignUp = async (e) => {
     e.preventDefault();
@@ -45,29 +74,6 @@ const SignUpForm = () => {
       body: awsImage,
     })
 
-    let errors = [];
-
-    if (username.length <= 4 || username.length >= 50) {
-      errors.push(
-        "Username must be more than 4 characters and less than 50 characters "
-      );
-    }
-
-    if (password.length <= 6 || password.length >= 50) {
-      errors.push(
-        "Password must be more than 6 characters and less than 50 characters "
-      );
-    }
-
-    if (!validateEmail(email)) {
-      errors.push("Email must be a valid email");
-    }
-
-    if (password !== repeatPassword) {
-      errors.push("Passwords must match");
-    }
-
-    setErrors(errors);
 
     if (awsImageRes.ok) {
       await awsImageRes.json()
@@ -89,10 +95,10 @@ const SignUpForm = () => {
 
           console.log('user data', userData)
 
-          if (errors.length === 0) {
+          if (validationErrors.length === 0) {
             const data = await dispatch(signUp(userData));
             if (data) {
-              setErrors(data);
+              setValidationErrors(data);
             }
           } else {
           }
@@ -134,82 +140,118 @@ const SignUpForm = () => {
     <>
       <form className="sign-up-form-container" onSubmit={onSignUp}>
         <p id="sign-up-title">SIGN UP</p>
-        <div className="sign-up-errors">
-          {errors.map((error, ind) => (
+        {/* <div className="sign-up-errors">
+          {validationErrors.map((error, ind) => (
             <div key={ind}>{error}</div>
           ))}
-        </div>
+        </div> */}
 
         <div class="sign-up-form">
-          <div>
-            <label>User Name</label>
-            <input
-              id="sign-up-inputs"
-              type="text"
-              name="username"
-              onChange={updateUsername}
-              value={username}
-              required
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.user &&
+              <p className="error">* {validationErrors.user}</p>
+            }
+            <div>
+              <label>User Name</label>
+              <input
+                id="sign-up-inputs"
+                type="text"
+                name="username"
+                onChange={updateUsername}
+                value={username}
+                required
+              ></input>
+            </div>
           </div>
 
-          <div>
-            <label>First Name</label>
-            <input
-              id="sign-up-inputs"
-              type="text"
-              name="firstName"
-              onChange={updateFirstName}
-              value={firstName}
-              required
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.first &&
+              <p className="error">* {validationErrors.first}</p>
+            }
+            <div>
+              <label>First Name</label>
+              <input
+                id="sign-up-inputs"
+                type="text"
+                name="firstName"
+                onChange={updateFirstName}
+                value={firstName}
+                required
+              ></input>
+            </div>
           </div>
-          <div>
-            <label>Last Name</label>
-            <input
-              id="sign-up-inputs"
-              type="text"
-              name="lastName"
-              onChange={updateLastName}
-              value={lastName}
-              required
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.last &&
+              <p className="error">* {validationErrors.last}</p>
+            }
+            <div>
+              <label>Last Name</label>
+              <input
+                id="sign-up-inputs"
+                type="text"
+                name="lastName"
+                onChange={updateLastName}
+                value={lastName}
+                required
+              ></input>
+            </div>
           </div>
-          <div>
-            <label>Email</label>
-            <input
-              id="sign-up-inputs"
-              type="text"
-              name="email"
-              onChange={updateEmail}
-              value={email}
-              required
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.email &&
+              <p className="error">* {validationErrors.email}</p>
+            }
+            <div>
+              <label>Email</label>
+              <input
+                id="sign-up-inputs"
+                type="text"
+                name="email"
+                onChange={updateEmail}
+                value={email}
+                required
+              ></input>
+            </div>
           </div>
-          <div>
-            <label>Password</label>
-            <input
-              id="sign-up-inputs"
-              type="password"
-              name="password"
-              onChange={updatePassword}
-              value={password}
-              required
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.pass &&
+              <p className="error">* {validationErrors.pass}</p>
+            }
+            <div>
+              <label>Password</label>
+              <input
+                id="sign-up-inputs"
+                type="password"
+                name="password"
+                onChange={updatePassword}
+                value={password}
+                required
+              ></input>
+            </div>
           </div>
-          <div>
-            <label>Repeat Password</label>
-            <input
-              id="sign-up-inputs"
-              type="password"
-              name="repeat_password"
-              onChange={updateRepeatPassword}
-              value={repeatPassword}
-              required={true}
-            ></input>
+          <div className="sign-up-input">
+            {
+              validationErrors.repeat &&
+              <p className="error">* {validationErrors.repeat}</p>
+            }
+            <div>
+              <label>Repeat Password</label>
+              <input
+                id="sign-up-inputs"
+                type="password"
+                name="repeat_password"
+                onChange={updateRepeatPassword}
+                value={repeatPassword}
+                required={true}
+              ></input>
+            </div>
           </div>
         </div>
-        <button className="sign-up-button" onClick={() => setPosition(position + 1)}>
+        <button className="sign-up-button" onClick={next}>
           Next
         </button>
       </form >
@@ -219,7 +261,7 @@ const SignUpForm = () => {
   return (
     <div className="sign-up-page">
       <div className='sign-up-carousel'>
-        <div className='sign-up-inner' style={{ transform: `translateX(-${1 * 100}%)` }}>
+        <div className='sign-up-inner' style={{ transform: `translateX(-${position * 100}%)` }}>
           <TextSubmit />
           <ProfileImageSubmit
             image={image}
