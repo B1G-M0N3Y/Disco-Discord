@@ -1,16 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useSocket } from "../../context/SocketContext";
 import { deleteChatMessage, getChat } from "../../store/chat";
 
 function ChatMessages({ chat_id }) {
   const messages = useSelector(
     (state) => chat_id && state.chats[chat_id]?.chat_messages
   );
-  const chat = useSelector((state) => chat_id && state.chats[chat_id]);
   const dispatch = useDispatch();
+  const { socket } = useSocket();
   const handleDelete = async (chatMessageId) => {
-    await dispatch(deleteChatMessage(chatMessageId, chat_id));
+    const response = await dispatch(deleteChatMessage(chatMessageId, chat_id));
     await dispatch(getChat());
+    socket.emit("updatechat", response);
   };
   const currentUser = useSelector((state) => state.session.user);
 

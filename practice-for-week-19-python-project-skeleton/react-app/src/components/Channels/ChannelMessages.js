@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import { getServers } from "../../store/servers";
 import {
   deleteChannelMessage,
@@ -12,20 +11,19 @@ import {
 import { useSelectedChannels } from "../../context/ChannelContext";
 import "./ChannelMessages.css";
 import { useSelectedServer } from "../../context/ServerContext";
-
-let socket;
+import { useSocket } from "../../context/SocketContext";
+import ChannelMessage from "./ChannelMessage";
 
 const ChannelMessagesPage = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [newMessage, setNewMessage] = useState();
-  const [allMessages, setAllMessages] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
   const user = useSelector((state) => state.session.user);
   const messageStore = useSelector((state) => state.channelMessages.messages);
   const { selectedServer, setSelectedServer } = useSelectedServer();
   const { selectedChannel } = useSelectedChannels();
   const { channelId, serverId } = useParams();
+  const { socket } = useSocket();
 
   useEffect(() => {
     //   setAllMessages([...Object.values(messageStore)]);
@@ -41,27 +39,6 @@ const ChannelMessagesPage = () => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    socket = io();
-
-    socket.on("chat", (chat) => {
-      setAllMessages((messages) => [...messages, chat]);
-    });
-
-    socket.on("channelmessage", (message) => {
-      dispatch(addMessage(message));
-      dispatch(getChannelMessages(channelId));
-    });
-
-    socket.on("connect", () => {
-      console.log("**CONNECTED");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [channelId]);
-
   // error validations
   useEffect(() => {
     let errors = [];
@@ -76,7 +53,7 @@ const ChannelMessagesPage = () => {
     if (!newMessage) {
       return;
     }
-    // const liveMsg = { user: user.username, body: newMessage };
+
     const dbMsg = {
       user_id: user.id,
       channel_id: channelId,
@@ -95,63 +72,7 @@ const ChannelMessagesPage = () => {
         <div className="message-section">
           <div className="all-messages">
             {Object.values(messageStore).map((message) => (
-              <div className="message">
-                <div className="inner-message">
-                  {/* <div className="flex-row-center"> */}
-                  {message.message_author.image_url ? (
-                    <img
-                      alt={message.id}
-                      src={message.message_author.image_url}
-                      className="author-message-image"
-                    ></img>
-                  ) : (
-                    <div className="author-message-image default-image">
-                      {message.message_author.username[0].toUpperCase()}
-                    </div>
-                  )}
-                  <div className="message-text">
-                    <p className="username-message">
-                      {message.message_author.username}
-                    </p>
-                    <p className="message-body">{message.body}</p>
-                    {/* </div> */}
-                  </div>
-                  <div className="flex-row-end trash">
-                    {message?.user_id === user?.id && (
-                      <i
-                        className="fa-regular fa-trash-can"
-                        onClick={async () => {
-                          await dispatch(deleteChannelMessage(message?.id));
-                          dispatch(getChannelMessages(channelId));
-                          return history.push(
-                            `/servers/${serverId}/channels/${channelId}`
-                          );
-                        }}
-                      ></i>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-            {allMessages?.map((message) => (
-              <div className="message">
-                <div className="message-text">
-                  <p className="username-message">{message.user}</p>
-                  <p className="message-body">{message.body}</p>
-                </div>
-                <div>
-                  {message?.user_id === user?.id && (
-                    <i
-                      className="fa-regular fa-trash-can"
-                      onClick={async () => {
-                        await dispatch(deleteChannelMessage(message?.id));
-                        dispatch(getChannelMessages(channelId));
-                        return history.push(`/servers`);
-                      }}
-                    ></i>
-                  )}
-                </div>
-              </div>
+              <ChannelMessage message={message} />
             ))}
           </div>
           <div className="form-wrapper">

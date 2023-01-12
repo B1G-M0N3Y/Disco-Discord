@@ -15,15 +15,12 @@ import Servers from "./components/Servers";
 import CreateServerForm from "./components/Servers/CreateServerFormModal/CreateServerForm";
 import ServerMembers from "./components/ServerMembers";
 import UpdateServer from "./components/Servers/UpdateServer";
-import UpdateChannel from "./components/Channels/DeleteChannel";
 import ChatMembers from "./components/Chat/ChatMembers";
 import { getChat } from "./store/chat";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
-
   const user = useSelector((state) => state.session.user);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -79,14 +76,12 @@ function App() {
           <LandingPage />
         </Route>
       </Switch>
-
-      {/* <div className={!user?.id ? "logged-out-landing" : "left-right-columns"}> */}
-        <Route path="/servers/:serverId">
-          <ServerMembers />
-        </Route>
-        <Route path="/chats/:chatId">
-          <ChatMembers />
-        </Route>
+      <Route path="/servers/:serverId">
+        <ServerMembers />
+      </Route>
+      <Route path="/chats/:chatId">
+        <ChatMembers />
+      </Route>
     </BrowserRouter>
   );
 }

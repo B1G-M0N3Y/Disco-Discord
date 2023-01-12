@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useSelectedChat } from "../../context/ChatContext";
-import { newChat } from "../../store/chat";
+import { getChat, newChat } from "../../store/chat";
+import { io } from "socket.io-client";
+import SocketProvider, {
+  SocketContext,
+  useSocket,
+} from "../../context/SocketContext";
 
 const CreateChat = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -14,6 +19,7 @@ const CreateChat = () => {
   const { setSelectedChat } = useSelectedChat();
 
   const dispatch = useDispatch();
+  const { socket } = useSocket();
 
   useEffect(() => {
     async function fetchData() {
@@ -35,6 +41,7 @@ const CreateChat = () => {
       chat_members_lst: String(chatUsers),
     };
     const response = await dispatch(newChat(chat));
+    socket.emit("updatechat", response);
     setShowAdd(false);
     setChatUsers([currentUser.id]);
     setSelectedChat(response.id);
@@ -74,7 +81,6 @@ const CreateChat = () => {
                 users.map((user, idx) => (
                   <div className="create-chat-option">
                     <label key={idx}>
-                      {" "}
                       <input
                         type="checkbox"
                         onChange={checkBox}
