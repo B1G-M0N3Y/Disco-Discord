@@ -17,6 +17,7 @@ import ServerMembers from "./components/ServerMembers";
 import UpdateServer from "./components/Servers/UpdateServer";
 import ChatMembers from "./components/Chat/ChatMembers";
 import { getChat } from "./store/chat";
+import SignUpProvider, { useSignUpForm } from "./context/SignUpContext";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -26,7 +27,7 @@ function App() {
   useEffect(() => {
     (async () => {
       await dispatch(authenticate());
-      await dispatch(getChat());
+      // await dispatch(getChat());
 
       setLoaded(true);
     })();
@@ -46,7 +47,9 @@ function App() {
           <LoginForm />
         </Route>
         <Route path="/sign-up" exact={true}>
-          <SignUpForm />
+          <SignUpProvider>
+            <SignUpForm />
+          </SignUpProvider>
         </Route>
         <ProtectedRoute path="/users" exact={true}>
           <UsersList />
