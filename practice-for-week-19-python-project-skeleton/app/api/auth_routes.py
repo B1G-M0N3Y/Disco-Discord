@@ -76,6 +76,18 @@ def sign_up():
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
+@auth_routes.route('/signup_validations', methods=['POST'])
+def sign_up_validations():
+    """
+    Validates user submission against the form, without uploading to database
+    This is for checking user data validations on the frontend during the
+    first step of the signup process
+    """
+    form = SignUpForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if not form.validate_on_submit():
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @auth_routes.route('/unauthorized')
 def unauthorized():

@@ -140,11 +140,6 @@ const SignUpForm = () => {
     <>
       <form className="sign-up-form-container" onSubmit={onSignUp}>
         <p id="sign-up-title">SIGN UP</p>
-        {/* <div className="sign-up-errors">
-          {validationErrors.map((error, ind) => (
-            <div key={ind}>{error}</div>
-          ))}
-        </div> */}
 
         <div class="sign-up-form">
           <div className="sign-up-input">
@@ -155,7 +150,7 @@ const SignUpForm = () => {
             <div>
               <label>User Name</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="text"
                 name="username"
                 onChange={updateUsername}
@@ -173,7 +168,7 @@ const SignUpForm = () => {
             <div>
               <label>First Name</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="text"
                 name="firstName"
                 onChange={updateFirstName}
@@ -190,7 +185,7 @@ const SignUpForm = () => {
             <div>
               <label>Last Name</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="text"
                 name="lastName"
                 onChange={updateLastName}
@@ -207,7 +202,7 @@ const SignUpForm = () => {
             <div>
               <label>Email</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="text"
                 name="email"
                 onChange={updateEmail}
@@ -224,11 +219,12 @@ const SignUpForm = () => {
             <div>
               <label>Password</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="password"
                 name="password"
                 onChange={updatePassword}
                 value={password}
+                autoComplete='on'
                 required
               ></input>
             </div>
@@ -241,12 +237,13 @@ const SignUpForm = () => {
             <div>
               <label>Repeat Password</label>
               <input
-                id="sign-up-inputs"
+                className="sign-up-inputs"
                 type="password"
                 name="repeat_password"
                 onChange={updateRepeatPassword}
                 value={repeatPassword}
-                required={true}
+                required
+                autoComplete='on'
               ></input>
             </div>
           </div>

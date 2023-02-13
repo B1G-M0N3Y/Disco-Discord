@@ -21,7 +21,7 @@
     font-family: Whitney, "Helvetica Neue", Arial, sans-serif;
 }
 
-#sign-up-inputs {
+.sign-up-inputs {
     float: right;
     height: 40px;
     width: 175px;

@@ -25,3 +25,4 @@ class MessageForm(FlaskForm):
 class ChatMessageForm(FlaskForm):
     body = TextAreaField("Body", validators=[DataRequired(), message_exists])
     # chat_id = IntegerField("Chat ID", validators=[DataRequired()])
+
