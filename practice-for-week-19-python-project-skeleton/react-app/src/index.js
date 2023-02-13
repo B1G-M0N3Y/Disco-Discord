@@ -12,6 +12,7 @@ import ChatProvider from "./context/ChatContext";
 import MessageProvider from "./context/MessageContext";
 import { getCurrentChannels } from "./store/channels";
 import { addServerMember } from "./store/users";
+import SocketProvider from "./context/SocketContext";
 
 const store = configureStore();
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV !== "production") {
 function Root() {
   return (
     <Provider store={store}>
+      <SocketProvider>
       <ModalProvider>
         <ServerProvider>
           <ChannelsProvider>
@@ -36,6 +38,7 @@ function Root() {
           </ChannelsProvider>
         </ServerProvider>
       </ModalProvider>
+      </SocketProvider>
     </Provider>
   );
 }

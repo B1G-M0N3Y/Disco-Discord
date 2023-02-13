@@ -32,6 +32,13 @@ def handle_chat(data):
     emit("newmessage", data,
          room=data["chat_id"], include_self=False)
 
+@socketio.on("updatechat")
+def handle_new_chat(data):
+    print(data, type(data), "NEW CHAT DATA*******")
+    # data_dict = json.loads(data)
+    # print(data_dict, "PRIVATE CHAT DATA************")
+    emit("updatechats", {"data":"new_chat"}, broadcast=True)
+
 
 @socketio.on("connect")
 def connect():
