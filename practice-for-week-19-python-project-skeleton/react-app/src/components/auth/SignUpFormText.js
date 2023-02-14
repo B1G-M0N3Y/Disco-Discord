@@ -5,13 +5,7 @@ import { signUp } from "../../store/session";
 
 const SignUpFormText = () => {
 
-  const [validationErrors, setValidationErrors] = useState({});
-  // const [username, setUsername] = useState("");
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [repeatPassword, setRepeatPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState(new Map());
   const {
     username, setUsername,
     firstName, setFirstName,
@@ -21,7 +15,7 @@ const SignUpFormText = () => {
     repeatPassword, setRepeatPassword,
     position, setPosition
   } = useSignUpForm();
-  
+
   const [image, setImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   const user = useSelector((state) => state.session.user);
@@ -37,31 +31,44 @@ const SignUpFormText = () => {
   };
 
   const next = async (e) => {
-    let errors = {};
+    let errors = new Map();
 
     if (username.length <= 4 || username.length >= 50) {
-      errors.user =
+      errors.set(
+        'user',
         "Username must be more than 4 characters and less than 50 characters "
+      );
     }
 
     if (password.length <= 6 || password.length >= 50) {
-      errors.pass =
+      errors.set(
+        'pass',
         "Password must be more than 6 characters and less than 50 characters "
+      );
     }
 
     if (!validateEmail(email)) {
-      errors.email = "Email must be a valid email"
+      errors.set(
+        'email',
+        "Email must be a valid email"
+      );
     }
 
     if (password !== repeatPassword) {
-      errors.repeat = "Passwords must match";
+      errors.set(
+        'repeat',
+        "Passwords must match"
+      );
     }
 
     setValidationErrors(errors);
 
-    if (errors.length === 0) {
+    console.log(errors)
+
+    if (errors.size === 0) {
       setPosition(position + 1)
     }
+    console.log()
   }
 
   const onSignUp = async (e) => {
@@ -130,15 +137,15 @@ const SignUpFormText = () => {
   };
 
   return (
-    <>
+    <div>
       <form className="sign-up-form-container" onSubmit={onSignUp}>
         <p id="sign-up-title">SIGN UP</p>
 
         <div class="sign-up-form">
           <div className="sign-up-input">
             {
-              validationErrors.user &&
-              <p className="error">* {validationErrors.user}</p>
+              validationErrors.get('user') &&
+              <p className="error">* {validationErrors.get('user')}</p>
             }
             <div>
               <label>User Name</label>
@@ -189,8 +196,8 @@ const SignUpFormText = () => {
           </div>
           <div className="sign-up-input">
             {
-              validationErrors.email &&
-              <p className="error">* {validationErrors.email}</p>
+              validationErrors.get('email') &&
+              <p className="error">* {validationErrors.get('email')}</p>
             }
             <div>
               <label>Email</label>
@@ -206,8 +213,8 @@ const SignUpFormText = () => {
           </div>
           <div className="sign-up-input">
             {
-              validationErrors.pass &&
-              <p className="error">* {validationErrors.pass}</p>
+              validationErrors.get('pass') &&
+              <p className="error">* {validationErrors.get('pass')}</p>
             }
             <div>
               <label>Password</label>
@@ -224,8 +231,8 @@ const SignUpFormText = () => {
           </div>
           <div className="sign-up-input">
             {
-              validationErrors.repeat &&
-              <p className="error">* {validationErrors.repeat}</p>
+              validationErrors.get('repeat') &&
+              <p className="error">* {validationErrors.get('repeat')}</p>
             }
             <div>
               <label>Repeat Password</label>
@@ -241,11 +248,11 @@ const SignUpFormText = () => {
             </div>
           </div>
         </div>
-        <button className="sign-up-button" onClick={next}>
-          Next
-        </button>
       </form >
-    </>
+      <button className="sign-up-button" onClick={next}>
+        Next
+      </button>
+    </div>
   )
 }
 
