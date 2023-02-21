@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, session, request
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
+from app.forms.signup_form import SignUpTextValidator
 from flask_login import current_user, login_user, logout_user, login_required
 
 auth_routes = Blueprint('auth', __name__)
@@ -83,7 +84,7 @@ def sign_up_validations():
     This is for checking user data validations on the frontend during the
     first step of the signup process
     """
-    form = SignUpForm()
+    form = SignUpTextValidator()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if not form.validate_on_submit():

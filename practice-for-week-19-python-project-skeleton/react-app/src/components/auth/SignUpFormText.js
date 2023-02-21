@@ -61,6 +61,18 @@ const SignUpFormText = () => {
       );
     }
 
+    const res = await fetch('/api/auth/signup_validations', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, email })
+    })
+
+    if(res.ok) {
+      const duplicateErrors = await res.json()
+    }
+
     setValidationErrors(errors);
 
     console.log(errors)
